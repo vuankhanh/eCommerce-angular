@@ -1,0 +1,18 @@
+<div class="products-container vertical-container">
+    <div class="flex-me">
+        <ng-container *ngFor="let product of products; let i = index;">
+            <div class="product-frame" *ngIf="i<3">
+                <img [src]="product.src" [alt]="product.name">
+                <div class="product-info">
+                    <h4>{{product.name}}</h4>
+                    <div class="content-p">
+                        {{product.description}}
+                    </div>
+                    <button class="button-style">Đặt ngay</button>
+                </div>
+            </div>
+        </ng-container>
+    </div>
+    <div class="height-space"></div>
+    <button class="button-style">Xem nhiều món khác</button>
+</div>

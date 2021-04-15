@@ -1,0 +1,9 @@
+<div
+    class="home-container vertical-container"
+    (window:resize)="onResize()"
+>
+    <app-header #appHeader></app-header>
+    <app-slide-show #appSlideShow></app-slide-show>
+    <app-about-us #appAboutUs [ngStyle]="{ 'height.px': heightAppAboutUs }"></app-about-us>
+    <app-product></app-product>
+</div>

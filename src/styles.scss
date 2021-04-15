@@ -1,1 +1,45 @@
 /* You can add global styles to this file, and also import other style files */
+
+html, body { 
+    height: 100%;
+}
+body {
+    margin: 0;
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+.vertical-container{
+    display: flex;
+    flex-direction: column;
+}
+
+.horizontal-container{
+    display: flex;
+    flex-direction: row;
+}
+
+.width-space{
+    width: 15px;
+    min-width: 15px;
+}
+
+.height-space{
+    height: 15px;
+    min-height: 15px;
+}
+
+.button-style{
+    outline: none;
+    border: none;
+    padding: 0 15px;
+    height: 45px;
+    border-radius: 45px !important;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0px 2px rgb(0 0 0 / 35%);
+}
+.button-style:active{
+    box-shadow: 0px 0px rgb(0 0 0 / 35%);
+    transform: translateY(2px);
+}

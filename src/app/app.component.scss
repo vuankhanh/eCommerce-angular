@@ -1,0 +1,107 @@
+.container{
+    display: flex;
+    height: 100%;
+    width: 100%;
+    .left-container{
+        position: fixed;
+        display: flex;
+        height: 100%;
+        flex-direction: column;
+        background: white;
+        box-shadow: 5px 0 15px -5px #b2b2b2;
+        padding: 15px;
+        transition: max-width .1s;
+        max-width: 54px;
+        box-sizing: border-box;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        z-index: 2;
+        .contact{
+            display: flex;
+            flex-direction: column;
+            height: 70%;
+            .contact__information{
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                
+                span{
+                    transition: opacity .45s;
+                    opacity: 0;
+                }
+            }
+            a{
+                text-decoration: none;
+                mat-icon[svgicon]{
+                    padding: 2px;
+                    height: 20px;
+                    width: 20px;
+                }
+            }
+            .phone-number{
+                height: 50%;
+                span{
+                    font-size: 24px;
+                }
+            }
+        }
+        .map-container{
+            height: 30%;
+            mat-icon[svgIcon='gmap']{
+                display: block;
+            }
+            app-maps{
+                display: none;
+                height: 100%;
+                // transition: opacity .45s;
+                // opacity: 0;
+            }
+        }
+    }
+    .left-container::after{
+        content: "";
+        background: url('../assets/logo/trademark/ccr-small.png');
+        background-position: top;
+        background-repeat: repeat-y;
+        background-size: calc(100% - 30px) auto;
+        transition: opacity .45s;
+        opacity: 1;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        position: absolute;
+    }
+
+    .left-container:hover{
+        max-width: 300px;
+        width: 300px;
+        .contact{
+            .contact__information{
+                span{
+                    opacity: 1;
+                }
+            }
+        }
+        .map-container{
+            z-index: 1;
+            mat-icon[svgIcon='gmap']{
+                display: none;
+            }
+            app-maps{
+                display: block;
+                // transition: opacity .45s;
+                // opacity: 0;
+            }
+        }
+    }
+
+    .left-container:hover::after{
+        background: url('../assets/logo/trademark/ccr-small.png');
+        background-position: top;
+        background-repeat: repeat-y;
+        background-size: calc(100% - 30px) auto;
+        opacity: 1;
+    }
+}
