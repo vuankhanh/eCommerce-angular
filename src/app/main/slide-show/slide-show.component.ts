@@ -31,7 +31,7 @@ export class SlideShowComponent implements OnInit, AfterViewInit, AfterViewCheck
 
   ngOnInit(): void {
     this.source$.subscribe(val=>{
-      // this.counter++;
+      this.counter++;
       if( this.counter === this.slides.length){
         this.counter = 0;
       }

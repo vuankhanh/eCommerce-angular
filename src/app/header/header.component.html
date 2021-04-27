@@ -1,13 +1,13 @@
-<div class="header-container horizontal-container">
+<div class="header-container horizontal-container" #header>
     <div class="brand-name vertical-container">
-        <img src="../../../assets/logo/trademark/tu-than-name.png">
+        <img src="../../assets/logo/trademark/tu-than-name.png">
     </div>
 
     <div class="width-space"></div>
 
     <div class="menu-container vertical-container">
         <div class="menu horizontal-container">
-            <ng-container *ngFor="let menuItem of modulesList">
+            <ng-container *ngFor="let menuItem of menusList">
 
                 <ng-container *ngIf="!menuItem.children">
                   <a class="nav-link">
@@ -20,7 +20,6 @@
                     <button
                         #button
                         mat-button
-                        color="primary"
                         [matMenuTriggerFor]="levelOne"
                         #levelOneTrigger="matMenuTrigger"
                         (mouseenter)="buttonEnter(levelOneTrigger, button)"

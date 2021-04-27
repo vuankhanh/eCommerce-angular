@@ -1,0 +1,40 @@
+.header-container{
+    height: 100px;
+    padding: 15px;
+    box-sizing: border-box;
+    justify-content: space-between;
+    transition: all .45s;
+    .brand-name{
+        justify-content: center;
+        img{
+            display: block;
+            width: 100px;
+        }
+    }
+
+    .menu-container{
+        justify-content: center;
+        .menu{
+            button[mat-button]{
+                color: #ed1c24;
+            }
+        }
+    }
+}
+
+.header-container-scrolled{
+    background: rgb(0,0,0,.9);
+    .brand-name{
+        img{
+            content:url("../../assets/logo/trademark/tu-than-name-white.png");
+            // content:url("../assets/logo/trademark/tu-than-name-orange.png");
+        }
+    }
+    .menu-container{
+        .menu{
+            button[mat-button]{
+                color: white;
+            }
+        }
+    }
+}

@@ -104,4 +104,30 @@
         background-size: calc(100% - 30px) auto;
         opacity: 1;
     }
+
+    .main-container{
+        width: 100%;
+        height: fit-content;
+        margin-left: 54px;
+        display: flex;
+        flex-direction: column;
+        app-header{
+            z-index: 1;
+            position: sticky;
+            top: 0;
+        }
+    }
+
+    .left-container:hover ~ .main-container::after{
+        content: "";
+        background-color: rgb(0, 0, 0, .45);
+        position: fixed;
+        height: 100%;
+        width: 100%;
+        top: 0;
+    }
+
+    .left-container:hover ~ .main-container{
+        // margin-left: 0;
+    }
 }

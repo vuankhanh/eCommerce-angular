@@ -32,8 +32,8 @@ export class HomePageComponent implements OnInit, AfterViewInit {
   }
 
   componentCalcSize(){
-    let heightAppHeader: number = this.appHeader.nativeElement.offsetHeight
+    // let heightAppHeader: number = this.appHeader.nativeElement.offsetHeight
     let heightAppSlideShow: number = this.appSlideShow.nativeElement.offsetHeight;
-    this.heightAppAboutUs = this.innerHeight - (heightAppHeader + heightAppSlideShow);
+    this.heightAppAboutUs = this.innerHeight - (100 + heightAppSlideShow);
   }
 }

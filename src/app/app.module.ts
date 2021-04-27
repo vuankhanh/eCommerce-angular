@@ -15,9 +15,10 @@ import { MapsComponent } from './maps/maps.component';
 
 import { ReplaceProtocolNamePipe } from './pipes/replace-protocol-name.pipe';
 import { SlideShowComponent } from './main/slide-show/slide-show.component';
-import { HeaderComponent } from './main/header/header.component';
+import { HeaderComponent } from './header/header.component';
 import { ProductionsComponent } from './main/product/product.component';
 import { AboutUsComponent } from './main/about-us/about-us.component';
+import { ProductDetailComponent } from './main/product-detail/product-detail.component';
 
 @NgModule({
   declarations: [
@@ -34,6 +35,8 @@ import { AboutUsComponent } from './main/about-us/about-us.component';
     ProductionsComponent,
 
     AboutUsComponent,
+
+    ProductDetailComponent,
   ],
   imports: [
     BrowserModule,
