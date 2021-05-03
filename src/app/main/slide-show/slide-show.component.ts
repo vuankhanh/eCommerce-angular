@@ -1,8 +1,11 @@
 import { AfterViewChecked, AfterViewInit, Component, ElementRef, OnInit, QueryList, Renderer2, ViewChild, ViewChildren } from '@angular/core';
 
+import { ProductList } from '../../mock-data/products';
+
 import { animationSlide } from '../../animation/slide-show';
 
 import { interval } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-slide-show',
@@ -17,22 +20,20 @@ export class SlideShowComponent implements OnInit, AfterViewInit, AfterViewCheck
   @ViewChildren('imgBanner', {read: ElementRef}) imgBanner: QueryList<ElementRef>;
 
   parentContainerHeight: number;
-  slides = [
-    '../../assets/imgs/banners/banner-1.png',
-    '../../assets/imgs/banners/banner-2.png',
-    '../../assets/imgs/banners/banner-3.png',
-    '../../assets/imgs/banners/banner-4.png',
-  ];
+  products: Array<any>;
   private source$ = interval(5000);
   counter: number = 0;
   constructor(
-    private ren: Renderer2
-  ) { }
+    private ren: Renderer2,
+    private router: Router
+  ) {
+    this.products = ProductList.filter(product=>product.highlight);
+  }
 
   ngOnInit(): void {
     this.source$.subscribe(val=>{
       this.counter++;
-      if( this.counter === this.slides.length){
+      if( this.counter === this.products.length){
         this.counter = 0;
       }
       setTimeout(() => {
@@ -45,8 +46,6 @@ export class SlideShowComponent implements OnInit, AfterViewInit, AfterViewCheck
     setTimeout(() => {
       this.animationText();
       this.parentContainerHeight = this.imgBanner.first.nativeElement.height;
-      console.log(this.imgBanner.first.nativeElement.height);
-      
     }, 150);
 
   }
@@ -67,9 +66,9 @@ export class SlideShowComponent implements OnInit, AfterViewInit, AfterViewCheck
     }, 1000);
   }
 
-  bookNow() :void{
-    console.log('Booknow');
-    
+  addToCart(id: number) :void{
+    console.log(id);
+    this.router.navigate(['cart']);
   }
 
 }

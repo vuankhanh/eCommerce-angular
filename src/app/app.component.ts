@@ -16,4 +16,10 @@ export class AppComponent {
   ){
     this.addIconSvgService.addIcon();
   }
+  onActivate() {
+    window.scroll({
+      top: 0,
+      behavior: 'smooth' 
+    });
+  }
 }

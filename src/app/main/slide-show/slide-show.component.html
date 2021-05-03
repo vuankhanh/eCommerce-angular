@@ -1,19 +1,22 @@
 <div #parentContainer (window:resize)="onResize()" [ngStyle]="{ 'height.px': parentContainerHeight, 'overflow': 'hidden' }">
     <div [@animImageSlider]="counter" class="slide-container">
-        <ng-container *ngFor="let img of slides; let i=index">
+        <ng-container *ngFor="let product of products; let i=index">
             <div
                 *ngIf="i===counter"
                 class="vertical-container"
             >
                 <img
-                    [src]="img"
+                    [src]="product.imgBanner"
                     #imgBanner
                 />
                 <div class="content vertical-container">
-                    <div class="text" >
+                    <div class="text">
                         <h1 #txtProductName>CÁ RÔ CHIÊN</h1>
                         <h3 #txtProductReviews>Chất lượng 5 <mat-icon svgIcon='star'></mat-icon></h3>
-                        <button #btnBookNow (click)="bookNow()" class="button-style">Đặt ngay</button>
+                        <button #btnBookNow class="button-style button-primary" (click)="addToCart(product.id)">
+                            <mat-icon>add_shopping_cart</mat-icon>
+                            <span>Thêm vào giỏ</span>
+                        </button>
                     </div>
                 </div>
             </div>

@@ -1,6 +1,15 @@
+button{
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+    .mat-badge-content{
+        background-color: #ed1c24;
+        top: 8px !important;
+        right: -5px !important;
+    }
+}
+
 .header-container{
-    height: 100px;
-    padding: 15px;
+    height: 70px;
+    padding: 0 15px;
     box-sizing: border-box;
     justify-content: space-between;
     transition: all .45s;
@@ -13,10 +22,35 @@
     }
 
     .menu-container{
-        justify-content: center;
-        .menu{
-            button[mat-button]{
+        align-items: center;
+        .dropdown-container{
+            .title-menu{
+                height: 70px;
+            }
+            button{
+                border: none;
+                background: none;
+                font-weight: bold;
+                cursor: pointer;
+            }
+            button:hover{
                 color: #ed1c24;
+            }
+            .sub-menu-container{
+                display: none;
+                position: absolute;
+                background: white;
+                top: 70px;
+                box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+                button[mat-button]{
+                    width: 100%;
+                    text-align: left;
+                }
+            }
+        }
+        .dropdown-container:hover{
+            .sub-menu-container{
+                display: block;
             }
         }
     }
@@ -31,10 +65,8 @@
         }
     }
     .menu-container{
-        .menu{
-            button[mat-button]{
-                color: white;
-            }
+        .title-menu{
+            color: white;
         }
     }
 }

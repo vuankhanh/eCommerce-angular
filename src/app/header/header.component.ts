@@ -1,8 +1,7 @@
 import { Component, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { MenusList } from './menu';
-import { MatMenuTrigger } from '@angular/material/menu';
-import { MatButton } from '@angular/material/button';
 import { OnDestroy } from '@angular/core';
+import { Router, NavigationStart, Event as NavigationEvent } from '@angular/router';
 
 @Component({
   selector: 'app-header',
@@ -13,97 +12,24 @@ export class HeaderComponent implements OnInit, OnDestroy {
   @ViewChild('header', { static: false }) header: ElementRef;
 
   menusList: Array<any>;
-  enteredButton = false;
-  isMatMenuOpen = false;
-  isMatMenu2Open = false;
   prevButtonTrigger: any;
+  currentUrl: string;
   constructor(
-    private ren: Renderer2
+    private ren: Renderer2,
+    private router: Router
   ) {
     this.menusList = MenusList;
+    console.log(this.menusList);
+    
+    this.router.events.subscribe((event: NavigationEvent) => {
+      if(event instanceof NavigationStart) {
+        this.currentUrl = event.url
+      }
+    });
   }
 
   ngOnInit(): void {
     window.addEventListener('scroll', this.scroll, true);
-  }
-
-  menuenter() {
-    this.isMatMenuOpen = true;
-    if (this.isMatMenu2Open) {
-      this.isMatMenu2Open = false;
-    }
-  }
-
-  menuLeave(trigger: MatMenuTrigger, button: MatButton) {
-    setTimeout(() => {
-      if (!this.isMatMenu2Open && !this.enteredButton) {
-        this.isMatMenuOpen = false;
-        trigger.closeMenu();
-        this.ren.removeClass(button['_elementRef'].nativeElement, 'cdk-focused');
-        this.ren.removeClass(button['_elementRef'].nativeElement, 'cdk-program-focused');
-      } else {
-        this.isMatMenuOpen = false;
-      }
-    }, 80)
-  }
-
-  menu2enter() {
-    this.isMatMenu2Open = true;
-  }
-
-  menu2Leave(trigger1: MatMenuTrigger, trigger2: MatMenuTrigger, button: MatButton) {
-    setTimeout(() => {
-      if (this.isMatMenu2Open) {
-        trigger1.closeMenu();
-        this.isMatMenuOpen = false;
-        this.isMatMenu2Open = false;
-        this.enteredButton = false;
-        this.ren.removeClass(button['_elementRef'].nativeElement, 'cdk-focused');
-        this.ren.removeClass(button['_elementRef'].nativeElement, 'cdk-program-focused');
-      } else {
-        this.isMatMenu2Open = false;
-        trigger2.closeMenu();
-      }
-    }, 100)
-  }
-
-  buttonEnter(trigger: MatMenuTrigger, button: MatButton) {
-    setTimeout(() => {
-      this.ren.addClass(button['_elementRef'].nativeElement, 'cdk-focused');
-      this.ren.addClass(button['_elementRef'].nativeElement, 'cdk-program-focused');
-      if(this.prevButtonTrigger && this.prevButtonTrigger != trigger){
-        this.prevButtonTrigger.closeMenu();
-        this.prevButtonTrigger = trigger;
-        this.isMatMenuOpen = false;
-        this.isMatMenu2Open = false;
-        trigger.openMenu();
-      }
-      else if (!this.isMatMenuOpen) {
-        this.enteredButton = true;
-        this.prevButtonTrigger = trigger;
-        trigger.openMenu();
-      }
-      else {
-        this.enteredButton = true;
-        this.prevButtonTrigger = trigger
-      }
-    }, 150)
-  }
-
-  buttonLeave(trigger: MatMenuTrigger, button: MatButton) {
-    setTimeout(() => {
-      if (this.enteredButton && !this.isMatMenuOpen) {
-        trigger.closeMenu();
-        this.ren.removeClass(button['_elementRef'].nativeElement, 'cdk-focused');
-        this.ren.removeClass(button['_elementRef'].nativeElement, 'cdk-program-focused');
-      } if (!this.isMatMenuOpen) {
-        trigger.closeMenu();
-        this.ren.removeClass(button['_elementRef'].nativeElement, 'cdk-focused');
-        this.ren.removeClass(button['_elementRef'].nativeElement, 'cdk-program-focused');
-      } else {
-        this.enteredButton = false;
-      }
-    }, 100)
   }
 
   scroll = (event: any): void => {

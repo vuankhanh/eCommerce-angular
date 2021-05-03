@@ -8,6 +8,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
+import { MatBadgeModule } from '@angular/material/badge';
 
 import { AppComponent } from './app.component';
 import { HomePageComponent } from './main/home-page/home-page.component';
@@ -19,6 +20,8 @@ import { HeaderComponent } from './header/header.component';
 import { ProductionsComponent } from './main/product/product.component';
 import { AboutUsComponent } from './main/about-us/about-us.component';
 import { ProductDetailComponent } from './main/product-detail/product-detail.component';
+import { CartComponent } from './main/cart/cart.component';
+import { ContactComponent } from './main/contact/contact.component';
 
 @NgModule({
   declarations: [
@@ -37,6 +40,10 @@ import { ProductDetailComponent } from './main/product-detail/product-detail.com
     AboutUsComponent,
 
     ProductDetailComponent,
+
+    CartComponent,
+
+    ContactComponent,
   ],
   imports: [
     BrowserModule,
@@ -47,6 +54,7 @@ import { ProductDetailComponent } from './main/product-detail/product-detail.com
     MatMenuModule,
     MatButtonModule,
     MatCardModule,
+    MatBadgeModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
