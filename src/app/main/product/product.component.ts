@@ -26,21 +26,27 @@ export class ProductionsComponent implements OnInit {
   }
 
   addToCart(id: number): void{
-    console.log(id);
     let productStoraged = this.localStorageService.get(this.localStorageService.cartKey);
 
     let product = this.products.find(product=>product.id === id);
 
-    console.log(productStoraged);
-    console.log(product);
-
     let checkExist = productStoraged.some((animal: { id: number; }) => animal.id === product.id);
 
-    if(checkExist){
-      this.localStorageService.set(this.localStorageService.cartKey, [product])
+    console.log(checkExist);
+
+    if(!checkExist){
+      product.quantity = 1;
+      productStoraged.push(product);
     }else{
-      console.log('Đã có rồi');
+      for(let product of productStoraged){
+        if(product.id === id){
+          product.quantity +=1;
+        }
+      }
     }
+    
+    this.localStorageService.set(this.localStorageService.cartKey, productStoraged);
+    this.localStorageService.cartStoragedChange$.next(productStoraged);
     
   }
 

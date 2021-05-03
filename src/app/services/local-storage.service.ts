@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -6,7 +7,11 @@ import { Injectable } from '@angular/core';
 export class LocalStorageService {
   public cartKey = 'addToCart';
 
-  constructor() { }
+  cartStoragedChange$: BehaviorSubject<any> = new BehaviorSubject([]);
+  listenCartStoragedChange: Observable<Array<any>> = this.cartStoragedChange$.asObservable();
+  constructor() {
+    this.cartStoragedChange$.next(this.get(this.cartKey));
+  }
 
   get(key: string){
     return JSON.parse(localStorage.getItem(key) || "[]");

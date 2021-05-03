@@ -1,7 +1,8 @@
-import { Component, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, OnDestroy, Renderer2, ViewChild } from '@angular/core';
 import { MenusList } from './menu';
-import { OnDestroy } from '@angular/core';
 import { Router, NavigationStart, Event as NavigationEvent } from '@angular/router';
+
+import { LocalStorageService } from '../services/local-storage.service';
 
 @Component({
   selector: 'app-header',
@@ -14,12 +15,13 @@ export class HeaderComponent implements OnInit, OnDestroy {
   menusList: Array<any>;
   prevButtonTrigger: any;
   currentUrl: string;
+  badgeCart: number = 0;
   constructor(
     private ren: Renderer2,
-    private router: Router
+    private router: Router,
+    private localStorageService: LocalStorageService
   ) {
     this.menusList = MenusList;
-    console.log(this.menusList);
     
     this.router.events.subscribe((event: NavigationEvent) => {
       if(event instanceof NavigationStart) {
@@ -30,6 +32,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     window.addEventListener('scroll', this.scroll, true);
+    this.localStorageService.listenCartStoragedChange.subscribe((value: any)=>{
+      console.log(value)
+      this.badgeCart = this.sumQuantityOfCart(value);
+    });
   }
 
   scroll = (event: any): void => {
@@ -46,6 +52,16 @@ export class HeaderComponent implements OnInit, OnDestroy {
     }else{
       this.ren.removeClass(this.header.nativeElement, 'header-container-scrolled');
     }
+  }
+
+  sumQuantityOfCart(arrayCart: any){
+    let total: number = 0;
+    if(arrayCart.length>0){
+      for(let product of arrayCart){
+        total += product.quantity;
+      }
+    }
+    return total;
   }
 
   ngOnDestroy() {
