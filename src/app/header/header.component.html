@@ -14,18 +14,21 @@
                 <button
                     matRippleDisabled="false"
                     class="title-menu"
-                    [routerLink]="menu.routerLink"
-                    [ngStyle]="{ color: currentUrl === menu.routerLink ? '#ed1c24': '' }"
+                    [routerLink]="menu.route"
+                    [ngStyle]="{ color: currentUrl === menu.route ? '#ed1c24': '' }"
                     [matBadge]="badgeCart"
-                    [matBadgeHidden]="(menu.routerLink === '/cart' ? false : true) || !badgeCart"
+                    [matBadgeHidden]="(menu.route === 'cart' ? false : true) || !badgeCart"
                 >
                     {{menu.title}}
                 </button>
                 <ng-container *ngIf="menu.child.length>0">
                     <div class="sub-menu-container">
                         <div *ngFor="let child of menu.child">
-                            <button>
-                                {{child.title}}
+                            <button
+                                routerLink="{{menu.route+'/'+child.route}}"
+                                [ngStyle]="{ color: activeLink === child.route ? '#ed1c24': '' }"
+                            >
+                                {{child.name}}
                             </button>
                         </div>
                     </div>

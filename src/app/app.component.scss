@@ -98,7 +98,7 @@
     }
 
     .left-container:hover::after{
-        background: url('../assets/logo/trademark/ccr-small.png');
+        background: url('./../assets/logo/trademark/ccr-small.png');
         background-position: top;
         background-repeat: repeat-y;
         background-size: calc(100% - 30px) auto;

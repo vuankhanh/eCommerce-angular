@@ -9,12 +9,14 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatBadgeModule } from '@angular/material/badge';
+import { MatTabsModule } from '@angular/material/tabs';
 
 import { AppComponent } from './app.component';
 import { HomePageComponent } from './main/home-page/home-page.component';
 import { MapsComponent } from './maps/maps.component';
 
 import { ReplaceProtocolNamePipe } from './pipes/replace-protocol-name.pipe';
+
 import { SlideShowComponent } from './main/slide-show/slide-show.component';
 import { HeaderComponent } from './header/header.component';
 import { ProductionsComponent } from './main/product/product.component';
@@ -22,6 +24,7 @@ import { AboutUsComponent } from './main/about-us/about-us.component';
 import { ProductDetailComponent } from './main/product-detail/product-detail.component';
 import { CartComponent } from './main/cart/cart.component';
 import { ContactComponent } from './main/contact/contact.component';
+import { ProductCategoryComponent } from './main/product-category/product-category.component';
 
 @NgModule({
   declarations: [
@@ -44,6 +47,8 @@ import { ContactComponent } from './main/contact/contact.component';
     CartComponent,
 
     ContactComponent,
+
+    ProductCategoryComponent,
   ],
   imports: [
     BrowserModule,
@@ -55,6 +60,7 @@ import { ContactComponent } from './main/contact/contact.component';
     MatButtonModule,
     MatCardModule,
     MatBadgeModule,
+    MatTabsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

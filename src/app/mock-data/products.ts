@@ -1,7 +1,8 @@
-export const ProductList = [
+export const ProductList: Array<Product> = [
     {
       id: 1,
       name:'Sản phẩm 1',
+      category: 1,
       thumbnail: '../../assets/products/others/oc-chuoi-dau.jpg',
       imgBanner: '../../assets/imgs/banners/banner-1.png',
       album: [],
@@ -11,6 +12,7 @@ export const ProductList = [
     { 
       id: 2,
       name:'Sản phẩm 2',
+      category: 1,
       thumbnail: '../../assets/products/others/oc-chuoi-dau.jpg',
       imgBanner: '../../assets/imgs/banners/banner-2.png',
       album: [],
@@ -20,6 +22,7 @@ export const ProductList = [
     {
       id: 3,
       name:'Sản phẩm 3',
+      category: 1,
       thumbnail: '../../assets/products/others/oc-chuoi-dau.jpg',
       imgBanner: '../../assets/imgs/banners/banner-3.png',
       album: [],
@@ -29,6 +32,7 @@ export const ProductList = [
     {
       id: 4,
       name:'Sản phẩm 4',
+      category: 1,
       thumbnail: '../../assets/products/others/oc-chuoi-dau.jpg',
       imgBanner: '../../assets/imgs/banners/banner-4.png',
       album: [],
@@ -38,6 +42,7 @@ export const ProductList = [
     {
       id: 5,
       name:'Sản phẩm 5',
+      category: 2,
       thumbnail: '../../assets/products/others/oc-chuoi-dau.jpg',
       imgBanner: '../../assets/imgs/banners/banner-3.png',
       album: [],
@@ -47,6 +52,7 @@ export const ProductList = [
     {
       id: 6,
       name:'Sản phẩm 6',
+      category: 2,
       thumbnail: '../../assets/products/others/oc-chuoi-dau.jpg',
       imgBanner: '../../assets/imgs/banners/banner-3.png',
       album: [],
@@ -54,3 +60,16 @@ export const ProductList = [
       highlight: false
     }
 ];
+
+
+export interface Product{
+  id: number,
+  name: string,
+  category: number,
+  thumbnail: string,
+  imgBanner: string,
+  album: Array<string>,
+  description: string,
+  highlight: boolean,
+  quantity?: number
+}

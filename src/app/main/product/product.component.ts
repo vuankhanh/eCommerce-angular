@@ -1,61 +1,42 @@
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
+import { Router, NavigationStart, Event } from '@angular/router';
+import { Subscription } from 'rxjs';
 
-import { ProductList } from '../../mock-data/products';
+import { ProductCategorys, ProductCategory } from '../../mock-data/products-category';
 
-import { LocalStorageService } from 'src/app/services/local-storage.service';
+import { UrlChangeService } from 'src/app/services/url-change.service';
 @Component({
   selector: 'app-product',
   templateUrl: './product.component.html',
   styleUrls: ['./product.component.scss']
 })
-export class ProductionsComponent implements OnInit {
-  products: Array<any>;
-
-  public href: string = "";
+export class ProductionsComponent implements OnInit, AfterViewInit, OnDestroy {
+  productCategorys: Array<ProductCategory>;
+  activeLink: string;
+  subscriptionUrlChange: Subscription = new Subscription();
   constructor(
     private router: Router,
-    private localStorageService: LocalStorageService
+    private urlChangeService: UrlChangeService,
   ) {
-    this.products = ProductList;
+    this.productCategorys = ProductCategorys;
+    this.activeLink = this.router.url.split("/")[2] ? this.router.url.split("/")[2] : this.productCategorys[0].route;
   }
 
   ngOnInit(): void {
-    this.href = this.router.url;
-    this.localStorageService.remove(this.localStorageService.cartKey);
-  }
-
-  addToCart(id: number): void{
-    let productStoraged = this.localStorageService.get(this.localStorageService.cartKey);
-
-    let product = this.products.find(product=>product.id === id);
-
-    let checkExist = productStoraged.some((animal: { id: number; }) => animal.id === product.id);
-
-    console.log(checkExist);
-
-    if(!checkExist){
-      product.quantity = 1;
-      productStoraged.push(product);
-    }else{
-      for(let product of productStoraged){
-        if(product.id === id){
-          product.quantity +=1;
+    this.subscriptionUrlChange.add(
+      this.urlChangeService.urlChange().subscribe((event: Event)=>{
+        if(event instanceof NavigationStart) {
+          console.log(this.activeLink);
+          this.activeLink = event.url.split("/")[2] ? event.url.split("/")[2] : this.productCategorys[0].route;
         }
-      }
-    }
-    
-    this.localStorageService.set(this.localStorageService.cartKey, productStoraged);
-    this.localStorageService.cartStoragedChange$.next(productStoraged);
-    
+      })
+    );
   }
 
-  showDetail(id: number): void{
-    this.router.navigate(['productions-detail', id]);
+  ngAfterViewInit() {
   }
 
-  toProducts(): void{
-    this.router.navigate(['/productions'])
+  ngOnDestroy(){
+    this.subscriptionUrlChange.unsubscribe();
   }
-
 }

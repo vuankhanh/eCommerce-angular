@@ -1,41 +1,60 @@
-import { Component, ElementRef, OnInit, OnDestroy, Renderer2, ViewChild } from '@angular/core';
-import { MenusList } from './menu';
-import { Router, NavigationStart, Event as NavigationEvent } from '@angular/router';
+import { Component, ElementRef, OnInit, OnDestroy, Renderer2, ViewChild, AfterViewInit } from '@angular/core';
+import { MenusList } from '../mock-data/menu';
+import { NavigationStart, Event, Router } from '@angular/router';
 
 import { LocalStorageService } from '../services/local-storage.service';
+import { UrlChangeService } from '../services/url-change.service';
+import { ProductCategorys, ProductCategory } from '../mock-data/products-category';
+
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss']
 })
-export class HeaderComponent implements OnInit, OnDestroy {
+export class HeaderComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('header', { static: false }) header: ElementRef;
 
   menusList: Array<any>;
+  productCategorys: Array<ProductCategory>;
   prevButtonTrigger: any;
   currentUrl: string;
+  activeLink: string;
   badgeCart: number = 0;
+
+  subscriptionUrlChange: Subscription = new Subscription();
   constructor(
-    private ren: Renderer2,
     private router: Router,
+    private ren: Renderer2,
+    private urlChangeService: UrlChangeService,
     private localStorageService: LocalStorageService
   ) {
     this.menusList = MenusList;
+    this.productCategorys = ProductCategorys;
     
-    this.router.events.subscribe((event: NavigationEvent) => {
-      if(event instanceof NavigationStart) {
-        this.currentUrl = event.url
-      }
-    });
   }
 
   ngOnInit(): void {
     window.addEventListener('scroll', this.scroll, true);
+
     this.localStorageService.listenCartStoragedChange.subscribe((value: any)=>{
-      console.log(value)
       this.badgeCart = this.sumQuantityOfCart(value);
     });
+
+    this.subscriptionUrlChange.add(
+      this.urlChangeService.urlChange().subscribe((event: Event)=>{
+        if(event instanceof NavigationStart) {
+          this.currentUrl = event.url.split("/")[1] ? event.url.split("/")[1] : '';
+          console.log(event.url);
+          this.activeLink = this.currentUrl === 'productions' ? event.url.split("/")[2] ? event.url.split("/")[2] : this.productCategorys[0].route : '';
+        }
+      })
+    );
+  }
+
+  ngAfterViewInit(): void{
+    
   }
 
   scroll = (event: any): void => {

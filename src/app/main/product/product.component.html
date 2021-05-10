@@ -1,28 +1,14 @@
-<div class="products-container vertical-container">
-    <div class="flex-me">
-        <ng-container *ngFor="let product of products; let i = index;">
-            <div class="product-frame" *ngIf="href === '/homepage' ? i<3 : true">
-                <img [src]="product.thumbnail" [alt]="product.name">
-                <div class="product-info">
-                    <h4>{{product.name}}</h4>
-                    <div class="content-p">
-                        {{product.description}}
-                    </div>
-                    <div class="button-container horizontal-container">
-                        <button class="button-style button-primary" (click)="addToCart(product.id)">
-                            <mat-icon>add_shopping_cart</mat-icon>
-                            <span>Thêm vào giỏ</span>
-                        </button>
-                        <div class="width-space"></div>
-                        <button class="button-style button-substyle" (click)="showDetail(product.id)">
-                            <span>Chi tiết</span>
-                            <mat-icon>arrow_right</mat-icon>
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </ng-container>
-    </div>
-    <div class="height-space"></div>
-    <button *ngIf="href === '/homepage'" class="button-style" (click)="toProducts()">Xem nhiều món khác</button>
+<div class="product-container">
+    <nav mat-tab-nav-bar>
+        <a
+            mat-tab-link
+            *ngFor="let category of productCategorys"
+            (click)="activeLink = category.route"
+            [active]="activeLink === category.route"
+            [routerLink]="category.route"
+        >
+            {{category.name}}
+        </a>
+    </nav>
+    <router-outlet></router-outlet>
 </div>
