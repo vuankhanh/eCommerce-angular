@@ -1,10 +1,12 @@
 import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
 import { Router, NavigationStart, Event } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { MatTabNav } from '@angular/material/tabs'
 
 import { ProductCategorys, ProductCategory } from '../../mock-data/products-category';
 
 import { UrlChangeService } from 'src/app/services/url-change.service';
+
+import { Subscription } from 'rxjs';
 @Component({
   selector: 'app-product',
   templateUrl: './product.component.html',
@@ -13,7 +15,10 @@ import { UrlChangeService } from 'src/app/services/url-change.service';
 export class ProductionsComponent implements OnInit, AfterViewInit, OnDestroy {
   productCategorys: Array<ProductCategory>;
   activeLink: string;
+  counter: number = 1;
   subscriptionUrlChange: Subscription = new Subscription();
+
+  changeTab: MatTabNav;
   constructor(
     private router: Router,
     private urlChangeService: UrlChangeService,
@@ -26,7 +31,6 @@ export class ProductionsComponent implements OnInit, AfterViewInit, OnDestroy {
     this.subscriptionUrlChange.add(
       this.urlChangeService.urlChange().subscribe((event: Event)=>{
         if(event instanceof NavigationStart) {
-          console.log(this.activeLink);
           this.activeLink = event.url.split("/")[2] ? event.url.split("/")[2] : this.productCategorys[0].route;
         }
       })
@@ -34,6 +38,10 @@ export class ProductionsComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngAfterViewInit() {
+  }
+
+  change(event: any){
+    console.log(event);
   }
 
   ngOnDestroy(){

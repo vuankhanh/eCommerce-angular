@@ -1,0 +1,88 @@
+.cart-container{
+    padding: 15px;
+    justify-content: space-between;
+    .cart-frame{
+        width: 100%;
+        position: relative;
+        .cart-item{
+            margin-bottom: 15px;
+            justify-content: space-between;
+            transition: max-height .45s, opacity .45s;
+            max-height: 1000px;
+            .product-information-container{
+                img{
+                    max-width: 200px;
+                }
+                .product-info{
+                    padding: 15px;
+                    h4, .content-p{
+                        margin-bottom: 5px;
+                    }
+                }
+                .button-container{
+                    .button-buy-later{
+                        font-size: 12px;
+                        border: none;
+                        background: none;
+                        cursor: pointer;
+                        padding: 0;
+                        color: #20417d;
+                    }
+                    .button-buy-later:hover{
+                        text-decoration: underline;
+                    }
+                }
+            }
+            .product-price-container{
+                padding: 15px;
+                .change-quantity-container{
+                    .button-change{
+                        width: 30px;
+                        height: 30px;
+                    }
+                    .product-quantity{
+                        width: 38px;
+                        height: 30px;
+                        box-sizing: border-box;
+                        text-align: center;
+                    }
+                }
+            }
+        }
+        .cart-item:last-child{
+            margin: 0;
+        }
+    }
+    .cart-total-price{
+        width: 300px;
+        min-width: 300px;
+        .cart-total-price-container{
+            position: sticky;
+            top: 85px;
+            width: 100%;
+            background: #ededed;
+            padding: 15px;
+            box-sizing: border-box;
+            .customer-information{
+
+            }
+            .total-price-frame{
+                .provisional{
+                    justify-content: space-between;
+                }
+                .total-price{
+                    justify-content: space-between;
+                }
+            }
+        }
+    }
+}
+
+.cart-item-removed{
+    max-height: 0 !important;
+    margin-bottom: 0 !important;
+    opacity: 0;
+    .product-information-container .product-price-container{
+        display: none !important;
+    }
+}

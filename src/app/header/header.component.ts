@@ -1,12 +1,14 @@
 import { Component, ElementRef, OnInit, OnDestroy, Renderer2, ViewChild, AfterViewInit } from '@angular/core';
 import { MenusList } from '../mock-data/menu';
-import { NavigationStart, Event, Router } from '@angular/router';
+import { NavigationStart, Event } from '@angular/router';
 
-import { LocalStorageService } from '../services/local-storage.service';
+import { CartService } from '../services/cart.service';
 import { UrlChangeService } from '../services/url-change.service';
 import { ProductCategorys, ProductCategory } from '../mock-data/products-category';
 
 import { Subscription } from 'rxjs';
+
+import { Product } from '../mock-data/products';
 
 @Component({
   selector: 'app-header',
@@ -25,10 +27,9 @@ export class HeaderComponent implements OnInit, AfterViewInit, OnDestroy {
 
   subscriptionUrlChange: Subscription = new Subscription();
   constructor(
-    private router: Router,
     private ren: Renderer2,
     private urlChangeService: UrlChangeService,
-    private localStorageService: LocalStorageService
+    private cartService: CartService
   ) {
     this.menusList = MenusList;
     this.productCategorys = ProductCategorys;
@@ -38,15 +39,14 @@ export class HeaderComponent implements OnInit, AfterViewInit, OnDestroy {
   ngOnInit(): void {
     window.addEventListener('scroll', this.scroll, true);
 
-    this.localStorageService.listenCartStoragedChange.subscribe((value: any)=>{
-      this.badgeCart = this.sumQuantityOfCart(value);
+    this.cartService.listenCartChange().subscribe((productStoraged: Array<Product>)=>{
+      this.badgeCart = this.cartService.sumQuantityOfCart(productStoraged);
     });
 
     this.subscriptionUrlChange.add(
       this.urlChangeService.urlChange().subscribe((event: Event)=>{
         if(event instanceof NavigationStart) {
           this.currentUrl = event.url.split("/")[1] ? event.url.split("/")[1] : '';
-          console.log(event.url);
           this.activeLink = this.currentUrl === 'productions' ? event.url.split("/")[2] ? event.url.split("/")[2] : this.productCategorys[0].route : '';
         }
       })
@@ -58,7 +58,7 @@ export class HeaderComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   scroll = (event: any): void => {
-    let index: number = event.srcElement.scrollingElement.scrollTop;
+    let index: number = event.srcElement.scrollingElement?.scrollTop;
     this.changeStyleHeader(index);
     //handle your scroll here
     //notice the 'odd' function assignment to a class field
@@ -71,16 +71,6 @@ export class HeaderComponent implements OnInit, AfterViewInit, OnDestroy {
     }else{
       this.ren.removeClass(this.header.nativeElement, 'header-container-scrolled');
     }
-  }
-
-  sumQuantityOfCart(arrayCart: any){
-    let total: number = 0;
-    if(arrayCart.length>0){
-      for(let product of arrayCart){
-        total += product.quantity;
-      }
-    }
-    return total;
   }
 
   ngOnDestroy() {

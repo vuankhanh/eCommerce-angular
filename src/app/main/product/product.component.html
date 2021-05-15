@@ -1,14 +1,16 @@
 <div class="product-container">
-    <nav mat-tab-nav-bar>
-        <a
-            mat-tab-link
-            *ngFor="let category of productCategorys"
-            (click)="activeLink = category.route"
-            [active]="activeLink === category.route"
-            [routerLink]="category.route"
-        >
-            {{category.name}}
-        </a>
-    </nav>
+    <div class="nar-bar">
+        <nav mat-tab-nav-bar>
+            <a
+                mat-tab-link
+                *ngFor="let category of productCategorys"
+                (click)="activeLink = category.route"
+                [active]="activeLink === category.route"
+                [routerLink]="category.route"
+            >
+                {{category.name}}
+            </a>
+        </nav>
+    </div>
     <router-outlet></router-outlet>
 </div>

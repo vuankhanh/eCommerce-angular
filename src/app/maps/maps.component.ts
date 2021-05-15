@@ -1,32 +1,36 @@
-import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 
-declare var google: { maps: { MapTypeId: { ROADMAP: any; }; Map: new (arg0: any, arg1: { center: any; zoom: number; disableDefaultUI: boolean; mapTypeControl: boolean; streetViewControl: boolean; zoomControl: boolean; fullscreenControl: boolean; mapTypeId: any; styles: { featureType: string; stylers: { visibility: string; }[]; }[]; }) => any; Marker: new (arg0: { map: any; position: any; }) => any; }; };
+import { MouseEventEmitService } from '../services/mouse-event-emit.service';
 
+import { Address, Position } from '../mock-data/contact-information';
+
+// declare var google: { maps: { MapTypeId: { ROADMAP: any; }; Map: new (arg0: any, arg1: { center: any; zoom: number; disableDefaultUI: boolean; mapTypeControl: boolean; streetViewControl: boolean; zoomControl: boolean; fullscreenControl: boolean; mapTypeId: any; styles: { featureType: string; stylers: { visibility: string; }[]; }[]; }) => any; Marker: new (arg0: { map: any; position: any; }) => any; }; };
+declare var google: any;
 @Component({
   selector: 'app-maps',
   templateUrl: './maps.component.html',
   styleUrls: ['./maps.component.scss']
 })
 export class MapsComponent implements OnInit, AfterViewInit {
-  @ViewChild('map', { static: false })
-  mapElement!: ElementRef;
+  @Input() address: Address;
+  @ViewChild('map', { static: false }) mapElement!: ElementRef;
   map: any;
-  tuThanPosition = {lat: 20.963251, lng: 105.826472};
-  constructor() { }
+  constructor(
+    private mouseEventEmitService: MouseEventEmitService
+  ) { }
 
   ngOnInit() {
     
   }
 
   ngAfterViewInit(){
-    this.addMap(this.tuThanPosition);
+    this.addMap(this.address.position);
   }
 
-  addMap(currentPos:any){
-    console.log(currentPos);
+  addMap(currentPos: Position){
     let mapOptions = {
       center: currentPos,
-      zoom: 15,
+      zoom: 16,
       disableDefaultUI: true,
       mapTypeControl: false,
       streetViewControl: false,
@@ -44,11 +48,36 @@ export class MapsComponent implements OnInit, AfterViewInit {
     }
 
     this.map = new google.maps.Map(this.mapElement.nativeElement, mapOptions);
-    let currentMarker = new google.maps.Marker({
+    let marker = new google.maps.Marker({
       map: this.map,
       position: currentPos
     });
 
+    marker.infowindow = this.infoWindow(this.address);
+    marker.addListener('click', ()=>{
+      marker.infowindow.open(this.map, marker);
+    })
+
+    this.mouseEventEmitService.get().subscribe(check=>{
+      if(check){
+        marker.infowindow.open(this.map, marker);
+      }else{
+        marker.infowindow.close();
+      }
+    });
+  }
+
+  infoWindow(address: Address){
+    const contentString = 
+    '<div id="content">'+
+    address.street
+    '</div>';
+
+    const infowindow = new google.maps.InfoWindow({
+      content: contentString
+    });
+
+    return infowindow;
   }
 
 }

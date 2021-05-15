@@ -5,7 +5,8 @@ import { ProductList, Product } from '../../mock-data/products';
 import { ProductCategorys, ProductCategory } from '../../mock-data/products-category';
 
 import { UrlChangeService } from 'src/app/services/url-change.service';
-import { LocalStorageService } from 'src/app/services/local-storage.service';
+import { CartService } from 'src/app/services/cart.service';
+import { ProductService } from 'src/app/services/product.service';
 
 import { Subscription } from 'rxjs';
 @Component({
@@ -21,68 +22,74 @@ export class ProductCategoryComponent implements OnInit, OnDestroy {
   constructor(
     private router: Router,
     private urlChangeService: UrlChangeService,
-    private localStorageService: LocalStorageService
+    private cartService: CartService,
+    private productService: ProductService
   ) {
     this.productCategorys = ProductCategorys;
-    this.products = ProductList;
+    
   }
 
   ngOnInit(): void {
-    // this.localStorageService.remove(this.localStorageService.cartKey);
+    // this.cartService.remove();
     console.log(this.router.url);
     
     this.activeLink = this.router.url.split("/")[2] ? this.router.url.split("/")[2] : this.productCategorys[0].route;
-    this.changeCategory(this.activeLink, this.products, this.productCategorys);
-    
+    setTimeout(() => {
+      this.products = ProductList;
+      this.changeCategory(this.activeLink, this.products, this.productCategorys);
+    }, 2000);
 
     this.subscriptionUrlChange.add(
       this.urlChangeService.urlChange().subscribe((event: Event)=>{
         if(event instanceof NavigationStart) {
           this.activeLink = event.url.split("/")[2] ? event.url.split("/")[2] : this.productCategorys[0].route;
-          this.products = ProductList;
-          this.changeCategory(this.activeLink, this.products, this.productCategorys);
+          this.products = [];
+          setTimeout(() => {
+            this.products = ProductList;
+            this.changeCategory(this.activeLink, this.products, this.productCategorys);
+          }, 2000);
         }
       })
     );
   }
 
-  addToCart(id: number): void{
-    let productStoraged = this.localStorageService.get(this.localStorageService.cartKey);
-
-    let product = this.products.find(product=>product.id === id);
-
-    let checkExist = productStoraged.some((animal: { id: number; }) => animal.id === product?.id);
+  addToCart(product: Product, index: number): void{
+    let itemCarts: Array<Product> = this.cartService.get();
+  
+    let checkExist = itemCarts.some((itemCart: Product) => itemCart.id === product.id);
 
     console.log(checkExist);
 
     if(!checkExist){
-      product ? product.quantity = 1 : 0;
-      productStoraged.push(product);
+      product.quantity = 1;
+      itemCarts.push(product);
     }else{
-      for(let product of productStoraged){
-        if(product.id === id){
-          product.quantity +=1;
+      for(let itemCart of itemCarts){
+        if(itemCart.id === product.id){
+          itemCart.quantity!++;
         }
       }
     }
+    console.log(itemCarts);
     
-    this.localStorageService.set(this.localStorageService.cartKey, productStoraged);
-    this.localStorageService.cartStoragedChange$.next(productStoraged);
+    this.cartService.set(itemCarts);
   }
 
-  showDetail(id: number): void{
-    this.router.navigate(['productions-detail', id]);
+  showDetail(product: Product): void{
+    console.log(product);
+    let categoryOfProduct: string = this.productService.getCategoryOfProduct(product);
+    
+    this.router.navigate(['productions/'+categoryOfProduct, product.id]);
   }
 
   toProducts(): void{
-    this.router.navigate(['/productions'])
+    this.router.navigate(['/productions/']);
   }
 
   changeCategory(activeLink: string, products: Array<Product>, categorys: Array<ProductCategory>){
     
     let category = categorys.find(productCategory=>productCategory.route === activeLink);
-    
-    if(category){
+    if(category && products){
       this.products = products.filter(product=>{
         return product.category === category?.id;
       });

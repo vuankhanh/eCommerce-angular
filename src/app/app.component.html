@@ -1,34 +1,37 @@
 <div class="container">
-  <div class="left-container">
+  <div class="left-container" (mouseenter)="mouseEventEmit($event)" (mouseleave)="mouseEventEmit($event)">
     <div class="contact">
       <div class="contact__information phone-number">
-        <a [href]="'tel: '+information.phoneNumber" class="contact__information">
+        <a [href]="'tel: '+contactInformation.phoneNumber" class="contact__information">
           <mat-icon>phone</mat-icon>
-          <span>{{ information.phoneNumber }}</span>
+          <span>{{ contactInformation.phoneNumber }}</span>
         </a>
       </div>
 
       <div class="contact__information">
-        <a [href]="information.urlFacebook" target="_blank" class="contact__information">
+        <a [href]="contactInformation.urlFacebook" target="_blank" class="contact__information">
           <mat-icon>facebook</mat-icon>
-          <span>{{information.urlFacebook | replaceProtocolName}}</span>
+          <span>{{contactInformation.urlFacebook | replaceProtocolName}}</span>
         </a>
       </div>
 
       <div class="contact__information">
-        <a [href]="information.urlZalo + information.phoneNumber" target="_blank" class="contact__information">
+        <a [href]="contactInformation.urlZalo + contactInformation.phoneNumber" target="_blank" class="contact__information">
           <mat-icon svgIcon='zalo'></mat-icon>
-          <span>{{(information.urlZalo | replaceProtocolName) + information.phoneNumber}}</span>
+          <span>{{(contactInformation.urlZalo | replaceProtocolName) + contactInformation.phoneNumber}}</span>
         </a>
       </div>
     </div>
-    <div class="map-container">
+    <div class="map-container vertical-container">
       <mat-icon svgIcon='gmap'></mat-icon>
-      <app-maps></app-maps>
+      <ng-container *ngIf="contactInformation && contactInformation.addresses && contactInformation.addresses.length>0">
+        <app-maps *ngFor="let address of contactInformation.addresses; let i = index" [address]="address"></app-maps>
+      </ng-container>
     </div>
   </div>
   <div class="main-container">
     <app-header #appHeader></app-header>
     <router-outlet (activate)="onActivate()"></router-outlet>
+    <!-- <div style="height: 300px;"></div> -->
   </div>
 </div>

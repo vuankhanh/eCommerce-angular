@@ -13,7 +13,7 @@ export const MenusList: Array<Menu> =
     },{
         title: 'Giỏ hàng',
         route: 'cart',
-        child:[]
+        child: []
     },{
         title: 'Về chúng tôi',
         route: 'about-us',

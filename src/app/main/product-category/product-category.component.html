@@ -1,4 +1,4 @@
-<div class="products-container vertical-container">
+<div class="products-container vertical-container" *ngIf="(products && products.length>0);else loadingSkeleton">
     <div class="flex-me">
         <ng-container *ngFor="let product of products; let i = index;">
             <div class="product-frame" *ngIf="activeLink === '/homepage' ? i<3 : true">
@@ -8,13 +8,18 @@
                     <div class="content-p">
                         {{product.description}}
                     </div>
+                    <h3 class="product-price">
+                        <span>{{ product.price | currency:'VND':'symbol' | replaceSpace}}</span>
+                        <span>/</span>
+                        <span>{{product.unit}}</span>
+                    </h3>
                     <div class="button-container horizontal-container">
-                        <button class="button-style button-primary" (click)="addToCart(product.id)">
+                        <button class="button-style button-primary" (click)="addToCart(product, i)">
                             <mat-icon>add_shopping_cart</mat-icon>
                             <span>Thêm vào giỏ</span>
                         </button>
                         <div class="width-space"></div>
-                        <button class="button-style button-substyle" (click)="showDetail(product.id)">
+                        <button class="button-style button-substyle" (click)="showDetail(product)">
                             <span>Chi tiết</span>
                             <mat-icon>arrow_right</mat-icon>
                         </button>
@@ -24,5 +29,8 @@
         </ng-container>
     </div>
     <div class="height-space"></div>
-    <button *ngIf="activeLink === '/homepage'" class="button-style" (click)="toProducts()">Xem nhiều món khác</button>
+    <button *ngIf="activeLink === 'homepage'" class="button-style" (click)="toProducts()">Xem nhiều món khác</button>
 </div>
+<ng-template #loadingSkeleton>
+    <app-skeleton></app-skeleton>
+</ng-template>
