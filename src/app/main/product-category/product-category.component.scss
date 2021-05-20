@@ -1,9 +1,11 @@
 .products-container{
     align-items: center;
     .flex-me {
+        width: 100%;
         padding-left: 15px;
         display: flex;
         flex-flow: row wrap;
+        box-sizing: border-box;
         .product-frame {
             width: calc(25% - 15px);
             margin-right: 15px;

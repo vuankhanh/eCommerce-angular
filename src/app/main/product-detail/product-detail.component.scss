@@ -1,0 +1,84 @@
+.product-detail-container{
+    padding: 15px;
+    box-sizing: border-box;
+    .product-information{
+        .album-container{
+            width: 400px;;
+            .main-img{
+                position: relative;
+                width: 100%;
+                img{
+                    width: 100%;
+                    display: block;
+                }
+                .action-img{
+                    position: absolute;
+                    width: 100%;
+                    height: 100%;
+                    top: 0;
+                    justify-content: space-between;
+                    .button-container{
+                        button{
+                            width: 100px;
+                            text-align: left;
+                            transition: opacity .2s;
+                            opacity: 0;
+                            background: linear-gradient(to left, rgba(255,0,0,0), rgb(237 237 237));
+                            border-radius: 0;
+                            height: 100%;
+                            color: #333333;
+                        }
+                    }
+                    .button-container:last-child{
+                        button{
+                            text-align: right;
+                            background: linear-gradient(to right, rgba(255,0,0,0), rgb(237 237 237));
+                            border-radius: 0;
+                        }
+                    }
+                    .button-container:hover{
+                        button{
+                            opacity: 1;
+                        }
+                    }
+                    // background: white;
+                }
+            }
+            .list-img{
+                width: 100%;
+                overflow: auto;
+                .img-thumbnail-container{
+                    width: 25%;
+                    img{
+                        display: block;
+                        border-radius: 5px;
+                        width: 90px;
+                    }
+                    
+                    .imgMain{
+                        border: 1px solid #ed1c24;
+                        box-sizing: border-box;
+                    }
+                }
+                .img-thumbnail-container:last-child{
+                    img{
+                        margin-right: 0;
+                    }
+                }
+            }
+        }
+        .product-basic-information{
+            .product-info{
+                padding: 15px;
+                h4, .content-p{
+                    margin-bottom: 5px;
+                }
+            }
+            .product-price{
+                font-size: 24px;
+                margin-bottom: 5px;
+                font-weight: 500;
+            }
+        }
+    }
+}

@@ -6,7 +6,7 @@
                 <div class="product-info">
                     <h4>{{product.name}}</h4>
                     <div class="content-p">
-                        {{product.description}}
+                        {{product.sortDescription}}
                     </div>
                     <h3 class="product-price">
                         <span>{{ product.price | currency:'VND':'symbol' | replaceSpace}}</span>
@@ -14,7 +14,7 @@
                         <span>{{product.unit}}</span>
                     </h3>
                     <div class="button-container horizontal-container">
-                        <button class="button-style button-primary" (click)="addToCart(product, i)">
+                        <button class="button-style button-primary" (click)="addToCart(product)">
                             <mat-icon>add_shopping_cart</mat-icon>
                             <span>Thêm vào giỏ</span>
                         </button>

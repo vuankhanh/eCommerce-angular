@@ -29,6 +29,16 @@ body {
     min-height: 15px;
 }
 
+.mini-width-space{
+    width: 10px;
+    min-width: 10px;
+}
+
+.mini-height-space{
+    height: 10px;
+    min-height: 10px;
+}
+
 .button-style{
     outline: none;
     border: none;
@@ -58,4 +68,17 @@ body {
 .button-substyle{
     background-color: orange;
     color: white;
+}
+
+.textLink{
+    font-size: 12px;
+    cursor: pointer;
+    color: #20417d;
+}
+.textLink:hover{
+    text-decoration: underline;
+}
+
+.pleaseLogin{
+    font-size: 12px;
 }

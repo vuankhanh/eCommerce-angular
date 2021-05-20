@@ -37,7 +37,7 @@ export class ProductCategoryComponent implements OnInit, OnDestroy {
     setTimeout(() => {
       this.products = ProductList;
       this.changeCategory(this.activeLink, this.products, this.productCategorys);
-    }, 2000);
+    }, 1000);
 
     this.subscriptionUrlChange.add(
       this.urlChangeService.urlChange().subscribe((event: Event)=>{
@@ -47,13 +47,13 @@ export class ProductCategoryComponent implements OnInit, OnDestroy {
           setTimeout(() => {
             this.products = ProductList;
             this.changeCategory(this.activeLink, this.products, this.productCategorys);
-          }, 2000);
+          }, 1000);
         }
       })
     );
   }
 
-  addToCart(product: Product, index: number): void{
+  addToCart(product: Product): void{
     let itemCarts: Array<Product> = this.cartService.get();
   
     let checkExist = itemCarts.some((itemCart: Product) => itemCart.id === product.id);
@@ -76,7 +76,6 @@ export class ProductCategoryComponent implements OnInit, OnDestroy {
   }
 
   showDetail(product: Product): void{
-    console.log(product);
     let categoryOfProduct: string = this.productService.getCategoryOfProduct(product);
     
     this.router.navigate(['productions/'+categoryOfProduct, product.id]);

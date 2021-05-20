@@ -11,12 +11,10 @@
                     <div class="product-info">
                         <h4>{{product.name}}</h4>
                         <div class="content-p">
-                            {{product.description}}
+                            {{product.sortDescription}}
                         </div>
                         <div class="button-container">
-                            <button class="button-buy-later" (click)="laterBuy(cartItem, i)">
-                                <span>Khi khác chọn</span>
-                            </button>
+                            <span class="textLink" (click)="laterBuy(cartItem, i)">Khi khác chọn</span>
                         </div>
                     </div>
                 </div>
