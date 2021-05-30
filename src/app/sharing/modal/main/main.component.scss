@@ -1,0 +1,39 @@
+.close-button{
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    border-radius: 100%;
+    background-color: #ededed;
+    border: 2px solid white;
+    cursor: pointer;
+    animation: seconds 0s forwards;
+    animation-delay: .45s;
+    opacity: 0;
+    // mat-icon{
+    //     height: 30px;
+    //     width: 30px;
+    //     font-size: 24px;
+    // }
+}
+.back-button{
+    mat-icon{
+        margin-left: -14px;
+        height: 36px;
+        width: 36px;
+        font-size: 36px;
+        cursor: pointer;
+    }
+}
+
+@keyframes seconds {
+    0% {
+        opacity: 0;
+        top: 0px;
+        right: 0px;
+    }
+    100% {
+        opacity: 100%;
+        top: -12px;
+        right: -12px;
+    }
+  }

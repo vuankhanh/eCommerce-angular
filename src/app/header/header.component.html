@@ -6,8 +6,6 @@
         >
     </div>
 
-    <div class="width-space"></div>
-
     <div class="menu-container horizontal-container">
         <ng-container *ngFor="let menu of menusList; let i = index">
             <div class="vertical-container dropdown-container">
@@ -18,6 +16,7 @@
                     [ngStyle]="{ color: currentUrl === menu.route ? '#ed1c24': '' }"
                     [matBadge]="badgeCart"
                     [matBadgeHidden]="(menu.route === 'cart' ? false : true) || !badgeCart"
+                    (mouseenter)="closeAlertAddedToCart()"
                 >
                     {{menu.title}}
                 </button>
@@ -33,6 +32,87 @@
                         </div>
                     </div>
                 </ng-container>
+
+                <ng-container *ngIf="menu.route === 'cart' && showAlertAddedToCart">
+                    <div class="alert-added-to-cart" #alertAddedToCart (clickOutside)="closeAlertAddedToCart()">
+                        <a class="btn-close">
+                            <mat-icon id="closeAlertAddedToCart">close</mat-icon>
+                        </a>
+                        <div class="alert-title">
+                            <span class="horizontal-container">
+                                <mat-icon>done</mat-icon>
+                                Thêm vào giỏ hàng thành công!
+                            </span>
+                        </div>
+                        <div class="height-space"></div>
+                        <button class="go-to-cart" id="closeAlertAddedToCart" routerLink="/cart">Xem giỏ hàng và thanh toán</button>
+                    </div>
+                </ng-container>
+            </div>
+        </ng-container>
+    </div>
+
+    <div class="user-information">
+        <div class="user-information-block horizontal-container">
+            <div class="user-information-block_icon vertical-container">
+                <mat-icon>person_outline</mat-icon>
+            </div>
+            <div class="user-information-block_showListButton vertical-container">
+                <div class="user-information-block_showListButton_status">Đăng nhập/Đăng ký</div>
+                <div class="user-information-block_showListButton_account horizontal-container">
+                    <span>Tài khoản</span>
+                    <mat-icon>arrow_drop_down</mat-icon>
+                </div>
+            </div>
+        </div>
+        <ng-container *ngIf="!isLogged">
+            <div class="listButton vertical-container">
+                <div class="button-loginRegister loginRegister horizontal-container">
+                    <div class="textButton horizontal-container" (click)="login('login')">
+                        Đăng nhập
+                    </div>
+                </div>
+
+                <div class="mini-height-space"></div>
+
+                <div class="button-loginRegister loginRegister horizontal-container">
+                    <div class="textButton horizontal-container" (click)="login('register')">
+                        Đăng ký
+                    </div>
+                </div>
+
+                <div class="mini-height-space"></div>
+
+                <div class="button-loginRegister loginFacebook horizontal-container">
+                    <div class="icon">
+                        <mat-icon svgIcon="facebook"></mat-icon>
+                    </div>
+                    <div class="textButton horizontal-container">
+                        Đăng nhập bằng Facebook
+                    </div>
+                </div>
+
+                <div class="mini-height-space"></div>
+
+                <div class="button-loginRegister loginGoogle horizontal-container">
+                    <div class="icon">
+                        <mat-icon svgIcon="google-plus"></mat-icon>
+                    </div>
+                    <div class="textButton horizontal-container">
+                        Đăng nhập bằng Google
+                    </div>
+                </div>
+
+                <div class="mini-height-space"></div>
+
+                <div class="button-loginRegister loginZalo horizontal-container">
+                    <div class="icon">
+                        <mat-icon svgIcon="zalo1"></mat-icon>
+                    </div>
+                    <div class="textButton horizontal-container">
+                        Đăng nhập bằng Zalo
+                    </div>
+                </div>
             </div>
         </ng-container>
     </div>

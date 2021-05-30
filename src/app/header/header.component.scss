@@ -24,8 +24,12 @@ button{
     .menu-container{
         align-items: center;
         .dropdown-container{
+            position: relative;
             .title-menu{
                 height: 70px;
+            }
+            .title-menu:hover{
+                color: #ed1c24;
             }
             button{
                 border: none;
@@ -33,12 +37,10 @@ button{
                 font-weight: bold;
                 cursor: pointer;
             }
-            button:hover{
-                color: #ed1c24;
-            }
             .sub-menu-container{
                 display: none;
                 position: absolute;
+                white-space: nowrap;
                 background: white;
                 top: 70px;
                 box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
@@ -47,11 +49,168 @@ button{
                     text-align: left;
                 }
             }
+            .alert-added-to-cart{
+                position: absolute;
+                top: 70px;
+                right: 0;
+                white-space: nowrap;
+                background: white;
+                padding: 15px;
+                border-radius: 10px;
+                border: 1px solid #ededed;
+                box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+                // display: none;
+                .btn-close{
+                    cursor: pointer;
+                    position: absolute;
+                    top: 6px;
+                    right: 6px;
+                    padding: 4px;
+                    color: rgb(155, 155, 155);
+                    font-size: 11px;
+                }
+                .alert-title{
+                    margin-right: 50px;
+                    span{
+                        align-items: center;
+                        mat-icon{
+                            height: 18px;
+                            width: 18px;
+                            font-size: 18px;
+                            background: green;
+                            border-radius: 100%;
+                            color: white;
+                            margin-right: 5px;
+                        }
+                    }
+                }
+                .go-to-cart{
+                    width: 100%;
+                    height: 35px;
+                    background: #ed1c24;
+                    color: white;
+                }
+            }
+            .alert-added-to-cart::before{
+                content: "";
+                position: absolute;
+                bottom: 100%;
+                right: 15px;
+                border-width: 8px;
+                border-style: solid;
+                border-color: transparent transparent #ededed;
+                border-image: initial;
+            }
         }
         .dropdown-container:hover{
             .sub-menu-container{
                 display: block;
+                button:hover{
+                    color: #ed1c24;
+                }
             }
+        }
+    }
+    .user-information{
+        .user-information-block{
+            position: relative;
+            align-items: center;
+            height: 100%;
+            cursor: pointer;
+            padding: 0 15px;
+            color: black;
+            .user-information-block_icon{
+                mat-icon{
+                    height: 32px;
+                    width: 32px;
+                    font-size: 32px;
+                }
+            }
+            .user-information-block_showListButton{
+                .user-information-block_showListButton_status{
+                    font-size: 12px;
+                }
+                .user-information-block_showListButton_account{
+                    height: 14px;
+                    span{
+                        font-size: 14px;
+                    }
+                    mat-icon{
+                        font-size: 14px;
+                        width: 14px;
+                        height: 14px;
+                    }
+                }
+            }
+        }
+        .listButton{
+            display: none;
+            position: absolute;
+            top: 70px;
+            right: 15px;
+            white-space: nowrap;
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            border: 1px solid #ededed;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            .button-loginRegister{
+                cursor: pointer;
+                align-items: center;
+                justify-content: space-between;
+                height: 40px;
+                border-radius: 40px;
+                border: none;
+                background: #c88026;
+                color: #333333;
+                .icon{
+                    width: 40px;
+                    height: 40px;
+                    padding: 10px;
+                    box-sizing: border-box;
+                    border-radius: 40px 0 0 40px;
+                    box-shadow: 1px 0 3px -2px #ededed;
+                    mat-icon{
+                        font-size: 20px;
+                        height: 20px;
+                    }
+                }
+                .textButton{
+                    padding: 0 15px;
+                    width: 100%;
+                    justify-content: center;
+                }
+            }
+            .loginFacebook{
+                background: #3b5998;
+                color: white;
+            }
+            .loginGoogle{
+                background: #db4a39;
+                color: white;
+            }
+            .loginZalo{
+                background: #0573ff;
+                color: white;
+            }
+        }
+        .listButton::before{
+            content: "";
+            position: absolute;
+            bottom: 100%;
+            right: 15px;
+            border-width: 8px;
+            border-style: solid;
+            border-color: transparent transparent #ededed;
+            border-image: initial;
+        }
+    }
+    .user-information:hover{
+        .user-information-block{
+            color: #ed1c24;
+        }
+        .listButton{
+            display: block;
         }
     }
 }
@@ -66,6 +225,11 @@ button{
     }
     .menu-container{
         .title-menu{
+            color: white;
+        }
+    }
+    .user-information{
+        .user-information-block{
             color: white;
         }
     }

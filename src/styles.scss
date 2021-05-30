@@ -1,5 +1,12 @@
-/* You can add global styles to this file, and also import other style files */
+@import '~@angular/material/theming';
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
 
+/* You can add global styles to this file, and also import other style files */
+.cdk-global-scrollblock{
+    position: initial;
+    width: initial;
+    overflow: hidden;
+}
 html, body { 
     height: 100%;
 }
@@ -7,6 +14,9 @@ body {
     margin: 0;
     font-family: Roboto, "Helvetica Neue", sans-serif;
     overflow-y: scroll
+}
+div{
+    line-height: 1;
 }
 
 .vertical-container{
@@ -81,4 +91,18 @@ body {
 
 .pleaseLogin{
     font-size: 12px;
+}
+
+.login-modal{
+    position: relative!important;
+    mat-dialog-container{
+        background: white;
+        color: #333333;
+    }
+}
+
+.mat-form-field-done{
+    .mat-form-field-flex{
+        background-color: rgb(187, 255, 181);
+    }
 }

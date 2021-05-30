@@ -72,8 +72,9 @@
             </div>
         </div>
         <div class="height-space"></div>
-        <div class="product-desciption">
-            mô tả về sản phẩm
+        <div class="product-desciption" *ngIf="productNotNull.productDetail && productNotNull.productDetail as productDetail">
+            <h1 style="margin-bottom: 5px;">Mô tả</h1>
+            <div>{{productNotNull.productDetail.longDescription}}</div>
         </div>
     </ng-container>
 </div>

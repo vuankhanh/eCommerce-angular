@@ -12,8 +12,7 @@ import { Item } from '../../mock-data/gallery';
   styleUrls: ['./product-detail.component.scss']
 })
 export class ProductDetailComponent implements OnInit, AfterViewInit {
-  @ViewChild('elementTest', { read: ElementRef }) elementTest: QueryList<ElementRef
-  >;
+  // @ViewChild('elementTest', { read: ElementRef }) elementTest: QueryList<ElementRef>;
   imgMain: Item;
   indexImgMain: number = 0;
   product: Product | null;
@@ -38,7 +37,6 @@ export class ProductDetailComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(){
-    console.log(this.elementTest);
   }
 
   setImgMain(album: Array<Item>, index: number){

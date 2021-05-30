@@ -9,7 +9,10 @@ export class AddIconSvgService {
   private urlSvgs = [
     '../assets/logo/svg/zalo.svg',
     '../assets/logo/svg/gmap.svg',
-    '../assets/logo/svg/star.svg'
+    '../assets/logo/svg/star.svg',
+    '../assets/logo/svg/facebook.svg',
+    '../assets/logo/svg/google-plus.svg',
+    '../assets/logo/svg/zalo1.svg',
   ];
   constructor(
     private matIconRegistry: MatIconRegistry,

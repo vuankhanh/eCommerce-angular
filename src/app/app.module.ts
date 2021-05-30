@@ -1,6 +1,7 @@
 import { NgModule, LOCALE_ID } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { registerLocaleData } from '@angular/common';
 import localeFr from '@angular/common/locales/es';
 registerLocaleData(localeFr);
@@ -13,6 +14,9 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatTabsModule } from '@angular/material/tabs';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
 
 import { AppComponent } from './app.component';
 import { HomePageComponent } from './main/home-page/home-page.component';
@@ -23,7 +27,8 @@ import { ReplaceProtocolNamePipe } from './pipes/replace-protocol-name.pipe';
 import { ReplaceSpacePipe } from './pipes/replace-space.pipe';
 
 //Directive
-import { InputOnlyNumberDirective } from './directive/input-only-number.directive';
+import { InputOnlyNumberDirective } from './directives/input-only-number.directive';
+import { ClickOutsideDirective } from './directives/click-outside.directive';
 
 import { SlideShowComponent } from './main/slide-show/slide-show.component';
 import { HeaderComponent } from './header/header.component';
@@ -37,6 +42,11 @@ import { ProductCategoryComponent } from './main/product-category/product-catego
 //Sharing
 import { SkeletonComponent } from './sharing/loading/skeleton/skeleton.component';
 
+import { MainComponent } from './sharing/modal/main/main.component';
+import { LoginComponent } from './sharing/modal/login/login.component';
+import { RegisterComponent } from './sharing/modal/register/register.component';
+import { ForgotPasswordComponent } from './sharing/modal/forgot-password/forgot-password.component';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -47,6 +57,7 @@ import { SkeletonComponent } from './sharing/loading/skeleton/skeleton.component
     ReplaceSpacePipe,
 
     InputOnlyNumberDirective,
+    ClickOutsideDirective,
 
     SlideShowComponent,
 
@@ -65,10 +76,18 @@ import { SkeletonComponent } from './sharing/loading/skeleton/skeleton.component
     ProductCategoryComponent,
 
     SkeletonComponent,
+
+    MainComponent,
+    LoginComponent,
+    RegisterComponent,
+    ForgotPasswordComponent,
+
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
+    FormsModule,
+    ReactiveFormsModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     MatIconModule,
@@ -76,7 +95,10 @@ import { SkeletonComponent } from './sharing/loading/skeleton/skeleton.component
     MatButtonModule,
     MatCardModule,
     MatBadgeModule,
-    MatTabsModule
+    MatTabsModule,
+    MatDialogModule,
+    MatInputModule,
+    MatFormFieldModule
   ],
   providers: [
     { provide: LOCALE_ID, useValue: 'es'}
