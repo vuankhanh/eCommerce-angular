@@ -1,32 +1,16 @@
 .register-container{
-    
+    width: 415px;
     form{
         .title{
 
         }
-        .input-phone-number{
-            input{
-                padding: 0;
-                font-size: 24px;
-                border: none;
-                outline: none;
-                border-bottom: 1px solid #999999;
-                width: 400px;
-            }
-            .phone-number-invalid{
-                height: 16px;
-                color: #ed1c24;
-                margin-top: 5px;
-                span{
-                    margin-top: 5px
-                }
-            }
-        }
         .input-information-container{
-            mat-form-field{
-                
-                mat-icon{
-                    cursor: pointer;
+            .vertical-container{
+                width: 200px;
+                mat-form-field{
+                    mat-icon{
+                        cursor: pointer;
+                    }
                 }
             }
         }
@@ -48,7 +32,7 @@
             background: #ededed;
         }
         .change-component{
-            justify-content: space-between;
+            justify-content: flex-end;
         }
     }
 }

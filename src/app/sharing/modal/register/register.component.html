@@ -75,21 +75,18 @@
                 Email không đúng định dạng
             </div>
             <div *ngIf="registerGroup.controls['phoneNumber'].hasError('pattern')">
-                Số điện thoại không đúng định dạng
+                Số điện thoại bao gồm 10 chữ số và bắt đầu bằng số 0
             </div>
         </div>
-        <!-- <div class="input-phone-number">
-            <input type="text" [formControl]="checkPhoneNumber" placeholder="Số điện thoại">
-            <div class="phone-number-invalid">
-                <span *ngIf="checkPhoneNumber.value && checkPhoneNumber.invalid">Số điện thoại chưa đúng định dạng</span>
-            </div>
-        </div> -->
         <div class="height-space"></div>
         <button
+            mat-button
             type="submit"
             class="submit-button button-primary"
             [disabled]="registerGroup.invalid"
-        >Đăng ký</button>
+        >
+            Đăng ký
+        </button>
         <div class="height-space"></div>
         <div class="change-component horizontal-container">
             <div class="textLink" (click)="valueChange.emit('login')">Đăng nhập</div>

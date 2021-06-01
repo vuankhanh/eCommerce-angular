@@ -9,6 +9,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 export class LoginComponent implements OnInit {
   @Output() valueChange = new EventEmitter();
   loginGroup: FormGroup;
+  fieldTextType: boolean = false;
   constructor(
     private formBuilder: FormBuilder
   ) { }

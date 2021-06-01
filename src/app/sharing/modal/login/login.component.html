@@ -6,30 +6,61 @@
         </div>
         <div class="height-space"></div>
         <div class="input-information-container">
-            <div class="input-information">
-                <input type="text" placeholder="Tài khoản" formControlName="userName">
-            </div>
-            <div class="height-space"></div>
-            <div class="input-information">
-                <input type="password" placeholder="Mật khẩu" formControlName="password">
+            <div class="vertical-container">
+                <mat-form-field>
+                    <mat-label>Tài khoản *</mat-label>
+                    <input matInput type="text" formControlName="userName">
+                </mat-form-field>
+    
+                <mat-form-field>
+                    <mat-label>Mật khẩu *</mat-label>
+                    <input
+                        matInput
+                        [type]="!fieldTextType ? 'password' : 'text'"
+                        formControlName="password"
+                    >
+                    <mat-icon matSuffix (click)="fieldTextType = !fieldTextType">
+                        {{ !fieldTextType ? 'visibility' : 'visibility_off'}}
+                    </mat-icon>
+                </mat-form-field>
             </div>
         </div>
-        <!-- <div class="input-phone-number">
-            <input type="text" [formControl]="checkPhoneNumber" placeholder="Số điện thoại">
-            <div class="phone-number-invalid">
-                <span *ngIf="checkPhoneNumber.value && checkPhoneNumber.invalid">Số điện thoại chưa đúng định dạng</span>
-            </div>
-        </div> -->
         <div class="height-space"></div>
         <button
+            mat-button
             type="submit"
             class="submit-button button-primary"
             [disabled]="loginGroup.invalid"
-        >Tiếp Tục</button>
+        >
+            Đăng nhập
+        </button>
         <div class="height-space"></div>
         <div class="change-component horizontal-container">
             <div class="textLink" (click)="valueChange.emit('register')">Đăng ký</div>
             <div class="textLink" (click)="valueChange.emit('forgotPassword')">Quên mật khẩu</div>
         </div>
     </form>
+    
+    <div class="login-with-social-networking-container">
+        <p>Hoặc đăng nhập bằng</p>
+        <div class="horizontal-container center">
+            <div class="horizontal-container">
+                <div class="social-networking-item horizontal-container loginFacebook">
+                    <mat-icon svgIcon="facebook"></mat-icon>
+                </div>
+    
+                <div class="width-space"></div>
+    
+                <div class="social-networking-item horizontal-container loginGoogle">
+                    <mat-icon svgIcon="google-plus"></mat-icon>
+                </div>
+    
+                <div class="width-space"></div>
+    
+                <div class="social-networking-item horizontal-container loginZalo">
+                    <mat-icon svgIcon="zalo1"></mat-icon>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

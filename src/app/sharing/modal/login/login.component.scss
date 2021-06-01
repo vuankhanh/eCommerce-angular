@@ -1,24 +1,13 @@
 .login-container{
-    
+    width: 415px;
     form{
         .title{
 
         }
-        .input-phone-number{
-            input{
-                padding: 0;
-                font-size: 24px;
-                border: none;
-                outline: none;
-                border-bottom: 1px solid #999999;
-                width: 400px;
-            }
-            .phone-number-invalid{
-                height: 16px;
-                color: #ed1c24;
-                margin-top: 5px;
-                span{
-                    margin-top: 5px
+        .input-information-container{
+            mat-form-field{
+                mat-icon{
+                    cursor: pointer;
                 }
             }
         }
@@ -30,8 +19,46 @@
             border: none;
             outline: none;
         }
+        .submit-button:disabled{
+            color: #999999;
+            background: #ededed;
+        }
+
         .change-component{
             justify-content: space-between;
+        }
+    }
+
+    .login-with-social-networking-container{
+        margin-top: 40px;
+        p{
+            text-align: center;
+            color: #999999;
+        }
+        .center{
+            justify-content: center;
+            .horizontal-container{
+                .social-networking-item{
+                    cursor: pointer;
+                    height: 40px;
+                    width: 40px;
+                    border-radius: 100%;
+                    align-items: center;
+                    justify-content: center;
+                }
+                .loginFacebook{
+                    background: #3b5998;
+                    color: white;
+                }
+                .loginGoogle{
+                    background: #db4a39;
+                    color: white;
+                }
+                .loginZalo{
+                    background: #0573ff;
+                    color: white;
+                }
+            }
         }
     }
 }
