@@ -1,6 +1,7 @@
 @import '~@angular/material/theming';
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
 
+
 /* You can add global styles to this file, and also import other style files */
 .cdk-global-scrollblock{
     position: initial;
@@ -104,5 +105,18 @@ div{
 .mat-form-field-done{
     .mat-form-field-flex{
         background-color: rgb(187, 255, 181);
+    }
+}
+
+.overlay-container{
+    .toast-container{
+        .ngx-toastr{
+            .toast-title{
+                line-height: 1.5;
+            }
+            .toast-message{
+                line-height: 1.5;
+            }
+        }
     }
 }

@@ -66,8 +66,8 @@ export class HeaderComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngAfterViewInit(): void{
-    this.login('login');
-    // this.login('register');
+    // this.login('login');
+    this.login('register');
   }
 
   closeAlertAddedToCart(){

@@ -34,8 +34,6 @@ export function isSameInConfirmPassword(): ValidatorFn{
 
         if (parent && parent.get('password')) {
             let passwordControl = parent.get('password');
-            console.log(passwordControl?.value);
-            console.log(confirmPassword);
             return (passwordControl?.value != confirmPassword) ? { passwordIsNotSame: true } : null;
         }
         

@@ -8,6 +8,7 @@ registerLocaleData(localeFr);
 
 import { AppRoutingModule } from './app-routing.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ToastrModule, ToastContainerModule } from 'ngx-toastr';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonModule } from '@angular/material/button';
@@ -17,6 +18,7 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 import { AppComponent } from './app.component';
 import { HomePageComponent } from './main/home-page/home-page.component';
@@ -29,6 +31,7 @@ import { ReplaceSpacePipe } from './pipes/replace-space.pipe';
 //Directive
 import { InputOnlyNumberDirective } from './directives/input-only-number.directive';
 import { ClickOutsideDirective } from './directives/click-outside.directive';
+import { CapsLockDirective } from './directives/caps-lock.directive';
 
 import { SlideShowComponent } from './main/slide-show/slide-show.component';
 import { HeaderComponent } from './header/header.component';
@@ -58,6 +61,7 @@ import { ForgotPasswordComponent } from './sharing/modal/forgot-password/forgot-
 
     InputOnlyNumberDirective,
     ClickOutsideDirective,
+    CapsLockDirective,
 
     SlideShowComponent,
 
@@ -90,6 +94,10 @@ import { ForgotPasswordComponent } from './sharing/modal/forgot-password/forgot-
     ReactiveFormsModule,
     AppRoutingModule,
     BrowserAnimationsModule,
+    ToastrModule.forRoot({
+      positionClass: 'toast-bottom-center',
+      preventDuplicates: true,
+    }),
     MatIconModule,
     MatMenuModule,
     MatButtonModule,
@@ -98,7 +106,8 @@ import { ForgotPasswordComponent } from './sharing/modal/forgot-password/forgot-
     MatTabsModule,
     MatDialogModule,
     MatInputModule,
-    MatFormFieldModule
+    MatFormFieldModule,
+    MatProgressSpinnerModule
   ],
   providers: [
     { provide: LOCALE_ID, useValue: 'es'}

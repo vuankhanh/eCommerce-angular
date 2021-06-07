@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 
 import { ContactInfor, ContactInformation } from './mock-data/contact-information';
 
@@ -9,8 +9,8 @@ import { MouseEventEmitService } from './services/mouse-event-emit.service';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent {
-  public contactInformation: ContactInformation;
+export class AppComponent implements OnInit {
+  contactInformation: ContactInformation;
   constructor(
     private addIconSvgService: AddIconSvgService,
     private mouseEventEmitService: MouseEventEmitService
@@ -20,6 +20,11 @@ export class AppComponent {
     console.log(this.contactInformation);
     
   }
+
+  ngOnInit(){
+
+  }
+
   onActivate() {
     window.scroll({
       top: 0,

@@ -9,7 +9,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class LoginService {
-  private urlLogin = hostConfiguration.host+'/login'
+  private urlLogin = hostConfiguration.host+'/login';
   constructor(
     private httpClient: HttpClient
   ) { }

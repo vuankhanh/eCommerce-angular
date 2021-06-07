@@ -7,7 +7,7 @@ export const environment = {
 };
 
 export const hostConfiguration = {
-  host: 'http://localhost:3000',
+  host: 'http://localhost:3000/client',
   
 }
 
