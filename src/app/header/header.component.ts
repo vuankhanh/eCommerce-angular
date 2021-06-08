@@ -66,8 +66,8 @@ export class HeaderComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngAfterViewInit(): void{
-    // this.login('login');
-    this.login('register');
+    this.login('login');
+    // this.login('register');
   }
 
   closeAlertAddedToCart(){
@@ -96,11 +96,12 @@ export class HeaderComponent implements OnInit, AfterViewInit, OnDestroy {
       const dialogRef = this.dialog.open(MainComponent,{
         panelClass: 'login-modal',
         data: data,
-        autoFocus: false
       });
   
       dialogRef.afterClosed().subscribe(result=>{
-        console.log(`Dialog result: ${result}`)
+        console.log('Dialog result: ');
+        console.log(result);
+        
       })
     }else{
       console.log('Không đúng Modal Login')

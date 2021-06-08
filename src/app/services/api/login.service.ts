@@ -14,15 +14,18 @@ export class LoginService {
     private httpClient: HttpClient
   ) { }
 
-  login(phoneNumber: string): Observable<ResponseLogin>{
-    let body = {
-      phoneNumber: phoneNumber
-    }
-    return this.httpClient.post<ResponseLogin>(this.urlLogin, body);
+  login(userName: UserName): Observable<ResponseLogin>{
+    return this.httpClient.post<ResponseLogin>(this.urlLogin, userName);
   }
+}
+
+export interface UserName{
+  userName: string,
+  password: string
 }
 
 export interface ResponseLogin{
   accessToken: string,
-  refreshToken: string
+  refreshToken: string,
+  message: string
 }

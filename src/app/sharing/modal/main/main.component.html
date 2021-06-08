@@ -6,7 +6,11 @@
     <div class="height-space"></div>
 </div>
 <ng-container *ngIf="data && data.type as type" [ngSwitch]="type">
-    <app-login *ngSwitchCase="'login'" (valueChange)="changeComponent($event)"></app-login>
+    <app-login
+        *ngSwitchCase="'login'"
+        (valueChange)="changeComponent($event)"
+        (closeModal)="closeModal($event)"
+    ></app-login>
     <app-register *ngSwitchCase="'register'" (valueChange)="changeComponent($event)"></app-register>
     <app-forgot-password *ngSwitchCase="'forgotPassword'" (valueChange)="changeComponent($event)"></app-forgot-password>
 </ng-container>

@@ -36,6 +36,10 @@ export class MainComponent implements OnInit {
     }
   }
 
+  closeModal(value: any){
+    this.dialogRef.close(value);
+  }
+
 }
 
 export interface TypeLogin{
