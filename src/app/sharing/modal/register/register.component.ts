@@ -39,12 +39,12 @@ export class RegisterComponent implements OnInit, OnDestroy {
     let emailRegEx = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     let phoneNumberRegEx = /((0)+([0-9]{9})\b)/g;
     this.registerGroup = this.formBuilder.group({
-      userName: ['vuankhanh', { validators: [Validators.required, tiengVietKhongDau()], updateOn: 'blur' }],
-      password: ['qweQWE123', { validators: [Validators.required, safePassword()], updateOn: 'blur' }],
-      confirmPassword: ['qweQWE123', { validators: [Validators.required, isSameInConfirmPassword()], updateOn: 'blur' }],
-      name: ['Vũ An Khánh', Validators.required],
-      email: ['vuankhanh19071992@gmail.com', { validators: [Validators.required, Validators.pattern(emailRegEx)], updateOn: 'blur' }],
-      phoneNumber: ['0842415921', { validators: [Validators.required, , Validators.pattern(phoneNumberRegEx)], updateOn: 'blur' }],
+      userName: ['', { validators: [Validators.required, tiengVietKhongDau()], updateOn: 'blur' }],
+      password: ['', { validators: [Validators.required, safePassword()], updateOn: 'blur' }],
+      confirmPassword: ['', { validators: [Validators.required, isSameInConfirmPassword()], updateOn: 'blur' }],
+      name: ['', Validators.required],
+      email: ['', { validators: [Validators.required, Validators.pattern(emailRegEx)], updateOn: 'blur' }],
+      phoneNumber: ['', { validators: [Validators.required, , Validators.pattern(phoneNumberRegEx)], updateOn: 'blur' }],
     });
   }
 

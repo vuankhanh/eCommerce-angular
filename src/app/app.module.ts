@@ -7,8 +7,9 @@ import localeFr from '@angular/common/locales/es';
 registerLocaleData(localeFr);
 
 import { AppRoutingModule } from './app-routing.module';
+import { MainCustomerModule } from './customer-information/main-customer/main-customer.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { ToastrModule, ToastContainerModule } from 'ngx-toastr';
+import { ToastrModule } from 'ngx-toastr';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonModule } from '@angular/material/button';
@@ -19,6 +20,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatListModule } from '@angular/material/list';
 
 import { AppComponent } from './app.component';
 import { HomePageComponent } from './main/home-page/home-page.component';
@@ -42,6 +44,8 @@ import { CartComponent } from './main/cart/cart.component';
 import { ContactComponent } from './main/contact/contact.component';
 import { ProductCategoryComponent } from './main/product-category/product-category.component';
 
+
+
 //Sharing
 import { SkeletonComponent } from './sharing/loading/skeleton/skeleton.component';
 
@@ -64,19 +68,12 @@ import { ForgotPasswordComponent } from './sharing/modal/forgot-password/forgot-
     CapsLockDirective,
 
     SlideShowComponent,
-
     HeaderComponent,
-
     ProductionsComponent,
-
     AboutUsComponent,
-
     ProductDetailComponent,
-
     CartComponent,
-
     ContactComponent,
-
     ProductCategoryComponent,
 
     SkeletonComponent,
@@ -93,6 +90,7 @@ import { ForgotPasswordComponent } from './sharing/modal/forgot-password/forgot-
     FormsModule,
     ReactiveFormsModule,
     AppRoutingModule,
+    MainCustomerModule,
     BrowserAnimationsModule,
     ToastrModule.forRoot({
       positionClass: 'toast-bottom-center',
@@ -107,7 +105,8 @@ import { ForgotPasswordComponent } from './sharing/modal/forgot-password/forgot-
     MatDialogModule,
     MatInputModule,
     MatFormFieldModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    MatListModule
   ],
   providers: [
     { provide: LOCALE_ID, useValue: 'es'}

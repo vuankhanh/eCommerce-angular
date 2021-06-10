@@ -1,0 +1,14 @@
+.customer-container{
+    padding: 15px;
+    box-sizing: border-box;
+    .customer-menu{
+        mat-list{
+            mat-list-item{
+                height: 24px;
+            }
+        }
+    }
+    .customer-body{
+
+    }
+}

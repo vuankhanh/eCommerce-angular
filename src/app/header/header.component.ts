@@ -1,17 +1,25 @@
 import { Component, ElementRef, OnInit, OnDestroy, Renderer2, ViewChild, AfterViewInit } from '@angular/core';
-import { MenusList } from '../mock-data/menu';
-import { NavigationStart, Event } from '@angular/router';
+import { NavigationStart, Event, Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { MainComponent, TypeLogin } from '../sharing/modal/main/main.component';
 
 import { CartService } from '../services/cart.service';
 import { UrlChangeService } from '../services/url-change.service';
+import { JwtDecodedService } from '../services/jwt-decoded.service';
+import { LocalStorageService } from '../services/local-storage.service';
+import { ResponseLogin } from '../services/api/login.service';
+
+//Mock Data
+import { Menu, MenusList } from '../mock-data/menu';
 import { ProductCategorys, ProductCategory } from '../mock-data/products-category';
+import { Product } from '../mock-data/products';
+
+//Model
+import { UserInformation, JwtDecoded } from '../models/UserInformation';
 
 import { Subscription } from 'rxjs';
 
-import { Product } from '../mock-data/products';
-
+const tokenStoragedKey = 'carota-token';
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -20,7 +28,7 @@ import { Product } from '../mock-data/products';
 export class HeaderComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('header', { static: false }) header: ElementRef;
   @ViewChild('alertAddedToCart') alertAddedToCart: ElementRef;
-  menusList: Array<any>;
+  menusList: Array<Menu>;
   productCategorys: Array<ProductCategory>;
   prevButtonTrigger: any;
   currentUrl: string;
@@ -29,13 +37,17 @@ export class HeaderComponent implements OnInit, AfterViewInit, OnDestroy {
   showAlertAddedToCart: boolean = false;
 
   isLogged: boolean = false;
+  userInformation: UserInformation | null;
 
   subscriptionUrlChange: Subscription = new Subscription();
   constructor(
+    private router: Router,
     private ren: Renderer2,
     private dialog: MatDialog,
     private urlChangeService: UrlChangeService,
-    private cartService: CartService
+    private cartService: CartService,
+    private jwtDecodedService: JwtDecodedService,
+    private localStorageService: LocalStorageService
   ) {
     this.menusList = MenusList;
     this.productCategorys = ProductCategorys;
@@ -63,11 +75,12 @@ export class HeaderComponent implements OnInit, AfterViewInit, OnDestroy {
         }
       })
     );
+
+    this.checkTokenStoraged();
   }
 
   ngAfterViewInit(): void{
-    this.login('login');
-    // this.login('register');
+
   }
 
   closeAlertAddedToCart(){
@@ -90,6 +103,16 @@ export class HeaderComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
+  checkTokenStoraged(){
+    let tokenStoraged: ResponseLogin = <ResponseLogin>this.localStorageService.get(tokenStoragedKey);
+    
+    if(tokenStoraged){
+      let tokenInformation: JwtDecoded = <JwtDecoded>this.jwtDecodedService.jwtDecoded(tokenStoraged.accessToken);
+      console.log(tokenInformation)
+      this.userInformation = tokenInformation ? tokenInformation.data : this.userInformation;
+    }
+  }
+
   login(type: string){
     if(type === 'login' || type === 'register' || type === 'forgotPassword'){
       let data: TypeLogin = { type: type };
@@ -100,12 +123,21 @@ export class HeaderComponent implements OnInit, AfterViewInit, OnDestroy {
   
       dialogRef.afterClosed().subscribe(result=>{
         console.log('Dialog result: ');
-        console.log(result);
-        
+        if(result){
+          let tokenInformation: JwtDecoded = <JwtDecoded>this.jwtDecodedService.jwtDecoded(result.accessToken);
+          this.localStorageService.set(tokenStoragedKey, result);
+          this.userInformation = tokenInformation ? tokenInformation.data : this.userInformation;
+        }
       })
     }else{
       console.log('Không đúng Modal Login')
     }
+  }
+
+  logout(){
+    this.userInformation = null;
+    this.localStorageService.remove(tokenStoragedKey);
+    this.router.navigateByUrl('/');
   }
 
   ngOnDestroy() {

@@ -1,6 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
+import { ResponseLogin } from '../../../services/api/login.service';
 @Component({
   selector: 'app-chec-account-main',
   templateUrl: './main.component.html',
@@ -36,7 +37,7 @@ export class MainComponent implements OnInit {
     }
   }
 
-  closeModal(value: any){
+  closeModal(value: ResponseLogin){
     this.dialogRef.close(value);
   }
 

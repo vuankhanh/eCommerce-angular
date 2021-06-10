@@ -25,7 +25,28 @@ export const MenusList: Array<Menu> =
     },
 ];
 
+export const CustomerMenu: Array<Menu> = [
+    {
+        icon: 'personal',
+        title: 'Thông tin cá nhân',
+        route: 'personal',
+        child:[]
+    },{
+        icon: 'shopping_cart',
+        title: 'Lịch sử mua hàng',
+        route: 'purchase-history',
+        child:[]
+    },{
+        icon: 'place',
+        title: 'Sổ địa chỉ',
+        route: 'address-book',
+        child:[]
+    },
+]
+
 export interface Menu{
+    icon?: string;
+    svgIcon?: string,
     title: string,
     route: string,
     child: Array<ProductCategory>

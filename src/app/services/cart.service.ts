@@ -41,7 +41,7 @@ export class CartService {
 
   sumQuantityOfCart(itemCarts: Array<Product>): number{
     let total: number = 0;
-    if(itemCarts.length>0){
+    if(itemCarts && itemCarts.length>0){
       for(let product of itemCarts){
         total += product.quantity!;
       }

@@ -1,0 +1,19 @@
+<div class="customer-container">
+    <div class="horizontal-container">
+        <div class="customer-menu">
+            <mat-list role="list">
+                <mat-list-item
+                    *ngFor="let menu of customerMenu; let i = index"
+                    [routerLink]="'/customer/'+menu.route"
+                >
+                    <mat-icon>{{menu.icon}}</mat-icon>
+                    {{ menu.title }}
+                </mat-list-item>
+            </mat-list>
+        </div>
+        <div class="width-space"></div>
+        <div class="customer-body">
+            <router-outlet></router-outlet>
+        </div>
+    </div>
+</div>

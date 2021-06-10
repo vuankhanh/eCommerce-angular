@@ -50,6 +50,16 @@ div{
     min-height: 10px;
 }
 
+.micro-width-space{
+    width: 5px;
+    min-width: 5px;
+}
+
+.micro-height-space{
+    height: 5px;
+    min-height: 5px;
+}
+
 .button-style{
     outline: none;
     border: none;
@@ -105,6 +115,15 @@ div{
 .mat-form-field-done{
     .mat-form-field-flex{
         background-color: rgb(187, 255, 181);
+    }
+}
+
+mat-list{
+    padding: 0 !important;
+    mat-list-item{
+        .mat-list-item-content{
+            padding: 0 !important;
+        }
     }
 }
 

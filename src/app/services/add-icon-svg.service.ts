@@ -13,6 +13,7 @@ export class AddIconSvgService {
     '../assets/logo/svg/facebook.svg',
     '../assets/logo/svg/google-plus.svg',
     '../assets/logo/svg/zalo1.svg',
+    '../assets/logo/svg/lock-reset'
   ];
   constructor(
     private matIconRegistry: MatIconRegistry,

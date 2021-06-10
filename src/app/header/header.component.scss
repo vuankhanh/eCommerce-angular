@@ -150,48 +150,65 @@ button{
             right: 15px;
             white-space: nowrap;
             background: white;
-            padding: 15px;
             border-radius: 10px;
             border: 1px solid #ededed;
             box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-            .button-loginRegister{
-                cursor: pointer;
-                align-items: center;
-                justify-content: space-between;
-                height: 40px;
-                border-radius: 40px;
-                border: none;
-                background: #c88026;
-                color: #333333;
-                .icon{
-                    width: 40px;
-                    height: 40px;
-                    padding: 10px;
+
+            mat-list{
+                padding: 0;
+                mat-list-item{
+                    cursor: pointer;
+                    min-width: 200px;
+                    height: unset;
+                    padding: 5px 15px;
                     box-sizing: border-box;
-                    border-radius: 40px 0 0 40px;
-                    box-shadow: 1px 0 3px -2px #ededed;
-                    mat-icon{
-                        font-size: 20px;
-                        height: 20px;
+                    font-size: 14px;
+                }
+                mat-list-item:hover{
+                    background-color: #ededed;
+                }
+            }
+            .authentication-action-container{
+                padding: 15px;
+                .button-loginRegister{
+                    cursor: pointer;
+                    align-items: center;
+                    justify-content: space-between;
+                    height: 40px;
+                    border-radius: 40px;
+                    border: none;
+                    background: #c88026;
+                    color: #333333;
+                    .icon{
+                        width: 40px;
+                        height: 40px;
+                        padding: 10px;
+                        box-sizing: border-box;
+                        border-radius: 40px 0 0 40px;
+                        box-shadow: 1px 0 3px -2px #ededed;
+                        mat-icon{
+                            font-size: 20px;
+                            height: 20px;
+                        }
+                    }
+                    .textButton{
+                        padding: 0 15px;
+                        width: 100%;
+                        justify-content: center;
                     }
                 }
-                .textButton{
-                    padding: 0 15px;
-                    width: 100%;
-                    justify-content: center;
+                .loginFacebook{
+                    background: #3b5998;
+                    color: white;
                 }
-            }
-            .loginFacebook{
-                background: #3b5998;
-                color: white;
-            }
-            .loginGoogle{
-                background: #db4a39;
-                color: white;
-            }
-            .loginZalo{
-                background: #0573ff;
-                color: white;
+                .loginGoogle{
+                    background: #db4a39;
+                    color: white;
+                }
+                .loginZalo{
+                    background: #0573ff;
+                    color: white;
+                }
             }
         }
         .listButton::before{
