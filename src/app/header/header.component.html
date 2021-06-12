@@ -73,10 +73,12 @@
             <ng-container *ngIf="userInformation; else menuAuthentication">
                 <mat-list role="list">
                     <div class="micro-height-space"></div>
-                    <mat-list-item role="listitem" routerLink="/customer">
+                    <mat-list-item role="listitem" routerLink="/customer/personal">
                         Tài khoản của tôi
                     </mat-list-item>
-                    <mat-list-item role="listitem">Lịch sử mua hàng</mat-list-item>
+                    <mat-list-item role="listitem" routerLink="/customer/purchase-history">
+                        Lịch sử mua hàng
+                    </mat-list-item>
 
                     <div class="height-space"></div>
                     <mat-list-item role="listitem" (click)="logout()">Thoát tài khoản</mat-list-item>
@@ -86,7 +88,7 @@
             <ng-template #menuAuthentication>
                 <div class="authentication-action-container">
                     <div class="button-loginRegister loginRegister horizontal-container">
-                        <div class="textButton horizontal-container" (click)="login('login')">
+                        <div class="textButton horizontal-container" (click)="authService.login('login')">
                             Đăng nhập
                         </div>
                     </div>
@@ -94,7 +96,7 @@
                     <div class="mini-height-space"></div>
         
                     <div class="button-loginRegister loginRegister horizontal-container">
-                        <div class="textButton horizontal-container" (click)="login('register')">
+                        <div class="textButton horizontal-container" (click)="authService.login('register')">
                             Đăng ký
                         </div>
                     </div>

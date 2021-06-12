@@ -1,5 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { MainCustomerRoutingModule } from './main-customer-routing.module';
 
@@ -13,9 +15,13 @@ import { ChangePasswordComponent } from '../change-password/change-password.comp
 import { AddressBookComponent } from '../address-book/address-book.component';
 import { PurchaseHistoryComponent } from '../purchase-history/purchase-history.component';
 
+import { RefreshTokenInterceptorService } from '../../services/api/refresh-token-interceptor.service';
+
 @NgModule({
     imports: [
         CommonModule,
+        FormsModule,
+        ReactiveFormsModule,
         MainCustomerRoutingModule,
 
         MatListModule,
@@ -28,6 +34,13 @@ import { PurchaseHistoryComponent } from '../purchase-history/purchase-history.c
         ChangePasswordComponent,
         AddressBookComponent,
         PurchaseHistoryComponent,
+    ],
+    providers: [
+        {
+            provide: HTTP_INTERCEPTORS,
+            useClass: RefreshTokenInterceptorService,
+            multi: true
+        }
     ]
 })
 export class MainCustomerModule { }

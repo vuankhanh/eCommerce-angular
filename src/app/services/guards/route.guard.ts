@@ -4,8 +4,11 @@ import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTr
 import { LocalStorageService } from '../local-storage.service';
 import { ConfigService } from '../api/config.service';
 import { ResponseLogin } from '../api/login.service';
+import { AuthService } from '../auth.service';
 
-import { Observable } from 'rxjs';
+
+import { Observable, of } from 'rxjs';
+import { catchError , map } from 'rxjs/operators'
 
 const tokenStoragedKey = 'carota-token';
 @Injectable({
@@ -15,28 +18,28 @@ export class RouteGuard implements CanActivate {
   constructor(
     private router: Router,
     private localStorageService: LocalStorageService,
-    private configService: ConfigService
+    private configService: ConfigService,
+    private authService: AuthService
   ){}
 
   canActivate(
-      route: ActivatedRouteSnapshot,
-      state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    
-      return new Promise(async(resolve, reject)=>{
-        let tokenStoraged: ResponseLogin = <ResponseLogin>this.localStorageService.get(tokenStoragedKey);
-        if(tokenStoraged && tokenStoraged.accessToken){
-          let accessToken = tokenStoraged.accessToken;
-          return await this.configService.getConfig(accessToken).toPromise().then(result=>{
-            console.log(result);
-            return resolve(true);
-          }).catch(_=>{
-            this.router.navigateByUrl('/');
-            return reject;
-          });
-        }
-        this.router.navigateByUrl('/');
-        return reject;
+    route: ActivatedRouteSnapshot,
+    state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
+    let tokenStoraged: ResponseLogin = <ResponseLogin>this.localStorageService.get(tokenStoragedKey);
+    if(tokenStoraged && tokenStoraged.accessToken){
+      let accessToken = tokenStoraged.accessToken;
+      return this.configService.getConfig(accessToken).pipe(map(res=>true), catchError(error=>{
+        this.authService.logout().then(_=>{
+          this.authService.login('login');
+        });
+        return of(false);
+      }));
+    }else{
+      this.authService.logout().then(_=>{
+        this.authService.login('login');
       });
+      return false;
+    }
   }
   
 }

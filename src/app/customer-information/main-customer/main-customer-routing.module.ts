@@ -14,8 +14,8 @@ const routes: Routes = [
     component: MainCustomerComponent,
     canActivate: [RouteGuard],
     children:[
-      { path: '', redirectTo: 'personal', pathMatch: 'full' },
-      { path: 'personal', component: PersonalInformationComponent },
+      { path: '', redirectTo: 'personal', pathMatch: 'full'},
+      { path: 'personal', component: PersonalInformationComponent,},
       { path: 'purchase-history', component: PurchaseHistoryComponent },
       { path: 'address-book', component: AddressBookComponent },
     ]

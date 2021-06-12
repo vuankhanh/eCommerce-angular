@@ -1,24 +1,29 @@
 <div class="container">
-    <mat-list role="list">
-        <mat-list-item>
-            <div mat-line>Tài khoản</div>
-            <div class="width-space"></div>
-            <input type="text" matInput disabled>
-        </mat-list-item>
-        <mat-list-item>
-            <div mat-line>Tên của bạn</div>
-            <div class="width-space"></div>
-            <input type="text" matInput>
-        </mat-list-item>
-        <mat-list-item>
-            <div mat-line>Email</div>
-            <div class="width-space"></div>
-            <input type="text" matInput disabled>
-        </mat-list-item>
-        <mat-list-item>
-            <div mat-line>Số điện thoại</div>
-            <div class="width-space"></div>
-            <input type="text" matInput>
-        </mat-list-item>
-    </mat-list>
+    <form [formGroup]="informationGroup">
+        <mat-list role="list">
+            <mat-list-item>
+                <div mat-line>Tài khoản</div>
+                <div class="width-space"></div>
+                <input type="text" matInput formControlName="userName">
+            </mat-list-item>
+            <div class="mini-height-space"></div>
+            <mat-list-item>
+                <div mat-line>Tên của bạn</div>
+                <div class="width-space"></div>
+                <input type="text" matInput formControlName="name">
+            </mat-list-item>
+            <div class="mini-height-space"></div>
+            <mat-list-item>
+                <div mat-line>Email</div>
+                <div class="width-space"></div>
+                <input type="text" matInput formControlName="email">
+            </mat-list-item>
+            <div class="mini-height-space"></div>
+            <mat-list-item>
+                <div mat-line>Số điện thoại</div>
+                <div class="width-space"></div>
+                <input type="text" matInput formControlName="phoneNumber">
+            </mat-list-item>
+        </mat-list>
+    </form>
 </div>

@@ -10,12 +10,17 @@ import { Observable } from 'rxjs';
 })
 export class LoginService {
   private urlLogin = hostConfiguration.host+'/login';
+  private urlRefreshToken = hostConfiguration.host+'/refresh-token';
   constructor(
     private httpClient: HttpClient
   ) { }
 
   login(userName: UserName): Observable<ResponseLogin>{
     return this.httpClient.post<ResponseLogin>(this.urlLogin, userName);
+  }
+
+  refreshToken(refreshToken: string){
+    return this.httpClient.post<ResponseRefreshToken>(this.urlRefreshToken, { refreshToken });
   }
 }
 
@@ -28,4 +33,8 @@ export interface ResponseLogin{
   accessToken: string,
   refreshToken: string,
   message: string
+}
+
+export interface ResponseRefreshToken{
+  accessToken: string
 }

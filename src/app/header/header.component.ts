@@ -1,13 +1,14 @@
 import { Component, ElementRef, OnInit, OnDestroy, Renderer2, ViewChild, AfterViewInit } from '@angular/core';
-import { NavigationStart, Event, Router } from '@angular/router';
-import { MatDialog } from '@angular/material/dialog';
-import { MainComponent, TypeLogin } from '../sharing/modal/main/main.component';
+import { NavigationStart, Event } from '@angular/router';
+
 
 import { CartService } from '../services/cart.service';
 import { UrlChangeService } from '../services/url-change.service';
 import { JwtDecodedService } from '../services/jwt-decoded.service';
 import { LocalStorageService } from '../services/local-storage.service';
 import { ResponseLogin } from '../services/api/login.service';
+import { AuthService } from '../services/auth.service';
+import { ConfigService } from '../services/api/config.service';
 
 //Mock Data
 import { Menu, MenusList } from '../mock-data/menu';
@@ -39,15 +40,16 @@ export class HeaderComponent implements OnInit, AfterViewInit, OnDestroy {
   isLogged: boolean = false;
   userInformation: UserInformation | null;
 
-  subscriptionUrlChange: Subscription = new Subscription();
+  subscription: Subscription = new Subscription();
   constructor(
-    private router: Router,
     private ren: Renderer2,
-    private dialog: MatDialog,
+
     private urlChangeService: UrlChangeService,
     private cartService: CartService,
     private jwtDecodedService: JwtDecodedService,
-    private localStorageService: LocalStorageService
+    private localStorageService: LocalStorageService,
+    public authService: AuthService,
+    private configService: ConfigService,
   ) {
     this.menusList = MenusList;
     this.productCategorys = ProductCategorys;
@@ -67,7 +69,7 @@ export class HeaderComponent implements OnInit, AfterViewInit, OnDestroy {
       this.badgeCart = badgeCart;
     });
 
-    this.subscriptionUrlChange.add(
+    this.subscription.add(
       this.urlChangeService.urlChange().subscribe((event: Event)=>{
         if(event instanceof NavigationStart) {
           this.currentUrl = event.url.split("/")[1] ? event.url.split("/")[1] : '';
@@ -76,7 +78,7 @@ export class HeaderComponent implements OnInit, AfterViewInit, OnDestroy {
       })
     );
 
-    this.checkTokenStoraged();
+    this.listenUserInformation();
   }
 
   ngAfterViewInit(): void{
@@ -103,44 +105,26 @@ export class HeaderComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  checkTokenStoraged(){
-    let tokenStoraged: ResponseLogin = <ResponseLogin>this.localStorageService.get(tokenStoragedKey);
-    
-    if(tokenStoraged){
-      let tokenInformation: JwtDecoded = <JwtDecoded>this.jwtDecodedService.jwtDecoded(tokenStoraged.accessToken);
-      console.log(tokenInformation)
-      this.userInformation = tokenInformation ? tokenInformation.data : this.userInformation;
-    }
+  listenUserInformation(){
+    this.subscription.add(
+      this.authService.getUserInformation().subscribe(userInfo=>{
+        this.userInformation = userInfo;
+      })
+    )
   }
 
-  login(type: string){
-    if(type === 'login' || type === 'register' || type === 'forgotPassword'){
-      let data: TypeLogin = { type: type };
-      const dialogRef = this.dialog.open(MainComponent,{
-        panelClass: 'login-modal',
-        data: data,
-      });
-  
-      dialogRef.afterClosed().subscribe(result=>{
-        console.log('Dialog result: ');
-        if(result){
-          let tokenInformation: JwtDecoded = <JwtDecoded>this.jwtDecodedService.jwtDecoded(result.accessToken);
-          this.localStorageService.set(tokenStoragedKey, result);
-          this.userInformation = tokenInformation ? tokenInformation.data : this.userInformation;
-        }
-      })
-    }else{
-      console.log('Không đúng Modal Login')
-    }
+  decodeJwtUserInfo(accessToken: string){
+    let tokenInformation: JwtDecoded = <JwtDecoded>this.jwtDecodedService.jwtDecoded(accessToken);
+    console.log(tokenInformation);
+    this.authService.setUserInformation(tokenInformation.data);
   }
 
   logout(){
-    this.userInformation = null;
-    this.localStorageService.remove(tokenStoragedKey);
-    this.router.navigateByUrl('/');
+    this.authService.logout();
   }
 
   ngOnDestroy() {
+    this.subscription.unsubscribe();
     window.removeEventListener('scroll', this.scroll, true);
   }
 }

@@ -24,7 +24,8 @@ const routes: Routes = [
       { path: ':category/:detail', component: ProductDetailComponent },
     ]
   },
-  { path: 'contact', component: ContactComponent }
+  { path: 'contact', component: ContactComponent },
+  // { path: '**', redirectTo: '/homepage' }
 ];
 
 @NgModule({
