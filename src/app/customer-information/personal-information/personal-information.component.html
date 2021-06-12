@@ -1,5 +1,5 @@
 <div class="container">
-    <form [formGroup]="informationGroup">
+    <form [formGroup]="informationGroup" (ngSubmit)="update()">
         <mat-list role="list">
             <mat-list-item>
                 <div mat-line>Tài khoản</div>
@@ -24,6 +24,54 @@
                 <div class="width-space"></div>
                 <input type="text" matInput formControlName="phoneNumber">
             </mat-list-item>
+            <div class="mini-height-space"></div>
+            <mat-list-item>
+                <div mat-line></div>
+                <div class="width-space"></div>
+                <section>
+                    <mat-checkbox
+                        (change)="changePassword($event)"
+                    >
+                        Đổi mật khẩu
+                    </mat-checkbox>
+                </section>
+            </mat-list-item>
+            <ng-container *ngIf="checkedChangePassword">
+                <div class="mini-height-space"></div>
+                <mat-list-item>
+                    <div mat-line>Mật khẩu cũ</div>
+                    <div class="width-space"></div>
+                    <input type="password" matInput formControlName="oldPassword" #oldPassword>
+                </mat-list-item>
+                <div class="mini-height-space"></div>
+                <mat-list-item>
+                    <div mat-line>Mật khẩu mới</div>
+                    <div class="width-space"></div>
+                    <input type="password" matInput formControlName="password">
+                </mat-list-item>
+                <mat-list-item
+                    class="error-warning"
+                    *ngIf="informationGroup.controls['password'].hasError('safePassword')"
+                >
+                    <div mat-line></div>
+                    <mat-error>Mật khẩu gồm 6 ký tự chữ cái, viết thường, viết hoa và số</mat-error>
+                </mat-list-item>
+                <div class="mini-height-space"></div>
+                <mat-list-item>
+                    <div mat-line>Nhập lại mật khẩu mới</div>
+                    <div class="width-space"></div>
+                    <input type="password" matInput formControlName="confirmPassword">
+                </mat-list-item>
+                <mat-list-item
+                    class="error-warning"
+                    *ngIf="informationGroup.controls['confirmPassword'].hasError('passwordIsNotSame')"
+                >
+                    <div mat-line></div>
+                    <mat-error>Mật khẩu chưa trùng khớp</mat-error>
+                </mat-list-item>
+            </ng-container>
         </mat-list>
+        <div class="height-space"></div>
+        <button mat-button type="submit">Cập nhật</button>
     </form>
 </div>

@@ -8,6 +8,8 @@ import { MainCustomerRoutingModule } from './main-customer-routing.module';
 import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 import { MainCustomerComponent } from '../main-customer/main-customer.component';
 import { PersonalInformationComponent } from '../personal-information/personal-information.component';
@@ -26,7 +28,9 @@ import { RefreshTokenInterceptorService } from '../../services/api/refresh-token
 
         MatListModule,
         MatIconModule,
-        MatInputModule
+        MatInputModule,
+        MatButtonModule,
+        MatCheckboxModule
     ],
     declarations:[
         MainCustomerComponent,

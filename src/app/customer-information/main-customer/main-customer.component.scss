@@ -3,12 +3,23 @@
     box-sizing: border-box;
     .customer-menu{
         mat-list{
+            background: #ededed;
             mat-list-item{
-                height: 24px;
+                padding: 0 15px;
+                box-sizing: border-box;
+                height: 40px;
+                cursor: pointer;
+            }
+            mat-list-item:hover{
+                background: #d5d5d5;
+            }
+            .activeLink{
+                background: #d5d5d5;
             }
         }
     }
     .customer-body{
-
+        padding: 15px;
+        
     }
 }

@@ -1,5 +1,6 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatCheckboxChange } from '@angular/material/checkbox';
 
 //Model
 import { UserInformation, JwtDecoded } from '../../models/UserInformation';
@@ -7,7 +8,7 @@ import { UserInformation, JwtDecoded } from '../../models/UserInformation';
 import { AuthService } from 'src/app/services/auth.service';
 
 //Validation Form
-import { tiengVietKhongDau } from '../../services/formCustom/validators'
+import { tiengVietKhongDau, safePassword, isSameInConfirmPassword } from '../../services/formCustom/validators'
 
 import { Subscription } from 'rxjs';
 @Component({
@@ -16,7 +17,9 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./personal-information.component.scss']
 })
 export class PersonalInformationComponent implements OnInit, OnDestroy {
+  @ViewChild('oldPassword') oldPassword: ElementRef;
   informationGroup: FormGroup;
+  checkedChangePassword: boolean = false;
   private subscription: Subscription = new Subscription();
   constructor(
     private formBuilder: FormBuilder,
@@ -31,7 +34,8 @@ export class PersonalInformationComponent implements OnInit, OnDestroy {
     this.subscription.add(
       this.authService.getUserInformation().subscribe(userInfo=>{
         console.log(userInfo);
-        this.formInit(userInfo)
+        this.formInit(userInfo);
+        this.setDisablePasswordControls(this.checkedChangePassword);
       })
     )
   }
@@ -63,7 +67,46 @@ export class PersonalInformationComponent implements OnInit, OnDestroy {
           }
         ],
         phoneNumber: [userInformation?.phoneNumber, { validators: [Validators.required, , Validators.pattern(phoneNumberRegEx)], updateOn: 'blur' }],
+        oldPassword: ['', Validators.required],
+        password: ['',
+          { 
+            validators: [Validators.required, safePassword()],
+            updateOn: 'blur'
+          }
+        ],
+        confirmPassword: ['',
+          {
+            validators: [Validators.required, isSameInConfirmPassword()],
+            updateOn: 'blur'
+          }
+        ],
       });
+    }
+  }
+
+  changePassword(event: MatCheckboxChange){
+    this.checkedChangePassword = event.checked;
+    this.setDisablePasswordControls(this.checkedChangePassword);
+  }
+
+  setDisablePasswordControls(checkedChangePassword: boolean){
+    if(!checkedChangePassword){
+      this.informationGroup.controls['oldPassword'].disable();
+      this.informationGroup.controls['password'].disable();
+      this.informationGroup.controls['confirmPassword'].disable();
+    }else{
+      this.informationGroup.controls['oldPassword'].enable();
+      this.informationGroup.controls['password'].enable();
+      this.informationGroup.controls['confirmPassword'].enable();
+      setTimeout(() => {
+        this.oldPassword.nativeElement.focus();
+      }, 150);
+    }
+  }
+
+  update(){
+    if(this.informationGroup.valid){
+      console.log(this.informationGroup.value);
     }
   }
 

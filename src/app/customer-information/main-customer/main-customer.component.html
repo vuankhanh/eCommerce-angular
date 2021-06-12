@@ -5,6 +5,7 @@
                 <mat-list-item
                     *ngFor="let menu of customerMenu; let i = index"
                     [routerLink]="'/customer/'+menu.route"
+                    [ngClass]="activeLink === '/customer/'+menu.route ? 'activeLink': '' "
                 >
                     <mat-icon>{{menu.icon}}</mat-icon>
                     {{ menu.title }}
