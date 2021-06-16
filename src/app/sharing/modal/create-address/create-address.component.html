@@ -1,0 +1,103 @@
+<div class="create-address-container">
+    <form *ngIf="addressForm" [formGroup]="addressForm" (ngSubmit)="submit()">
+        <mat-list>
+            <mat-list-item class="fieldTextArea">
+                <div mat-line>Địa chỉ</div>
+                <div class="width-space"></div>
+                <mat-form-field>
+                    <mat-label>Địa chỉ</mat-label>
+                    <textarea
+                        type="text"
+                        matInput
+                        formControlName="street"
+                        [matTextareaAutosize]="false"
+                        cdkAutosizeMinRows="1"
+                        rows="3"
+                    ></textarea>
+                </mat-form-field>
+            </mat-list-item>
+            <div class="mini-height-space"></div>
+            <mat-list-item>
+                <div mat-line>Tỉnh/Thành Phố</div>
+                <div class="width-space"></div>
+                <mat-form-field>
+                    <mat-label>Chọn Tỉnh/ Thành Phố</mat-label>
+                    <mat-select
+                        formControlName="province"
+                        (selectionChange)="provinceChange($event)"
+                        
+                    >
+                        <mat-option
+                            *ngFor="let province of provinces;let i = index"
+                            [value]="i"
+                        >
+                            {{province.name}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </mat-list-item>
+            <div class="mini-height-space"></div>
+            <mat-list-item>
+                <div mat-line>Quận/Huyện</div>
+                <div class="width-space"></div>
+                <mat-form-field>
+                    <mat-label>Chọn Quận/ Huyện</mat-label>
+                    <mat-select
+                        formControlName="district"
+                        (selectionChange)="districtChange($event)"
+                    >
+                        <mat-option
+                            *ngFor="let district of districts; let i = index"
+                            [value]="i"
+                            
+                        >
+                            {{district.name}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </mat-list-item>
+            <div class="mini-height-space"></div>
+            <mat-list-item>
+                <div mat-line>Phường/Xã</div>
+                <div class="width-space"></div>
+                <mat-form-field>
+                    <mat-label>Chọn Phường/ Xã</mat-label>
+                    <mat-select formControlName="ward">
+                        <mat-option
+                            *ngFor="let ward of wards; let i = index;"
+                            [value]="i"
+                        >
+                            {{ward.name}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </mat-list-item>
+            <div class="mini-height-space"></div>
+            <mat-list-item>
+                <div mat-line></div>
+                <div class="width-space"></div>
+                <section >
+                    <mat-checkbox
+                        formControlName="isHeadquarters"
+                    >
+                        Đặt làm địa chỉ mặc định
+                    </mat-checkbox>
+                </section>
+            </mat-list-item>
+            <div class="mini-height-space"></div>
+            <mat-list-item>
+                <div mat-line></div>
+                <div class="width-space"></div>
+                <section>
+                    <button
+                        mat-button
+                        type="submit"
+                        [disabled]="addressForm.invalid"
+                    >
+                        {{data.type === 'insert' ? 'Thêm mới' : 'Cập nhật' }}
+                    </button>
+                </section>
+            </mat-list-item>
+        </mat-list>
+    </form>
+</div>

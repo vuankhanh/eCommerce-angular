@@ -1,30 +1,41 @@
 <div class="container">
-    <form [formGroup]="informationGroup" (ngSubmit)="update()">
+    <form *ngIf="informationGroup" [formGroup]="informationGroup" (ngSubmit)="update()">
         <mat-list role="list">
             <mat-list-item>
                 <div mat-line>Tài khoản</div>
                 <div class="width-space"></div>
-                <input type="text" matInput formControlName="userName">
+                <mat-form-field>
+                    <input type="text" matInput formControlName="userName">
+                </mat-form-field>
             </mat-list-item>
-            <div class="mini-height-space"></div>
+            <div class="height-space"></div>
             <mat-list-item>
                 <div mat-line>Tên của bạn</div>
                 <div class="width-space"></div>
-                <input type="text" matInput formControlName="name">
+                <mat-form-field>
+                    <input type="text" matInput formControlName="name">
+                </mat-form-field>
             </mat-list-item>
-            <div class="mini-height-space"></div>
+            <div class="height-space"></div>
             <mat-list-item>
                 <div mat-line>Email</div>
                 <div class="width-space"></div>
-                <input type="text" matInput formControlName="email">
+                <mat-form-field>
+                    <input type="text" matInput formControlName="email">
+                </mat-form-field>
             </mat-list-item>
-            <div class="mini-height-space"></div>
+            <div class="height-space"></div>
             <mat-list-item>
                 <div mat-line>Số điện thoại</div>
                 <div class="width-space"></div>
-                <input type="text" matInput formControlName="phoneNumber">
+                <mat-form-field>
+                    <input type="text" matInput formControlName="phoneNumber">
+                    <mat-error *ngIf="informationGroup.controls['phoneNumber'].hasError('pattern')">
+                        Số điện thoại bao gồm 10 chữ số và bắt đầu bằng số 0
+                    </mat-error>
+                </mat-form-field>
             </mat-list-item>
-            <div class="mini-height-space"></div>
+            <div class="height-space"></div>
             <mat-list-item>
                 <div mat-line></div>
                 <div class="width-space"></div>
@@ -37,41 +48,47 @@
                 </section>
             </mat-list-item>
             <ng-container *ngIf="checkedChangePassword">
-                <div class="mini-height-space"></div>
+                <div class="height-space"></div>
                 <mat-list-item>
                     <div mat-line>Mật khẩu cũ</div>
                     <div class="width-space"></div>
-                    <input type="password" matInput formControlName="oldPassword" #oldPassword>
+                    <mat-form-field>
+                        <input type="password" matInput formControlName="oldPassword" #oldPassword>
+                        <mat-error *ngIf="informationGroup.controls['oldPassword'].hasError('passwordIsIncorrect')">
+                            Mật khẩu cũ không đúng
+                        </mat-error>
+                    </mat-form-field>
                 </mat-list-item>
-                <div class="mini-height-space"></div>
+                <div class="height-space"></div>
                 <mat-list-item>
                     <div mat-line>Mật khẩu mới</div>
                     <div class="width-space"></div>
-                    <input type="password" matInput formControlName="password">
+                    <mat-form-field>
+                        <input type="password" matInput formControlName="password">
+                        <mat-error *ngIf="informationGroup.controls['password'].hasError('safePassword')">
+                            Mật khẩu gồm 6 ký tự chữ cái, viết thường, viết hoa và số
+                        </mat-error>
+                    </mat-form-field>
                 </mat-list-item>
-                <mat-list-item
-                    class="error-warning"
-                    *ngIf="informationGroup.controls['password'].hasError('safePassword')"
-                >
-                    <div mat-line></div>
-                    <mat-error>Mật khẩu gồm 6 ký tự chữ cái, viết thường, viết hoa và số</mat-error>
-                </mat-list-item>
-                <div class="mini-height-space"></div>
+                <div class="height-space"></div>
                 <mat-list-item>
                     <div mat-line>Nhập lại mật khẩu mới</div>
                     <div class="width-space"></div>
-                    <input type="password" matInput formControlName="confirmPassword">
-                </mat-list-item>
-                <mat-list-item
-                    class="error-warning"
-                    *ngIf="informationGroup.controls['confirmPassword'].hasError('passwordIsNotSame')"
-                >
-                    <div mat-line></div>
-                    <mat-error>Mật khẩu chưa trùng khớp</mat-error>
+                    <mat-form-field>
+                        <input type="password" matInput formControlName="confirmPassword">
+                        <mat-error *ngIf="informationGroup.controls['confirmPassword'].hasError('passwordIsNotSame')">
+                            Mật khẩu chưa trùng khớp
+                        </mat-error>
+                    </mat-form-field>
                 </mat-list-item>
             </ng-container>
         </mat-list>
         <div class="height-space"></div>
-        <button mat-button type="submit">Cập nhật</button>
+        <button
+            *ngIf="informationGroup"
+            mat-button
+            type="submit"
+            [disabled]="informationGroup.invalid"
+        >Cập nhật</button>
     </form>
 </div>

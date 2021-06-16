@@ -13,9 +13,18 @@
                     <div class="text">
                         <h1 #txtProductName>CÁ RÔ CHIÊN</h1>
                         <h3 #txtProductReviews>Chất lượng 5 <mat-icon svgIcon='star'></mat-icon></h3>
-                        <button #btnBookNow class="button-style button-primary" (click)="addToCart(product.id)">
+                        <button #btnBookNow class="button-style button-primary" (click)="addToCart(product)">
                             <mat-icon>add_shopping_cart</mat-icon>
                             <span>Thêm vào giỏ</span>
+                        </button>
+                        
+                        <button
+                            #btnDetail
+                            class="button-style button-secondary"
+                            (click)="showDetail(product)"
+                        >
+                            <mat-icon>add_shopping_cart</mat-icon>
+                            <span>Chi tiết</span>
                         </button>
                     </div>
                 </div>

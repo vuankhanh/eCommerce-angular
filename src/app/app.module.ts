@@ -53,6 +53,7 @@ import { MainComponent } from './sharing/modal/main/main.component';
 import { LoginComponent } from './sharing/modal/login/login.component';
 import { RegisterComponent } from './sharing/modal/register/register.component';
 import { ForgotPasswordComponent } from './sharing/modal/forgot-password/forgot-password.component';
+import { ConfirmActionComponent } from './sharing/modal/confirm-action/confirm-action.component';
 
 @NgModule({
   declarations: [
@@ -82,6 +83,7 @@ import { ForgotPasswordComponent } from './sharing/modal/forgot-password/forgot-
     LoginComponent,
     RegisterComponent,
     ForgotPasswordComponent,
+    ConfirmActionComponent,
 
   ],
   imports: [

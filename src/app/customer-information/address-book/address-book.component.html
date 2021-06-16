@@ -1,1 +1,50 @@
-<p>address-book works!</p>
+<div class="address-container">
+    <button
+        class="addAddress horizontal-container" 
+        (click)="addAnAddress('insert', null)"
+    >
+        <mat-icon>add</mat-icon>
+        Thêm địa chỉ mới
+    </button>
+
+    <mat-list *ngIf="addresses && addresses.length>0">
+        <mat-list-item *ngFor="let address of addresses; let i = index;">
+            <div class="address-content vertical-container">
+                
+                <div matLine>
+                    <span class="primary-key">Địa chỉ: </span>
+                    <span class="demo-2">{{ address.street }}</span>
+                    <span class="demo-2">, </span>
+                    <span class="demo-2">{{ address.ward.name }}</span>
+                    <span class="demo-2">, </span>
+                    <span class="demo-2">{{ address.district.name }}</span>
+                    <span class="demo-2">, </span>
+                    <span class="demo-2">{{ address.province.name }}</span>
+                </div>
+                <div matLine *ngIf="address.position && address.position.lat">
+                    <span>Tọa độ</span>
+                    <span class="demo-2">Vĩ độ</span>
+                    <span class="demo-2">{{ address.position.lat }}</span>
+                    <span class="demo-2">Kinh độ</span>
+                    <span class="demo-2">{{ address.position.lat }}</span>
+                </div>
+                <div *ngIf="address.isHeadquarters" class="address-content-default">
+                    <mat-icon>done</mat-icon>
+                    <span class="demo-2">
+                        Địa chỉ mặc định
+                    </span>
+                </div>
+            </div>
+            <div class="width-space"></div>
+            <div class="address-action horizontal-container">
+                <mat-icon (click)="addAnAddress('update', address)">mode_edit</mat-icon>
+                <mat-icon
+                    (click)="deleteAddress(address)"
+                    *ngIf="!address.isHeadquarters"
+                >
+                    delete
+                </mat-icon>
+            </div>
+        </mat-list-item>
+    </mat-list>
+</div>

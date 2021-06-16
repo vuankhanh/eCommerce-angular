@@ -1,0 +1,21 @@
+.create-address-container{
+    form{
+        mat-list{
+            mat-list-item{
+                .mat-line{
+                    width: 150px;
+                    max-width: 150px;
+                }
+                mat-form-field, section{
+                    width: 250px;
+                }
+                button[type="submit"]{
+                    border: 1px solid #999999;
+                }
+            }
+            .fieldTextArea{
+                height: 80px;
+            }
+        }
+    }
+}

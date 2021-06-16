@@ -5,10 +5,7 @@ import { NavigationStart, Event } from '@angular/router';
 import { CartService } from '../services/cart.service';
 import { UrlChangeService } from '../services/url-change.service';
 import { JwtDecodedService } from '../services/jwt-decoded.service';
-import { LocalStorageService } from '../services/local-storage.service';
-import { ResponseLogin } from '../services/api/login.service';
 import { AuthService } from '../services/auth.service';
-import { ConfigService } from '../services/api/config.service';
 
 //Mock Data
 import { Menu, MenusList } from '../mock-data/menu';
@@ -20,7 +17,6 @@ import { UserInformation, JwtDecoded } from '../models/UserInformation';
 
 import { Subscription } from 'rxjs';
 
-const tokenStoragedKey = 'carota-token';
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -47,9 +43,7 @@ export class HeaderComponent implements OnInit, AfterViewInit, OnDestroy {
     private urlChangeService: UrlChangeService,
     private cartService: CartService,
     private jwtDecodedService: JwtDecodedService,
-    private localStorageService: LocalStorageService,
     public authService: AuthService,
-    private configService: ConfigService,
   ) {
     this.menusList = MenusList;
     this.productCategorys = ProductCategorys;

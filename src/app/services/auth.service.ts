@@ -11,7 +11,7 @@ import { UserInformation, JwtDecoded } from '../models/UserInformation';
 //Service
 import { JwtDecodedService } from './jwt-decoded.service';
 import { LocalStorageService } from './local-storage.service';
-import { LoginService, ResponseLogin } from './api/login.service';
+import { ResponseLogin } from './api/login.service';
 
 import { BehaviorSubject, Observable } from 'rxjs';
 
@@ -25,8 +25,7 @@ export class AuthService {
     private router: Router,
     private dialog: MatDialog,
     private jwtDecodedService: JwtDecodedService,
-    private localStorageService: LocalStorageService,
-    private loginService: LoginService
+    private localStorageService: LocalStorageService
   ) {
     this.getUserInfoFromTokenStoraged();
   }
@@ -53,6 +52,19 @@ export class AuthService {
     }else{
       console.log('Không đúng Modal Login')
     }
+  }
+
+  updateAccessToken(newAccessToken: string){
+    let tokenStoraged: ResponseLogin = <ResponseLogin>this.localStorageService.get(tokenStoragedKey);
+    if(tokenStoraged){
+      tokenStoraged.accessToken = newAccessToken;
+      let tokenInformation: JwtDecoded = <JwtDecoded>this.jwtDecodedService.jwtDecoded(tokenStoraged.accessToken);
+      if(tokenInformation){
+        this.localStorageService.set(tokenStoragedKey, tokenStoraged);
+        this.setUserInformation(tokenInformation.data);
+      }
+    }
+
   }
 
   getUserInfoFromTokenStoraged(){
