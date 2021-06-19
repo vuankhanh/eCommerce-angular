@@ -1,9 +1,9 @@
 <div class="cart-container horizontal-container">
-    <ng-container *ngIf="cart && cart.length>0">
+    <ng-container *ngIf="cart && cart.products && cart.products.length>0">
         <div class="cart-frame">
             <div
                 class="cart-item horizontal-container"
-                *ngFor="let product of cart; let i = index"
+                *ngFor="let product of cart.products; let i = index"
                 #cartItem
             >
                 <div class="product-information-container horizontal-container">
@@ -36,7 +36,7 @@
                             type="text"
                             class="product-quantity"
                             [value]="product.quantity"
-                            (change)="quantityChange($event, i)"
+                            (change)="quantityInputChange($event, i)"
                             appInputOnlyNumber
                         >
                         <button
@@ -56,8 +56,33 @@
         <div class="width-space"></div>
         <div class="cart-total-price">
             <div class="cart-total-price-container vertical-container">
-                <div class="customer-information" *ngIf="false">Thông tin khách hàng</div>
-                <div class="height-space" *ngIf="false"></div>
+                <div class="customer-information">
+                    <ng-container *ngIf="defaultAddress; else addAddress">
+                        <div class="horizontal-container address-action">
+                            <div>Giao tới</div>
+                            <div (click)="changeAddress()">Thay đổi</div>
+                        </div>
+                        <div class="mini-height-space"></div>
+                        <div class="horizontal-container customer-contact">
+                            <div class="name">{{defaultAddress.responsiblePerson + ' | ' + defaultAddress.phoneNumber}}</div>
+                        </div>
+                        <div class="mini-height-space"></div>
+                        <div class="customer-address primary-key" *ngIf="defaultAddress">
+                            <span class="demo-2">{{ defaultAddress.street }}</span>
+                            <span class="demo-2">, </span>
+                            <span class="demo-2">{{ defaultAddress.ward.name }}</span>
+                            <span class="demo-2">, </span>
+                            <span class="demo-2">{{ defaultAddress.district.name }}</span>
+                            <span class="demo-2">, </span>
+                            <span class="demo-2">{{ defaultAddress.province.name }}</span>
+                        </div>
+                    </ng-container>
+                    <ng-template #addAddress>
+                        Bạn chưa tạo vị trí nào trong sổ địa chỉ.
+                        <button routerLink="/customer/address-book">Thêm vị trí</button>
+                    </ng-template>
+                    <div class="height-space"></div>
+                </div>
                 <div class="total-price-frame vertical-container">
                     <div class="provisional horizontal-container">
                         <div class="secondary">
@@ -75,7 +100,7 @@
                             Thành tiền
                         </div>
                         <div class="primary">
-                            Thành tiền
+                            {{ temporaryValue | currency:'VND':'symbol' | replaceSpace }}
                         </div>
                     </div>
                 </div>

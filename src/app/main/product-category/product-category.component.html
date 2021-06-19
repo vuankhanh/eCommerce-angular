@@ -2,7 +2,7 @@
     <div class="flex-me">
         <ng-container *ngFor="let product of products; let i = index;">
             <div class="product-frame" *ngIf="activeLink === '/homepage' ? i<3 : true">
-                <img [src]="product.thumbnail" [alt]="product.name">
+                <img [src]="product.thumbnail" [alt]="product.name" (click)="showDetail(product)">
                 <div class="product-info">
                     <h4>{{product.name}}</h4>
                     <div class="content-p">

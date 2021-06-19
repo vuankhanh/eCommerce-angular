@@ -21,6 +21,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatListModule } from '@angular/material/list';
+import { MatRadioModule } from '@angular/material/radio';
 
 import { AppComponent } from './app.component';
 import { HomePageComponent } from './main/home-page/home-page.component';
@@ -54,6 +55,7 @@ import { LoginComponent } from './sharing/modal/login/login.component';
 import { RegisterComponent } from './sharing/modal/register/register.component';
 import { ForgotPasswordComponent } from './sharing/modal/forgot-password/forgot-password.component';
 import { ConfirmActionComponent } from './sharing/modal/confirm-action/confirm-action.component';
+import { AddressChooseComponent } from './sharing/modal/address-choose/address-choose.component';
 
 @NgModule({
   declarations: [
@@ -84,6 +86,7 @@ import { ConfirmActionComponent } from './sharing/modal/confirm-action/confirm-a
     RegisterComponent,
     ForgotPasswordComponent,
     ConfirmActionComponent,
+    AddressChooseComponent,
 
   ],
   imports: [
@@ -108,7 +111,8 @@ import { ConfirmActionComponent } from './sharing/modal/confirm-action/confirm-a
     MatInputModule,
     MatFormFieldModule,
     MatProgressSpinnerModule,
-    MatListModule
+    MatListModule,
+    MatRadioModule
   ],
   providers: [
     { provide: LOCALE_ID, useValue: 'es'}

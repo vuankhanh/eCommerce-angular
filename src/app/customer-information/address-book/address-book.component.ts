@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 
-import { CreateAddressComponent } from '../../sharing/modal/create-address/create-address.component';
+import { AddressModifyComponent } from '../../sharing/modal/address-modify/address-modify.component';
 import { ConfirmActionComponent } from 'src/app/sharing/modal/confirm-action/confirm-action.component';
 
 //Model
@@ -12,6 +12,7 @@ import { CustomerAddressService, ResponseAddress } from 'src/app/services/api/cu
 import { LocalStorageService } from 'src/app/services/local-storage.service';
 import { ResponseLogin } from 'src/app/services/api/login.service';
 import { ToastService } from 'src/app/services/toast.service';
+import { AddressModificationService } from 'src/app/services/address-modification.service';
 
 import { Subscription } from 'rxjs';
 
@@ -29,7 +30,8 @@ export class AddressBookComponent implements OnInit, OnDestroy {
     private authService: AuthService,
     private customerAddressService: CustomerAddressService,
     private localStorageService: LocalStorageService,
-    private toastService: ToastService
+    private toastService: ToastService,
+    public addressModificationService: AddressModificationService
   ) { }
 
   ngOnInit(): void {
@@ -46,20 +48,6 @@ export class AddressBookComponent implements OnInit, OnDestroy {
         }
       })
     )
-  }
-
-  addAnAddress(type: string, address: Address | null){
-    const dialogRef = this.dialog.open(CreateAddressComponent,{
-      panelClass: 'create-address-modal',
-      data: {type, address}
-    });
-
-    dialogRef.afterClosed().subscribe(result=>{
-      console.log('Dialog result: ');
-      if(result){
-        
-      }
-    })
   }
 
   deleteAddress(address: Address){

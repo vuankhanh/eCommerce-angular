@@ -1,6 +1,24 @@
 <div class="create-address-container">
     <form *ngIf="addressForm" [formGroup]="addressForm" (ngSubmit)="submit()">
         <mat-list>
+            <mat-list-item>
+                <div mat-line>Người nhận hàng</div>
+                <div class="width-space"></div>
+                <mat-form-field>
+                    <mat-label>Họ tên</mat-label>
+                    <input type="text" matInput formControlName="responsiblePerson">
+                </mat-form-field>
+            </mat-list-item>
+            <div class="mini-height-space"></div>
+            <mat-list-item>
+                <div mat-line>Số điện thoại</div>
+                <div class="width-space"></div>
+                <mat-form-field>
+                    <mat-label>Số điện thoại người nhận hàng</mat-label>
+                    <input type="text" matInput formControlName="phoneNumber">
+                </mat-form-field>
+            </mat-list-item>
+            <div class="mini-height-space"></div>
             <mat-list-item class="fieldTextArea">
                 <div mat-line>Địa chỉ</div>
                 <div class="width-space"></div>

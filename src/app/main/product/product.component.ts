@@ -37,8 +37,7 @@ export class ProductionsComponent implements OnInit, AfterViewInit, OnDestroy {
     );
   }
 
-  ngAfterViewInit() {
-  }
+  ngAfterViewInit() {}
 
   change(event: any){
     console.log(event);

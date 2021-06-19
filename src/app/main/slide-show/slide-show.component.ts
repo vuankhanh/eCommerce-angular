@@ -7,6 +7,7 @@ import { animationSlide } from '../../animation/slide-show';
 
 import { CartService } from 'src/app/services/cart.service';
 import { ProductService } from 'src/app/services/product.service';
+import { HeaderService } from 'src/app/services/header.service';
 
 import { interval } from 'rxjs';
 
@@ -31,14 +32,15 @@ export class SlideShowComponent implements OnInit, AfterViewInit, AfterViewCheck
     private ren: Renderer2,
     private router: Router,
     private cartService: CartService,
-    private productService: ProductService
+    private productService: ProductService,
+    private headerService: HeaderService,
   ) {
     this.products = ProductList.filter(product=>product.highlight);
   }
 
   ngOnInit(): void {
     this.source$.subscribe(val=>{
-      // this.counter++;
+      this.counter++;
       if( this.counter === this.products.length){
         this.counter = 0;
       }
@@ -76,25 +78,8 @@ export class SlideShowComponent implements OnInit, AfterViewInit, AfterViewCheck
   }
 
   addToCart(product: Product): void{
-    let itemCarts: Array<Product> = this.cartService.get();
-  
-    let checkExist = itemCarts.some((itemCart: Product) => itemCart.id === product.id);
-
-    console.log(checkExist);
-
-    if(!checkExist){
-      product.quantity = 1;
-      itemCarts.push(product);
-    }else{
-      for(let itemCart of itemCarts){
-        if(itemCart.id === product.id){
-          itemCart.quantity!++;
-        }
-      }
-    }
-    console.log(itemCarts);
-    
-    this.cartService.set(itemCarts);
+    this.cartService.addToCart(product);
+    this.headerService.set(true);
   }
 
   showDetail(product: Product): void{

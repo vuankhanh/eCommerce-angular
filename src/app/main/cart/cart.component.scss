@@ -53,7 +53,13 @@
             padding: 15px;
             box-sizing: border-box;
             .customer-information{
-
+                .address-action{
+                    justify-content: space-between;
+                }
+                .customer-contact{
+                    justify-content: space-between;
+                    
+                }
             }
             .total-price-frame{
                 .provisional{

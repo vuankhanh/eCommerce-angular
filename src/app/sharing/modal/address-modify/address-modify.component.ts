@@ -17,11 +17,11 @@ import { CustomerAddressService, ResponseAddress } from 'src/app/services/api/cu
 
 const tokenStoragedKey = 'carota-token';
 @Component({
-  selector: 'app-create-address',
-  templateUrl: './create-address.component.html',
-  styleUrls: ['./create-address.component.scss']
+  selector: 'app-address-modify',
+  templateUrl: './address-modify.component.html',
+  styleUrls: ['./address-modify.component.scss']
 })
-export class CreateAddressComponent implements OnInit, OnDestroy {
+export class AddressModifyComponent implements OnInit, OnDestroy {
   addressForm: FormGroup;
   userInfo: UserInformation | null;
 
@@ -31,7 +31,7 @@ export class CreateAddressComponent implements OnInit, OnDestroy {
 
   subscription: Subscription = new Subscription();
   constructor(
-    public dialogRef: MatDialogRef<CreateAddressComponent>,
+    public dialogRef: MatDialogRef<AddressModifyComponent>,
     @Inject(MAT_DIALOG_DATA) public data: DataInit,
     private formBuilder: FormBuilder,
     private administrativeUnitsService: AdministrativeUnitsService,
@@ -53,6 +53,8 @@ export class CreateAddressComponent implements OnInit, OnDestroy {
   formInit(){
     console.log(this.data);
     this.addressForm = this.formBuilder.group({
+      responsiblePerson: ['', Validators.required],
+      phoneNumber: ['', Validators.required],
       street: ['', Validators.required],
       ward: ['', Validators.required],
       district: ['', Validators.required],
@@ -75,6 +77,8 @@ export class CreateAddressComponent implements OnInit, OnDestroy {
     if(dataInit.type === 'insert'){
       
     }else if(dataInit.type === 'update' && dataInit.address){
+      this.addressForm.controls['responsiblePerson'].setValue(dataInit.address.responsiblePerson);
+      this.addressForm.controls['phoneNumber'].setValue(dataInit.address.phoneNumber);
       this.addressForm.controls['street'].setValue(dataInit.address.street);
       this.addressForm.controls['isHeadquarters'].setValue(dataInit.address.isHeadquarters);
       this.addressForm.get('position')?.get('lat')?.setValue(dataInit.address.position?.lat);
@@ -163,6 +167,8 @@ export class CreateAddressComponent implements OnInit, OnDestroy {
 
       let address: Address = {
         _id: this.data.address?._id,
+        responsiblePerson: this.addressForm.value.responsiblePerson,
+        phoneNumber: this.addressForm.value.phoneNumber,
         street: this.addressForm.value.street,
         province: this.provinces[this.addressForm.value.province],
         district: this.districts[this.addressForm.value.district],
@@ -199,6 +205,8 @@ export class CreateAddressComponent implements OnInit, OnDestroy {
 
       let address: Address = {
         street: this.addressForm.value.street,
+        responsiblePerson: this.addressForm.value.responsiblePerson,
+        phoneNumber: this.addressForm.value.phoneNumber,
         province: this.provinces[this.addressForm.value.province],
         district: this.districts[this.addressForm.value.district],
         ward: this.wards[this.addressForm.value.ward],

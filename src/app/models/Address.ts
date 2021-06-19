@@ -1,5 +1,7 @@
 export interface Address{
     _id?: string,
+    responsiblePerson: string,
+    phoneNumber: string,
     street: string,
     ward: Ward,
     district: District,

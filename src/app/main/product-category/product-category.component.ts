@@ -7,6 +7,7 @@ import { ProductCategorys, ProductCategory } from '../../mock-data/products-cate
 import { UrlChangeService } from 'src/app/services/url-change.service';
 import { CartService } from 'src/app/services/cart.service';
 import { ProductService } from 'src/app/services/product.service';
+import { HeaderService } from 'src/app/services/header.service';
 
 import { Subscription } from 'rxjs';
 @Component({
@@ -23,7 +24,8 @@ export class ProductCategoryComponent implements OnInit, OnDestroy {
     private router: Router,
     private urlChangeService: UrlChangeService,
     private cartService: CartService,
-    private productService: ProductService
+    private productService: ProductService,
+    private headerService: HeaderService
   ) {
     this.productCategorys = ProductCategorys;
     
@@ -53,29 +55,12 @@ export class ProductCategoryComponent implements OnInit, OnDestroy {
     );
   }
 
-  addToCart(product: Product): void{
-    let itemCarts: Array<Product> = this.cartService.get();
-  
-    let checkExist = itemCarts.some((itemCart: Product) => itemCart.id === product.id);
-
-    console.log(checkExist);
-
-    if(!checkExist){
-      product.quantity = 1;
-      itemCarts.push(product);
-    }else{
-      for(let itemCart of itemCarts){
-        if(itemCart.id === product.id){
-          itemCart.quantity!++;
-        }
-      }
-    }
-    console.log(itemCarts);
-    
-    this.cartService.set(itemCarts);
+  addToCart(product: Product){
+    this.cartService.addToCart(product);
+    this.headerService.set(true);
   }
 
-  showDetail(product: Product): void{
+  showDetail(product: Product){
     let categoryOfProduct: string = this.productService.getCategoryOfProduct(product);
     
     this.router.navigate(['productions/'+categoryOfProduct, product.id]);

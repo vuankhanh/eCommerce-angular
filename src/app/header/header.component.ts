@@ -1,8 +1,8 @@
 import { Component, ElementRef, OnInit, OnDestroy, Renderer2, ViewChild, AfterViewInit } from '@angular/core';
 import { NavigationStart, Event } from '@angular/router';
 
-
-import { CartService } from '../services/cart.service';
+import { HeaderService } from '../services/header.service';
+import { Cart, CartService } from '../services/cart.service';
 import { UrlChangeService } from '../services/url-change.service';
 import { JwtDecodedService } from '../services/jwt-decoded.service';
 import { AuthService } from '../services/auth.service';
@@ -39,7 +39,7 @@ export class HeaderComponent implements OnInit, AfterViewInit, OnDestroy {
   subscription: Subscription = new Subscription();
   constructor(
     private ren: Renderer2,
-
+    public headerService: HeaderService,
     private urlChangeService: UrlChangeService,
     private cartService: CartService,
     private jwtDecodedService: JwtDecodedService,
@@ -53,13 +53,8 @@ export class HeaderComponent implements OnInit, AfterViewInit, OnDestroy {
   ngOnInit(): void {
     window.addEventListener('scroll', this.scroll, true);
 
-    this.cartService.listenCartChange().subscribe((productStoraged: Array<Product>)=>{
-      let badgeCart = this.cartService.sumQuantityOfCart(productStoraged);
-      if(this.badgeCart < badgeCart && this.badgeCart != undefined){
-        setTimeout(() => {
-          this.showAlertAddedToCart = true;
-        }, 1);
-      }
+    this.cartService.listenCartChange().subscribe((cart: Cart)=>{
+      let badgeCart = this.cartService.sumQuantityOfCart(cart.products);
       this.badgeCart = badgeCart;
     });
 
@@ -80,7 +75,7 @@ export class HeaderComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   closeAlertAddedToCart(){
-    this.showAlertAddedToCart = false;
+    this.headerService.set(false);
   }
 
   scroll = (event: any): void => {
@@ -103,6 +98,18 @@ export class HeaderComponent implements OnInit, AfterViewInit, OnDestroy {
     this.subscription.add(
       this.authService.getUserInformation().subscribe(userInfo=>{
         this.userInformation = userInfo;
+      })
+    )
+
+    this.subscription.add(
+      this.headerService.get().subscribe(res=>{
+        if(!res){
+          this.showAlertAddedToCart=res;
+        }else{
+          setTimeout(() => {
+            if(res) this.showAlertAddedToCart=res;
+          }, 1);        
+        }
       })
     )
   }

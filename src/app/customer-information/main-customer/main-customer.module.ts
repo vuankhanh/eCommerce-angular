@@ -20,7 +20,7 @@ import { AddressBookComponent } from '../address-book/address-book.component';
 import { PurchaseHistoryComponent } from '../purchase-history/purchase-history.component';
 
 //Component
-import { CreateAddressComponent } from '../../sharing/modal/create-address/create-address.component';
+import { AddressModifyComponent } from '../../sharing/modal/address-modify/address-modify.component';
 
 import { RefreshTokenInterceptorService } from '../../services/api/refresh-token-interceptor.service';
 
@@ -46,7 +46,7 @@ import { RefreshTokenInterceptorService } from '../../services/api/refresh-token
         AddressBookComponent,
         PurchaseHistoryComponent,
 
-        CreateAddressComponent
+        AddressModifyComponent
     ],
     providers: [
         {

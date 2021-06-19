@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 
 import { ProductDetailsService } from 'src/app/services/product-details.service';
 import { CartService } from 'src/app/services/cart.service';
+import { HeaderService } from 'src/app/services/header.service';
 
 import { Product } from '../../mock-data/products';
 import { Item } from '../../mock-data/gallery';
@@ -20,6 +21,7 @@ export class ProductDetailComponent implements OnInit, AfterViewInit {
   loggedIn: boolean = false;
   constructor(
     private activatedRoute: ActivatedRoute,
+    private headerService: HeaderService,
     private productDetailsService: ProductDetailsService,
     private cartService: CartService
   ) { }
@@ -71,26 +73,9 @@ export class ProductDetailComponent implements OnInit, AfterViewInit {
     }
   }
 
-  addToCart(product: Product | null){
-    let itemCarts: Array<Product> = this.cartService.get();
-  
-    let checkExist = itemCarts.some((itemCart: Product) => itemCart.id === product!.id);
-
-    console.log(checkExist);
-
-    if(!checkExist){
-      product!.quantity = 1;
-      itemCarts.push(product!);
-    }else{
-      for(let itemCart of itemCarts){
-        if(itemCart.id === product!.id){
-          itemCart.quantity!++;
-        }
-      }
-    }
-    console.log(itemCarts);
-    
-    this.cartService.set(itemCarts);
+  addToCart(product: Product){
+    this.cartService.addToCart(product);
+    this.headerService.set(true);
   }
 
 }
