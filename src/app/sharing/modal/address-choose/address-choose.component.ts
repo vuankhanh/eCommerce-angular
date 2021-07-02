@@ -30,6 +30,8 @@ export class AddressChooseComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.listenUserInformation();
+    console.log(this.data);
+    
   }
 
   listenUserInformation(){

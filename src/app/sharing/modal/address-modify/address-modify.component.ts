@@ -51,10 +51,10 @@ export class AddressModifyComponent implements OnInit, OnDestroy {
   }
 
   formInit(){
-    console.log(this.data);
+    let phoneNumberRegEx = /((0)+([0-9]{9})\b)/g;
     this.addressForm = this.formBuilder.group({
       responsiblePerson: ['', Validators.required],
-      phoneNumber: ['', Validators.required],
+      phoneNumber: ['', { validators: [Validators.required, , Validators.pattern(phoneNumberRegEx)], updateOn: 'blur' }],
       street: ['', Validators.required],
       ward: ['', Validators.required],
       district: ['', Validators.required],

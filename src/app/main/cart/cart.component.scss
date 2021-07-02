@@ -49,10 +49,13 @@
             position: sticky;
             top: 85px;
             width: 100%;
-            background: #ededed;
-            padding: 15px;
-            box-sizing: border-box;
+            // background: #ededed;
+            
             .customer-information{
+                background: #ededed;
+                padding: 15px;
+                box-sizing: border-box;
+                border-radius: 5px;
                 .address-action{
                     justify-content: space-between;
                 }
@@ -60,13 +63,36 @@
                     justify-content: space-between;
                     
                 }
+                .customer-address{
+                    line-height: 1.2;
+                }
+                .addAddress{
+                    height: 30px;
+                    border: 1px solid #333333;
+                    border-radius: 5px;
+                    cursor: pointer;
+                    justify-content: center;
+                    align-items: center;
+                }
+                .addAddressWarning{
+                    border-color: #F89406;
+                }
             }
             .total-price-frame{
+                background: #ededed;
+                padding: 15px;
+                box-sizing: border-box;
+                border-radius: 5px;
                 .provisional{
                     justify-content: space-between;
                 }
                 .total-price{
                     justify-content: space-between;
+                    .secondary-key{
+                        color: #ed1c24;
+                        font-weight: bold;
+                        font-size: 18px;
+                    }
                 }
             }
         }

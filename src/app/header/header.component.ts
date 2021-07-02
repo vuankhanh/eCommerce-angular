@@ -9,7 +9,7 @@ import { AuthService } from '../services/auth.service';
 
 //Mock Data
 import { Menu, MenusList } from '../mock-data/menu';
-import { ProductCategorys, ProductCategory } from '../mock-data/products-category';
+import { ProductCategorys, ProductCategory } from '../models/Product-category';
 import { Product } from '../mock-data/products';
 
 //Model
@@ -48,6 +48,7 @@ export class HeaderComponent implements OnInit, AfterViewInit, OnDestroy {
     this.menusList = MenusList;
     this.productCategorys = ProductCategorys;
     this.closeAlertAddedToCart();
+    // this.cartService.remove();
   }
 
   ngOnInit(): void {

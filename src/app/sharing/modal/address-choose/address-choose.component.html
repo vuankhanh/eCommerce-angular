@@ -55,7 +55,7 @@
             </mat-radio-button>
         </mat-radio-group>
     </mat-list>
-    <section>
+    <section *ngIf="addresses && addresses.length>0">
         <button
             mat-button
             class="update-default-address-button"

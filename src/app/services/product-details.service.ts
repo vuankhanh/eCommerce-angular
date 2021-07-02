@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { ProductList, Product } from '../mock-data/products';
-import { ProductDetails, ProductDetail } from '../mock-data/product-detail';
+import { ProductDetails, ProductDetail } from '../models/Product-detail';
 import { Gallerys, Album, Item } from '../mock-data/gallery';
 @Injectable({
   providedIn: 'root'

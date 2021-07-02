@@ -91,7 +91,6 @@ export class CartService {
   }
 
   sumTemporaryValue(products: Array<Product>): number{
-    console.log(products);
     let temporaryValue: number = 0;
     if(products && products.length>0){
       for(let product of products){

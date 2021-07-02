@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, Renderer2 } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 
 import { AddressChooseComponent } from '../../sharing/modal/address-choose/address-choose.component';
@@ -7,6 +7,8 @@ import { Address } from 'src/app/models/Address';
 
 import { AuthService } from 'src/app/services/auth.service';
 import { Cart, CartService } from 'src/app/services/cart.service';
+import { AddressModificationService } from 'src/app/services/address-modification.service';
+import { ToastService } from 'src/app/services/toast.service';
 
 import { Product } from '../../mock-data/products'
 import { UserInformation } from 'src/app/models/UserInformation';
@@ -18,6 +20,7 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./cart.component.scss']
 })
 export class CartComponent implements OnInit, OnDestroy {
+  @ViewChild('btnInsertAddress') btnInsertAddress: ElementRef;
   cart: Cart;
   productsCart: Array<Product>;
   temporaryValue: number = 0;
@@ -30,7 +33,9 @@ export class CartComponent implements OnInit, OnDestroy {
     private dialog: MatDialog,
     private renderer2: Renderer2,
     private cartService: CartService,
-    private authService: AuthService
+    private authService: AuthService,
+    private addressModificationService: AddressModificationService,
+    private toastService: ToastService
   ) { }
 
   ngOnInit(): void {
@@ -39,17 +44,20 @@ export class CartComponent implements OnInit, OnDestroy {
   }
 
   initCart(){
-    this.cart = this.cartService.get();
-    this.temporaryValue = this.cartService.sumTemporaryValue(this.cart.products);
-
-    if(this.cart.deliverTo){
-      console.log(this.defaultAddress);
-      this.defaultAddress = this.cart.deliverTo;
-    }
-    if(!this.cart.status){
-      this.cart.status = 1;
-      this.cartService.setStatus(1);
-    }
+    this.cartService.listenCartChange().subscribe(cart=>{
+      this.cart = cart;
+      console.log(this.cart)
+      this.temporaryValue = this.cartService.sumTemporaryValue(this.cart.products);
+  
+      if(this.cart.deliverTo){
+        console.log(this.defaultAddress);
+        this.defaultAddress = this.cart.deliverTo;
+      }
+      if(!this.cart.status){
+        this.cart.status = 1;
+        this.cartService.setStatus(1);
+      }
+    })
   }
 
   listenUserInformation(){
@@ -110,9 +118,32 @@ export class CartComponent implements OnInit, OnDestroy {
         let address: Address = res.deliverTo;
         this.defaultAddress = address;
         this.cartService.setDelivery(this.defaultAddress);
-        console.log(address);
+        console.log(this.cart.deliverTo);
       }
     })
+  }
+
+  insertAddress(){
+    this.renderer2.removeClass(this.btnInsertAddress.nativeElement, 'button-substyle');
+    this.addressModificationService.openAddressModification('insert', null).subscribe(address=>{
+      console.log(address);
+    })
+  }
+
+  order(){
+    if(!this.userInformation){
+      this.authService.login('login');
+    }else{
+      if(!this.cart.deliverTo){
+        this.renderer2.addClass(this.btnInsertAddress.nativeElement, 'button-substyle');
+        this.toastService.shortToastWarning('Bạn chưa tạo vị trí nào trong sổ địa chỉ.', '');
+        console.log('Hãy thêm 1 địa chỉ giao hàng');
+      }else{
+        if(this.cart.products.length>0){
+
+        }
+      }
+    }
   }
 
   isNumber(number: any) {

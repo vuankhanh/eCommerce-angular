@@ -18,13 +18,13 @@ export class ToastService {
 
   shortToastWarning(message:string, title:string){
     return this.toastrService.warning(message, title,{
-      timeOut: 3000
+      timeOut: 4000
     })
   }
 
   shortToastError(message:string, title:string){
     return this.toastrService.error(message, title,{
-      timeOut: 3000
+      timeOut: 4000
     })
   }
 }

@@ -2,7 +2,7 @@ import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
 import { Router, NavigationStart, Event } from '@angular/router';
 import { MatTabNav } from '@angular/material/tabs'
 
-import { ProductCategorys, ProductCategory } from '../../mock-data/products-category';
+import { ProductCategorys, ProductCategory } from '../../models/Product-category';
 
 import { UrlChangeService } from 'src/app/services/url-change.service';
 

@@ -9,16 +9,19 @@
                     <input type="text" matInput formControlName="responsiblePerson">
                 </mat-form-field>
             </mat-list-item>
-            <div class="mini-height-space"></div>
+            <div class="height-space"></div>
             <mat-list-item>
                 <div mat-line>Số điện thoại</div>
                 <div class="width-space"></div>
                 <mat-form-field>
                     <mat-label>Số điện thoại người nhận hàng</mat-label>
                     <input type="text" matInput formControlName="phoneNumber">
+                    <mat-error *ngIf="addressForm.controls['phoneNumber'].hasError('pattern')">
+                        Số điện thoại bao gồm 10 chữ số và bắt đầu bằng số 0
+                    </mat-error>
                 </mat-form-field>
             </mat-list-item>
-            <div class="mini-height-space"></div>
+            <div class="height-space"></div>
             <mat-list-item class="fieldTextArea">
                 <div mat-line>Địa chỉ</div>
                 <div class="width-space"></div>
@@ -34,7 +37,7 @@
                     ></textarea>
                 </mat-form-field>
             </mat-list-item>
-            <div class="mini-height-space"></div>
+            <div class="height-space"></div>
             <mat-list-item>
                 <div mat-line>Tỉnh/Thành Phố</div>
                 <div class="width-space"></div>
@@ -54,7 +57,7 @@
                     </mat-select>
                 </mat-form-field>
             </mat-list-item>
-            <div class="mini-height-space"></div>
+            <div class="height-space"></div>
             <mat-list-item>
                 <div mat-line>Quận/Huyện</div>
                 <div class="width-space"></div>
@@ -74,7 +77,7 @@
                     </mat-select>
                 </mat-form-field>
             </mat-list-item>
-            <div class="mini-height-space"></div>
+            <div class="height-space"></div>
             <mat-list-item>
                 <div mat-line>Phường/Xã</div>
                 <div class="width-space"></div>
@@ -90,7 +93,7 @@
                     </mat-select>
                 </mat-form-field>
             </mat-list-item>
-            <div class="mini-height-space"></div>
+            <div class="height-space"></div>
             <mat-list-item>
                 <div mat-line></div>
                 <div class="width-space"></div>
@@ -102,7 +105,7 @@
                     </mat-checkbox>
                 </section>
             </mat-list-item>
-            <div class="mini-height-space"></div>
+            <div class="height-space"></div>
             <mat-list-item>
                 <div mat-line></div>
                 <div class="width-space"></div>

@@ -1,4 +1,4 @@
-import { ProductCategorys, ProductCategory } from './products-category';
+import { ProductCategorys, ProductCategory } from '../models/Product-category';
 
 export const MenusList: Array<Menu> =
 [

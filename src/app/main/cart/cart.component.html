@@ -7,7 +7,7 @@
                 #cartItem
             >
                 <div class="product-information-container horizontal-container">
-                    <img [src]="product.thumbnail">
+                    <img [src]="product.thumbnailUrl">
                     <div class="product-info">
                         <h4>{{product.name}}</h4>
                         <div class="content-p">
@@ -56,7 +56,7 @@
         <div class="width-space"></div>
         <div class="cart-total-price">
             <div class="cart-total-price-container vertical-container">
-                <div class="customer-information">
+                <div class="customer-information" *ngIf="userInformation">
                     <ng-container *ngIf="defaultAddress; else addAddress">
                         <div class="horizontal-container address-action">
                             <div>Giao tới</div>
@@ -78,34 +78,47 @@
                         </div>
                     </ng-container>
                     <ng-template #addAddress>
-                        Bạn chưa tạo vị trí nào trong sổ địa chỉ.
-                        <button routerLink="/customer/address-book">Thêm vị trí</button>
+                        <div class="primary-key">Bạn chưa tạo vị trí nào trong sổ địa chỉ.</div>
+                        <div class="mini-height-space"></div>
+                        <button
+                            class="addAddress horizontal-container" 
+                            (click)="insertAddress()"
+                            #btnInsertAddress
+                        >
+                            <mat-icon>add</mat-icon>
+                            Thêm địa chỉ mới
+                        </button>
                     </ng-template>
-                    <div class="height-space"></div>
                 </div>
+                <div class="height-space" *ngIf="userInformation"></div>
                 <div class="total-price-frame vertical-container">
-                    <div class="provisional horizontal-container">
-                        <div class="secondary">
+                    <!-- <div class="provisional horizontal-container">
+                        <div class="primary-key">
                             Tạm tính
                         </div>
-                        <div class="primary">
+                        <div class="secondary-key">
                             {{ temporaryValue | currency:'VND':'symbol' | replaceSpace }}
                         </div>
                     </div>
 
-                    <div class="height-space"></div>
+                    <div class="height-space"></div> -->
 
                     <div class="total-price horizontal-container">
-                        <div class="secondary">
+                        <div class="primary-key">
                             Thành tiền
                         </div>
-                        <div class="primary">
+                        <div class="secondary-key">
                             {{ temporaryValue | currency:'VND':'symbol' | replaceSpace }}
                         </div>
                     </div>
                 </div>
                 <div class="height-space"></div>
-                <button>Tiến hành đặt hàng</button>
+                <button
+                    (click)="order()"
+                    class="button-style button-primary"
+                >
+                    Tiến hành đặt hàng
+                </button>
             </div>
         </div>
     </ng-container>
