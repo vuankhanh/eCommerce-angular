@@ -9,13 +9,13 @@ import { AuthService } from '../services/auth.service';
 
 //Mock Data
 import { Menu, MenusList } from '../mock-data/menu';
-import { ProductCategorys, ProductCategory } from '../models/Product-category';
-import { Product } from '../mock-data/products';
+import { ProductCategory } from '../models/ProductCategory';
 
 //Model
 import { UserInformation, JwtDecoded } from '../models/UserInformation';
 
 import { Subscription } from 'rxjs';
+import { AppServicesService } from '../services/app-services.service';
 
 @Component({
   selector: 'app-header',
@@ -44,9 +44,17 @@ export class HeaderComponent implements OnInit, AfterViewInit, OnDestroy {
     private cartService: CartService,
     private jwtDecodedService: JwtDecodedService,
     public authService: AuthService,
+    private appServicesService: AppServicesService
   ) {
     this.menusList = MenusList;
-    this.productCategorys = ProductCategorys;
+    this.appServicesService.product$.subscribe(res=>{
+      this.productCategorys = res;
+      for(let i in this.menusList){
+        if(this.menusList[i].route === 'productions'){
+          this.menusList[i].child = this.productCategorys
+        }
+      }
+    })
     this.closeAlertAddedToCart();
     // this.cartService.remove();
   }

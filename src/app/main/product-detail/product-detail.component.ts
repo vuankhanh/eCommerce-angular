@@ -1,70 +1,86 @@
-import { AfterViewInit, Component, ElementRef, OnInit, QueryList, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, QueryList, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
-import { ProductDetailsService } from 'src/app/services/product-details.service';
+import { AddressChooseComponent } from '../../sharing/modal/address-choose/address-choose.component';
+
+import { Product } from 'src/app/models/Product';
+import { Media } from 'src/app/models/ProductGallery';
+
 import { CartService } from 'src/app/services/cart.service';
 import { HeaderService } from 'src/app/services/header.service';
+import { ProductService } from 'src/app/services/api/product/product.service';
+import { AuthService } from 'src/app/services/auth.service';
 
-import { Product } from '../../mock-data/products';
-import { Item } from '../../mock-data/gallery';
+import { UserInformation } from 'src/app/models/UserInformation';
+import { Address } from 'src/app/models/Address';
+
+import { Observable, Subscription } from 'rxjs';
+import { MatDialog } from '@angular/material/dialog';
 @Component({
   selector: 'app-product-detail',
   templateUrl: './product-detail.component.html',
   styleUrls: ['./product-detail.component.scss']
 })
-export class ProductDetailComponent implements OnInit, AfterViewInit {
-  // @ViewChild('elementTest', { read: ElementRef }) elementTest: QueryList<ElementRef>;
-  imgMain: Item;
+export class ProductDetailComponent implements OnInit, AfterViewInit, OnDestroy {
+  product: Product;
+  
+  imgMain: Media;
   indexImgMain: number = 0;
-  product: Product | null;
+  headquartersAddress: Address;
 
-  loggedIn: boolean = false;
+  userInformation$: Observable<UserInformation | null> = this.authService.getUserInformation();
+  subscription: Subscription = new Subscription();
   constructor(
     private activatedRoute: ActivatedRoute,
+    private dialog: MatDialog,
     private headerService: HeaderService,
-    private productDetailsService: ProductDetailsService,
-    private cartService: CartService
+    private productService: ProductService,
+    private cartService: CartService,
+    private authService: AuthService
   ) { }
 
   ngOnInit(): void {
-    let detailId: number = parseInt(this.activatedRoute.snapshot.params.detail);
-    console.log(detailId);
-    this.product = this.productDetailsService.getProductInformation(detailId);
+    let detailId: string = this.activatedRoute.snapshot.params.detail;
 
-    if(this.product && this.product.albumImg){
-      this.setImgMain(this.product.albumImg, this.indexImgMain);
-    }
-    console.log(this.product);
-    
+    this.subscription.add(
+      this.productService.getProductDetail(detailId).subscribe(res=>{
+        this.product = res;
+        this.product.quantity = 1;
+        let index: number = this.product.albumImg!.media.findIndex(media=>media.isMain);
+        this.indexImgMain = index;
+        this.setImgMain(index);
+      })
+    );
+
+    this.subscription.add(
+      this.userInformation$.subscribe(res=>{
+        if(res){
+          this.headquartersAddress = this.getIsHeadquartersAddress(res.address);
+        }
+      })
+    )
   }
 
   ngAfterViewInit(){
   }
 
-  setImgMain(album: Array<Item>, index: number){
-    if(index){
-      this.indexImgMain = index;
-      return this.imgMain = album[index];
-    }else{
-      for(let item of album){
-        if(item.isMain) return this.imgMain = item;
-      }
-      return this.imgMain = album[0];
-    }
+  setImgMain(index: number){
+    this.indexImgMain = index;
+    this.imgMain = this.product.albumImg!.media[index];
   }
 
   setImgMainDirection(direction: string){
     if(direction === 'toLeft'){
-      if(this.imgMain.id != this.product?.albumImg[0].id){
+      if(this.imgMain._id != this.product?.albumImg?.media[0]._id){
         this.indexImgMain--;
-        this.product?.albumImg[this.indexImgMain] ? this.imgMain = this.product?.albumImg[this.indexImgMain] : this.product?.albumImg[0];
+        this.product?.albumImg?.media[this.indexImgMain] ? this.imgMain = this.product?.albumImg?.media[this.indexImgMain] : this.product?.albumImg?.media[0];
         const elementId = window.document.getElementById("list-item-"+this.indexImgMain)! as HTMLDivElement;
         elementId.scrollIntoView({behavior: "smooth", block: "start"});
       }
     }else if(direction === 'toRight'){
-      if(this.imgMain.id != this.product?.albumImg[this.product?.albumImg.length-1].id){
+      if(this.imgMain._id != this.product?.albumImg?.media[this.product?.albumImg?.media.length-1]._id){
         this.indexImgMain++;
-        this.product?.albumImg[this.indexImgMain] ? this.imgMain = this.product?.albumImg[this.indexImgMain] : this.product?.albumImg[0];
+        this.product?.albumImg?.media[this.indexImgMain] ? this.imgMain = this.product?.albumImg?.media[this.indexImgMain] : this.product?.albumImg?.media[0];
         const elementId = window.document.getElementById("list-item-"+this.indexImgMain)! as HTMLDivElement;
         elementId.scrollIntoView({behavior: "smooth"});
       }
@@ -73,9 +89,49 @@ export class ProductDetailComponent implements OnInit, AfterViewInit {
     }
   }
 
+  getIsHeadquartersAddress(addresses: Array<Address>){
+    let index = addresses.findIndex(address=>address.isHeadquarters);
+
+    return !isNaN(index) ? addresses[index] : addresses[0];
+  }
+
+  chooseAddress(headquartersAddress: Address){
+    this.subscription.add(
+      this.dialog.open(AddressChooseComponent, {
+        panelClass: 'address-choose',
+        data: {
+          defaultAddress: headquartersAddress
+        }
+      }).afterClosed().subscribe(res=>{
+        if(res && res.deliverTo){
+          let address: Address = res.deliverTo;
+          this.headquartersAddress = address;
+        }
+      })
+    )
+  }
+
+  changeQuantity(increase: 'increase' | 'decrease'){
+    if(increase === 'increase'){
+      this.product.quantity!++;
+    }else{
+      if(this.product.quantity! > 1){
+        this.product.quantity!--;
+      }
+    }
+  }
+
+  quantityInputChange(event: Event){
+    let value = (event.target as HTMLInputElement).value;
+    this.product.quantity = !isNaN(parseInt(value)) ? parseInt(value) : 1;
+  }
+
   addToCart(product: Product){
     this.cartService.addToCart(product);
     this.headerService.set(true);
   }
 
+  ngOnDestroy(){
+    this.subscription.unsubscribe();
+  }
 }

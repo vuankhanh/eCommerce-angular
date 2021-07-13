@@ -1,15 +1,13 @@
 import { AfterViewChecked, AfterViewInit, Component, ElementRef, OnInit, QueryList, Renderer2, ViewChild, ViewChildren } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { Product, ProductList } from '../../mock-data/products';
-
 import { animationSlide } from '../../animation/slide-show';
 
 import { CartService } from 'src/app/services/cart.service';
-import { ProductService } from 'src/app/services/product.service';
 import { HeaderService } from 'src/app/services/header.service';
 
 import { interval } from 'rxjs';
+import { Product } from 'src/app/models/Product';
 
 @Component({
   selector: 'app-slide-show',
@@ -32,10 +30,9 @@ export class SlideShowComponent implements OnInit, AfterViewInit, AfterViewCheck
     private ren: Renderer2,
     private router: Router,
     private cartService: CartService,
-    private productService: ProductService,
     private headerService: HeaderService,
   ) {
-    this.products = ProductList.filter(product=>product.highlight);
+    // this.products = ProductList.filter(product=>product.highlight);
   }
 
   ngOnInit(): void {
@@ -83,9 +80,8 @@ export class SlideShowComponent implements OnInit, AfterViewInit, AfterViewCheck
   }
 
   showDetail(product: Product): void{
-    let categoryOfProduct: string = this.productService.getCategoryOfProduct(product);
     
-    this.router.navigate(['productions/'+categoryOfProduct, product.id]);
+    this.router.navigate(['productions/'+null, product._id]);
   }
 
 }

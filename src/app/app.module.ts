@@ -9,6 +9,7 @@ registerLocaleData(localeFr);
 import { AppRoutingModule } from './app-routing.module';
 import { MainCustomerModule } from './customer-information/main-customer/main-customer.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { NgxEditorModule } from 'ngx-editor';
 import { ToastrModule } from 'ngx-toastr';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
@@ -30,6 +31,8 @@ import { MapsComponent } from './maps/maps.component';
 //Pipe
 import { ReplaceProtocolNamePipe } from './pipes/replace-protocol-name.pipe';
 import { ReplaceSpacePipe } from './pipes/replace-space.pipe';
+import { GalleryRoutePipe } from './pipes/gallery-route.pipe';
+import { SanitizeHtmlBindingPipe } from './pipes/sanitize-html-binding.pipe';
 
 //Directive
 import { InputOnlyNumberDirective } from './directives/input-only-number.directive';
@@ -45,10 +48,12 @@ import { CartComponent } from './main/cart/cart.component';
 import { ContactComponent } from './main/contact/contact.component';
 import { ProductCategoryComponent } from './main/product-category/product-category.component';
 
-
+//App Providers
+import { AppServicesService } from './services/app-services.service';
 
 //Sharing
-import { SkeletonComponent } from './sharing/loading/skeleton/skeleton.component';
+import { SkeletonComponent } from './sharing/component/skeleton/skeleton.component';
+import { PaginationComponent } from './sharing/component/pagination/pagination.component';
 
 import { MainComponent } from './sharing/modal/main/main.component';
 import { LoginComponent } from './sharing/modal/login/login.component';
@@ -65,6 +70,8 @@ import { AddressChooseComponent } from './sharing/modal/address-choose/address-c
 
     ReplaceProtocolNamePipe,
     ReplaceSpacePipe,
+    GalleryRoutePipe,
+    SanitizeHtmlBindingPipe,
 
     InputOnlyNumberDirective,
     ClickOutsideDirective,
@@ -80,6 +87,7 @@ import { AddressChooseComponent } from './sharing/modal/address-choose/address-c
     ProductCategoryComponent,
 
     SkeletonComponent,
+    PaginationComponent,
 
     MainComponent,
     LoginComponent,
@@ -97,6 +105,7 @@ import { AddressChooseComponent } from './sharing/modal/address-choose/address-c
     AppRoutingModule,
     MainCustomerModule,
     BrowserAnimationsModule,
+    NgxEditorModule,
     ToastrModule.forRoot({
       positionClass: 'toast-bottom-center',
       preventDuplicates: true,
@@ -115,6 +124,7 @@ import { AddressChooseComponent } from './sharing/modal/address-choose/address-c
     MatRadioModule
   ],
   providers: [
+    AppServicesService,
     { provide: LOCALE_ID, useValue: 'es'}
   ],
   bootstrap: [AppComponent]

@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { LocalStorageService } from './local-storage.service'
 
 import { Address } from '../models/Address';
-import { Product } from '../mock-data/products';
+import { Product } from '../models/Product';
 
 import { BehaviorSubject, Observable } from 'rxjs';
 
@@ -59,14 +59,14 @@ export class CartService {
   addToCart(product: Product): void{
     let productsInCart: Array<Product> = this.get().products;
     
-    let checkExist = productsInCart.some((itemCart: Product) => itemCart.id === product.id);
+    let checkExist = productsInCart.some((itemCart: Product) => itemCart._id === product._id);
     console.log(checkExist);
     if(!checkExist){
       product.quantity = 1;
       productsInCart.push(product);
     }else{
       for(let itemCart of productsInCart){
-        if(itemCart.id === product.id){
+        if(itemCart._id === product._id){
           itemCart.quantity!++;
         }
       }

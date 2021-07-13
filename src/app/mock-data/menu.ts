@@ -1,15 +1,15 @@
-import { ProductCategorys, ProductCategory } from '../models/Product-category';
+import { ProductCategory } from '../models/ProductCategory';
 
 export const MenusList: Array<Menu> =
 [
     {
         title: 'Trang chủ',
         route: 'homepage',
-        child:[]
+        child: []
     },{
         title: 'Sản phẩm',
         route: 'productions',
-        child: ProductCategorys
+        child: []
     },{
         title: 'Giỏ hàng',
         route: 'cart',

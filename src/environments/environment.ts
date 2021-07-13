@@ -8,7 +8,7 @@ export const environment = {
 
 export const hostConfiguration = {
   host: 'http://localhost:3000/client',
-  
+  rootHost: 'http://localhost:3000'
 }
 
 /*

@@ -10,10 +10,10 @@ import { Cart, CartService } from 'src/app/services/cart.service';
 import { AddressModificationService } from 'src/app/services/address-modification.service';
 import { ToastService } from 'src/app/services/toast.service';
 
-import { Product } from '../../mock-data/products'
 import { UserInformation } from 'src/app/models/UserInformation';
 
 import { Subscription } from 'rxjs';
+import { Product } from 'src/app/models/Product';
 @Component({
   selector: 'app-cart',
   templateUrl: './cart.component.html',

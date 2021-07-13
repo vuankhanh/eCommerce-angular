@@ -18,7 +18,7 @@ export class InputOnlyNumberDirective {
     'Copy',
     'Paste'
   ];
-  inputElement: HTMLElement;
+  inputElement: HTMLInputElement;
   constructor(public el: ElementRef) {
     this.inputElement = el.nativeElement;
   }
@@ -61,5 +61,21 @@ export class InputOnlyNumberDirective {
     const textData = event?.dataTransfer?.getData('text').replace(/\D/g, '');
     this.inputElement.focus();
     document.execCommand('insertText', false, textData);
+  }
+
+  @HostListener('input', ['$event']) onInputChange(event: InputEvent) {
+    console.log(this.inputElement.value);
+    console.log(this.inputElement.value.length);
+    if(this.inputElement.value.startsWith('0')){
+      this.inputElement.value = this.inputElement.value.substring(1);
+    }
+  }
+
+  @HostListener("blur") onBlur() {
+    console.log(this.inputElement.value.length);
+    
+    if(this.inputElement.value === ''){
+      this.inputElement.value = '1';
+    }
   }
 }
