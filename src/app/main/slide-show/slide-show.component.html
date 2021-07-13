@@ -1,4 +1,4 @@
-<div #parentContainer (window:resize)="onResize()" [ngStyle]="{ 'height.px': parentContainerHeight, 'overflow': 'hidden' }">
+<div #parentContainer (window:resize)="onResize()">
     <div [@animImageSlider]="counter" class="slide-container">
         <ng-container *ngFor="let product of products; let i=index">
             <div

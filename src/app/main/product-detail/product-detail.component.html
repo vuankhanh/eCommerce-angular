@@ -2,7 +2,7 @@
     <ng-container *ngIf="product">
         <div class="product-information horizontal-container">
             <div class="album-container" *ngIf="product.albumImg && product.albumImg.media.length>0">
-                <div class="main-img">
+                <div class="main-img horizontal-container">
                     <img src="{{imgMain.src | galleryRoute }}" alt="">
                     <div class="action-img horizontal-container">
                         <div class="button-container">
@@ -38,7 +38,6 @@
                                 (click)="setImgMain(i)"
                                 [ngClass]="imgMain._id === item._id ? 'imgMain' : ''"
                             >
-                            <div class="mini-width-space"></div>
                         </div>
                         
                     </ng-container>
@@ -129,7 +128,7 @@
         <div class="height-space"></div>
         <div class="product-desciption" *ngIf="product.longDescription">
             <h1 style="margin-bottom: 5px;">Mô tả</h1>
-            <div>{{product.longDescription}}</div>
+            <app-posts [editorContent]="product.longDescription"></app-posts>
         </div>
     </ng-container>
 </div>

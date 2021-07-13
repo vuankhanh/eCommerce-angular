@@ -41,6 +41,7 @@ import { CapsLockDirective } from './directives/caps-lock.directive';
 
 import { SlideShowComponent } from './main/slide-show/slide-show.component';
 import { HeaderComponent } from './header/header.component';
+import { FooterComponent } from './footer/footer.component';
 import { ProductionsComponent } from './main/product/product.component';
 import { AboutUsComponent } from './main/about-us/about-us.component';
 import { ProductDetailComponent } from './main/product-detail/product-detail.component';
@@ -61,6 +62,7 @@ import { RegisterComponent } from './sharing/modal/register/register.component';
 import { ForgotPasswordComponent } from './sharing/modal/forgot-password/forgot-password.component';
 import { ConfirmActionComponent } from './sharing/modal/confirm-action/confirm-action.component';
 import { AddressChooseComponent } from './sharing/modal/address-choose/address-choose.component';
+import { PostsComponent } from './sharing/component/posts/posts.component';
 
 @NgModule({
   declarations: [
@@ -79,6 +81,7 @@ import { AddressChooseComponent } from './sharing/modal/address-choose/address-c
 
     SlideShowComponent,
     HeaderComponent,
+    FooterComponent,
     ProductionsComponent,
     AboutUsComponent,
     ProductDetailComponent,
@@ -95,6 +98,7 @@ import { AddressChooseComponent } from './sharing/modal/address-choose/address-c
     ForgotPasswordComponent,
     ConfirmActionComponent,
     AddressChooseComponent,
+    PostsComponent,
 
   ],
   imports: [

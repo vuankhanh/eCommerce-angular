@@ -1,5 +1,5 @@
 <div class="container">
-  <div class="left-container" (mouseenter)="mouseEventEmit($event)" (mouseleave)="mouseEventEmit($event)">
+  <!-- <div class="left-container" (mouseenter)="mouseEventEmit($event)" (mouseleave)="mouseEventEmit($event)">
     <div class="contact">
       <div class="contact__information phone-number">
         <a [href]="'tel: '+contactInformation.phoneNumber" class="contact__information">
@@ -28,10 +28,11 @@
         <app-maps *ngFor="let address of contactInformation.addresses; let i = index" [address]="address"></app-maps>
       </ng-container>
     </div>
-  </div>
+  </div> -->
   <div class="main-container">
     <app-header #appHeader></app-header>
     <router-outlet (activate)="onActivate()"></router-outlet>
+    <app-footer></app-footer>
     <!-- <div style="height: 300px;"></div> -->
   </div>
 </div>
