@@ -1,9 +1,10 @@
+import { BannerGallery } from './BannerGallery';
 import { Posts } from './Posts';
 import { ProductCategory } from './ProductCategory';
 import { ProductGallery } from './ProductGallery';
 
 export interface Product{
-    _id?: string,
+    _id: string,
     code?: string,
     name: string,
     category: ProductCategory,
@@ -14,6 +15,7 @@ export interface Product{
     imgBannerUrl?: string,
     sortDescription: string,
     highlight: boolean,
+    albumBanner?: BannerGallery,
     theRemainingAmount: number,
     longDescription: Posts,
     supplier?: string | null,

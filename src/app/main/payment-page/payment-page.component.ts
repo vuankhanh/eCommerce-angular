@@ -1,6 +1,6 @@
 import { Component, ElementRef, OnDestroy, OnInit, Renderer2, ViewChild } from '@angular/core';
-import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
+import { Router } from '@angular/router';
 
 import { AddressChooseComponent } from '../../sharing/modal/address-choose/address-choose.component';
 
@@ -11,23 +11,22 @@ import { UserInformation } from 'src/app/models/UserInformation';
 import { AuthService } from 'src/app/services/auth.service';
 import { Cart, CartService } from 'src/app/services/cart.service';
 import { AddressModificationService } from 'src/app/services/address-modification.service';
-import { ToastService } from 'src/app/services/toast.service';
-
 
 import { Subscription } from 'rxjs';
-@Component({
-  selector: 'app-cart',
-  templateUrl: './cart.component.html',
-  styleUrls: ['./cart.component.scss']
-})
-export class CartComponent implements OnInit, OnDestroy {
-  @ViewChild('btnInsertAddress') btnInsertAddress: ElementRef;
-  cart: Cart;
-  temporaryValue: number = 0;
 
+@Component({
+  selector: 'app-payment-page',
+  templateUrl: './payment-page.component.html',
+  styleUrls: ['./payment-page.component.scss']
+})
+export class PaymentPageComponent implements OnInit, OnDestroy {
+  @ViewChild('btnInsertAddress') btnInsertAddress: ElementRef;
+
+  displayedColumns: string[] = ['numericalOrder', 'thumbnail', 'name', 'price', 'quantity'];
+  cart: Cart;
   userInformation: UserInformation | null;
   defaultAddress: Address;
-
+  temporaryValue: number = 0;
   subscription: Subscription = new Subscription();
   constructor(
     private router: Router,
@@ -36,7 +35,6 @@ export class CartComponent implements OnInit, OnDestroy {
     private cartService: CartService,
     private authService: AuthService,
     private addressModificationService: AddressModificationService,
-    private toastService: ToastService
   ) { }
 
   ngOnInit(): void {
@@ -50,9 +48,7 @@ export class CartComponent implements OnInit, OnDestroy {
         this.cart = cart;
         console.log(this.cart)
         this.temporaryValue = this.cartService.sumTemporaryValue(this.cart.products);
-    
         if(this.cart.deliverTo){
-          console.log(this.defaultAddress);
           this.defaultAddress = this.cart.deliverTo;
         }
         if(!this.cart.status){
@@ -75,42 +71,8 @@ export class CartComponent implements OnInit, OnDestroy {
     )
   }
 
-  changeQuantity(increase: boolean, index: number){
-    if(increase){
-      this.cart.products[index].quantity!++;
-    }else{
-      if(this.cart.products[index].quantity! > 1){
-        this.cart.products[index].quantity!--;
-      }
-    }
-    this.cartService.set(this.cart);
-    this.temporaryValue = this.cartService.sumTemporaryValue(this.cart!.products);
-  }
-
   showDetail(product: Product){
-    console.log(product);
     this.router.navigate(['productions/'+product.category.route, product._id]);
-  }
-
-  quantityInputChange(event: Event, index: number){
-    let value = (event.target as HTMLInputElement).value;
-    
-    if(this.isNumber(value)){
-      this.cart!.products[index].quantity = parseInt(value);
-      console.log(parseInt(value));
-    }
-    this.cartService.set(this.cart);
-    this.temporaryValue = this.cartService.sumTemporaryValue(this.cart!.products);
-  }
-
-  laterBuy(cartItem: HTMLDivElement, index: number){
-    console.log(cartItem);
-    this.renderer2.addClass(cartItem, 'cart-item-removed');
-    setTimeout(() => {
-      this.cart!.products.splice(index, 1);
-      this.cartService.set(this.cart);
-      this.temporaryValue = this.cartService.sumTemporaryValue(this.cart!.products);
-    }, 450);
   }
 
   changeAddress(){
@@ -138,27 +100,12 @@ export class CartComponent implements OnInit, OnDestroy {
     })
   }
 
-  order(){
-    if(!this.userInformation){
-      this.authService.login('login');
-    }else{
-      if(!this.cart.deliverTo){
-        this.renderer2.addClass(this.btnInsertAddress.nativeElement, 'button-substyle');
-        this.toastService.shortToastWarning('Bạn chưa tạo vị trí nào trong sổ địa chỉ.', '');
-        console.log('Hãy thêm 1 địa chỉ giao hàng');
-      }else{
-        if(this.cart.products.length>0){
-          this.router.navigate(['/payment-confirm']);
-        }
-      }
-    }
-  }
-
-  isNumber(number: any) {
-    return !isNaN(number) && isFinite(number)
+  confirmPayment(){
+    
   }
 
   ngOnDestroy(){
     this.subscription.unsubscribe();
   }
+
 }

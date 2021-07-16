@@ -2,7 +2,7 @@
     <div class="flex-me">
         <ng-container *ngFor="let product of products; let i = index;">
             <div class="product-frame">
-                <div class="thumbnai-container horizontal-container">
+                <div class="img-container">
                     <img src="{{product.thumbnailUrl | galleryRoute}}" [alt]="product.name" (click)="showDetail(product)">
                 </div>
                 <div class="product-info">

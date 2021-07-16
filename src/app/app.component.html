@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container horizontal-container">
   <!-- <div class="left-container" (mouseenter)="mouseEventEmit($event)" (mouseleave)="mouseEventEmit($event)">
     <div class="contact">
       <div class="contact__information phone-number">
@@ -29,7 +29,7 @@
       </ng-container>
     </div>
   </div> -->
-  <div class="main-container">
+  <div class="main-container" (scroll)="onScroll($event)">
     <app-header #appHeader></app-header>
     <router-outlet (activate)="onActivate()"></router-outlet>
     <app-footer></app-footer>

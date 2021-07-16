@@ -9,17 +9,6 @@
         .product-frame {
             width: calc(25% - 15px);
             margin-right: 15px;
-            .thumbnai-container{
-                width: 100%;
-                height: 200px;
-                justify-content: center;
-                img{
-                    display: block;
-                    width: 100%;
-                    object-fit: cover;
-                    cursor: pointer;
-                }
-            }
             .product-info{
                 padding: 15px;
                 h4, .content-p{

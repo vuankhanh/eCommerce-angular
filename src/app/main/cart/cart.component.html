@@ -7,7 +7,10 @@
                 #cartItem
             >
                 <div class="product-information-container horizontal-container">
-                    <img [src]="product.thumbnailUrl">
+                    <div class="img-container">
+                        <img src="{{product.thumbnailUrl | galleryRoute}}" [alt]="product.name" (click)="showDetail(product)">
+                    </div>
+                    <div class="width-space"></div>
                     <div class="product-info">
                         <h4>{{product.name}}</h4>
                         <div class="content-p">
@@ -60,7 +63,7 @@
                     <ng-container *ngIf="defaultAddress; else addAddress">
                         <div class="horizontal-container address-action">
                             <div>Giao tới</div>
-                            <div (click)="changeAddress()">Thay đổi</div>
+                            <div class="textLink" (click)="changeAddress()">Thay đổi</div>
                         </div>
                         <div class="mini-height-space"></div>
                         <div class="horizontal-container customer-contact">

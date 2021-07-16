@@ -23,6 +23,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatListModule } from '@angular/material/list';
 import { MatRadioModule } from '@angular/material/radio';
+import { MatTableModule } from '@angular/material/table';
 
 import { AppComponent } from './app.component';
 import { HomePageComponent } from './main/home-page/home-page.component';
@@ -46,6 +47,7 @@ import { ProductionsComponent } from './main/product/product.component';
 import { AboutUsComponent } from './main/about-us/about-us.component';
 import { ProductDetailComponent } from './main/product-detail/product-detail.component';
 import { CartComponent } from './main/cart/cart.component';
+import { PaymentPageComponent } from './main/payment-page/payment-page.component';
 import { ContactComponent } from './main/contact/contact.component';
 import { ProductCategoryComponent } from './main/product-category/product-category.component';
 
@@ -86,6 +88,7 @@ import { PostsComponent } from './sharing/component/posts/posts.component';
     AboutUsComponent,
     ProductDetailComponent,
     CartComponent,
+    PaymentPageComponent,
     ContactComponent,
     ProductCategoryComponent,
 
@@ -125,7 +128,8 @@ import { PostsComponent } from './sharing/component/posts/posts.component';
     MatFormFieldModule,
     MatProgressSpinnerModule,
     MatListModule,
-    MatRadioModule
+    MatRadioModule,
+    MatTableModule
   ],
   providers: [
     AppServicesService,

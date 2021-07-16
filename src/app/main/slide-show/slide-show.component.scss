@@ -1,9 +1,20 @@
-.slide-container{
+.container{
+    width: 100%;
     position: relative;
+    padding-bottom: 33.33%;
+    overflow-x: hidden;
+}
+.slide-container{
+    position: absolute;
     width: 100%;
     img{
         display: block;
         width: 100%;
+        position: relative;
+        object-fit: contain;
+        min-width: 128px;
+        max-width: 100%;
+        height: auto;
     }
     .content{
         position: absolute;

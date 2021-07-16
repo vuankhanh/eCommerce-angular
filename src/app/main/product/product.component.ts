@@ -26,7 +26,7 @@ export class ProductionsComponent implements OnInit, AfterViewInit, OnDestroy {
     private appServicesService: AppServicesService
   ) {
     this.subscription.add(
-      this.appServicesService.product$.subscribe(res=>{
+      this.appServicesService.productCategory$.subscribe(res=>{
         this.productCategorys = res;
       })
     )

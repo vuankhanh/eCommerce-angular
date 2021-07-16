@@ -12,6 +12,7 @@ import { hostConfiguration } from '../../../../environments/environment';
 })
 export class ProductService {
   private urlProductCategory: string = hostConfiguration.host+'/product-category';
+  private urlProductHightlight: string = hostConfiguration.host+'/product-hightlight';
   private urlProduct: string = hostConfiguration.host+'/product';
   constructor(
     private httpClient: HttpClient
@@ -22,6 +23,13 @@ export class ProductService {
       'Content-Type': 'application/json'
     });
     return this.httpClient.get<Array<ProductCategory>>(this.urlProductCategory, { headers })
+  }
+
+  getProductHightlight(){
+    let headers: HttpHeaders = new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
+    return this.httpClient.get<Array<Product>>(this.urlProductHightlight, { headers });
   }
 
   getProduct(type: string, paginationParams?: PaginationParams){

@@ -1,17 +1,17 @@
-<div #parentContainer (window:resize)="onResize()">
+<div class="container">
     <div [@animImageSlider]="counter" class="slide-container">
-        <ng-container *ngFor="let product of products; let i=index">
+        <ng-container *ngFor="let product of productHightlights; let i=index">
             <div
                 *ngIf="i===counter"
                 class="vertical-container"
             >
                 <img
-                    [src]="product.imgBanner"
+                    src="{{ product.albumBanner!.media[0]?.src | galleryRoute}}"
                     #imgBanner
                 />
                 <div class="content vertical-container">
                     <div class="text">
-                        <h1 #txtProductName>CÁ RÔ CHIÊN</h1>
+                        <h1 #txtProductName>{{ product.name.toUpperCase() }}</h1>
                         <h3 #txtProductReviews>Chất lượng 5 <mat-icon svgIcon='star'></mat-icon></h3>
                         <button #btnBookNow class="button-style button-primary" (click)="addToCart(product)">
                             <mat-icon>add_shopping_cart</mat-icon>
@@ -32,4 +32,3 @@
         </ng-container>
     </div>
 </div>
-

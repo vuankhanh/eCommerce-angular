@@ -4,6 +4,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { HomePageComponent } from './main/home-page/home-page.component';
 import { AboutUsComponent } from './main/about-us/about-us.component';
 import { CartComponent } from './main/cart/cart.component';
+import { PaymentPageComponent } from './main/payment-page/payment-page.component';
 import { ProductionsComponent } from './main/product/product.component';
 import { ProductCategoryComponent } from './main/product-category/product-category.component';
 import { ProductDetailComponent } from './main/product-detail/product-detail.component';
@@ -13,6 +14,7 @@ const routes: Routes = [
   { path: '', redirectTo: 'homepage', pathMatch: 'full' },
   { path: 'homepage', component: HomePageComponent },
   { path: 'cart', component: CartComponent },
+  { path: 'payment-confirm', component: PaymentPageComponent },
   { path: 'about-us', component: AboutUsComponent },
   {
     path: 'productions',

@@ -3,6 +3,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { ContactInfor, ContactInformation } from './mock-data/contact-information';
 
 import { AddIconSvgService } from './services/add-icon-svg.service';
+import { MainContainerScrollService } from './services/main-container-scroll.service';
 import { MouseEventEmitService } from './services/mouse-event-emit.service';
 @Component({
   selector: 'app-root',
@@ -13,7 +14,8 @@ export class AppComponent implements OnInit {
   contactInformation: ContactInformation;
   constructor(
     private addIconSvgService: AddIconSvgService,
-    private mouseEventEmitService: MouseEventEmitService
+    private mouseEventEmitService: MouseEventEmitService,
+    private mainContainerScrollService: MainContainerScrollService
   ){
     this.addIconSvgService.addIcon();
     this.contactInformation = ContactInfor;
@@ -22,7 +24,7 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(){
-
+    
   }
 
   onActivate() {
@@ -40,4 +42,11 @@ export class AppComponent implements OnInit {
       this.mouseEventEmitService.set(false);
     }
   }
+
+  onScroll = (event: Event): void => {
+    let target: HTMLDivElement = <HTMLDivElement>event.target;
+    let index: number = target.scrollTop;
+
+    this.mainContainerScrollService.setPosition(index);
+  };
 }

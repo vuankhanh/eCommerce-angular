@@ -14,7 +14,6 @@ html, body {
 body {
     margin: 0;
     font-family: Roboto, "Helvetica Neue", sans-serif;
-    overflow-y: scroll
 }
 div{
     line-height: 1;
@@ -138,6 +137,20 @@ mat-list{
                 line-height: 1.5;
             }
         }
+    }
+}
+
+.img-container{
+    width: 100%;
+    padding-bottom: 66.66%;
+    position: relative;
+    img{
+        position: absolute;
+        display: block;
+        width: 100%;
+        max-height: 100%;
+        object-fit: cover;
+        cursor: pointer;
     }
 }
 

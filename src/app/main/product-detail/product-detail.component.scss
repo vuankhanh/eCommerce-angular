@@ -5,15 +5,7 @@
         .album-container{
             width: 400px;;
             .main-img{
-                position: relative;
-                height: 300px;
                 justify-content: center;
-                img{
-                    max-height: 100%;
-                    max-width: 100%;
-                    object-fit: cover;
-                    display: block;
-                }
                 .action-img{
                     position: absolute;
                     width: 100%;

@@ -38,7 +38,7 @@ export class ProductCategoryComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     // this.cartService.remove();
-    this.appServicesService.product$.subscribe(res=>{
+    this.appServicesService.productCategory$.subscribe(res=>{
       this.productCategorys = res;
       this.activeLink = this.router.url.split("/")[2] ? this.router.url.split("/")[2] : this.productCategorys[0].route;
       this.listenProduct(this.activeLink);

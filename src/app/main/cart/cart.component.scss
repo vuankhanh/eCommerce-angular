@@ -10,11 +10,17 @@
             transition: max-height .45s, opacity .45s;
             max-height: 1000px;
             .product-information-container{
-                img{
-                    max-width: 200px;
+                .img-container{
+                    width: 150px;
+                    height: 150px;
+                    padding-bottom: unset;
+                    img{
+                        top: 0;
+                        bottom: 0;
+                        margin: auto;
+                    }
                 }
                 .product-info{
-                    padding: 15px;
                     h4, .content-p{
                         margin-bottom: 5px;
                     }
@@ -23,7 +29,6 @@
                 }
             }
             .product-price-container{
-                padding: 15px;
                 .change-quantity-container{
                     .button-change{
                         width: 30px;

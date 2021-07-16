@@ -1,21 +1,23 @@
 import { Component, ElementRef, OnInit, OnDestroy, Renderer2, ViewChild, AfterViewInit } from '@angular/core';
 import { NavigationStart, Event } from '@angular/router';
 
+//Model
+import { ProductCategory } from '../models/ProductCategory';
+import { UserInformation, JwtDecoded } from '../models/UserInformation';
+
+//Mock Data
+import { Menu, MenusList } from '../mock-data/menu';
+
+//Service
 import { HeaderService } from '../services/header.service';
 import { Cart, CartService } from '../services/cart.service';
 import { UrlChangeService } from '../services/url-change.service';
 import { JwtDecodedService } from '../services/jwt-decoded.service';
 import { AuthService } from '../services/auth.service';
-
-//Mock Data
-import { Menu, MenusList } from '../mock-data/menu';
-import { ProductCategory } from '../models/ProductCategory';
-
-//Model
-import { UserInformation, JwtDecoded } from '../models/UserInformation';
+import { AppServicesService } from '../services/app-services.service';
+import { MainContainerScrollService } from '../services/main-container-scroll.service';
 
 import { Subscription } from 'rxjs';
-import { AppServicesService } from '../services/app-services.service';
 
 @Component({
   selector: 'app-header',
@@ -44,10 +46,11 @@ export class HeaderComponent implements OnInit, AfterViewInit, OnDestroy {
     private cartService: CartService,
     private jwtDecodedService: JwtDecodedService,
     public authService: AuthService,
-    private appServicesService: AppServicesService
+    private appServicesService: AppServicesService,
+    private mainContainerScrollService: MainContainerScrollService
   ) {
     this.menusList = MenusList;
-    this.appServicesService.product$.subscribe(res=>{
+    this.appServicesService.productCategory$.subscribe(res=>{
       this.productCategorys = res;
       for(let i in this.menusList){
         if(this.menusList[i].route === 'productions'){
@@ -60,8 +63,6 @@ export class HeaderComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    window.addEventListener('scroll', this.scroll, true);
-
     this.cartService.listenCartChange().subscribe((cart: Cart)=>{
       let badgeCart = this.cartService.sumQuantityOfCart(cart.products);
       this.badgeCart = badgeCart;
@@ -80,20 +81,22 @@ export class HeaderComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngAfterViewInit(): void{
-
+    setTimeout(() => {
+      this.listentMainContainerScroll();
+    }, 300);
   }
 
   closeAlertAddedToCart(){
     this.headerService.set(false);
   }
 
-  scroll = (event: any): void => {
-    let index: number = event.srcElement.scrollingElement?.scrollTop;
-    this.changeStyleHeader(index);
-    //handle your scroll here
-    //notice the 'odd' function assignment to a class field
-    //this is used to be able to remove the event listener
-  };
+  listentMainContainerScroll(){
+    this.subscription.add(
+      this.mainContainerScrollService.bScrollTop$.subscribe(position=>{
+        this.changeStyleHeader(position);
+      })
+    )
+  }
 
   changeStyleHeader(index: number): void{
     if(index){
@@ -135,6 +138,5 @@ export class HeaderComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnDestroy() {
     this.subscription.unsubscribe();
-    window.removeEventListener('scroll', this.scroll, true);
   }
 }
