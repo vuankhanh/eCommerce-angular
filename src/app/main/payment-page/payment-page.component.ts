@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 
 import { AddressChooseComponent } from '../../sharing/modal/address-choose/address-choose.component';
+import { PaymentSuccessfulComponent } from '../../sharing/modal/payment-successful/payment-successful.component';
 
 import { Address } from 'src/app/models/Address';
 import { Product } from 'src/app/models/Product';
@@ -11,9 +12,14 @@ import { UserInformation } from 'src/app/models/UserInformation';
 import { AuthService } from 'src/app/services/auth.service';
 import { Cart, CartService } from 'src/app/services/cart.service';
 import { AddressModificationService } from 'src/app/services/address-modification.service';
+import { OrderService } from 'src/app/services/api/order.service';
+import { ResponseLogin } from 'src/app/services/api/login.service';
+import { LocalStorageService } from 'src/app/services/local-storage.service';
+import { ToastService } from 'src/app/services/toast.service';
 
 import { Subscription } from 'rxjs';
 
+const tokenStoragedKey = 'carota-token';
 @Component({
   selector: 'app-payment-page',
   templateUrl: './payment-page.component.html',
@@ -35,6 +41,9 @@ export class PaymentPageComponent implements OnInit, OnDestroy {
     private cartService: CartService,
     private authService: AuthService,
     private addressModificationService: AddressModificationService,
+    private orderService: OrderService,
+    private localStorageService: LocalStorageService,
+    private toastService: ToastService
   ) { }
 
   ngOnInit(): void {
@@ -50,10 +59,6 @@ export class PaymentPageComponent implements OnInit, OnDestroy {
         this.temporaryValue = this.cartService.sumTemporaryValue(this.cart.products);
         if(this.cart.deliverTo){
           this.defaultAddress = this.cart.deliverTo;
-        }
-        if(!this.cart.status){
-          this.cart.status = 1;
-          this.cartService.setStatus(1);
         }
       })
     )
@@ -101,7 +106,29 @@ export class PaymentPageComponent implements OnInit, OnDestroy {
   }
 
   confirmPayment(){
-    
+    let tokenStoraged: ResponseLogin = <ResponseLogin>this.localStorageService.get(tokenStoragedKey);
+    if(tokenStoraged && tokenStoraged.accessToken){
+      this.subscription.add(
+        this.orderService.insert(tokenStoraged.accessToken, this.cart).subscribe(async order=>{
+          await this.router.navigate(['/productions']);
+          this.cartService.resetProduct();
+          this.dialog.open(PaymentSuccessfulComponent,
+            {
+              panelClass: 'payment-success-modal',
+              data: order,
+              autoFocus: false
+            }
+          ).afterClosed().subscribe(res=>{
+            let result: 'goProduct' | 'goOrderHistory' = res;
+            if(result === 'goOrderHistory'){
+              this.router.navigate(['/customer/order-history']);
+            }
+          })
+        },error=>{
+          this.toastService.shortToastError(error.error.message, 'Đã có lỗi xảy ra');
+        })
+      )
+    }
   }
 
   ngOnDestroy(){

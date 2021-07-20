@@ -19,7 +19,6 @@ import { takeUntil } from 'rxjs/operators';
   animations: [animationSlide]
 })
 export class SlideShowComponent implements OnInit, AfterViewInit, OnDestroy {
-  @ViewChild('imgBanner') imgBanner: ElementRef;
   @ViewChild('txtProductName') txtProductName: ElementRef;
   @ViewChild('txtProductReviews') txtProductReviews: ElementRef;
   @ViewChild('btnBookNow', { read: ElementRef }) btnBookNow: ElementRef;
@@ -69,7 +68,9 @@ export class SlideShowComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   animationText(): void {
-    this.ren.setStyle(this.txtProductName.nativeElement, 'margin-left', '0');
+    if(this.txtProductName){
+      this.ren.setStyle(this.txtProductName.nativeElement, 'margin-left', '0');
+    }
     this.ren.setStyle(this.txtProductReviews.nativeElement, 'margin-left', '0');
     setTimeout(() => {
       this.ren.setStyle(this.btnBookNow.nativeElement, 'opacity', '1');

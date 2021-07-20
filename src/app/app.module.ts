@@ -24,16 +24,17 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatListModule } from '@angular/material/list';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatTableModule } from '@angular/material/table';
+import { MatPaginatorModule } from '@angular/material/paginator';
+
+//PipeModule
+import { ReplaceProtocolNameModule } from './pipes/replace-protocol-name/replace-protocol-name.module';
+import { ReplaceSpaceModule } from './pipes/replace-space/replace-space.module';
+import { GalleryRouteModule } from './pipes/gallery-route/gallery-route.module';
+import { SanitizeHtmlBindingModule } from './pipes/sanitize-html-binding/sanitize-html-binding.module';
 
 import { AppComponent } from './app.component';
 import { HomePageComponent } from './main/home-page/home-page.component';
 import { MapsComponent } from './maps/maps.component';
-
-//Pipe
-import { ReplaceProtocolNamePipe } from './pipes/replace-protocol-name.pipe';
-import { ReplaceSpacePipe } from './pipes/replace-space.pipe';
-import { GalleryRoutePipe } from './pipes/gallery-route.pipe';
-import { SanitizeHtmlBindingPipe } from './pipes/sanitize-html-binding.pipe';
 
 //Directive
 import { InputOnlyNumberDirective } from './directives/input-only-number.directive';
@@ -57,6 +58,7 @@ import { AppServicesService } from './services/app-services.service';
 //Sharing
 import { SkeletonComponent } from './sharing/component/skeleton/skeleton.component';
 import { PaginationComponent } from './sharing/component/pagination/pagination.component';
+import { EmptyCartComponent } from './sharing/component/empty-cart/empty-cart.component';
 
 import { MainComponent } from './sharing/modal/main/main.component';
 import { LoginComponent } from './sharing/modal/login/login.component';
@@ -65,17 +67,14 @@ import { ForgotPasswordComponent } from './sharing/modal/forgot-password/forgot-
 import { ConfirmActionComponent } from './sharing/modal/confirm-action/confirm-action.component';
 import { AddressChooseComponent } from './sharing/modal/address-choose/address-choose.component';
 import { PostsComponent } from './sharing/component/posts/posts.component';
+import { OrderHistoryDetailComponent } from './customer-information/order-history-detail/order-history-detail.component';
+import { PaymentSuccessfulComponent } from './sharing/modal/payment-successful/payment-successful.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomePageComponent,
     MapsComponent,
-
-    ReplaceProtocolNamePipe,
-    ReplaceSpacePipe,
-    GalleryRoutePipe,
-    SanitizeHtmlBindingPipe,
 
     InputOnlyNumberDirective,
     ClickOutsideDirective,
@@ -94,6 +93,7 @@ import { PostsComponent } from './sharing/component/posts/posts.component';
 
     SkeletonComponent,
     PaginationComponent,
+    EmptyCartComponent,
 
     MainComponent,
     LoginComponent,
@@ -102,6 +102,8 @@ import { PostsComponent } from './sharing/component/posts/posts.component';
     ConfirmActionComponent,
     AddressChooseComponent,
     PostsComponent,
+    OrderHistoryDetailComponent,
+    PaymentSuccessfulComponent,
 
   ],
   imports: [
@@ -129,7 +131,13 @@ import { PostsComponent } from './sharing/component/posts/posts.component';
     MatProgressSpinnerModule,
     MatListModule,
     MatRadioModule,
-    MatTableModule
+    MatTableModule,
+    MatPaginatorModule,
+
+    ReplaceProtocolNameModule,
+    ReplaceSpaceModule,
+    GalleryRouteModule,
+    SanitizeHtmlBindingModule,
   ],
   providers: [
     AppServicesService,

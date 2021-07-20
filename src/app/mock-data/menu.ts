@@ -34,7 +34,7 @@ export const CustomerMenu: Array<Menu> = [
     },{
         icon: 'shopping_cart',
         title: 'Lịch sử mua hàng',
-        route: 'purchase-history',
+        route: 'order-history',
         child:[]
     },{
         icon: 'place',

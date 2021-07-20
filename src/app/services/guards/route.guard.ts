@@ -28,7 +28,10 @@ export class RouteGuard implements CanActivate {
     let tokenStoraged: ResponseLogin = <ResponseLogin>this.localStorageService.get(tokenStoragedKey);
     if(tokenStoraged && tokenStoraged.accessToken){
       let accessToken = tokenStoraged.accessToken;
-      return this.configService.getConfig(accessToken).pipe(map(res=>true), catchError(error=>{
+      return this.configService.getConfig(accessToken).pipe(map(res=>{
+        this.configService.set(res);
+        return true
+      }), catchError(error=>{
         this.authService.logout().then(_=>{
           this.authService.login('login');
         });

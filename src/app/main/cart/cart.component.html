@@ -1,5 +1,5 @@
-<div class="cart-container horizontal-container">
-    <ng-container *ngIf="cart && cart.products && cart.products.length>0">
+<ng-container *ngIf="cart && cart.products && cart.products.length>0; else emptyCart">
+    <div class="cart-container horizontal-container">
         <div class="cart-frame">
             <div
                 class="cart-item horizontal-container"
@@ -124,5 +124,9 @@
                 </button>
             </div>
         </div>
-    </ng-container>
-</div>
+    </div>
+</ng-container>
+
+<ng-template #emptyCart>
+    <app-empty-cart></app-empty-cart>
+</ng-template>

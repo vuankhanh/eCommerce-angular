@@ -111,6 +111,12 @@ div{
         color: #333333;
     }
 }
+.payment-success-modal{
+    min-width: 400px;
+    mat-dialog-container{
+        padding: 0;
+    }
+}
 
 .mat-form-field-done{
     .mat-form-field-flex{

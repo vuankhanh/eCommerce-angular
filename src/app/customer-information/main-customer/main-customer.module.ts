@@ -12,12 +12,21 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatSelectModule } from '@angular/material/select';
+import { MatTableModule } from '@angular/material/table';
+import { MatPaginatorModule } from '@angular/material/paginator';
+
+
+//PipeModule
+import { ReplaceProtocolNameModule } from '../../pipes/replace-protocol-name/replace-protocol-name.module';
+import { ReplaceSpaceModule } from '../../pipes/replace-space/replace-space.module';
+import { GalleryRouteModule } from '../../pipes/gallery-route/gallery-route.module';
+import { SanitizeHtmlBindingModule } from '../../pipes/sanitize-html-binding/sanitize-html-binding.module';
 
 import { MainCustomerComponent } from '../main-customer/main-customer.component';
 import { PersonalInformationComponent } from '../personal-information/personal-information.component';
 import { ChangePasswordComponent } from '../change-password/change-password.component';
 import { AddressBookComponent } from '../address-book/address-book.component';
-import { PurchaseHistoryComponent } from '../purchase-history/purchase-history.component';
+import { OrderHistoryComponent } from '../order-history/order-history.component';
 
 //Component
 import { AddressModifyComponent } from '../../sharing/modal/address-modify/address-modify.component';
@@ -37,14 +46,21 @@ import { RefreshTokenInterceptorService } from '../../services/api/refresh-token
         MatButtonModule,
         MatCheckboxModule,
         MatDialogModule,
-        MatSelectModule
+        MatSelectModule,
+        MatTableModule,
+        MatPaginatorModule,
+
+        ReplaceProtocolNameModule,
+        ReplaceSpaceModule,
+        GalleryRouteModule,
+        SanitizeHtmlBindingModule,
     ],
     declarations:[
         MainCustomerComponent,
         PersonalInformationComponent,
         ChangePasswordComponent,
         AddressBookComponent,
-        PurchaseHistoryComponent,
+        OrderHistoryComponent,
 
         AddressModifyComponent
     ],

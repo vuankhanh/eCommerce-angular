@@ -16,7 +16,7 @@ export class CartService {
   private cartDefault: Cart = {
     deliverTo: null,
     products: [],
-    status: 1
+    status: 'inLocalStorageCart'
   }
   private cartStoragedChange$: BehaviorSubject<Cart> = new BehaviorSubject<Cart>(this.get());
   private listenCartStoragedChange: Observable<Cart> = this.cartStoragedChange$.asObservable();
@@ -50,12 +50,6 @@ export class CartService {
     this.set(cart);
   }
 
-  setStatus(status: 1 | 2 | 3 | 4){
-    let cart: Cart = this.get();
-    cart.status = 1;
-    this.set(cart);
-  }
-
   addToCart(product: Product): void{
     let productsInCart: Array<Product> = this.get().products;
     
@@ -75,9 +69,9 @@ export class CartService {
     this.setProduct(productsInCart);
   }
 
-  remove(){
+  resetProduct(){
     this.cartStoragedChange$.next(this.cartDefault);
-    this.localStorageService.remove(cartKey);
+    this.setProduct([]);
   }
 
   sumQuantityOfCart(itemCarts: Array<Product>): number{
@@ -109,5 +103,5 @@ export class CartService {
 export interface Cart{
   deliverTo: Address | null,
   products: Array<Product>,
-  status: 1 | 2 | 3 | 4
+  status: 'inLocalStorageCart'
 }

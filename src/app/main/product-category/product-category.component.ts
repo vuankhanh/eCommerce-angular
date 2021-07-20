@@ -58,13 +58,13 @@ export class ProductCategoryComponent implements OnInit, OnDestroy {
     this.subscription.add(
       this.productService.getProduct(type).subscribe(res=>{
         this.productResponse = res;
-          this.configPagination = {
-            totalItems: this.productResponse.totalItems,
-            page: this.productResponse.page,
-            size: this.productResponse.size,
-            totalPages: this.productResponse.totalPages
-          };
-          this.products = this.productResponse.data;
+        this.configPagination = {
+          totalItems: this.productResponse.totalItems,
+          page: this.productResponse.page,
+          size: this.productResponse.size,
+          totalPages: this.productResponse.totalPages
+        };
+        this.products = this.productResponse.data;
       })
     )
   }

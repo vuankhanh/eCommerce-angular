@@ -55,10 +55,6 @@ export class CartComponent implements OnInit, OnDestroy {
           console.log(this.defaultAddress);
           this.defaultAddress = this.cart.deliverTo;
         }
-        if(!this.cart.status){
-          this.cart.status = 1;
-          this.cartService.setStatus(1);
-        }
       })
     )
   }

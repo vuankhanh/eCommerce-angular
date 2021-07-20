@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { hostConfiguration } from '../../environments/environment';
+import { hostConfiguration } from '../../../environments/environment';
 @Pipe({
   name: 'galleryRoute'
 })
