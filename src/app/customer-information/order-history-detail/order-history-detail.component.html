@@ -50,7 +50,7 @@
 
                         <div class="width-space"></div>
 
-                        <div class="product-name">
+                        <div class="product-name horizontal-container">
                             {{order.productId.name}}
                         </div>
                     </div>
@@ -72,9 +72,51 @@
             <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
             <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
         </table>
+        
+        <div class="height-space"></div>
+    
+        <div class="total-price-frame vertical-container">
+            <!-- <div class="provisional horizontal-container">
+                <div class="primary-key">
+                    Tạm tính
+                </div>
+                <div class="secondary-key">
+                    {{ temporaryValue | currency:'VND':'symbol' | replaceSpace }}
+                </div>
+            </div>
+
+            <div class="height-space"></div> -->
+
+            <div class="total-price horizontal-container">
+                <div class="primary-key">
+                    Tổng tiền
+                </div>
+                <div class="secondary-key">
+                    {{ order.totalValue | currency:'VND':'symbol' | replaceSpace }}
+                </div>
+            </div>
+        </div>
+
+        <ng-container *ngIf="order.status != 'revoke'">
+            <div class="height-space"></div>
+    
+            <div class="horizontal-container revoke-container">
+                <button mat-button class="button-style button-secondary" (click)="revoke(order._id)">
+                    Hủy đơn hàng
+                </button>
+            </div>
+        </ng-container>
     </div>
 </ng-container>
 
 <ng-template #notFound>
     Không tìm thấy
 </ng-template>
+
+<div class="height-space"></div>
+
+<div>
+    <span class="textLink" [routerLink]="['/customer/order-history']">
+        {{'<< Quay lại lịch sử mua hàng' }}
+    </span>
+</div>

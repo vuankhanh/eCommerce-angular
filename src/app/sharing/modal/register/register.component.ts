@@ -44,7 +44,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
       confirmPassword: ['', { validators: [Validators.required, isSameInConfirmPassword()], updateOn: 'blur' }],
       name: ['', Validators.required],
       email: ['', { validators: [Validators.required, Validators.pattern(emailRegEx)], updateOn: 'blur' }],
-      phoneNumber: ['', { validators: [Validators.required, , Validators.pattern(phoneNumberRegEx)], updateOn: 'blur' }],
+      phoneNumber: ['', { validators: [Validators.required, Validators.pattern(phoneNumberRegEx)], updateOn: 'blur' }],
     });
   }
 

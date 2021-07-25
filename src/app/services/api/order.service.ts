@@ -56,13 +56,13 @@ export class OrderService {
   //   return this.httpClient.put<PostsResponse>(this.urlUpdate, posts, { headers });
   // }
 
-  // remove(token: string, posts: Posts){
-  //   let headers: HttpHeaders = new HttpHeaders({
-  //     'Content-Type': 'application/json',
-  //     'x-access-token': token
-  //   });
-  //   return this.httpClient.post<PostsResponse | null>(this.urlRemove, posts, { headers });
-  // }
+  revoke(token: string, _id: string){
+    let headers: HttpHeaders = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'x-access-token': token
+    });
+    return this.httpClient.post<Order>(this.urlOrderRevoke, { _id }, { headers });
+  }
 }
 
 export interface OrderResponse{

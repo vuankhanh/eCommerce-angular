@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { PageEvent, MatPaginatorIntl } from '@angular/material/paginator';
+
+import { CustomPaginator } from '../../providers/CustomPaginatorConfiguration';
 
 import { Order } from 'src/app/models/Order';
 import { PaginationParams } from 'src/app/models/PaginationParams';
@@ -15,7 +18,10 @@ const tokenStoragedKey = 'carota-token';
 @Component({
   selector: 'app-order-history',
   templateUrl: './order-history.component.html',
-  styleUrls: ['./order-history.component.scss']
+  styleUrls: ['./order-history.component.scss'],
+  providers: [
+    { provide: MatPaginatorIntl, useValue: CustomPaginator() }  // Here
+  ]
 })
 export class OrderHistoryComponent implements OnInit {
   displayedColumns: string[] = ['orderCode', 'createdAt', 'name', 'totalValue', 'status'];
@@ -39,6 +45,7 @@ export class OrderHistoryComponent implements OnInit {
   }
 
   listenOrder(paginationParams?: PaginationParams){
+    
     let tokenStoraged: ResponseLogin = <ResponseLogin>this.localStorageService.get(tokenStoragedKey);
     if(tokenStoraged && tokenStoraged.accessToken){
       this.subscription.add(
@@ -46,7 +53,7 @@ export class OrderHistoryComponent implements OnInit {
           this.orderResponse = res;
           this.configPagination = {
             totalItems: this.orderResponse.totalItems,
-            page: this.orderResponse.page,
+            page: this.orderResponse.page-1,
             size: this.orderResponse.size,
             totalPages: this.orderResponse.totalPages
           };
@@ -55,6 +62,13 @@ export class OrderHistoryComponent implements OnInit {
         })
       )
     }
+  }
+
+  handlePageEvent(event: PageEvent){
+    console.log(event);
+    this.configPagination.page = event.pageIndex+1;
+    this.configPagination.size = event.pageSize;
+    this.listenOrder(this.configPagination)
   }
 
   showDetail(order: Order){

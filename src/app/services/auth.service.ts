@@ -12,8 +12,10 @@ import { UserInformation, JwtDecoded } from '../models/UserInformation';
 import { JwtDecodedService } from './jwt-decoded.service';
 import { LocalStorageService } from './local-storage.service';
 import { ResponseLogin } from './api/login.service';
+import { ConfigService } from './api/config.service';
 
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
+import { catchError , map } from 'rxjs/operators'
 
 const tokenStoragedKey = 'carota-token';
 @Injectable({
@@ -25,7 +27,8 @@ export class AuthService {
     private router: Router,
     private dialog: MatDialog,
     private jwtDecodedService: JwtDecodedService,
-    private localStorageService: LocalStorageService
+    private localStorageService: LocalStorageService,
+    private configService: ConfigService
   ) {
     this.getUserInfoFromTokenStoraged();
   }
@@ -64,7 +67,24 @@ export class AuthService {
         this.setUserInformation(tokenInformation.data);
       }
     }
+  }
 
+  checkTokenValidation(): Observable<boolean>{
+    let tokenStoraged: ResponseLogin = <ResponseLogin>this.localStorageService.get(tokenStoragedKey);
+    if(tokenStoraged && tokenStoraged.accessToken){
+      let accessToken = tokenStoraged.accessToken;
+      return this.configService.getConfig(accessToken).pipe(
+        map(res=>{
+          this.configService.set(res);
+          return true;
+        })
+      );
+    }else{
+      this.logout().then(_=>{
+        this.login('login');
+      });
+      return of(false);
+    }
   }
 
   getUserInfoFromTokenStoraged(){

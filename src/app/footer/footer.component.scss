@@ -1,0 +1,25 @@
+.footer-container{
+    margin-bottom: 15px;
+    .social-container{
+        .social-networking-item{
+            cursor: pointer;
+            height: 40px;
+            width: 40px;
+            border-radius: 100%;
+            align-items: center;
+            justify-content: center;
+        }
+        .loginFacebook{
+            background: #3b5998;
+            color: white;
+        }
+        .loginGoogle{
+            background: #db4a39;
+            color: white;
+        }
+        .loginZalo{
+            background: #0573ff;
+            color: white;
+        }
+    }
+}

@@ -50,6 +50,31 @@
                 height: 66.66px;
                 padding-bottom: unset;
             }
+            .product-name{
+                align-items: center;
+            }
         }
+    }
+
+    .total-price-frame{
+        background: #ededed;
+        padding: 15px;
+        box-sizing: border-box;
+        border-radius: 5px;
+        .provisional{
+            justify-content: space-between;
+        }
+        .total-price{
+            justify-content: space-between;
+            .secondary-key{
+                color: #ed1c24;
+                font-weight: bold;
+                font-size: 18px;
+            }
+        }
+    }
+
+    .revoke-container{
+        justify-content: flex-end;
     }
 }
