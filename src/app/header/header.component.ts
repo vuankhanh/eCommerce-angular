@@ -16,8 +16,11 @@ import { JwtDecodedService } from '../services/jwt-decoded.service';
 import { AuthService } from '../services/auth.service';
 import { AppServicesService } from '../services/app-services.service';
 import { MainContainerScrollService } from '../services/main-container-scroll.service';
+import { CheckTokenService } from '../services/api/check-token.service';
 
 import { Subscription } from 'rxjs';
+import { ConfigService } from '../services/api/config.service';
+import { Identification } from '../models/Identification';
 
 @Component({
   selector: 'app-header',
@@ -27,6 +30,7 @@ import { Subscription } from 'rxjs';
 export class HeaderComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('header', { static: false }) header: ElementRef;
   @ViewChild('alertAddedToCart') alertAddedToCart: ElementRef;
+  identification: Identification;
   menusList: Array<Menu>;
   productCategorys: Array<ProductCategory>;
   prevButtonTrigger: any;
@@ -35,7 +39,7 @@ export class HeaderComponent implements OnInit, AfterViewInit, OnDestroy {
   badgeCart: number;
   showAlertAddedToCart: boolean = false;
 
-  isLogged: boolean = false;
+  isLogin: boolean = false;
   userInformation: UserInformation | null;
 
   subscription: Subscription = new Subscription();
@@ -47,7 +51,9 @@ export class HeaderComponent implements OnInit, AfterViewInit, OnDestroy {
     private jwtDecodedService: JwtDecodedService,
     public authService: AuthService,
     private appServicesService: AppServicesService,
-    private mainContainerScrollService: MainContainerScrollService
+    private mainContainerScrollService: MainContainerScrollService,
+    private checkTokenService: CheckTokenService,
+    private configService: ConfigService
   ) {
     this.menusList = MenusList;
     this.appServicesService.productCategory$.subscribe(res=>{
@@ -110,8 +116,10 @@ export class HeaderComponent implements OnInit, AfterViewInit, OnDestroy {
     this.subscription.add(
       this.authService.getUserInformation().subscribe(userInfo=>{
         this.userInformation = userInfo;
+        console.log(this.userInformation);
+        
       })
-    )
+    );
 
     this.subscription.add(
       this.headerService.get().subscribe(res=>{
@@ -123,7 +131,20 @@ export class HeaderComponent implements OnInit, AfterViewInit, OnDestroy {
           }, 1);        
         }
       })
-    )
+    );
+
+    this.subscription.add(
+      this.checkTokenService.get().subscribe(res=>{
+        this.isLogin = res;
+      })
+    );
+
+    this.subscription.add(
+      this.configService.getConfig().subscribe(res=>{
+        this.identification = res.identification;
+        console.log(this.identification);
+      })
+    );
   }
 
   decodeJwtUserInfo(accessToken: string){

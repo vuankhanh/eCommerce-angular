@@ -45,7 +45,7 @@ export class SlideShowComponent implements OnInit, AfterViewInit, OnDestroy {
         if(this.productHightlights.length>0){
           
           interval(5000).pipe(takeUntil(this.stopPlay$)).subscribe(val=>{            
-            this.counter++;
+            // this.counter++;
             if( this.counter === this.productHightlights.length){
               this.counter = 0;
             }

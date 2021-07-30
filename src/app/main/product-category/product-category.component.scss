@@ -1,5 +1,7 @@
 .products-container{
     align-items: center;
+    padding-top: 15px;
+    min-height: 800px;
     .flex-me {
         width: 100%;
         padding-left: 15px;
@@ -11,8 +13,11 @@
             margin-right: 15px;
             .product-info{
                 padding: 15px;
-                h4, .content-p{
-                    margin-bottom: 5px;
+                .text-container{
+                    cursor: pointer;
+                    h4, .content-p{
+                        margin-bottom: 5px;
+                    }
                 }
             }
             .product-price{
@@ -20,7 +25,7 @@
             }
         }
         .product-frame:hover{
-            box-shadow: 0px 0px 10px 0px #a8a8a8;
+            box-shadow: 0px 0px 10px 0px var(--normal-text);
         }
     }
 }

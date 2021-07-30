@@ -6,21 +6,23 @@
                     <img src="{{product.thumbnailUrl | galleryRoute}}" [alt]="product.name" (click)="showDetail(product)">
                 </div>
                 <div class="product-info">
-                    <h4>{{product.name}}</h4>
-                    <div class="content-p">
-                        {{product.sortDescription}}
+                    <div class="text-container" (click)="showDetail(product)">
+                        <h4>{{product.name}}</h4>
+                        <div class="content-p">
+                            {{product.sortDescription}}
+                        </div>
+                        <h3 class="product-price">
+                            <span>{{ product.price | currency:'VND':'symbol' | replaceSpace}}</span>
+                            <span>/</span>
+                            <span>{{product.unit}}</span>
+                        </h3>
                     </div>
-                    <h3 class="product-price">
-                        <span>{{ product.price | currency:'VND':'symbol' | replaceSpace}}</span>
-                        <span>/</span>
-                        <span>{{product.unit}}</span>
-                    </h3>
-                    <div class="button-container horizontal-container">
+                    <div class="button-container">
                         <button class="button-style button-primary" (click)="addToCart(product)">
                             <mat-icon>add_shopping_cart</mat-icon>
                             <span>Thêm vào giỏ</span>
                         </button>
-                        <div class="width-space"></div>
+                        <div class="height-space"></div>
                         <button class="button-style button-substyle" (click)="showDetail(product)">
                             <span>Chi tiết</span>
                             <mat-icon>arrow_right</mat-icon>

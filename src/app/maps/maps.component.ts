@@ -1,8 +1,7 @@
 import { AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import { Address, Position } from '../models/Address';
 
 import { MouseEventEmitService } from '../services/mouse-event-emit.service';
-
-import { Address, Position } from '../mock-data/contact-information';
 
 // declare var google: { maps: { MapTypeId: { ROADMAP: any; }; Map: new (arg0: any, arg1: { center: any; zoom: number; disableDefaultUI: boolean; mapTypeControl: boolean; streetViewControl: boolean; zoomControl: boolean; fullscreenControl: boolean; mapTypeId: any; styles: { featureType: string; stylers: { visibility: string; }[]; }[]; }) => any; Marker: new (arg0: { map: any; position: any; }) => any; }; };
 declare var google: any;
@@ -20,16 +19,18 @@ export class MapsComponent implements OnInit, AfterViewInit {
   ) { }
 
   ngOnInit() {
+    console.log(this.address);
+    
     
   }
 
   ngAfterViewInit(){
-    this.addMap(this.address.position);
+    this.addMap(this.address);
   }
 
-  addMap(currentPos: Position){
+  addMap(address: Address){
     let mapOptions = {
-      center: currentPos,
+      center: address.position,
       zoom: 16,
       disableDefaultUI: true,
       mapTypeControl: false,
@@ -50,10 +51,10 @@ export class MapsComponent implements OnInit, AfterViewInit {
     this.map = new google.maps.Map(this.mapElement.nativeElement, mapOptions);
     let marker = new google.maps.Marker({
       map: this.map,
-      position: currentPos
+      position: address.position
     });
 
-    marker.infowindow = this.infoWindow(this.address);
+    marker.infowindow = this.infoWindow(address);
     marker.addListener('click', ()=>{
       marker.infowindow.open(this.map, marker);
     })

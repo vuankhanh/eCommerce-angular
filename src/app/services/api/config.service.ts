@@ -10,7 +10,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class ConfigService {
-  private url: string = hostConfiguration.host+'/config';
+  private urlConfig: string = hostConfiguration.host+'/config';
 
   private orderStatus: Array<OrderStatus>;
   private bConfig: BehaviorSubject<ServerConfig | null> = new BehaviorSubject<ServerConfig | null>(null);
@@ -18,13 +18,12 @@ export class ConfigService {
   constructor(
     private httpClient: HttpClient
   ) { }
-  
-  getConfig(token: string){
+
+  getConfig(){
     let headers: HttpHeaders = new HttpHeaders({
-      'Content-Type': 'application/json',
-      'x-access-token': token
+      'Content-Type': 'application/json'
     });
-    return this.httpClient.get<ServerConfig>(this.url, { headers: headers })
+    return this.httpClient.get<ServerConfig>(this.urlConfig, { headers: headers })
   }
 
   set(config: ServerConfig){
@@ -37,7 +36,11 @@ export class ConfigService {
   }
 
   filterNameOrderStatus(code: string){
-    let index: number = this.orderStatus.findIndex(status=>status.code === code);
-    return index >=0 ? this.orderStatus[index].name : null
+    if(this.orderStatus){
+      let index: number = this.orderStatus.findIndex(status=>status.code === code);
+      return index >=0 ? this.orderStatus[index].name : null
+    }else{
+      return null;
+    }
   }
 }

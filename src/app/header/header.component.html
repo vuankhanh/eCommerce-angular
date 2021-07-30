@@ -1,7 +1,7 @@
 <div class="header-container horizontal-container" #header>
-    <div class="brand-name vertical-container">
+    <div class="brand-name vertical-container" *ngIf="identification">
         <img
-            src="../../assets/logo/trademark/tu-than-name.png"
+            src="{{ identification.logo.src | galleryRoute }}"
             routerLink="/homepage"
         >
     </div>
@@ -13,7 +13,7 @@
                     matRippleDisabled="false"
                     class="title-menu"
                     [routerLink]="menu.route"
-                    [ngStyle]="{ color: currentUrl === menu.route ? '#ed1c24': '' }"
+                    [ngStyle]="{ color: currentUrl === menu.route ? 'var(--hightlight-text)': '' }"
                     [matBadge]="badgeCart"
                     [matBadgeHidden]="(menu.route === 'cart' ? false : true) || !badgeCart"
                     (mouseenter)="closeAlertAddedToCart()"
@@ -25,7 +25,7 @@
                         <div *ngFor="let child of menu.child">
                             <button
                                 routerLink="{{menu.route+'/'+child.route}}"
-                                [ngStyle]="{ color: activeLink === child.route ? '#ed1c24': '' }"
+                                [ngStyle]="{ color: activeLink === child.route ? 'var(--hightlight-text)': '' }"
                             >
                                 {{child.name}}
                             </button>
@@ -63,17 +63,17 @@
             </div>
             <div class="user-information-block_showListButton vertical-container">
                 <div class="user-information-block_showListButton_status">
-                    {{ !userInformation ? 'Đăng nhập/Đăng ký' : 'Tài khoản' }}
+                    {{ userInformation && isLogin ? 'Tài khoản' : 'Đăng nhập/Đăng ký' }}
                 </div>
                 <div class="user-information-block_showListButton_account horizontal-container">
-                    <span>{{ !userInformation ? 'Tài khoản' : userInformation.name}}</span>
+                    <span>{{ userInformation && isLogin ? userInformation.name : 'Tài khoản'}}</span>
                     <mat-icon>arrow_drop_down</mat-icon>
                 </div>
             </div>
         </div>
         
         <div class="listButton vertical-container">
-            <ng-container *ngIf="userInformation; else menuAuthentication">
+            <ng-container *ngIf="userInformation && isLogin; else menuAuthentication">
                 <mat-list role="list">
                     <div class="micro-height-space"></div>
                     <mat-list-item role="listitem" routerLink="/customer/personal">
@@ -90,7 +90,7 @@
             </ng-container>
             <ng-template #menuAuthentication>
                 <div class="authentication-action-container">
-                    <div class="button-loginRegister loginRegister horizontal-container">
+                    <div class="button-loginRegister loginRegister button-primary horizontal-container">
                         <div class="textButton horizontal-container" (click)="authService.login('login')">
                             Đăng nhập
                         </div>
@@ -98,13 +98,13 @@
         
                     <div class="mini-height-space"></div>
         
-                    <div class="button-loginRegister loginRegister horizontal-container">
+                    <div class="button-loginRegister loginRegister button-primary horizontal-container">
                         <div class="textButton horizontal-container" (click)="authService.login('register')">
                             Đăng ký
                         </div>
                     </div>
         
-                    <div class="mini-height-space"></div>
+                    <!-- <div class="mini-height-space"></div>
         
                     <div class="button-loginRegister loginFacebook horizontal-container">
                         <div class="icon">
@@ -135,7 +135,7 @@
                         <div class="textButton horizontal-container">
                             Đăng nhập bằng Zalo
                         </div>
-                    </div>
+                    </div> -->
                 </div>
             </ng-template>
         </div>

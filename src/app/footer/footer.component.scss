@@ -1,25 +1,133 @@
-.footer-container{
-    margin-bottom: 15px;
-    .social-container{
-        .social-networking-item{
-            cursor: pointer;
-            height: 40px;
-            width: 40px;
-            border-radius: 100%;
-            align-items: center;
-            justify-content: center;
+button{
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+    .mat-badge-content{
+        background-color: #ed1c24;
+        top: 8px !important;
+        right: -5px !important;
+    }
+}
+
+.footer-container{ 
+    padding: 15px;
+    background: rgba(0, 0, 0, 0.9);
+    .footer-item-container{
+        width: 100%;
+        justify-content: space-between;
+        box-sizing: border-box;
+        .first-block{
+            width: 40%;
+            .logo-container{
+
+            }
+            .menu-container{
+                align-items: center;
+                .dropdown-container{
+                    position: relative;
+                    .title-menu{
+                        height: 70px;
+                        color: white;
+                    }
+                    .title-menu:hover{
+                        color: #ed1c24;
+                    }
+                    button{
+                        border: none;
+                        background: none;
+                        font-weight: bold;
+                        cursor: pointer;
+                    }
+                }
+                .dropdown-container:hover{
+                    .sub-menu-container{
+                        display: block;
+                        button:hover{
+                            color: #ed1c24;
+                        }
+                    }
+                }
+            }
         }
-        .loginFacebook{
-            background: #3b5998;
-            color: white;
+
+        .second-block{
+            width: 30%;
+            .social-container{
+                .social-networking-item{
+                    align-items: center;
+                    text-decoration: none;
+                    color: white;
+                    mat-icon{
+                        cursor: pointer;
+                        border-radius: 100%;
+                        align-items: center;
+                        justify-content: center;
+                        margin-right: 5px;
+                        margin-bottom: 5px;
+                        height: 24px;
+                        width: 24px;
+                        padding: 8px;
+                    }
+                    .facebook{
+                        background: #3b5998;
+                        color: white;
+                    }
+                    .google{
+                        background: #db4a39;
+                        color: white;
+                    }
+                    .zalo{
+                        background: #0573ff;
+                        color: white;
+                    }
+                }
+            }
+            .phone-number-container{
+                a{
+                    align-items: center;
+                    text-decoration: none;
+                    color: white;
+                    mat-icon{
+                        background-color: #333333;
+                        cursor: pointer;
+                        height: 40px;
+                        width: 40px;
+                        border-radius: 100%;
+                        align-items: center;
+                        justify-content: center;
+                        margin-right: 5px;
+                        margin-bottom: 5px;
+                        display: flex;
+                    }
+                }
+            }
+
+            .address-container{
+                a{
+                    align-items: center;
+                    text-decoration: none;
+                    color: white;
+                    mat-icon{
+                        background-color: #333333;
+                        cursor: pointer;
+                        height: 40px;
+                        width: 40px;
+                        min-width: 40px;
+                        border-radius: 100%;
+                        align-items: center;
+                        justify-content: center;
+                        margin-right: 5px;
+                        margin-bottom: 5px;
+                        display: flex;
+                    }
+                    span{
+                        line-height: 1.2;
+                    }
+                }
+            }
         }
-        .loginGoogle{
-            background: #db4a39;
-            color: white;
-        }
-        .loginZalo{
-            background: #0573ff;
-            color: white;
+
+        .third-block{
+            width: 30%;
+            height: 200px;
         }
     }
 }

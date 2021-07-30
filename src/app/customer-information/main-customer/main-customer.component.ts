@@ -1,11 +1,13 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Event, NavigationStart, Router } from '@angular/router';
-import { Subscription } from 'rxjs';
 
 import { CustomerMenu, Menu } from 'src/app/mock-data/menu';
 
 //Service
 import { UrlChangeService } from 'src/app/services/url-change.service';
+import { ConfigService } from 'src/app/services/api/config.service';
+
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-main-customer',
@@ -20,7 +22,8 @@ export class MainCustomerComponent implements OnInit, OnDestroy {
   private subscription: Subscription = new Subscription();
   constructor(
     private router: Router,
-    private urlChangeService: UrlChangeService
+    private urlChangeService: UrlChangeService,
+    private configService: ConfigService
   ) {
     this.customerMenu = CustomerMenu;
     this.activeLink = this.router.url;
@@ -34,6 +37,13 @@ export class MainCustomerComponent implements OnInit, OnDestroy {
         }
       })
     );
+    
+    this.subscription.add(
+      this.configService.getConfig().subscribe(res=>{
+        this.configService.set(res);
+        console.log(res);
+      })
+    )
   }
 
   ngOnDestroy(){

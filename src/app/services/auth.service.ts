@@ -12,10 +12,9 @@ import { UserInformation, JwtDecoded } from '../models/UserInformation';
 import { JwtDecodedService } from './jwt-decoded.service';
 import { LocalStorageService } from './local-storage.service';
 import { ResponseLogin } from './api/login.service';
-import { ConfigService } from './api/config.service';
+import { CheckTokenService } from './api/check-token.service';
 
 import { BehaviorSubject, Observable, of } from 'rxjs';
-import { catchError , map } from 'rxjs/operators'
 
 const tokenStoragedKey = 'carota-token';
 @Injectable({
@@ -28,7 +27,7 @@ export class AuthService {
     private dialog: MatDialog,
     private jwtDecodedService: JwtDecodedService,
     private localStorageService: LocalStorageService,
-    private configService: ConfigService
+    private checkTokenService: CheckTokenService
   ) {
     this.getUserInfoFromTokenStoraged();
   }
@@ -44,6 +43,7 @@ export class AuthService {
       dialogRef.afterClosed().subscribe(result=>{
         console.log('Dialog result: ');
         if(result){
+          this.checkTokenValidation(result.accessToken);
           let tokenInformation: JwtDecoded = <JwtDecoded>this.jwtDecodedService.jwtDecoded(result.accessToken);
           this.localStorageService.set(tokenStoragedKey, result);
           console.log(tokenInformation);
@@ -69,22 +69,14 @@ export class AuthService {
     }
   }
 
-  checkTokenValidation(): Observable<boolean>{
-    let tokenStoraged: ResponseLogin = <ResponseLogin>this.localStorageService.get(tokenStoragedKey);
-    if(tokenStoraged && tokenStoraged.accessToken){
-      let accessToken = tokenStoraged.accessToken;
-      return this.configService.getConfig(accessToken).pipe(
-        map(res=>{
-          this.configService.set(res);
-          return true;
-        })
-      );
-    }else{
-      this.logout().then(_=>{
-        this.login('login');
-      });
-      return of(false);
-    }
+  checkTokenValidation(accessToken: string){
+    this.checkTokenService.getCheck(accessToken).subscribe(res=>{
+      if(res){
+        this.checkTokenService.set(true);
+      }
+    },err=>{
+      this.checkTokenService.set(false);
+    })
   }
 
   getUserInfoFromTokenStoraged(){

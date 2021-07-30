@@ -1,8 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 
-import { ContactInfor, ContactInformation } from './mock-data/contact-information';
-
-import { AddIconSvgService } from './services/add-icon-svg.service';
 import { MainContainerScrollService } from './services/main-container-scroll.service';
 import { MouseEventEmitService } from './services/mouse-event-emit.service';
 @Component({
@@ -11,20 +8,24 @@ import { MouseEventEmitService } from './services/mouse-event-emit.service';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
-  contactInformation: ContactInformation;
   constructor(
-    private addIconSvgService: AddIconSvgService,
     private mouseEventEmitService: MouseEventEmitService,
     private mainContainerScrollService: MainContainerScrollService
   ){
-    this.addIconSvgService.addIcon();
-    this.contactInformation = ContactInfor;
-    console.log(this.contactInformation);
     
   }
 
   ngOnInit(){
-    
+    const colors = new Map([
+      ['primary-background', '#5470ff'],
+      ['secondary-background', '#37b5ff'],
+      ['normal-text', '#0a5185'],
+      ['hightlight-text', '#001727']
+    ])
+
+    Array.from(colors.entries()).forEach(([name, value]) => {
+      document.body.style.setProperty(`--${name}`, value);
+    })
   }
 
   onActivate() {

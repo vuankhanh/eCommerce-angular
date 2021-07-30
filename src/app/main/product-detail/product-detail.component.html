@@ -61,14 +61,18 @@
                         <div class="horizontal-container deliveryTo">
                             <div>Giao đến:</div>
                             <div class="micro-width-space"></div>
-                            <div class="textAddress">
+                            <a
+                                href="{{'https://www.google.com/maps/place/'+ headquartersAddress.street +' '+ headquartersAddress.ward.name +' '+ headquartersAddress.district.name +' '+ headquartersAddress.province.name }}"
+                                target="_blank"
+                                class="textAddress"
+                            >
                                 <span>
                                     {{ headquartersAddress.responsiblePerson }}, 
                                     {{ headquartersAddress.ward.name }}, 
-                                    {{ headquartersAddress.district.name }}, 
+                                    {{ headquartersAddress.district.name }},
                                     {{ headquartersAddress.province.name }}
                                 </span>
-                            </div>
+                            </a>
                             <div class="micro-width-space"></div>
                             <div>-</div>
                             <div class="micro-width-space"></div>

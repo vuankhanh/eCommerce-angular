@@ -1,3 +1,5 @@
+import { Identification } from "./Identification";
+
 export interface OrderStatus{
     numericalOrder: number,
     code: string,
@@ -5,5 +7,6 @@ export interface OrderStatus{
 }
 
 export interface ServerConfig{
+    identification: Identification,
     orderStatus: Array<OrderStatus>
 }

@@ -14,6 +14,7 @@ html, body {
 body {
     margin: 0;
     font-family: Roboto, "Helvetica Neue", sans-serif;
+    color: var(--normal-text);
 }
 div{
     line-height: 1;
@@ -77,17 +78,17 @@ div{
 }
 
 .button-primary{
-    background-color: #ed1c24;
+    background-color: var(--primary-background);
     color: white;
 }
 
 .button-secondary{
-    background-color: #F89406;
+    background-color: var(--secondary-background);
     color: white;
 }
 
 .button-substyle{
-    background-color: #F89406;
+    background-color: var(--secondary-background);
     color: white;
 }
 
@@ -107,8 +108,8 @@ div{
 .login-modal{
     position: relative!important;
     mat-dialog-container{
-        background: white;
-        color: #333333;
+        // background: white;
+        color: var(--normal-text);
     }
 }
 .payment-success-modal{

@@ -1,7 +1,7 @@
 button{
     font-family: Roboto, "Helvetica Neue", sans-serif;
     .mat-badge-content{
-        background-color: #ed1c24;
+        background-color: var(--primary-background);
         top: 8px !important;
         right: -5px !important;
     }
@@ -17,7 +17,7 @@ button{
         justify-content: center;
         img{
             display: block;
-            width: 100px;
+            height: 70px;
         }
     }
 
@@ -25,11 +25,13 @@ button{
         align-items: center;
         .dropdown-container{
             position: relative;
+
             .title-menu{
                 height: 70px;
+                color: var(--normal-text);
             }
             .title-menu:hover{
-                color: #ed1c24;
+                color: var(--hightlight-text);
             }
             button{
                 border: none;
@@ -44,9 +46,10 @@ button{
                 background: white;
                 top: 70px;
                 box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-                button[mat-button]{
+                button{
                     width: 100%;
                     text-align: left;
+                    color: var(--normal-text);
                 }
             }
             .alert-added-to-cart{
@@ -106,7 +109,7 @@ button{
             .sub-menu-container{
                 display: block;
                 button:hover{
-                    color: #ed1c24;
+                    color: var(--hightlight-text);;
                 }
             }
         }
@@ -118,7 +121,6 @@ button{
             height: 100%;
             cursor: pointer;
             padding: 0 15px;
-            color: black;
             .user-information-block_icon{
                 mat-icon{
                     height: 32px;
@@ -163,6 +165,7 @@ button{
                     padding: 5px 15px;
                     box-sizing: border-box;
                     font-size: 14px;
+                    color: var(--normal-text);
                 }
                 mat-list-item:hover{
                     background-color: #ededed;
@@ -175,10 +178,9 @@ button{
                     align-items: center;
                     justify-content: space-between;
                     height: 40px;
+                    min-width: 200px;
                     border-radius: 40px;
                     border: none;
-                    background: #c88026;
-                    color: #333333;
                     .icon{
                         width: 40px;
                         height: 40px;
@@ -224,7 +226,7 @@ button{
     }
     .user-information:hover{
         .user-information-block{
-            color: #ed1c24;
+            color: var(--hightlight-text);
         }
         .listButton{
             display: block;
@@ -233,21 +235,5 @@ button{
 }
 
 .header-container-scrolled{
-    background: rgb(0,0,0,.9);
-    .brand-name{
-        img{
-            content:url("../../assets/logo/trademark/tu-than-name-white.png");
-            // content:url("../assets/logo/trademark/tu-than-name-orange.png");
-        }
-    }
-    .menu-container{
-        .title-menu{
-            color: white;
-        }
-    }
-    .user-information{
-        .user-information-block{
-            color: white;
-        }
-    }
+    background: rgb(255, 255, 255, .75);
 }
