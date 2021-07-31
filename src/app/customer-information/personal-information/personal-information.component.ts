@@ -10,7 +10,6 @@ import { AuthService } from 'src/app/services/auth.service';
 import { UpdatePersonalInformationService, ResponseUpdate } from 'src/app/services/api/update-personal-information.service';
 import { LocalStorageService } from 'src/app/services/local-storage.service';
 import { ResponseLogin } from 'src/app/services/api/login.service';
-import { JwtDecodedService } from 'src/app/services/jwt-decoded.service';
 import { ToastService } from 'src/app/services/toast.service';
 
 //Validation Form
@@ -26,7 +25,6 @@ const tokenStoragedKey = 'carota-token';
   styleUrls: ['./personal-information.component.scss']
 })
 export class PersonalInformationComponent implements OnInit, OnDestroy {
-  @ViewChild('oldPassword') oldPassword: ElementRef;
   informationGroup: FormGroup;
   checkedChangePassword: boolean = false;
   private subscription: Subscription = new Subscription();
@@ -110,9 +108,6 @@ export class PersonalInformationComponent implements OnInit, OnDestroy {
       this.informationGroup.controls['oldPassword'].enable();
       this.informationGroup.controls['password'].enable();
       this.informationGroup.controls['confirmPassword'].enable();
-      setTimeout(() => {
-        this.oldPassword.nativeElement.focus();
-      }, 150);
     }
   }
 
@@ -128,11 +123,13 @@ export class PersonalInformationComponent implements OnInit, OnDestroy {
             let resBody: ResponseUpdate = <ResponseUpdate>res.body;
             if(resBody.accessToken){
               this.authService.updateAccessToken(resBody.accessToken);
-              this.toastService.shortToastSuccess('Đã cập nhật thành công', 'Thành công')
+              this.toastService.shortToastSuccess('Đã cập nhật thành công', 'Thành công');
+              this.checkedChangePassword = false;
             }
-          }else if(res.status){
-            this.toastService.shortToastWarning('Không có gì thay đổi', '');
           }
+          // else if(res.status){
+          //   this.toastService.shortToastWarning('Không có gì thay đổi', '');
+          // }
         },error=>{
           console.log(error);
           this.informationGroup.controls['confirmPassword'].enable();

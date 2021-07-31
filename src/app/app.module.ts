@@ -69,6 +69,9 @@ import { AddressChooseComponent } from './sharing/modal/address-choose/address-c
 import { PostsComponent } from './sharing/component/posts/posts.component';
 import { OrderHistoryDetailComponent } from './customer-information/order-history-detail/order-history-detail.component';
 import { PaymentSuccessfulComponent } from './sharing/modal/payment-successful/payment-successful.component';
+import { VerificationEmailComponent } from './main/verification-email/verification-email.component';
+import { RegisterSuccessfulComponent } from './sharing/modal/register-successful/register-successful.component';
+import { ResetPasswordComponent } from './main/reset-password/reset-password.component';
 
 @NgModule({
   declarations: [
@@ -104,6 +107,9 @@ import { PaymentSuccessfulComponent } from './sharing/modal/payment-successful/p
     PostsComponent,
     OrderHistoryDetailComponent,
     PaymentSuccessfulComponent,
+    VerificationEmailComponent,
+    RegisterSuccessfulComponent,
+    ResetPasswordComponent,
 
   ],
   imports: [

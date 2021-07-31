@@ -19,6 +19,7 @@ export class AppComponent implements OnInit {
     const colors = new Map([
       ['primary-background', '#5470ff'],
       ['secondary-background', '#37b5ff'],
+      ['tertiary-background', '#333333'],
       ['normal-text', '#0a5185'],
       ['hightlight-text', '#001727']
     ])

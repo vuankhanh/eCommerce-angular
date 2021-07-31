@@ -13,4 +13,5 @@
     ></app-login>
     <app-register *ngSwitchCase="'register'" (valueChange)="changeComponent($event)"></app-register>
     <app-forgot-password *ngSwitchCase="'forgotPassword'" (valueChange)="changeComponent($event)"></app-forgot-password>
+    <app-register-successful *ngSwitchCase="'registerSuccessful'"></app-register-successful>
 </ng-container>

@@ -9,7 +9,7 @@ button{
 
 .footer-container{ 
     padding: 15px;
-    background: rgba(0, 0, 0, 0.9);
+    background: var(--tertiary-background);
     .footer-item-container{
         width: 100%;
         justify-content: space-between;
@@ -63,7 +63,9 @@ button{
                         margin-right: 5px;
                         margin-bottom: 5px;
                         height: 24px;
+                        min-height: 24px;
                         width: 24px;
+                        min-width: 24px;
                         padding: 8px;
                     }
                     .facebook{
@@ -86,10 +88,12 @@ button{
                     text-decoration: none;
                     color: white;
                     mat-icon{
-                        background-color: #333333;
+                        background-color: var(--normal-text);
                         cursor: pointer;
                         height: 40px;
                         width: 40px;
+                        min-width: 40px;
+                        min-height: 40px;
                         border-radius: 100%;
                         align-items: center;
                         justify-content: center;
@@ -106,11 +110,12 @@ button{
                     text-decoration: none;
                     color: white;
                     mat-icon{
-                        background-color: #333333;
+                        background-color: var(--normal-text);
                         cursor: pointer;
                         height: 40px;
                         width: 40px;
                         min-width: 40px;
+                        min-height: 40px;
                         border-radius: 100%;
                         align-items: center;
                         justify-content: center;

@@ -21,10 +21,10 @@ export class MainComponent implements OnInit {
 
   changeComponent(event: any){
     console.log(event);
-    if(event != 'login'){
+    if(event === 'login' || event === 'registerSuccessful'){
+      this.historyModalComponent = [];
       this.historyModalComponent.push(event);
     }else{
-      this.historyModalComponent = [];
       this.historyModalComponent.push(event);
     }
     this.data.type = event;

@@ -9,6 +9,8 @@ import { ProductionsComponent } from './main/product/product.component';
 import { ProductCategoryComponent } from './main/product-category/product-category.component';
 import { ProductDetailComponent } from './main/product-detail/product-detail.component';
 import { ContactComponent } from './main/contact/contact.component';
+import { VerificationEmailComponent } from './main/verification-email/verification-email.component';
+import { ResetPasswordComponent } from './main/reset-password/reset-password.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'homepage', pathMatch: 'full' },
@@ -27,6 +29,8 @@ const routes: Routes = [
     ]
   },
   { path: 'contact', component: ContactComponent },
+  { path: 'verify-email', component: VerificationEmailComponent },
+  { path: 'reset-password', component: ResetPasswordComponent }
   // { path: '**', redirectTo: '/homepage' }
 ];
 

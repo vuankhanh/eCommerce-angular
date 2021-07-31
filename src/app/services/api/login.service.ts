@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 import { hostConfiguration } from '../../../environments/environment';
@@ -15,8 +15,8 @@ export class LoginService {
     private httpClient: HttpClient
   ) { }
 
-  login(userName: UserName): Observable<ResponseLogin>{
-    return this.httpClient.post<ResponseLogin>(this.urlLogin, userName);
+  login(userName: UserName){
+    return this.httpClient.post(this.urlLogin, userName, { observe: 'response' });
   }
 
   refreshToken(refreshToken: string){

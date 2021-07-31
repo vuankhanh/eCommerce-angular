@@ -41,7 +41,9 @@
                 <div class="width-space"></div>
                 <section>
                     <mat-checkbox
+                        [(ngModel)]="checkedChangePassword"
                         (change)="changePassword($event)"
+                        [ngModelOptions]="{standalone: true}"
                     >
                         Đổi mật khẩu
                     </mat-checkbox>
@@ -53,7 +55,7 @@
                     <div mat-line>Mật khẩu cũ</div>
                     <div class="width-space"></div>
                     <mat-form-field>
-                        <input type="password" matInput formControlName="oldPassword" #oldPassword>
+                        <input type="password" matInput formControlName="oldPassword">
                         <mat-error *ngIf="informationGroup.controls['oldPassword'].hasError('passwordIsIncorrect')">
                             Mật khẩu cũ không đúng
                         </mat-error>

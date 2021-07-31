@@ -95,30 +95,28 @@ export class RegisterComponent implements OnInit, OnDestroy {
     let userName = this.registerGroup.controls['userName'];
     if(this.registerGroup.valid){
       this.loading = true;
-      setTimeout(() => {
-        this.subscription.add(
-          this.registerService.register(this.registerGroup.value).subscribe(res=>{
-            console.log(res);
-            this.loading = false;
-            this.toastService.shortToastSuccess('Bạn đã đăng ký thành công.', 'Thành Công');
-            this.valueChange.emit('login');
-          },error=>{
-            console.log(error);
-            if(error.status === 409){
-              if(error.error.key){
-                if(error.error.key.userName){
-                  userName.setErrors({ isAlreadyExist: true });
-                }
-
-                if(error.error.key.email){
-                  email.setErrors({ isAlreadyExist: true });
-                }
+      this.subscription.add(
+        this.registerService.register(this.registerGroup.value).subscribe(res=>{
+          console.log(res);
+          this.loading = false;
+          this.toastService.shortToastSuccess('Bạn đã đăng ký thành công.', 'Thành Công');
+          this.valueChange.emit('registerSuccessful');
+        },error=>{
+          console.log(error);
+          if(error.status === 409){
+            if(error.error.key){
+              if(error.error.key.userName){
+                userName.setErrors({ isAlreadyExist: true });
               }
-              this.loading = false;
+
+              if(error.error.key.email){
+                email.setErrors({ isAlreadyExist: true });
+              }
             }
-          })
-        )
-      }, 2000);
+            this.loading = false;
+          }
+        })
+      )
     }
   }
 

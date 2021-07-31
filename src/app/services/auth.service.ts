@@ -41,7 +41,6 @@ export class AuthService {
       });
   
       dialogRef.afterClosed().subscribe(result=>{
-        console.log('Dialog result: ');
         if(result){
           this.checkTokenValidation(result.accessToken);
           let tokenInformation: JwtDecoded = <JwtDecoded>this.jwtDecodedService.jwtDecoded(result.accessToken);
