@@ -3,26 +3,32 @@ import { ProductCategory } from '../models/ProductCategory';
 export const MenusList: Array<Menu> =
 [
     {
+        icon: 'home',
         title: 'Trang chủ',
         route: 'homepage',
         child: []
     },{
+        icon: 'store',
         title: 'Sản phẩm',
         route: 'productions',
         child: []
     },{
+        icon: 'shopping_cart',
         title: 'Giỏ hàng',
         route: 'cart',
         child: []
-    },{
-        title: 'Về chúng tôi',
-        route: 'about-us',
-        child:[]
-    },{
-        title: 'Liên hệ',
-        route: 'contact',
-        child:[]
     },
+    // {
+    //     icon: 'info',
+    //     title: 'Về chúng tôi',
+    //     route: 'about-us',
+    //     child:[]
+    // },{
+    //     icon: 'contacts',
+    //     title: 'Liên hệ',
+    //     route: 'contact',
+    //     child:[]
+    // },
 ];
 
 export const CustomerMenu: Array<Menu> = [

@@ -40,12 +40,12 @@ export class SlideShowComponent implements OnInit, AfterViewInit, OnDestroy {
   ngOnInit(): void {
     
     this.subscription.add(
-      this.appServicesService.bProductHightlight$.subscribe(res=>{
+      this.appServicesService.productHightlight$.subscribe(res=>{
         this.productHightlights = res;
         if(this.productHightlights.length>0){
           
           interval(5000).pipe(takeUntil(this.stopPlay$)).subscribe(val=>{            
-            // this.counter++;
+            this.counter++;
             if( this.counter === this.productHightlights.length){
               this.counter = 0;
             }
@@ -67,11 +67,16 @@ export class SlideShowComponent implements OnInit, AfterViewInit, OnDestroy {
     
   }
 
+  clickBanner(product: Product){
+    console.log(product);
+    this.router.navigate(['/productions/'+product.category.route]);
+  }
+
   animationText(): void {
     if(this.txtProductName){
       this.ren.setStyle(this.txtProductName.nativeElement, 'margin-left', '0');
     }
-    this.ren.setStyle(this.txtProductReviews.nativeElement, 'margin-left', '0');
+    // this.ren.setStyle(this.txtProductReviews.nativeElement, 'margin-left', '0');
     setTimeout(() => {
       this.ren.setStyle(this.btnBookNow.nativeElement, 'opacity', '1');
       setTimeout(() => {

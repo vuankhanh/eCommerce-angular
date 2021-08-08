@@ -32,7 +32,7 @@ export class AuthService {
     this.getUserInfoFromTokenStoraged();
   }
 
-  login(type: string){
+  login(type: 'login' | 'register' | 'forgotPassword'){
     if(type === 'login' || type === 'register' || type === 'forgotPassword'){
       let data: TypeLogin = { type: type };
       const dialogRef = this.dialog.open(MainComponent,{

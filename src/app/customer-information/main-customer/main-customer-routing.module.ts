@@ -16,10 +16,10 @@ const routes: Routes = [
     canActivate: [RouteGuard],
     children:[
       { path: '', redirectTo: 'personal', pathMatch: 'full'},
-      { path: 'personal', component: PersonalInformationComponent,},
-      { path: 'order-history', component: OrderHistoryComponent },
-      { path: 'order-history/:id', component: OrderHistoryDetailComponent },
-      { path: 'address-book', component: AddressBookComponent },
+      { path: 'personal', component: PersonalInformationComponent, data: { title: 'Tài khoản của tôi' } },
+      { path: 'order-history', component: OrderHistoryComponent, data: { title: 'Lịch sử mua hàng' } },
+      { path: 'order-history/:id', component: OrderHistoryDetailComponent, data: { title: 'Lịch sử mua hàng' } },
+      { path: 'address-book', component: AddressBookComponent, data: { title: 'Sổ địa chỉ' } },
     ]
   },
 ];

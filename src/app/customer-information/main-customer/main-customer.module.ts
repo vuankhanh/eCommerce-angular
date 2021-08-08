@@ -14,6 +14,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatExpansionModule } from '@angular/material/expansion';
 
 
 //PipeModule
@@ -49,6 +50,7 @@ import { RefreshTokenInterceptorService } from '../../services/api/refresh-token
         MatSelectModule,
         MatTableModule,
         MatPaginatorModule,
+        MatExpansionModule,
 
         ReplaceProtocolNameModule,
         ReplaceSpaceModule,

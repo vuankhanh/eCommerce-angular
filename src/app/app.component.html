@@ -1,38 +1,17 @@
-<div class="container horizontal-container">
-  <!-- <div class="left-container" (mouseenter)="mouseEventEmit($event)" (mouseleave)="mouseEventEmit($event)">
-    <div class="contact">
-      <div class="contact__information phone-number">
-        <a [href]="'tel: '+contactInformation.phoneNumber" class="contact__information">
-          <mat-icon>phone</mat-icon>
-          <span>{{ contactInformation.phoneNumber }}</span>
-        </a>
+<div class="container horizontal-container" >
+  <mat-drawer-container autosize>
+    <mat-drawer #drawer mode="over" *ngIf="isMobile">
+      <app-drawer (toggleDrawer)="toggle($event)"></app-drawer>
+    </mat-drawer>
+  
+    <mat-drawer-content (scroll)="onScroll($event)">
+      <div class="main-container">
+        <app-header #appHeader (toggleDrawer)="toggle($event)"></app-header>
+        <router-outlet (activate)="onActivate()"></router-outlet>
+        <app-footer (toggleDrawer)="toggle($event)"></app-footer>
+        <!-- <div style="height: 300px;"></div> -->
       </div>
-
-      <div class="contact__information">
-        <a [href]="contactInformation.urlFacebook" target="_blank" class="contact__information">
-          <mat-icon>facebook</mat-icon>
-          <span>{{contactInformation.urlFacebook | replaceProtocolName}}</span>
-        </a>
-      </div>
-
-      <div class="contact__information">
-        <a [href]="contactInformation.urlZalo + contactInformation.phoneNumber" target="_blank" class="contact__information">
-          <mat-icon svgIcon='zalo'></mat-icon>
-          <span>{{(contactInformation.urlZalo | replaceProtocolName) + contactInformation.phoneNumber}}</span>
-        </a>
-      </div>
-    </div>
-    <div class="map-container vertical-container">
-      <mat-icon svgIcon='gmap'></mat-icon>
-      <ng-container *ngIf="contactInformation && contactInformation.addresses && contactInformation.addresses.length>0">
-        <app-maps *ngFor="let address of contactInformation.addresses; let i = index" [address]="address"></app-maps>
-      </ng-container>
-    </div>
-  </div> -->
-  <div class="main-container" (scroll)="onScroll($event)">
-    <app-header #appHeader></app-header>
-    <router-outlet (activate)="onActivate()"></router-outlet>
-    <app-footer></app-footer>
-    <!-- <div style="height: 300px;"></div> -->
-  </div>
+    </mat-drawer-content>
+  
+  </mat-drawer-container>
 </div>

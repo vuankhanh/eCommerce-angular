@@ -1,4 +1,8 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
+import { ProductCategory } from 'src/app/models/ProductCategory';
+
+import { AppServicesService } from 'src/app/services/app-services.service';
 
 
 @Component({
@@ -7,9 +11,15 @@ import { AfterViewInit, Component, OnInit } from '@angular/core';
   styleUrls: ['./home-page.component.scss']
 })
 export class HomePageComponent implements OnInit, AfterViewInit {
-  constructor() { }
+  category$: Observable<ProductCategory[]>;
+  constructor(
+    private appServiceService: AppServicesService
+  ) {
+    this.category$ = this.appServiceService.productCategory$;
+  }
 
   ngOnInit() {
+    
   }
 
   ngAfterViewInit(){

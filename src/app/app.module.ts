@@ -1,6 +1,7 @@
 import { NgModule, LOCALE_ID } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
+import { LayoutModule } from '@angular/cdk/layout';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { registerLocaleData } from '@angular/common';
 import localeFr from '@angular/common/locales/es';
@@ -25,6 +26,9 @@ import { MatListModule } from '@angular/material/list';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
+import { MatExpansionModule } from '@angular/material/expansion';
 
 //PipeModule
 import { ReplaceProtocolNameModule } from './pipes/replace-protocol-name/replace-protocol-name.module';
@@ -41,6 +45,7 @@ import { InputOnlyNumberDirective } from './directives/input-only-number.directi
 import { ClickOutsideDirective } from './directives/click-outside.directive';
 import { CapsLockDirective } from './directives/caps-lock.directive';
 
+import { DrawerComponent } from './drawer/drawer.component';
 import { SlideShowComponent } from './main/slide-show/slide-show.component';
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
@@ -51,6 +56,7 @@ import { CartComponent } from './main/cart/cart.component';
 import { PaymentPageComponent } from './main/payment-page/payment-page.component';
 import { ContactComponent } from './main/contact/contact.component';
 import { ProductCategoryComponent } from './main/product-category/product-category.component';
+import { ProductCategoryHomePageComponent } from './main/product-category-home-page/product-category-home-page.component';
 
 //App Providers
 import { AppServicesService } from './services/app-services.service';
@@ -72,6 +78,8 @@ import { PaymentSuccessfulComponent } from './sharing/modal/payment-successful/p
 import { VerificationEmailComponent } from './main/verification-email/verification-email.component';
 import { RegisterSuccessfulComponent } from './sharing/modal/register-successful/register-successful.component';
 import { ResetPasswordComponent } from './main/reset-password/reset-password.component';
+import { ForgotPasswordSuccessfulComponent } from './sharing/modal/forgot-password-successful/forgot-password-successful.component';
+import { AlertTitleComponent } from './sharing/component/alert-title/alert-title.component';
 
 @NgModule({
   declarations: [
@@ -83,6 +91,7 @@ import { ResetPasswordComponent } from './main/reset-password/reset-password.com
     ClickOutsideDirective,
     CapsLockDirective,
 
+    DrawerComponent,
     SlideShowComponent,
     HeaderComponent,
     FooterComponent,
@@ -93,6 +102,7 @@ import { ResetPasswordComponent } from './main/reset-password/reset-password.com
     PaymentPageComponent,
     ContactComponent,
     ProductCategoryComponent,
+    ProductCategoryHomePageComponent,
 
     SkeletonComponent,
     PaginationComponent,
@@ -110,11 +120,14 @@ import { ResetPasswordComponent } from './main/reset-password/reset-password.com
     VerificationEmailComponent,
     RegisterSuccessfulComponent,
     ResetPasswordComponent,
+    ForgotPasswordSuccessfulComponent,
+    AlertTitleComponent,
 
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
+    LayoutModule,
     FormsModule,
     ReactiveFormsModule,
     AppRoutingModule,
@@ -139,6 +152,9 @@ import { ResetPasswordComponent } from './main/reset-password/reset-password.com
     MatRadioModule,
     MatTableModule,
     MatPaginatorModule,
+    MatSidenavModule,
+    MatBottomSheetModule,
+    MatExpansionModule,
 
     ReplaceProtocolNameModule,
     ReplaceSpaceModule,

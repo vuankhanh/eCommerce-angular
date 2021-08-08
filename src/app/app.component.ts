@@ -1,5 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatSidenav } from '@angular/material/sidenav';
 
+import { AppServicesService } from './services/app-services.service';
 import { MainContainerScrollService } from './services/main-container-scroll.service';
 import { MouseEventEmitService } from './services/mouse-event-emit.service';
 @Component({
@@ -8,9 +10,12 @@ import { MouseEventEmitService } from './services/mouse-event-emit.service';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
+  @ViewChild ('drawer') drawer: MatSidenav;
+  isMobile: boolean = false;
   constructor(
     private mouseEventEmitService: MouseEventEmitService,
-    private mainContainerScrollService: MainContainerScrollService
+    private mainContainerScrollService: MainContainerScrollService,
+    private appService: AppServicesService
   ){
     
   }
@@ -21,12 +26,25 @@ export class AppComponent implements OnInit {
       ['secondary-background', '#37b5ff'],
       ['tertiary-background', '#333333'],
       ['normal-text', '#0a5185'],
-      ['hightlight-text', '#001727']
-    ])
+      ['hightlight-text', '#001727'],
+      ['normal-border', 'rgba(84, 112, 255, 0.3)']
+    ]);
 
     Array.from(colors.entries()).forEach(([name, value]) => {
       document.body.style.setProperty(`--${name}`, value);
+    });
+
+    this.listenIsMobile();
+  }
+
+  listenIsMobile(){
+    this.appService.isMobile$.subscribe(res=>{
+      this.isMobile = res;
     })
+  }
+
+  toggle(event: any){
+    this.drawer.toggle();
   }
 
   onActivate() {

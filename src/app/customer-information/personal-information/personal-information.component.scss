@@ -1,5 +1,5 @@
-.container{
-    form{
+.personal-container{
+    .desktopForm{
         mat-list{
             mat-list-item{
                 height: 30px;
@@ -41,7 +41,24 @@
             }
         }
         button[type="submit"]{
-            border: 1px solid #333333;
+            // border: 1px solid #333333;
+        }
+    }
+
+    .mobileForm{
+        
+    }
+}
+
+@media only screen and (max-width: 768px) {
+    .personal-container{
+        .desktopForm{
+            
+        }
+        .mobileForm{
+            mat-form-field{
+                width: 100%;
+            }
         }
     }
 }

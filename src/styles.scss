@@ -16,9 +16,9 @@ body {
     font-family: Roboto, "Helvetica Neue", sans-serif;
     color: var(--normal-text);
 }
-div{
-    line-height: 1;
-}
+// div{
+//     line-height: 1;
+// }
 
 .vertical-container{
     display: flex;
@@ -72,7 +72,7 @@ div{
     box-shadow: 0px 2px rgb(0 0 0 / 35%);
     cursor: pointer;
 }
-.button-style:active{
+.button-style:active:enabled{
     box-shadow: 0px 0px rgb(0 0 0 / 35%);
     transform: translateY(2px);
 }
@@ -112,6 +112,7 @@ div{
         color: var(--normal-text);
     }
 }
+
 .payment-success-modal{
     min-width: 400px;
     mat-dialog-container{
@@ -156,7 +157,7 @@ mat-list{
         display: block;
         width: 100%;
         max-height: 100%;
-        object-fit: cover;
+        object-fit: contain;
         cursor: pointer;
     }
 }
@@ -166,4 +167,57 @@ mat-list{
 }
 .secondary-key{
     color: #333333;
+}
+
+@media only screen and (max-width: 768px) {
+    .cdk-overlay-pane{
+        max-width: calc(100% - 30px) !important;
+        width: calc(100% - 30px) !important;
+        max-height: calc(100% - 30px) !important;
+        overflow: scroll;
+    }
+    .login-modal{
+        mat-dialog-container{
+            app-check-account-main{
+                .close-button{
+                    animation: secondss 0s forwards !important;
+                    animation-delay: .45s !important;
+                }
+                .login-container, .register-container, .forgot-password-container{
+                    width: 100%;
+                }
+    
+                .register-container{
+                    .input-information-container{
+                        flex-direction: column;
+                        .vertical-container{
+                            width: 100% !important;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    .add-to-card-bottom-sheet{
+        width: 100%;
+        min-width: unset !important;
+        max-width: 100%;
+    }
+}
+  
+@media only screen and (max-width: 414px) {
+
+}
+
+@keyframes secondss {
+    0% {
+        opacity: 0;
+        top: 0px;
+        right: 0px;
+    }
+    100% {
+        opacity: 100%;
+        top: 0;
+        right: 0;
+    }
 }

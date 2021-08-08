@@ -45,6 +45,7 @@
                 overflow: auto;
                 .img-thumbnail-container{
                     width: 25%;
+                    min-width: 25%;
                     justify-content: center;
                     margin-right: 10px;
                     img{
@@ -105,5 +106,28 @@
     }
     .product-desciption{
         max-width: 600px;
+    }
+}
+
+@media only screen and (max-width: 768px) {
+    .product-detail-container{
+        .product-information{
+            flex-direction: column;
+            .album-container{
+                width: 100%;
+            }
+            .product-basic-information{
+                .product-info{
+                    .deliveryTo{
+                        div{
+                            white-space: nowrap
+                        }
+                    }
+                }
+            }
+        }
+        .product-desciption{
+
+        }
     }
 }

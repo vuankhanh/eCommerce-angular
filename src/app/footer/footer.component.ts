@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { Event, NavigationStart } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { Menu, MenusList } from '../mock-data/menu';
@@ -17,6 +17,7 @@ import { UrlChangeService } from '../services/url-change.service';
   styleUrls: ['./footer.component.scss']
 })
 export class FooterComponent implements OnInit {
+  @Output() toggleDrawer = new EventEmitter();
   identification: Identification;
   currentUrl: string;
   activeLink: string;
@@ -71,5 +72,9 @@ export class FooterComponent implements OnInit {
 
   closeAlertAddedToCart(){
     this.headerService.set(false);
+  }
+
+  toggleDrawerEmit(){
+    this.toggleDrawer.emit();
   }
 }

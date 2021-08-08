@@ -78,3 +78,13 @@
         justify-content: flex-end;
     }
 }
+
+@media only screen and (max-width: 768px){
+    .order-history-detail-container{
+        .mat-table{
+            .mat-header-cell, .mat-cell{
+                padding: 0 5px;
+            }
+        }
+    }
+}

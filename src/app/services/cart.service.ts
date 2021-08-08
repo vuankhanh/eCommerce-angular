@@ -54,7 +54,6 @@ export class CartService {
     let productsInCart: Array<Product> = this.get().products;
     
     let checkExist = productsInCart.some((itemCart: Product) => itemCart._id === product._id);
-    console.log(checkExist);
     if(!checkExist){
       product.quantity = 1;
       productsInCart.push(product);

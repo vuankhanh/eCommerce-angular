@@ -1,0 +1,38 @@
+<div class="product-category-home-page-container vertical-container" *ngIf="(products && products.length>0);else loadingSkeleton">
+    <div class="flex-me">
+        <ng-container *ngFor="let product of products; let i = index;">
+            <div class="product-frame">
+                <div class="img-container">
+                    <img src="{{product.thumbnailUrl | galleryRoute}}" [alt]="product.name" (click)="showDetail(product)">
+                </div>
+                <div class="product-info">
+                    <div class="text-container" (click)="showDetail(product)">
+                        <h4>{{product.name}}</h4>
+                        <div class="content-p">
+                            {{product.sortDescription}}
+                        </div>
+                        <h3 class="product-price">
+                            <span>{{ product.price | currency:'VND':'symbol' | replaceSpace}}</span>
+                            <span>/</span>
+                            <span>{{product.unit}}</span>
+                        </h3>
+                    </div>
+                    <div class="button-container">
+                        <button class="button-style button-primary" (click)="addToCart(product)">
+                            <mat-icon>add_shopping_cart</mat-icon>
+                            <span>Thêm vào giỏ</span>
+                        </button>
+                        <div class="height-space"></div>
+                        <button class="button-style button-substyle" (click)="showDetail(product)">
+                            <span>Chi tiết</span>
+                            <mat-icon>arrow_right</mat-icon>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </ng-container>
+    </div>
+</div>
+<ng-template #loadingSkeleton>
+    <app-skeleton></app-skeleton>
+</ng-template>

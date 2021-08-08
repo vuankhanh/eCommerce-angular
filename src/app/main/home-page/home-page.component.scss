@@ -1,5 +1,21 @@
 .home-container{
-    app-about-us{
-        height: 300px;
+    .product-category-home-page-container{
+        .category-name{
+            padding: 0 15px;
+            align-items: flex-end;
+            justify-content: space-between;
+            border-bottom: 1px solid var(--normal-border);
+            h1{
+                background-color: var(--primary-background);
+                margin: 0;
+                padding: 0 5px;
+                width: fit-content;
+                color: white;
+            }
+            span{
+                align-items: center;
+                cursor: pointer;
+            }
+        }
     }
 }

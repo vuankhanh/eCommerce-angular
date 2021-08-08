@@ -11,6 +11,7 @@ import { UpdatePersonalInformationService, ResponseUpdate } from 'src/app/servic
 import { LocalStorageService } from 'src/app/services/local-storage.service';
 import { ResponseLogin } from 'src/app/services/api/login.service';
 import { ToastService } from 'src/app/services/toast.service';
+import { AppServicesService } from 'src/app/services/app-services.service';
 
 //Validation Form
 import { tiengVietKhongDau, safePassword, isSameInConfirmPassword } from '../../services/formCustom/validators'
@@ -25,6 +26,7 @@ const tokenStoragedKey = 'carota-token';
   styleUrls: ['./personal-information.component.scss']
 })
 export class PersonalInformationComponent implements OnInit, OnDestroy {
+  isMobile: boolean = false;
   informationGroup: FormGroup;
   checkedChangePassword: boolean = false;
   private subscription: Subscription = new Subscription();
@@ -35,11 +37,13 @@ export class PersonalInformationComponent implements OnInit, OnDestroy {
     private authService: AuthService,
     private updatePersonalInformationService: UpdatePersonalInformationService,
     private localStorageService: LocalStorageService,
-    private toastService: ToastService
+    private toastService: ToastService,
+    private appServiceService: AppServicesService
   ) { }
 
   ngOnInit(): void {
     this.listenUserInformation();
+    this.checkDevice();
   }
 
   listenUserInformation(){
@@ -47,6 +51,16 @@ export class PersonalInformationComponent implements OnInit, OnDestroy {
       this.authService.getUserInformation().subscribe(userInfo=>{
         this.formInit(userInfo);
         this.setDisablePasswordControls(this.checkedChangePassword);
+      })
+    );
+  }
+
+  checkDevice(){
+    this.subscription.add(
+      this.appServiceService.isMobile$.subscribe(res=>{
+        this.isMobile = res;
+        console.log(this.isMobile);
+        
       })
     )
   }

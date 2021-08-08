@@ -26,12 +26,11 @@
                     </div>
                 </div>
                 <div class="height-space"></div>
-                <div class="list-img horizontal-container">
+                <div class="list-img horizontal-container" #listImg>
                     <ng-container *ngFor="let item of product.albumImg.media; let i = index;">
                         <div
                             class="img-thumbnail-container horizontal-container"
                             id="list-item-{{i}}"
-                            #elementTest
                         >
                             <img
                                 src="{{item.srcThumbnail | galleryRoute}}"

@@ -2,161 +2,51 @@
     justify-content: center;
     height: 100%;
     width: 100%;
-    .left-container{
-        position: fixed;
-        display: flex;
+    mat-drawer{
+        display: none;
+    }
+    mat-drawer-container{
         height: 100%;
-        flex-direction: column;
-        background: white;
-        box-shadow: 5px 0 15px -5px #b2b2b2;
-        padding: 15px;
-        transition: max-width .1s;
-        max-width: 54px;
-        box-sizing: border-box;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        z-index: 3;
-        .contact{
-            display: flex;
-            flex-direction: column;
-            height: 70%;
-            z-index: 1;
-            .contact__information{
+        width: 100%;
+        background: none;
+        mat-drawer{
+            height: 100%;
+        }
+
+        mat-drawer-content{
+            height: 100%;
+            width: 100%;
+            font-family: Roboto, "Helvetica Neue", sans-serif;
+            color: var(--normal-text);
+            
+            .main-container{
+                width: 100%;
+                height: fit-content;
                 display: flex;
-                flex-direction: row;
-                align-items: center;
-                
-                span{
-                    transition: opacity .45s;
-                    opacity: 0;
-                }
-            }
-            a{
-                text-decoration: none;
-                mat-icon[svgicon]{
-                    padding: 2px;
-                    height: 20px;
-                    width: 20px;
-                }
-            }
-            .phone-number{
-                height: 50%;
-                span{
-                    font-size: 24px;
+                flex-direction: column;
+                max-width: 1024px;
+                margin: auto;
+                app-header{
+                    z-index: 2;
+                    position: sticky;
+                    top: 0;
                 }
             }
         }
-        .map-container{
-            height: 60%;
-            mat-icon[svgIcon='gmap']{
-                display: block;
-                z-index: 1;
-            }
-            app-maps{
-                display: none;
-                height: 100%;
-                margin-bottom: 15px;
-                z-index: 1;
-                // transition: opacity .45s;
-                // opacity: 0;
-            }
-            app-maps:last-child{
-                margin: 0;
-            }
-        }
-    }
-    .left-container::after{
-        content: "";
-        background: url('../assets/logo/trademark/ccr-small.png');
-        background-position: top;
-        background-repeat: repeat-y;
-        background-size: calc(100% - 30px) auto;
-        transition: opacity .45s;
-        opacity: 1;
-        top: 0;
-        left: 0;
-        bottom: 0;
-        right: 0;
-        position: absolute;
-    }
-
-    .left-container:hover{
-        max-width: 300px;
-        width: 300px;
-        .contact{
-            z-index: 1;
-            .contact__information{
-                span{
-                    opacity: 1;
-                }
-            }
-        }
-        .map-container{
-            z-index: 1;
-            mat-icon[svgIcon='gmap']{
-                display: none;
-            }
-            app-maps{
-                display: block;
-                margin-bottom: 15px;
-            }
-            app-maps:last-child{
-                margin: 0;
-            }
-        }
-    }
-
-    .left-container:hover::after{
-        background: url('./../assets/logo/trademark/ccr-small.png');
-        background-position: top;
-        background-repeat: repeat-y;
-        background-size: calc(100% - 30px) auto;
-        opacity: 1;
-    }
-
-    .main-container{
-        width: 100%;
-        height: fit-content;
-        display: flex;
-        flex-direction: column;
-        app-header{
-            z-index: 2;
-            position: sticky;
-            top: 0;
-        }
-    }
-
-    .left-container:hover ~ .main-container::after{
-        content: "";
-        background-color: rgb(0, 0, 0, .45);
-        position: fixed;
-        height: 100%;
-        width: 100%;
-        top: 0;
-    }
-
-    .left-container:hover ~ .main-container{
-        // margin-left: 0;
-    }
-
-    .main-container{
-        width: 1080px;
-        height: 100%;
-        background: white;
-        overflow-y: auto;
     }
 }
 
-.container:before{
-    content: ' ';
-    display: block;
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    opacity: 0.6;
-    background-image: url('../assets/logo/trademark/ccr-small.png');
-    z-index: -1;
+
+@media only screen and (max-width: 768px) {
+    .container{
+        mat-drawer-container{
+            mat-drawer{
+                display: block;
+            }
+        }
+    }
+}
+  
+@media only screen and (max-width: 414px) {
+    
 }

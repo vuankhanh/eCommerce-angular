@@ -3,7 +3,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 import { ResponseLogin } from '../../../services/api/login.service';
 @Component({
-  selector: 'app-chec-account-main',
+  selector: 'app-check-account-main',
   templateUrl: './main.component.html',
   styleUrls: ['./main.component.scss']
 })
@@ -21,7 +21,7 @@ export class MainComponent implements OnInit {
 
   changeComponent(event: any){
     console.log(event);
-    if(event === 'login' || event === 'registerSuccessful'){
+    if(event === 'login' || event === 'registerSuccessful' || event === 'forgotPasswordSuccessful'){
       this.historyModalComponent = [];
       this.historyModalComponent.push(event);
     }else{

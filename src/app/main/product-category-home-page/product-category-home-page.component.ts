@@ -1,42 +1,35 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
-
-import { ProductCategory } from '../../models/ProductCategory';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { PaginationParams } from 'src/app/models/PaginationParams';
 import { Product } from 'src/app/models/Product';
-
-import { CartService } from 'src/app/services/cart.service';
+import { ProductCategory } from 'src/app/models/ProductCategory';
 import { ProductResponse, ProductService } from 'src/app/services/api/product/product.service';
+import { CartService } from 'src/app/services/cart.service';
 import { HeaderService } from 'src/app/services/header.service';
 
-import { Subscription } from 'rxjs';
 @Component({
-  selector: 'app-product-category',
-  templateUrl: './product-category.component.html',
-  styleUrls: ['./product-category.component.scss']
+  selector: 'app-product-category-home-page',
+  templateUrl: './product-category-home-page.component.html',
+  styleUrls: ['./product-category-home-page.component.scss']
 })
-export class ProductCategoryComponent implements OnInit, OnDestroy {
+export class ProductCategoryHomePageComponent implements OnInit, OnDestroy {
+  @Input() category: string;
   productResponse: ProductResponse;
   configPagination: PaginationParams;
   products: Array<Product>;
   productCategorys: Array<ProductCategory>;
-  activeLink: string;
+
   subscription: Subscription = new Subscription();
   constructor(
     private router: Router,
-    private activatedRoute: ActivatedRoute,
-    private cartService: CartService,
     private productService: ProductService,
-    private headerService: HeaderService,
-  ) {
-    
-  }
+    private cartService: CartService,
+    private headerService: HeaderService
+  ) { }
 
   ngOnInit(): void {
-    this.activatedRoute.paramMap.subscribe(params => {
-      this.activeLink = <string>params.get('category');
-      this.listenProduct(this.activeLink);
-    });
+    this.listenProduct(this.category);
   }
 
   listenProduct(type: string){
@@ -50,10 +43,6 @@ export class ProductCategoryComponent implements OnInit, OnDestroy {
           totalPages: this.productResponse.totalPages
         };
         this.products = this.productResponse.data;
-        window.scroll({
-          top: 0,
-          behavior: 'smooth' 
-        });
       })
     )
   }
@@ -64,12 +53,7 @@ export class ProductCategoryComponent implements OnInit, OnDestroy {
   }
 
   showDetail(product: Product){
-    this.router.navigate(['productions/'+this.activeLink, product._id]);
-  }
-
-  changeIndex(index: number){
-    console.log('Change index = ' + index);
-    
+    this.router.navigate(['productions/'+this.category, product._id]);
   }
 
   ngOnDestroy(){

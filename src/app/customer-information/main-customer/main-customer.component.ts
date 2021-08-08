@@ -1,11 +1,13 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Event, NavigationStart, Router } from '@angular/router';
+import { MatAccordion } from '@angular/material/expansion';
 
 import { CustomerMenu, Menu } from 'src/app/mock-data/menu';
 
 //Service
 import { UrlChangeService } from 'src/app/services/url-change.service';
 import { ConfigService } from 'src/app/services/api/config.service';
+import { AuthService } from 'src/app/services/auth.service';
 
 import { Subscription } from 'rxjs';
 
@@ -15,25 +17,28 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./main-customer.component.scss']
 })
 export class MainCustomerComponent implements OnInit, OnDestroy {
+  @ViewChild('userAccordion') userAccordion: MatAccordion;
   customerMenu: Array<Menu>;
-  activeLink: string;
   currentUrl: string;
-
+  activeMenu: Menu;
   private subscription: Subscription = new Subscription();
   constructor(
     private router: Router,
     private urlChangeService: UrlChangeService,
-    private configService: ConfigService
+    private configService: ConfigService,
+    private authService: AuthService
   ) {
     this.customerMenu = CustomerMenu;
-    this.activeLink = this.router.url;
+    this.currentUrl = this.router.url;
+    this.activeMenu = this.getActiveMenu(this.currentUrl, this.customerMenu);
   }
 
   ngOnInit(): void {
     this.subscription.add(
       this.urlChangeService.urlChange().subscribe((event: Event)=>{
         if(event instanceof NavigationStart) {
-          this.activeLink = event.url;
+          this.currentUrl = event.url;
+          this.activeMenu = this.getActiveMenu(this.currentUrl, this.customerMenu);
         }
       })
     );
@@ -41,9 +46,21 @@ export class MainCustomerComponent implements OnInit, OnDestroy {
     this.subscription.add(
       this.configService.getConfig().subscribe(res=>{
         this.configService.set(res);
-        console.log(res);
       })
     )
+  }
+
+  getActiveMenu(route: string, arrayMenu:Array<Menu>){
+    let index: number = arrayMenu.findIndex(menu=>route.includes(menu.route));
+    return arrayMenu[index];
+  }
+
+  closeAccordion(){
+    this.userAccordion.closeAll();
+  }
+
+  logout(){
+    this.authService.logout();
   }
 
   ngOnDestroy(){

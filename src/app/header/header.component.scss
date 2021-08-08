@@ -13,12 +13,23 @@ button{
     box-sizing: border-box;
     justify-content: space-between;
     transition: all .45s;
+    box-shadow: 0 4px 2px -2px gray;
+    .drawer-toggle-button{
+        justify-content: center;
+        display: none;
+    }
+
     .brand-name{
         justify-content: center;
         img{
             display: block;
             height: 70px;
         }
+    }
+
+    .cart-container{
+        display: none;
+        justify-content: center;
     }
 
     .menu-container{
@@ -109,7 +120,7 @@ button{
             .sub-menu-container{
                 display: block;
                 button:hover{
-                    color: var(--hightlight-text);;
+                    color: var(--hightlight-text);
                 }
             }
         }
@@ -236,4 +247,37 @@ button{
 
 .header-container-scrolled{
     background: rgb(255, 255, 255, .75);
+}
+
+@media only screen and (max-width: 768px) {
+    .header-container{
+        .drawer-toggle-button{
+            display: flex;
+        }
+
+        .cart-container{
+            display: flex;
+        }
+
+        .menu-container{
+            display: none;
+        }
+        
+        .user-information{
+            display: none;
+        }
+    }
+    .header-container-scrolled{
+        background: white;
+    }
+}
+  
+@media only screen and (max-width: 414px) {
+    .header-container{
+        .flex-me{
+            .product-frame{
+                width: calc(100% - 15px);
+            }
+        }
+    }
 }

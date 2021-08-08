@@ -46,6 +46,11 @@ button{
                     }
                 }
             }
+
+            .drawer-toggle-button{
+                color: white;
+                display: none;
+            }
         }
 
         .second-block{
@@ -133,6 +138,27 @@ button{
         .third-block{
             width: 30%;
             height: 200px;
+        }
+    }
+}
+
+@media only screen and (max-width: 768px) {
+    .footer-container{
+        .footer-item-container{
+            flex-direction: column;
+            .first-block, .second-block, .third-block{
+                width: 100%;
+            }
+
+            .first-block{
+                .menu-container{
+                    display: none;
+                }
+
+                .drawer-toggle-button{
+                    display: block;
+                }
+            }
         }
     }
 }
