@@ -48,8 +48,7 @@ export class ProductDetailComponent implements OnInit, AfterViewInit, OnDestroy 
         this.product = res;
         this.product.quantity = 1;
         let index: number = this.product.albumImg!.media.findIndex(media=>media.isMain);
-        this.indexImgMain = index;
-        this.setImgMain(index);
+        index >= 0 ?  this.setImgMain(index) : this.setImgMain(0);;
       })
     );
 
