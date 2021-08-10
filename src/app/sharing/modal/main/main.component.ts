@@ -15,12 +15,10 @@ export class MainComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    console.log(this.data);
     this.historyModalComponent.push(this.data.type);
   }
 
   changeComponent(event: any){
-    console.log(event);
     if(event === 'login' || event === 'registerSuccessful' || event === 'forgotPasswordSuccessful'){
       this.historyModalComponent = [];
       this.historyModalComponent.push(event);

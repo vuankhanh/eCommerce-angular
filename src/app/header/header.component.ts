@@ -162,14 +162,12 @@ export class HeaderComponent implements OnInit, AfterViewInit, OnDestroy {
     this.subscription.add(
       this.configService.getConfig().subscribe(res=>{
         this.identification = res.identification;
-        console.log(this.identification);
       })
     );
   }
 
   decodeJwtUserInfo(accessToken: string){
     let tokenInformation: JwtDecoded = <JwtDecoded>this.jwtDecodedService.jwtDecoded(accessToken);
-    console.log(tokenInformation);
     this.authService.setUserInformation(tokenInformation.data);
   }
 

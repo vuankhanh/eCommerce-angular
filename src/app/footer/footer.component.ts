@@ -66,7 +66,6 @@ export class FooterComponent implements OnInit {
   listenConfig(){
     this.configService.getConfig().subscribe(res=>{
       this.identification = res.identification;
-      console.log(this.identification);
     })
   }
 

@@ -45,7 +45,6 @@ export class AuthService {
           this.checkTokenValidation(result.accessToken);
           let tokenInformation: JwtDecoded = <JwtDecoded>this.jwtDecodedService.jwtDecoded(result.accessToken);
           this.localStorageService.set(tokenStoragedKey, result);
-          console.log(tokenInformation);
           if(tokenInformation){
             this.setUserInformation(tokenInformation.data);
           }

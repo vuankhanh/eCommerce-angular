@@ -26,7 +26,6 @@ export class VerificationEmailComponent implements OnInit, OnDestroy {
       let emailToken = params['emailToken'];
       this.subscription.add(
         this.verifyEmailService.verify(userId, emailToken).subscribe(res=>{
-          console.log(res);
           this.result = 'success';
         }, error=>{
           this.result = 'failure';

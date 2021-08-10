@@ -58,21 +58,18 @@ export class OrderHistoryComponent implements OnInit {
             totalPages: this.orderResponse.totalPages
           };
           this.orders = this.orderResponse.data;
-          console.log(this.orders);
         })
       )
     }
   }
 
   handlePageEvent(event: PageEvent){
-    console.log(event);
     this.configPagination.page = event.pageIndex+1;
     this.configPagination.size = event.pageSize;
     this.listenOrder(this.configPagination)
   }
 
   showDetail(order: Order){
-    console.log(order);
     this.router.navigate(['/customer/order-history', order._id]);
   }
 

@@ -58,7 +58,6 @@ export class RegisterComponent implements OnInit, OnDestroy {
           }
           
         },error=>{
-          console.log(error);
           if(error.status === 409){
             userName.setErrors({ isAlreadyExist: true });
           }
@@ -76,7 +75,6 @@ export class RegisterComponent implements OnInit, OnDestroy {
             delete email.errors!['isAlreadyExist'];
           }
         },error=>{
-          console.log(error);
           if(error.status === 409){
             email.setErrors({ isAlreadyExist: true });
           }
@@ -97,12 +95,10 @@ export class RegisterComponent implements OnInit, OnDestroy {
       this.loading = true;
       this.subscription.add(
         this.registerService.register(this.registerGroup.value).subscribe(res=>{
-          console.log(res);
           this.loading = false;
           this.toastService.shortToastSuccess('Bạn đã đăng ký thành công.', 'Thành Công');
           this.valueChange.emit('registerSuccessful');
         },error=>{
-          console.log(error);
           if(error.status === 409){
             if(error.error.key){
               if(error.error.key.userName){

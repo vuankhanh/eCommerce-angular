@@ -80,8 +80,6 @@ export class DrawerComponent implements OnInit {
     this.subscription.add(
       this.authService.getUserInformation().subscribe(userInfo=>{
         this.userInformation = userInfo;
-        console.log(this.userInformation);
-        
       })
     );
 
@@ -94,7 +92,6 @@ export class DrawerComponent implements OnInit {
     this.subscription.add(
       this.configService.getConfig().subscribe(res=>{
         this.identification = res.identification;
-        console.log(this.identification);
       })
     );
   }

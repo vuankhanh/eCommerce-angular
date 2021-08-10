@@ -36,7 +36,6 @@ export class ForgotPasswordComponent implements OnInit, OnDestroy {
 
   checkEmail(){
     if(this.forgotPasswordForm.valid){
-      console.log(this.forgotPasswordForm.value);
       this.subscription.add(
         this.resetPasswordService.checkEmail(this.forgotPasswordForm.value.email).subscribe(res=>{
           this.valueChange.emit('forgotPasswordSuccessful');

@@ -109,7 +109,6 @@ export class AddressModifyComponent implements OnInit, OnDestroy {
       this.subscription.add(
         this.administrativeUnitsService.getDistrict(tokenStoraged.accessToken, provinceCode).subscribe(res=>{
           this.districts = res;
-          // console.log()
           if(this.data.type === 'update' && this.data.address){
             let index:number = this.findIndexOfObjectInArray(this.data.address.district._id, this.districts)
             this.addressForm.controls['district'].setValue(index);
@@ -131,21 +130,18 @@ export class AddressModifyComponent implements OnInit, OnDestroy {
             let index:number = this.findIndexOfObjectInArray(this.data.address.ward._id, this.wards)
             this.addressForm.controls['ward'].setValue(index);
           }
-          console.log(res);
         })
       )
     }
   }
 
   provinceChange(event: MatSelectChange){
-    console.log(event);
     let index: number = event.value;
     let province: Province = this.provinces[index];
     this.getDistrict(province.code);
   }
 
   districtChange(event: MatSelectChange){
-    console.log(event);
     let index: number = event.value;
     let district: District = this.districts[index];
     this.getWard(district.code);
@@ -163,8 +159,6 @@ export class AddressModifyComponent implements OnInit, OnDestroy {
 
   update(){
     if(this.addressForm.valid){
-      console.log(this.addressForm.value);
-
       let address: Address = {
         _id: this.data.address?._id,
         responsiblePerson: this.addressForm.value.responsiblePerson,
@@ -181,7 +175,6 @@ export class AddressModifyComponent implements OnInit, OnDestroy {
       if(tokenStoraged){
         this.subscription.add(
           this.customerAddressService.update(tokenStoraged.accessToken, address).subscribe(res=>{
-            console.log(res);
             if(res.status === 200){
               let resBody: ResponseAddress = <ResponseAddress>res.body;
               if(resBody.accessToken){
@@ -201,8 +194,6 @@ export class AddressModifyComponent implements OnInit, OnDestroy {
 
   async insert(){
     if(this.addressForm.valid){
-      console.log(this.addressForm.value);
-
       let address: Address = {
         street: this.addressForm.value.street,
         responsiblePerson: this.addressForm.value.responsiblePerson,
@@ -218,7 +209,6 @@ export class AddressModifyComponent implements OnInit, OnDestroy {
       if(tokenStoraged){
         this.subscription.add(
           this.customerAddressService.insert(tokenStoraged.accessToken, address).subscribe(res=>{
-            console.log(res);
             if(res.status === 200){
               let resBody: ResponseAddress = <ResponseAddress>res.body;
               if(resBody.accessToken){

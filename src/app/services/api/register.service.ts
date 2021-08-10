@@ -12,7 +12,6 @@ export class RegisterService {
   ) { }
 
   register(account: Account){
-    console.log(account);
     return this.httpClient.post(this.url, account);
   }
 }

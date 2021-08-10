@@ -16,7 +16,6 @@ export class PaymentSuccessfulComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    console.log(this.order);
   }
 
   goOrderHistory(){

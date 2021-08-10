@@ -50,10 +50,6 @@ export class ProductCategoryComponent implements OnInit, OnDestroy {
           totalPages: this.productResponse.totalPages
         };
         this.products = this.productResponse.data;
-        window.scroll({
-          top: 0,
-          behavior: 'smooth' 
-        });
       })
     )
   }

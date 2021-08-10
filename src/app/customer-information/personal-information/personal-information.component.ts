@@ -59,8 +59,6 @@ export class PersonalInformationComponent implements OnInit, OnDestroy {
     this.subscription.add(
       this.appServiceService.isMobile$.subscribe(res=>{
         this.isMobile = res;
-        console.log(this.isMobile);
-        
       })
     )
   }
@@ -145,7 +143,6 @@ export class PersonalInformationComponent implements OnInit, OnDestroy {
           //   this.toastService.shortToastWarning('Không có gì thay đổi', '');
           // }
         },error=>{
-          console.log(error);
           this.informationGroup.controls['confirmPassword'].enable();
           if(error.status === 400){
             this.informationGroup.controls['oldPassword'].setErrors({ passwordIsIncorrect: true });

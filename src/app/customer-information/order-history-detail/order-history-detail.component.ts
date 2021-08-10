@@ -43,7 +43,6 @@ export class OrderHistoryDetailComponent implements OnInit, OnDestroy {
       this.subscription.add(
         this.orderService.getDetail(tokenStoraged.accessToken, orderId).subscribe(res=>{
           this.order = res;
-          console.log(this.order);
           
         })
       )
@@ -51,7 +50,6 @@ export class OrderHistoryDetailComponent implements OnInit, OnDestroy {
   }
 
   showDetail(product: Product){
-    console.log(product);
     this.router.navigate(['productions/'+product.category.route, product._id]);
   }
 

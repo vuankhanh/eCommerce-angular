@@ -48,11 +48,9 @@ export class CartComponent implements OnInit, OnDestroy {
     this.subscription.add(
       this.cartService.listenCartChange().subscribe(cart=>{
         this.cart = cart;
-        console.log(this.cart)
         this.temporaryValue = this.cartService.sumTemporaryValue(this.cart.products);
     
         if(this.cart.deliverTo){
-          console.log(this.defaultAddress);
           this.defaultAddress = this.cart.deliverTo;
         }
       })
@@ -84,7 +82,6 @@ export class CartComponent implements OnInit, OnDestroy {
   }
 
   showDetail(product: Product){
-    console.log(product);
     this.router.navigate(['productions/'+product.category.route, product._id]);
   }
 
@@ -93,14 +90,12 @@ export class CartComponent implements OnInit, OnDestroy {
     
     if(this.isNumber(value)){
       this.cart!.products[index].quantity = parseInt(value);
-      console.log(parseInt(value));
     }
     this.cartService.set(this.cart);
     this.temporaryValue = this.cartService.sumTemporaryValue(this.cart!.products);
   }
 
   laterBuy(cartItem: HTMLDivElement, index: number){
-    console.log(cartItem);
     this.renderer2.addClass(cartItem, 'cart-item-removed');
     setTimeout(() => {
       this.cart!.products.splice(index, 1);
@@ -110,28 +105,23 @@ export class CartComponent implements OnInit, OnDestroy {
   }
 
   changeAddress(){
-    console.log("open Modal");
     this.dialog.open(AddressChooseComponent, {
       panelClass: 'address-choose',
       data: {
         defaultAddress: this.defaultAddress
       }
     }).afterClosed().subscribe(res=>{
-      console.log(res);
       if(res && res.deliverTo){
         let address: Address = res.deliverTo;
         this.defaultAddress = address;
         this.cartService.setDelivery(this.defaultAddress);
-        console.log(this.cart.deliverTo);
       }
     })
   }
 
   insertAddress(){
     this.renderer2.removeClass(this.btnInsertAddress.nativeElement, 'button-substyle');
-    this.addressModificationService.openAddressModification('insert', null).subscribe(address=>{
-      console.log(address);
-    })
+    this.addressModificationService.openAddressModification('insert', null);
   }
 
   order(){
@@ -141,7 +131,6 @@ export class CartComponent implements OnInit, OnDestroy {
       if(!this.cart.deliverTo){
         this.renderer2.addClass(this.btnInsertAddress.nativeElement, 'button-substyle');
         this.toastService.shortToastWarning('Bạn chưa tạo vị trí nào trong sổ địa chỉ.', '');
-        console.log('Hãy thêm 1 địa chỉ giao hàng');
       }else{
         if(this.cart.products.length>0){
           this.router.navigate(['/payment-confirm']);

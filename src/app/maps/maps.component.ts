@@ -19,9 +19,7 @@ export class MapsComponent implements OnInit, AfterViewInit {
   ) { }
 
   ngOnInit() {
-    console.log(this.address);
-    
-    
+
   }
 
   ngAfterViewInit(){

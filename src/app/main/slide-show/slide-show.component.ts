@@ -68,7 +68,6 @@ export class SlideShowComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   clickBanner(product: Product){
-    console.log(product);
     this.router.navigate(['/productions/'+product.category.route]);
   }
 

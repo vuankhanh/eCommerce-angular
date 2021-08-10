@@ -64,16 +64,12 @@ export class InputOnlyNumberDirective {
   }
 
   @HostListener('input', ['$event']) onInputChange(event: InputEvent) {
-    console.log(this.inputElement.value);
-    console.log(this.inputElement.value.length);
     if(this.inputElement.value.startsWith('0')){
       this.inputElement.value = this.inputElement.value.substring(1);
     }
   }
 
   @HostListener("blur") onBlur() {
-    console.log(this.inputElement.value.length);
-    
     if(this.inputElement.value === ''){
       this.inputElement.value = '1';
     }

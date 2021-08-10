@@ -55,7 +55,6 @@ export class AppComponent implements OnInit {
   }
 
   mouseEventEmit(event: MouseEvent){
-    // console.log(event.type);
     if(event.type === 'mouseenter'){
       this.mouseEventEmitService.set(true);
     }else if(event.type === 'mouseleave'){

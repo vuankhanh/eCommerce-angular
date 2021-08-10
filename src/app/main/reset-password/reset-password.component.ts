@@ -36,7 +36,6 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
       this.passwordToken = params['passwordToken'];
       this.subscription.add(
         this.resetPasswordService.checkToken(this.passwordToken).subscribe(res=>{
-          console.log(res);
           this.initForm();
         },err=>{this.router.navigate(['/'])})
       )
@@ -61,7 +60,6 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
   }
 
   resetPassword(){
-    console.log('Vẫn chạy');
     if(this.newPasswordForm.valid){
       this.subscription.add(
         this.resetPasswordService.newPassword(this.passwordToken, this.newPasswordForm.value.confirmPassword).subscribe(res=>{
@@ -69,7 +67,6 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
           this.countDown = 3;
           let interval = setInterval(()=>{
             this.countDown--;
-            console.log(this.countDown);
             if(this.countDown === 0){
               this.authSerivce.logout().then(_=>{
                 this.authSerivce.login('login');

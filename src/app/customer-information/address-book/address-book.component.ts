@@ -44,21 +44,18 @@ export class AddressBookComponent implements OnInit, OnDestroy {
       this.authService.getUserInformation().subscribe(userInfo=>{
         if(userInfo){
           this.addresses = userInfo!.address;
-          console.log(this.addresses);
         }
       })
     )
   }
 
   deleteAddress(address: Address){
-    console.log(address);
     const dialogRef = this.dialog.open(ConfirmActionComponent,{
       panelClass: 'confirm-modal',
       data: 'Bạn chắc chắn xóa?'
     });
 
     dialogRef.afterClosed().subscribe(result=>{
-      console.log('Dialog result: '+result);
       if(result){
         let tokenStoraged: ResponseLogin = <ResponseLogin>this.localStorageService.get(tokenStoragedKey);
         if(tokenStoraged){

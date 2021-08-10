@@ -55,7 +55,6 @@ export class PaymentPageComponent implements OnInit, OnDestroy {
     this.subscription.add(
       this.cartService.listenCartChange().subscribe(cart=>{
         this.cart = cart;
-        console.log(this.cart)
         this.temporaryValue = this.cartService.sumTemporaryValue(this.cart.products);
         if(this.cart.deliverTo){
           this.defaultAddress = this.cart.deliverTo;
@@ -81,28 +80,23 @@ export class PaymentPageComponent implements OnInit, OnDestroy {
   }
 
   changeAddress(){
-    console.log("open Modal");
     this.dialog.open(AddressChooseComponent, {
       panelClass: 'address-choose',
       data: {
         defaultAddress: this.defaultAddress
       }
     }).afterClosed().subscribe(res=>{
-      console.log(res);
       if(res && res.deliverTo){
         let address: Address = res.deliverTo;
         this.defaultAddress = address;
         this.cartService.setDelivery(this.defaultAddress);
-        console.log(this.cart.deliverTo);
       }
     })
   }
 
   insertAddress(){
     this.renderer2.removeClass(this.btnInsertAddress.nativeElement, 'button-substyle');
-    this.addressModificationService.openAddressModification('insert', null).subscribe(address=>{
-      console.log(address);
-    })
+    this.addressModificationService.openAddressModification('insert', null)
   }
 
   confirmPayment(){
