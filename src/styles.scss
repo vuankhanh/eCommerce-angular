@@ -198,6 +198,20 @@ mat-list{
             }
         }
     }
+    .address-modification-modal{
+        mat-dialog-container{
+            .modify-address-container{
+                width: 100%;
+            }
+        }
+    }
+    .confirm-modal{
+        mat-dialog-container{
+            .mat-dialog-actions{
+                justify-content: flex-end;
+            }
+        }
+    }
     .add-to-card-bottom-sheet{
         width: 100%;
         min-width: unset !important;

@@ -7,12 +7,16 @@ import { MainComponent, TypeLogin } from '../sharing/modal/main/main.component';
 
 //Model
 import { UserInformation, JwtDecoded } from '../models/UserInformation';
+import { Address } from '../models/Address';
 
 //Service
 import { JwtDecodedService } from './jwt-decoded.service';
 import { LocalStorageService } from './local-storage.service';
 import { ResponseLogin } from './api/login.service';
 import { CheckTokenService } from './api/check-token.service';
+import { CartService } from './cart.service';
+import { CustomerAddressService, ResponseAddress } from './api/customer-address.service';
+
 
 import { BehaviorSubject, Observable, of } from 'rxjs';
 
@@ -27,7 +31,9 @@ export class AuthService {
     private dialog: MatDialog,
     private jwtDecodedService: JwtDecodedService,
     private localStorageService: LocalStorageService,
-    private checkTokenService: CheckTokenService
+    private checkTokenService: CheckTokenService,
+    private cartService: CartService,
+    private customerAddressService: CustomerAddressService
   ) {
     this.getUserInfoFromTokenStoraged();
   }
@@ -77,13 +83,24 @@ export class AuthService {
     })
   }
 
+  setDeliveryTo(accessToken: string){
+    this.customerAddressService.get(accessToken).subscribe(res=>{
+      let responseAddress: ResponseAddress = res;
+      if(responseAddress.address.length>0){
+        let index = responseAddress.address.findIndex(address=> address.isHeadquarters);
+        let address: Address = index >= 0 ? responseAddress.address[index] : responseAddress.address[0];
+        this.cartService.setDelivery(address);
+      }
+    })
+  }
+
   getUserInfoFromTokenStoraged(){
     let tokenStoraged: ResponseLogin = <ResponseLogin>this.localStorageService.get(tokenStoragedKey);
     if(tokenStoraged){
       let tokenInformation: JwtDecoded = <JwtDecoded>this.jwtDecodedService.jwtDecoded(tokenStoraged.accessToken);
-        if(tokenInformation){
-          this.setUserInformation(tokenInformation.data);
-        }
+      if(tokenInformation){
+        this.setUserInformation(tokenInformation.data);
+      }
     }
   }
 

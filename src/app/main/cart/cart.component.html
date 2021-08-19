@@ -59,7 +59,7 @@
         <div class="width-space"></div>
         <div class="cart-total-price">
             <div class="cart-total-price-container vertical-container">
-                <div class="customer-information" *ngIf="userInformation">
+                <div class="customer-information">
                     <ng-container *ngIf="defaultAddress; else addAddress">
                         <div class="horizontal-container address-action">
                             <div>Giao tới</div>
@@ -93,7 +93,7 @@
                         </button>
                     </ng-template>
                 </div>
-                <div class="height-space" *ngIf="userInformation"></div>
+                <div class="height-space"></div>
                 <div class="total-price-frame vertical-container">
                     <!-- <div class="provisional horizontal-container">
                         <div class="primary-key">

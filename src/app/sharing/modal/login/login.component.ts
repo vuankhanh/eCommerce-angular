@@ -39,6 +39,8 @@ export class LoginComponent implements OnInit, OnDestroy {
     if(this.loginGroup.valid){
       this.subscription.add(
         this.loginService.login(this.loginGroup.value).subscribe(res=>{
+          console.log(res);
+          
           if(res.status===205){
             alert('Tài khoản chưa kích hoạt')
           }else if(res.status === 200){
@@ -48,7 +50,6 @@ export class LoginComponent implements OnInit, OnDestroy {
           if(error.status === 403){
             this.toastService.shortToastError('Tài khoản hoặc Mật khẩu không đúng', 'Lỗi đăng nhập')
           }
-          console.log(error);
         })
       );
     }

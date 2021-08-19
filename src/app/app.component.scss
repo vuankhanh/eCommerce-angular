@@ -3,6 +3,7 @@
     height: 100%;
     width: 100%;
     mat-drawer{
+        max-width: calc(100% - 70px);
         display: none;
     }
     mat-drawer-container{

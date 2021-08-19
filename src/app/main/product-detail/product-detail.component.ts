@@ -1,21 +1,23 @@
 import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, QueryList, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
 
 import { AddressChooseComponent } from '../../sharing/modal/address-choose/address-choose.component';
 
 import { Product } from 'src/app/models/Product';
 import { Media } from 'src/app/models/ProductGallery';
+import { UserInformation } from 'src/app/models/UserInformation';
+import { Address } from 'src/app/models/Address';
 
-import { CartService } from 'src/app/services/cart.service';
+import { Cart, CartService } from 'src/app/services/cart.service';
 import { HeaderService } from 'src/app/services/header.service';
 import { ProductService } from 'src/app/services/api/product/product.service';
 import { AuthService } from 'src/app/services/auth.service';
 
-import { UserInformation } from 'src/app/models/UserInformation';
-import { Address } from 'src/app/models/Address';
+import { AddressModificationService } from 'src/app/services/address-modification.service';
 
 import { Observable, Subscription } from 'rxjs';
-import { MatDialog } from '@angular/material/dialog';
+import { ResponseAddress } from 'src/app/services/api/customer-address.service';
 @Component({
   selector: 'app-product-detail',
   templateUrl: './product-detail.component.html',
@@ -23,7 +25,9 @@ import { MatDialog } from '@angular/material/dialog';
 })
 export class ProductDetailComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('listImg') listImg: ElementRef;
+  userInformation: UserInformation | null;
   product: Product;
+  cart: Cart;
   
   imgMain: Media;
   indexImgMain: number = 0;
@@ -37,7 +41,8 @@ export class ProductDetailComponent implements OnInit, AfterViewInit, OnDestroy 
     private headerService: HeaderService,
     private productService: ProductService,
     private cartService: CartService,
-    private authService: AuthService
+    private authService: AuthService,
+    private addressModificationService: AddressModificationService
   ) { }
 
   ngOnInit(): void {
@@ -55,7 +60,17 @@ export class ProductDetailComponent implements OnInit, AfterViewInit, OnDestroy 
     this.subscription.add(
       this.userInformation$.subscribe(res=>{
         if(res){
-          this.headquartersAddress = this.getIsHeadquartersAddress(res.address);
+          console.log(res);
+          this.userInformation = res;
+        }
+      })
+    )
+
+    this.subscription.add(
+      this.cartService.listenCartChange().subscribe(cart=>{
+        this.cart = cart;
+        if(this.cart.deliverTo){
+          this.headquartersAddress = this.cart.deliverTo;
         }
       })
     )
@@ -90,26 +105,41 @@ export class ProductDetailComponent implements OnInit, AfterViewInit, OnDestroy 
     }
   }
 
-  getIsHeadquartersAddress(addresses: Array<Address>){
-    let index = addresses.findIndex(address=>address.isHeadquarters);
-
-    return !isNaN(index) ? addresses[index] : addresses[0];
+  chooseAddress(headquartersAddress: Address){
+    if(!this.userInformation){
+      this.authService.login('login');
+    }else{
+      this.subscription.add(
+        this.dialog.open(AddressChooseComponent, {
+          panelClass: 'address-choose',
+          data: {
+            defaultAddress: headquartersAddress
+          }
+        }).afterClosed().subscribe(res=>{
+          if(res && res.deliverTo){
+            let address: Address = res.deliverTo;
+            this.headquartersAddress = address;
+            this.cartService.setDelivery(this.headquartersAddress);
+          }
+        })
+      )
+    }
   }
 
-  chooseAddress(headquartersAddress: Address){
-    this.subscription.add(
-      this.dialog.open(AddressChooseComponent, {
-        panelClass: 'address-choose',
-        data: {
-          defaultAddress: headquartersAddress
-        }
-      }).afterClosed().subscribe(res=>{
-        if(res && res.deliverTo){
-          let address: Address = res.deliverTo;
-          this.headquartersAddress = address;
-        }
-      })
-    )
+  insertAddress(){
+    if(!this.userInformation){
+      this.authService.login('login');
+    }else{
+      this.subscription.add(
+        this.addressModificationService.openAddressModification('insert', null).subscribe(res=>{
+          if(res){
+            let responseAddress: ResponseAddress = res;
+            let address: Address = responseAddress.address[0];
+            this.cartService.setDelivery(address);
+          }
+        })
+      );
+    }
   }
 
   changeQuantity(increase: 'increase' | 'decrease'){
@@ -130,6 +160,10 @@ export class ProductDetailComponent implements OnInit, AfterViewInit, OnDestroy 
   addToCart(product: Product){
     this.cartService.addToCart(product);
     this.headerService.set(true);
+  }
+
+  login(){
+    this.authService.login('login');
   }
 
   ngOnDestroy(){

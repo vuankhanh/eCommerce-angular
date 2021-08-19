@@ -6,6 +6,7 @@ import { PersonalInformationComponent } from '../personal-information/personal-i
 import { OrderHistoryComponent } from '../order-history/order-history.component';
 import { OrderHistoryDetailComponent } from '../order-history-detail/order-history-detail.component';
 import { AddressBookComponent } from '../address-book/address-book.component';
+import { ChatComponent } from '../chat/chat.component';
 
 import { RouteGuard } from '../../services/guards/route.guard';
 
@@ -20,6 +21,7 @@ const routes: Routes = [
       { path: 'order-history', component: OrderHistoryComponent, data: { title: 'Lịch sử mua hàng' } },
       { path: 'order-history/:id', component: OrderHistoryDetailComponent, data: { title: 'Lịch sử mua hàng' } },
       { path: 'address-book', component: AddressBookComponent, data: { title: 'Sổ địa chỉ' } },
+      { path: 'chat', component: ChatComponent, data: { title: 'Lời nhắn' } }
     ]
   },
 ];

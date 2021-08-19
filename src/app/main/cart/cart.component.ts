@@ -7,14 +7,19 @@ import { AddressChooseComponent } from '../../sharing/modal/address-choose/addre
 import { Address } from 'src/app/models/Address';
 import { Product } from 'src/app/models/Product';
 import { UserInformation } from 'src/app/models/UserInformation';
+import { ResponseLogin } from 'src/app/services/api/login.service';
 
 import { AuthService } from 'src/app/services/auth.service';
 import { Cart, CartService } from 'src/app/services/cart.service';
 import { AddressModificationService } from 'src/app/services/address-modification.service';
 import { ToastService } from 'src/app/services/toast.service';
+import { LocalStorageService } from 'src/app/services/local-storage.service';
+import { CustomerAddressService, ResponseAddress } from 'src/app/services/api/customer-address.service';
 
 
 import { Subscription } from 'rxjs';
+
+const tokenStoragedKey = 'carota-token';
 @Component({
   selector: 'app-cart',
   templateUrl: './cart.component.html',
@@ -36,12 +41,16 @@ export class CartComponent implements OnInit, OnDestroy {
     private cartService: CartService,
     private authService: AuthService,
     private addressModificationService: AddressModificationService,
-    private toastService: ToastService
+    private toastService: ToastService,
+    private localStorageService: LocalStorageService,
+    private customerAddressService: CustomerAddressService
   ) { }
 
   ngOnInit(): void {
     this.initCart();
     this.listenUserInformation();
+    this.listenCustomerAddress();
+    // this.localStorageService.remove('carota-cart');
   }
 
   initCart(){
@@ -49,7 +58,6 @@ export class CartComponent implements OnInit, OnDestroy {
       this.cartService.listenCartChange().subscribe(cart=>{
         this.cart = cart;
         this.temporaryValue = this.cartService.sumTemporaryValue(this.cart.products);
-    
         if(this.cart.deliverTo){
           this.defaultAddress = this.cart.deliverTo;
         }
@@ -57,14 +65,27 @@ export class CartComponent implements OnInit, OnDestroy {
     )
   }
 
+  listenCustomerAddress(){
+    let tokenStoraged: ResponseLogin = <ResponseLogin>this.localStorageService.get(tokenStoragedKey);
+    if(tokenStoraged){
+      this.subscription.add(
+        this.customerAddressService.get(tokenStoraged.accessToken).subscribe(res=>{
+          if(res){
+            let responseAddress: ResponseAddress = res;
+            if(!this.cart.deliverTo){
+              this.defaultAddress = this.cartService.getDefaultAddress(responseAddress.address);
+              this.cartService.setDelivery(this.defaultAddress);
+            }
+          }
+        })
+      )
+    }
+  }
+
   listenUserInformation(){
     this.subscription.add(
       this.authService.getUserInformation().subscribe(userInfo=>{
         this.userInformation = userInfo;
-        if(this.userInformation && this.userInformation.address.length>0 && !this.cart.deliverTo){
-          this.defaultAddress = this.cartService.getDefaultAddress(this.userInformation.address);
-          this.cartService.setDelivery(this.defaultAddress);
-        }
       })
     )
   }
@@ -105,23 +126,31 @@ export class CartComponent implements OnInit, OnDestroy {
   }
 
   changeAddress(){
-    this.dialog.open(AddressChooseComponent, {
-      panelClass: 'address-choose',
-      data: {
-        defaultAddress: this.defaultAddress
-      }
-    }).afterClosed().subscribe(res=>{
-      if(res && res.deliverTo){
-        let address: Address = res.deliverTo;
-        this.defaultAddress = address;
-        this.cartService.setDelivery(this.defaultAddress);
-      }
-    })
+    if(!this.userInformation){
+      this.authService.login('login');
+    }else{
+      this.dialog.open(AddressChooseComponent, {
+        panelClass: 'address-choose',
+        data: {
+          defaultAddress: this.defaultAddress
+        }
+      }).afterClosed().subscribe(res=>{
+        if(res && res.deliverTo){
+          let address: Address = res.deliverTo;
+          this.defaultAddress = address;
+          this.cartService.setDelivery(this.defaultAddress);
+        }
+      })
+    }
   }
 
   insertAddress(){
-    this.renderer2.removeClass(this.btnInsertAddress.nativeElement, 'button-substyle');
-    this.addressModificationService.openAddressModification('insert', null);
+    if(!this.userInformation){
+      this.authService.login('login');
+    }else{
+      this.renderer2.removeClass(this.btnInsertAddress.nativeElement, 'button-substyle');
+      this.addressModificationService.openAddressModification('insert', null);
+    }
   }
 
   order(){

@@ -81,7 +81,7 @@
                     {{ userInformation && isLogin ? 'Tài khoản' : 'Đăng nhập/Đăng ký' }}
                 </div>
                 <div class="user-information-block_showListButton_account horizontal-container">
-                    <span>{{ userInformation && isLogin ? userInformation.name : 'Tài khoản'}}</span>
+                    <span>{{ userInformation && isLogin ? userInformation.name ? userInformation.name : userInformation.email : 'Tài khoản'}}</span>
                     <mat-icon>arrow_drop_down</mat-icon>
                 </div>
             </div>

@@ -5,7 +5,21 @@
     height: 100%;
     background: var(--primary-background);
     .user-information{
-
+        mat-expansion-panel{
+            mat-expansion-panel-header{
+                .user-information-block{
+                    max-width: 100%;
+                    .user-information-block_showListButton{
+                        max-width: 100%;
+                        .user-information-block_showListButton_account{
+                            span{
+                                
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 
     .menu-list{

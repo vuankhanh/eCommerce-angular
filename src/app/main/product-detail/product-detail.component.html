@@ -56,32 +56,39 @@
                         <span>{{product.unit}}</span>
                     </h3>
 
-                    <ng-container *ngIf="headquartersAddress; else loginPlease">
-                        <div class="horizontal-container deliveryTo">
-                            <div>Giao đến:</div>
-                            <div class="micro-width-space"></div>
-                            <a
-                                href="{{'https://www.google.com/maps/place/'+ headquartersAddress.street +' '+ headquartersAddress.ward.name +' '+ headquartersAddress.district.name +' '+ headquartersAddress.province.name }}"
-                                target="_blank"
-                                class="textAddress"
-                            >
-                                <span>
-                                    {{ headquartersAddress.responsiblePerson }}, 
-                                    {{ headquartersAddress.ward.name }}, 
-                                    {{ headquartersAddress.district.name }},
-                                    {{ headquartersAddress.province.name }}
-                                </span>
-                            </a>
-                            <div class="micro-width-space"></div>
-                            <div>-</div>
-                            <div class="micro-width-space"></div>
-                            <div class="textLink" (click)="chooseAddress(headquartersAddress)">
-                                Đổi địa chỉ
+                    <ng-container *ngIf="userInformation; else loginPlease">
+                        <ng-container *ngIf="headquartersAddress; else createAddress">
+                            <div class="horizontal-container deliveryTo">
+                                <div>Giao đến:</div>
+                                <div class="micro-width-space"></div>
+                                <a
+                                    href="{{'https://www.google.com/maps/place/'+ headquartersAddress.street +' '+ headquartersAddress.ward.name +' '+ headquartersAddress.district.name +' '+ headquartersAddress.province.name }}"
+                                    target="_blank"
+                                    class="textAddress"
+                                >
+                                    <span>
+                                        {{ headquartersAddress.responsiblePerson }}, 
+                                        {{ headquartersAddress.ward.name }}, 
+                                        {{ headquartersAddress.district.name }},
+                                        {{ headquartersAddress.province.name }}
+                                    </span>
+                                </a>
+                                <div class="micro-width-space"></div>
+                                <div>-</div>
+                                <div class="micro-width-space"></div>
+                                <div class="textLink" (click)="chooseAddress(headquartersAddress)">
+                                    Đổi địa chỉ
+                                </div>
                             </div>
-                        </div>
+                        </ng-container>
+                        <ng-template #createAddress>
+                            <span class="pleaseLogin" (click)="insertAddress()">
+                                Bạn chưa có vị trí nào trong sổ địa chỉ. <span class="textLink">TẠO ĐỊA CHỈ</span>
+                            </span>
+                        </ng-template>
                     </ng-container>
                     <ng-template #loginPlease>
-                        <span class="pleaseLogin">
+                        <span class="pleaseLogin" (click)="login()">
                             Bạn hãy <span class="textLink">ĐĂNG NHẬP</span> để được dự báo thời gian và chi phí giao hàng
                         </span>
                     </ng-template>

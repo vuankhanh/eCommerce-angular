@@ -7,7 +7,7 @@ import { Product } from '../models/Product';
 
 import { BehaviorSubject, Observable } from 'rxjs';
 
-const cartKey = 'addToCart';
+const cartKey = 'carota-cart';
 
 @Injectable({
   providedIn: 'root'

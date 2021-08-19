@@ -1,7 +1,7 @@
 <div class="address-container">
     <button
         class="addAddress horizontal-container" 
-        (click)="addressModificationService.openAddressModification('insert', null)"
+        (click)="addAddress()"
     >
         <mat-icon>add</mat-icon>
         Thêm địa chỉ mới
@@ -48,7 +48,7 @@
             </div>
             <div class="width-space"></div>
             <div class="address-action horizontal-container">
-                <mat-icon (click)="addressModificationService.openAddressModification('update', address)">mode_edit</mat-icon>
+                <mat-icon (click)="updateAddress(address)">mode_edit</mat-icon>
                 <mat-icon
                     (click)="deleteAddress(address)"
                     *ngIf="!address.isHeadquarters"

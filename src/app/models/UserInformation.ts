@@ -1,19 +1,15 @@
-import { Address } from './Address';
-
 export interface JwtDecoded{
     data: UserInformation,
-    exp: Number,
-    iat: Number
+    exp: number,
+    iat: number
 }
 
 export interface UserInformation {
-    userName: String,
-    password: String,
-    name: String,
-    email: String,
-    phoneNumber: String,
-    customerCode: String,
-    address: Array<Address>,
-    createdAt: Date,
-    updatedAt: Date
+    userName: string,
+    name: string,
+    email: string,
+    phoneNumber: string,
+    customerCode: string,
+    createdAt: string,
+    updatedAt: string
 }

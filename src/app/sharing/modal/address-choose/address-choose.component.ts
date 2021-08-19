@@ -8,7 +8,11 @@ import { CartService } from 'src/app/services/cart.service';
 import { AddressModificationService } from 'src/app/services/address-modification.service';
 
 import { Subscription } from 'rxjs';
+import { ResponseLogin } from 'src/app/services/api/login.service';
+import { LocalStorageService } from 'src/app/services/local-storage.service';
+import { CustomerAddressService, ResponseAddress } from 'src/app/services/api/customer-address.service';
 
+const tokenStoragedKey = 'carota-token';
 @Component({
   selector: 'app-address-choose',
   templateUrl: './address-choose.component.html',
@@ -25,24 +29,59 @@ export class AddressChooseComponent implements OnInit, OnDestroy {
     public authService: AuthService,
     private cartService: CartService,
     public addressModificationService: AddressModificationService,
-
+    private localStorageService: LocalStorageService,
+    private customerAddressService: CustomerAddressService
   ) {}
 
   ngOnInit(): void {
-    this.listenUserInformation();
+    // this.listenUserInformation();
+    this.listenCustomerAddress();
+    console.log(this.data);
+    
   }
 
-  listenUserInformation(){
-    this.subscription.add(
-      this.authService.getUserInformation().subscribe(userInfo=>{
-        this.addresses = userInfo!.address;
-        if(this.addresses){
-          let index = this.findIndexOfObjectInArray(this.data.defaultAddress._id!, this.addresses);
-          if(this.addresses[index]){
-            this.addressSelected = this.addresses[index]; 
-          }else{
-            this.addressSelected = this.cartService.getDefaultAddress(this.addresses);
+  listenCustomerAddress(){
+    let tokenStoraged: ResponseLogin = <ResponseLogin>this.localStorageService.get(tokenStoragedKey);
+    if(tokenStoraged){
+      this.subscription.add(
+        this.customerAddressService.get(tokenStoraged.accessToken).subscribe(res=>{
+          if(res){
+            let responseAddress: ResponseAddress = res;
+            this.addresses = responseAddress.address;
+            let index = this.findIndexOfObjectInArray(this.data.defaultAddress._id!, this.addresses);
+            if(this.addresses[index]){
+              this.addressSelected = this.addresses[index]; 
+            }else{
+              this.addressSelected = this.cartService.getDefaultAddress(this.addresses);
+            }
           }
+        })
+      )
+    }
+  }
+
+  // listenUserInformation(){
+  //   this.subscription.add(
+  //     this.authService.getUserInformation().subscribe(userInfo=>{
+  //       this.addresses = userInfo!.address;
+  //       if(this.addresses){
+  //         let index = this.findIndexOfObjectInArray(this.data.defaultAddress._id!, this.addresses);
+  //         if(this.addresses[index]){
+  //           this.addressSelected = this.addresses[index]; 
+  //         }else{
+  //           this.addressSelected = this.cartService.getDefaultAddress(this.addresses);
+  //         }
+  //       }
+  //     })
+  //   )
+  // }
+
+  addAddress(){
+    this.subscription.add(
+      this.addressModificationService.openAddressModification('insert', null).subscribe(res=>{
+        if(res){
+          let responseAddress: ResponseAddress = res;
+          this.addresses = responseAddress.address;
         }
       })
     )

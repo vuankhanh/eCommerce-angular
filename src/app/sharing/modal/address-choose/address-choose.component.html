@@ -1,13 +1,13 @@
 <div class="address-container">
     <button
         class="addAddress horizontal-container" 
-        (click)="addressModificationService.openAddressModification('insert', null)"
+        (click)="addAddress()"
     >
         <mat-icon>add</mat-icon>
         Thêm địa chỉ mới
     </button>
 
-    <mat-list *ngIf="addresses && addresses.length>0">
+    <mat-list *ngIf="addresses; else loadingSpinner">
         <mat-radio-group
             [(ngModel)]="addressSelected"
             labelPosition="before"
@@ -55,6 +55,11 @@
             </mat-radio-button>
         </mat-radio-group>
     </mat-list>
+    <ng-template #loadingSpinner>
+        <div class="horizontal-container">
+            <mat-spinner diameter="30"></mat-spinner>
+        </div>
+    </ng-template>
     <section *ngIf="addresses && addresses.length>0">
         <button
             mat-button

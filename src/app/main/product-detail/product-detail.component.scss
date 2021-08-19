@@ -75,6 +75,9 @@
                     margin-bottom: 5px;
                 }
                 .deliveryTo{
+                    div{
+                        white-space: nowrap
+                    }
                     .textAddress{
                         font-weight: 500;
                         text-decoration: underline;

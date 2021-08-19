@@ -8,11 +8,10 @@
 
     <div class="product-category-home-page-container">
         <ng-container *ngFor="let category of category$ | async">
-            <div class="category-name horizontal-container">
+            <div class="category-name horizontal-container" [routerLink]="['/productions/'+category.route]" >
                 <h1>{{ category.name }}</h1>
                 <span
                     class="horizontal-container"
-                    [routerLink]="['/productions/'+category.route]" 
                 >
                     Xem thêm<mat-icon>arrow_right</mat-icon>
                 </span>

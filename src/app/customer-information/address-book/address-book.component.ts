@@ -1,13 +1,11 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 
-import { AddressModifyComponent } from '../../sharing/modal/address-modify/address-modify.component';
 import { ConfirmActionComponent } from 'src/app/sharing/modal/confirm-action/confirm-action.component';
 
 //Model
 import { Address } from '../../models/Address';
 
-import { AuthService } from 'src/app/services/auth.service';
 import { CustomerAddressService, ResponseAddress } from 'src/app/services/api/customer-address.service';
 import { LocalStorageService } from 'src/app/services/local-storage.service';
 import { ResponseLogin } from 'src/app/services/api/login.service';
@@ -27,7 +25,6 @@ export class AddressBookComponent implements OnInit, OnDestroy {
   addresses: Array<Address>;
   constructor(
     private dialog: MatDialog,
-    private authService: AuthService,
     private customerAddressService: CustomerAddressService,
     private localStorageService: LocalStorageService,
     private toastService: ToastService,
@@ -35,15 +32,40 @@ export class AddressBookComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
-    this.listenUserInformation();
-    // this.addAnAddress('insert', null);
+    this.listenCustomerAddress();
   }
 
-  listenUserInformation(){
+  listenCustomerAddress(){
+    let tokenStoraged: ResponseLogin = <ResponseLogin>this.localStorageService.get(tokenStoragedKey);
+    if(tokenStoraged){
+      this.subscription.add(
+        this.customerAddressService.get(tokenStoraged.accessToken).subscribe(res=>{
+          if(res){
+            let responseAddress: ResponseAddress = res;
+            this.addresses = responseAddress.address;
+          }
+        })
+      )
+    }
+  }
+
+  addAddress(){
     this.subscription.add(
-      this.authService.getUserInformation().subscribe(userInfo=>{
-        if(userInfo){
-          this.addresses = userInfo!.address;
+      this.addressModificationService.openAddressModification('insert', null).subscribe(res=>{
+        if(res){
+          let responseAddress: ResponseAddress = res;
+          this.addresses = responseAddress.address;
+        }
+      })
+    )
+  }
+
+  updateAddress(address: Address){
+    this.subscription.add(
+      this.addressModificationService.openAddressModification('update', address).subscribe(res=>{
+        if(res){
+          let responseAddress: ResponseAddress = res;
+          this.addresses = responseAddress.address;
         }
       })
     )
@@ -60,19 +82,15 @@ export class AddressBookComponent implements OnInit, OnDestroy {
         let tokenStoraged: ResponseLogin = <ResponseLogin>this.localStorageService.get(tokenStoragedKey);
         if(tokenStoraged){
           this.customerAddressService.remove(tokenStoraged.accessToken, address).subscribe(res=>{
-            if(res.status === 200){
-              let resBody: ResponseAddress = <ResponseAddress>res.body;
-              if(resBody.accessToken){
-                this.authService.updateAccessToken(resBody.accessToken);
-                this.toastService.shortToastSuccess('Đã xóa địa chỉ thành công', 'Thành công');
-              }
-            }else if(res.status){
-              this.toastService.shortToastWarning('Không có gì thay đổi', '');
+            if(res){
+              let responseAddress: ResponseAddress = res;
+              this.addresses = responseAddress.address;
+              this.toastService.shortToastSuccess('Đã xóa địa chỉ thành công', 'Thành công');
             }
+          },error=>{
+            this.toastService.shortToastError('Đã có lỗi xảy ra', 'Thất bại');
           })
         }
-      }else{
-
       }
     })
   }

@@ -23,7 +23,6 @@ const tokenStoragedKey = 'carota-token';
 })
 export class AddressModifyComponent implements OnInit, OnDestroy {
   addressForm: FormGroup;
-  userInfo: UserInformation | null;
 
   provinces: Array<Province> = [];
   districts: Array<District> = [];
@@ -37,7 +36,6 @@ export class AddressModifyComponent implements OnInit, OnDestroy {
     private administrativeUnitsService: AdministrativeUnitsService,
     private localStorageService: LocalStorageService,
     private customerAddressService: CustomerAddressService,
-    private authService: AuthService,
     private toastService: ToastService
   ) {
     
@@ -47,7 +45,6 @@ export class AddressModifyComponent implements OnInit, OnDestroy {
     this.formInit();
     this.getProvince();
     this.checkModalType(this.data);
-    this.getUserInfo();
   }
 
   formInit(){
@@ -67,13 +64,8 @@ export class AddressModifyComponent implements OnInit, OnDestroy {
     })
   }
 
-  getUserInfo(){
-    this.authService.getUserInformation().subscribe(userInfo=>{
-      this.userInfo = userInfo;
-    })
-  }
-
   checkModalType(dataInit: DataInit){
+    console.log(dataInit)
     if(dataInit.type === 'insert'){
       
     }else if(dataInit.type === 'update' && dataInit.address){
@@ -96,6 +88,8 @@ export class AddressModifyComponent implements OnInit, OnDestroy {
           this.provinces = res;
           if(this.data.type === 'update' && this.data.address){
             let index:number = this.findIndexOfObjectInArray(this.data.address.province._id, this.provinces)
+            console.log(index);
+            
             this.addressForm.controls['province'].setValue(index);
           }
         })
@@ -175,16 +169,10 @@ export class AddressModifyComponent implements OnInit, OnDestroy {
       if(tokenStoraged){
         this.subscription.add(
           this.customerAddressService.update(tokenStoraged.accessToken, address).subscribe(res=>{
-            if(res.status === 200){
-              let resBody: ResponseAddress = <ResponseAddress>res.body;
-              if(resBody.accessToken){
-                this.authService.updateAccessToken(resBody.accessToken);
-                this.toastService.shortToastSuccess('Đã cập nhật thành công', 'Thành công');
-              }
-            }else if(res.status){
-              this.toastService.shortToastWarning('Không có gì thay đổi', '');
-            }
-            this.dialogRef.close();
+            this.toastService.shortToastSuccess('Đã cập nhật địa chỉ thành công', 'Thành công');
+            this.dialogRef.close(res);
+          },error=>{
+            this.toastService.shortToastError('Đã có lỗi xảy ra', 'Thất bại');
           })
         )
       }
@@ -209,16 +197,10 @@ export class AddressModifyComponent implements OnInit, OnDestroy {
       if(tokenStoraged){
         this.subscription.add(
           this.customerAddressService.insert(tokenStoraged.accessToken, address).subscribe(res=>{
-            if(res.status === 200){
-              let resBody: ResponseAddress = <ResponseAddress>res.body;
-              if(resBody.accessToken){
-                this.authService.updateAccessToken(resBody.accessToken);
-                this.toastService.shortToastSuccess('Đã thêm địa điểm thành công', 'Thành công');
-              }
-            }else if(res.status){
-              this.toastService.shortToastWarning('Không có gì thay đổi', '');
-            }
-            this.dialogRef.close();
+            this.toastService.shortToastSuccess('Đã thêm địa chỉ thành công', 'Thành công');
+            this.dialogRef.close(res);
+          },error=>{
+            this.toastService.shortToastError('Đã có lỗi xảy ra', 'Thất bại');
           })
         )
       }

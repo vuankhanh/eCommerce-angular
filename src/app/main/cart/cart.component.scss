@@ -22,7 +22,9 @@
                 
             }
             .product-price-container{
+                width: 100%;
                 .product-info{
+                    width: 100%;
                     .product-name-text{
                         // margin-bottom: 10px;
                         font-weight: 500;
@@ -61,7 +63,9 @@
                     }
                 }
                 .button-container{
-                    // align-items: center;
+                    height: fit-content;
+                    align-items: center;
+                    white-space: nowrap
                 }
             }
         }
@@ -154,7 +158,6 @@
                         margin: 10px 0;
                     }
                     .button-container{
-                        align-items: center;
                         margin-top: 10px;
                     }
                 }

@@ -67,10 +67,10 @@ export class PaymentPageComponent implements OnInit, OnDestroy {
     this.subscription.add(
       this.authService.getUserInformation().subscribe(userInfo=>{
         this.userInformation = userInfo;
-        if(this.userInformation && this.userInformation.address.length>0 && !this.cart.deliverTo){
-          this.defaultAddress = this.cartService.getDefaultAddress(this.userInformation.address);
-          this.cartService.setDelivery(this.defaultAddress);
-        }
+        // if(this.userInformation && this.userInformation.address.length>0 && !this.cart.deliverTo){
+        //   this.defaultAddress = this.cartService.getDefaultAddress(this.userInformation.address);
+        //   this.cartService.setDelivery(this.defaultAddress);
+        // }
       })
     )
   }
