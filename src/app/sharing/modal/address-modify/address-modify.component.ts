@@ -15,7 +15,6 @@ import { Address, Province, District, Ward, Position } from 'src/app/models/Addr
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { CustomerAddressService, ResponseAddress } from 'src/app/services/api/customer-address.service';
 
-const tokenStoragedKey = 'carota-token';
 @Component({
   selector: 'app-address-modify',
   templateUrl: './address-modify.component.html',
@@ -81,7 +80,7 @@ export class AddressModifyComponent implements OnInit, OnDestroy {
   }
 
   getProvince(){
-    let tokenStoraged: ResponseLogin = <ResponseLogin>this.localStorageService.get(tokenStoragedKey);
+    let tokenStoraged: ResponseLogin = <ResponseLogin>this.localStorageService.get(this.localStorageService.tokenStoragedKey);
     if(tokenStoraged){
       this.subscription.add(
         this.administrativeUnitsService.getProvince(tokenStoraged.accessToken).subscribe(res=>{
@@ -98,7 +97,7 @@ export class AddressModifyComponent implements OnInit, OnDestroy {
   }
 
   getDistrict(provinceCode: string, ){
-    let tokenStoraged: ResponseLogin = <ResponseLogin>this.localStorageService.get(tokenStoragedKey);
+    let tokenStoraged: ResponseLogin = <ResponseLogin>this.localStorageService.get(this.localStorageService.tokenStoragedKey);
     if(tokenStoraged){
       this.subscription.add(
         this.administrativeUnitsService.getDistrict(tokenStoraged.accessToken, provinceCode).subscribe(res=>{
@@ -115,7 +114,7 @@ export class AddressModifyComponent implements OnInit, OnDestroy {
   }
 
   getWard(districtCode: string){
-    let tokenStoraged: ResponseLogin = <ResponseLogin>this.localStorageService.get(tokenStoragedKey);
+    let tokenStoraged: ResponseLogin = <ResponseLogin>this.localStorageService.get(this.localStorageService.tokenStoragedKey);
     if(tokenStoraged){
       this.subscription.add(
         this.administrativeUnitsService.getWard(tokenStoraged.accessToken, districtCode).subscribe(res=>{
@@ -165,7 +164,7 @@ export class AddressModifyComponent implements OnInit, OnDestroy {
         isHeadquarters: this.addressForm.value.isHeadquarters,
       }
       
-      let tokenStoraged: ResponseLogin = <ResponseLogin>this.localStorageService.get(tokenStoragedKey);
+      let tokenStoraged: ResponseLogin = <ResponseLogin>this.localStorageService.get(this.localStorageService.tokenStoragedKey);
       if(tokenStoraged){
         this.subscription.add(
           this.customerAddressService.update(tokenStoraged.accessToken, address).subscribe(res=>{
@@ -193,7 +192,7 @@ export class AddressModifyComponent implements OnInit, OnDestroy {
         isHeadquarters: this.addressForm.value.isHeadquarters,
       };
       
-      let tokenStoraged: ResponseLogin = <ResponseLogin>this.localStorageService.get(tokenStoragedKey);
+      let tokenStoraged: ResponseLogin = <ResponseLogin>this.localStorageService.get(this.localStorageService.tokenStoragedKey);
       if(tokenStoraged){
         this.subscription.add(
           this.customerAddressService.insert(tokenStoraged.accessToken, address).subscribe(res=>{

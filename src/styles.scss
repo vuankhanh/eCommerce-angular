@@ -8,6 +8,12 @@
     width: initial;
     overflow: hidden;
 }
+
+.cdk-overlay-pane{
+    max-height: calc(100% - 30px) !important;
+    overflow-y: auto;
+}
+
 html, body { 
     height: 100%;
 }

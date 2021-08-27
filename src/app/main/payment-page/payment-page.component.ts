@@ -16,10 +16,10 @@ import { OrderService } from 'src/app/services/api/order.service';
 import { ResponseLogin } from 'src/app/services/api/login.service';
 import { LocalStorageService } from 'src/app/services/local-storage.service';
 import { ToastService } from 'src/app/services/toast.service';
+import { CartApiService } from 'src/app/services/api/cart-api.service';
 
-import { Subscription } from 'rxjs';
+import { combineLatest, Observable, Subscription } from 'rxjs';
 
-const tokenStoragedKey = 'carota-token';
 @Component({
   selector: 'app-payment-page',
   templateUrl: './payment-page.component.html',
@@ -30,9 +30,18 @@ export class PaymentPageComponent implements OnInit, OnDestroy {
 
   displayedColumns: string[] = ['numericalOrder', 'thumbnail', 'name', 'price', 'quantity'];
   cart: Cart;
+  totalBill: number = 0;
+
+  estimateFeeInfo: any = null;
+  estimateFeeError: any;
+  
   userInformation: UserInformation | null;
   defaultAddress: Address;
   temporaryValue: number = 0;
+
+  userInformation$: Observable<UserInformation | null>;
+  cartChange$: Observable<Cart>;
+  
   subscription: Subscription = new Subscription();
   constructor(
     private router: Router,
@@ -43,34 +52,68 @@ export class PaymentPageComponent implements OnInit, OnDestroy {
     private addressModificationService: AddressModificationService,
     private orderService: OrderService,
     private localStorageService: LocalStorageService,
-    private toastService: ToastService
+    private toastService: ToastService,
+    private cartApiService: CartApiService
   ) { }
 
   ngOnInit(): void {
-    this.initCart();
-    this.listenUserInformation();
-  }
 
-  initCart(){
+    this.cartChange$ = this.cartService.listenCartChange();
+    this.userInformation$ = this.authService.getUserInformation();
+
     this.subscription.add(
-      this.cartService.listenCartChange().subscribe(cart=>{
-        this.cart = cart;
-        this.temporaryValue = this.cartService.sumTemporaryValue(this.cart.products);
-        if(this.cart.deliverTo){
-          this.defaultAddress = this.cart.deliverTo;
+      combineLatest([this.cartChange$, this.userInformation$]).subscribe(([cart, userInfo])=>{
+        if(cart){
+          this.cart = cart;
+          this.temporaryValue = this.cartService.sumTemporaryValue(this.cart.products);
+  
+          if(this.cart.products.length>0){
+            this.cartApiService.getTotalBill(this.cart.products).subscribe(res=>{
+              this.totalBill = res.totalBill;
+            },error=>{
+              this.totalBill = 0;
+            })
+          }
+          
+          if(this.cart.deliverTo){
+            this.defaultAddress = this.cart.deliverTo;
+          }
         }
-      })
-    )
-  }
 
-  listenUserInformation(){
-    this.subscription.add(
-      this.authService.getUserInformation().subscribe(userInfo=>{
-        this.userInformation = userInfo;
-        // if(this.userInformation && this.userInformation.address.length>0 && !this.cart.deliverTo){
-        //   this.defaultAddress = this.cartService.getDefaultAddress(this.userInformation.address);
-        //   this.cartService.setDelivery(this.defaultAddress);
-        // }
+        if(userInfo){
+          this.userInformation = userInfo;
+        }
+
+        if(userInfo && this.cart.deliverTo && this.cart.products.length>0){
+          let tokenStoraged = this.localStorageService.get(this.localStorageService.tokenStoragedKey);
+          if(tokenStoraged && tokenStoraged.accessToken){
+            let estimateFee$ = this.cartApiService.getEstimateFee(tokenStoraged.accessToken, this.cart.deliverTo._id!, this.cart.products);
+            this.subscription.add(
+              estimateFee$.subscribe(res=>{
+                if(res){
+                  this.estimateFeeInfo = res;
+                  console.log(this.estimateFeeInfo);
+                  
+                  this.estimateFeeError = null;
+                }
+              }, error=>{
+                console.log(error);
+                
+                this.estimateFeeInfo = null;
+                this.estimateFeeError = {
+                  desc: 'AhaMove hiện tại không hỗ trợ vận chuyển đến địa chỉ của bạn vì thế Carota sẽ liên hệ với bạn và chuẩn bị một hình thức vận chuyển khác.'
+                }
+                // if(error.status === 406){
+                //   if(error.error.code === 'INVALID_DISTANCE'){
+                //     this.estimateFeeError = {
+                //       desc: 'AhaMove hiện tại không hỗ trợ vận chuyển đến địa của bạn vì thế Carota sẽ liên hệ với bạn và chuẩn bị một hình thức vận chuyển khác.'
+                //     }
+                //   }
+                // }
+              })
+            )
+          }
+        }
       })
     )
   }
@@ -100,7 +143,7 @@ export class PaymentPageComponent implements OnInit, OnDestroy {
   }
 
   confirmPayment(){
-    let tokenStoraged: ResponseLogin = <ResponseLogin>this.localStorageService.get(tokenStoragedKey);
+    let tokenStoraged: ResponseLogin = <ResponseLogin>this.localStorageService.get(this.localStorageService.tokenStoragedKey);
     if(tokenStoraged && tokenStoraged.accessToken){
       this.subscription.add(
         this.orderService.insert(tokenStoraged.accessToken, this.cart).subscribe(async order=>{

@@ -13,11 +13,13 @@ import { Cart, CartService } from 'src/app/services/cart.service';
 import { HeaderService } from 'src/app/services/header.service';
 import { ProductService } from 'src/app/services/api/product/product.service';
 import { AuthService } from 'src/app/services/auth.service';
-
 import { AddressModificationService } from 'src/app/services/address-modification.service';
-
-import { Observable, Subscription } from 'rxjs';
 import { ResponseAddress } from 'src/app/services/api/customer-address.service';
+import { EstimateFeeService } from 'src/app/services/api/estimate-fee.service';
+import { LocalStorageService } from 'src/app/services/local-storage.service';
+
+import { combineLatest, Observable, Subscription } from 'rxjs';
+
 @Component({
   selector: 'app-product-detail',
   templateUrl: './product-detail.component.html',
@@ -25,15 +27,22 @@ import { ResponseAddress } from 'src/app/services/api/customer-address.service';
 })
 export class ProductDetailComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('listImg') listImg: ElementRef;
+  detailId: string;
   userInformation: UserInformation | null;
   product: Product;
   cart: Cart;
+
+  estimateFeeInfo: any = null;
+  estimateFeeError: any;
   
   imgMain: Media;
   indexImgMain: number = 0;
   headquartersAddress: Address;
 
-  userInformation$: Observable<UserInformation | null> = this.authService.getUserInformation();
+  userInformation$: Observable<UserInformation | null>;
+  cartChange$: Observable<Cart>;
+
+  getProductDetail$: Observable<Product>;
   subscription: Subscription = new Subscription();
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -42,38 +51,75 @@ export class ProductDetailComponent implements OnInit, AfterViewInit, OnDestroy 
     private productService: ProductService,
     private cartService: CartService,
     private authService: AuthService,
-    private addressModificationService: AddressModificationService
+    private addressModificationService: AddressModificationService,
+    private estimateFeeService: EstimateFeeService,
+    private localStorageService: LocalStorageService
   ) { }
 
   ngOnInit(): void {
     let detailId: string = this.activatedRoute.snapshot.params.detail;
 
-    this.subscription.add(
-      this.productService.getProductDetail(detailId).subscribe(res=>{
-        this.product = res;
-        this.product.quantity = 1;
-        let index: number = this.product.albumImg!.media.findIndex(media=>media.isMain);
-        index >= 0 ?  this.setImgMain(index) : this.setImgMain(0);;
-      })
-    );
+    this.cartChange$ = this.cartService.listenCartChange();
+    this.userInformation$ = this.authService.getUserInformation();
+    this.getProductDetail$ = this.productService.getProductDetail(detailId);
 
     this.subscription.add(
-      this.userInformation$.subscribe(res=>{
-        if(res){
-          console.log(res);
-          this.userInformation = res;
+      combineLatest(
+        [
+          this.userInformation$,
+          this.cartChange$,
+          this.getProductDetail$
+        ]
+      ).subscribe(([userInfo, cart, productDetail])=>{
+        if(userInfo){
+          this.userInformation = userInfo;
         }
-      })
-    )
-
-    this.subscription.add(
-      this.cartService.listenCartChange().subscribe(cart=>{
+  
         this.cart = cart;
         if(this.cart.deliverTo){
           this.headquartersAddress = this.cart.deliverTo;
         }
+
+        if(productDetail){
+          this.product = productDetail;
+          this.product.quantity = 1;
+          let index: number = this.product.albumImg!.media.findIndex(media=>media.isMain);
+          index >= 0 ?  this.setImgMain(index) : this.setImgMain(0);
+        }
+  
+        if(userInfo && this.cart.deliverTo && this.product){
+          let tokenStoraged = this.localStorageService.get(this.localStorageService.tokenStoragedKey);
+          if(tokenStoraged && tokenStoraged.accessToken){
+            let estimateFee$ = this.estimateFeeService.getEstimateFee(tokenStoraged.accessToken, this.cart.deliverTo._id!, this.product.price);
+            this.subscription.add(
+              estimateFee$.subscribe(res=>{
+                if(res){
+                  this.estimateFeeInfo = res;
+                  console.log(this.estimateFeeInfo);
+                  
+                  this.estimateFeeError = null;
+                }
+              }, error=>{
+                console.log(error);
+                
+                this.estimateFeeInfo = null;
+                this.estimateFeeError = {
+                  desc: 'AhaMove hiện tại không hỗ trợ vận chuyển đến địa chỉ của bạn vì thế Carota sẽ liên hệ với bạn và chuẩn bị một hình thức vận chuyển khác.'
+                }
+                // if(error.status === 406){
+                //   if(error.error.code === 'INVALID_DISTANCE'){
+                //     this.estimateFeeError = {
+                //       desc: 'AhaMove hiện tại không hỗ trợ vận chuyển đến địa của bạn vì thế Carota sẽ liên hệ với bạn và chuẩn bị một hình thức vận chuyển khác.'
+                //     }
+                //   }
+                // }
+              })
+            )
+          }
+        }
       })
     )
+
   }
 
   ngAfterViewInit(){

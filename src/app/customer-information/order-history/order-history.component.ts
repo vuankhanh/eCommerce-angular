@@ -14,7 +14,6 @@ import { LocalStorageService } from 'src/app/services/local-storage.service';
 
 import { Subscription } from 'rxjs';
 
-const tokenStoragedKey = 'carota-token';
 @Component({
   selector: 'app-order-history',
   templateUrl: './order-history.component.html',
@@ -46,7 +45,7 @@ export class OrderHistoryComponent implements OnInit {
 
   listenOrder(paginationParams?: PaginationParams){
     
-    let tokenStoraged: ResponseLogin = <ResponseLogin>this.localStorageService.get(tokenStoragedKey);
+    let tokenStoraged: ResponseLogin = <ResponseLogin>this.localStorageService.get(this.localStorageService.tokenStoragedKey);
     if(tokenStoraged && tokenStoraged.accessToken){
       this.subscription.add(
         this.orderService.get(tokenStoraged.accessToken, paginationParams).subscribe(res=>{

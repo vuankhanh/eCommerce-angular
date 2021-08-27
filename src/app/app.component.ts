@@ -27,7 +27,8 @@ export class AppComponent implements OnInit {
       ['tertiary-background', '#333333'],
       ['normal-text', '#0a5185'],
       ['hightlight-text', '#001727'],
-      ['normal-border', 'rgba(84, 112, 255, 0.3)']
+      ['normal-border', 'rgba(84, 112, 255, 0.3)'],
+      ['ahamove-normal-text', '#16254e']
     ]);
 
     Array.from(colors.entries()).forEach(([name, value]) => {

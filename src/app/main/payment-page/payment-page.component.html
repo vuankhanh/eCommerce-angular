@@ -35,6 +35,41 @@
                     </button>
                 </ng-template>
             </div>
+
+            <div class="height-space"></div>
+
+            <fieldset>
+                <legend>
+                    <img
+                        height="30"    
+                        src="assets/logo/partner/shipping/ahamove/ahamove_logo.png"
+                        alt=""
+                    >
+                </legend>
+                <div
+                    class="vertical-container shipping-info"
+                    *ngIf="estimateFeeInfo; else notSupport"
+                >
+                    <div class="horizontal-container">
+                        <span class="estimate-time">
+                            {{ estimateFeeInfo.deliveryTime.original | theDayOfWeekFormat }}
+                        </span>
+                    </div>
+                    <div class="horizontal-container" *ngIf="estimateFeeInfo.shippingFee>0">
+                        <span>Phí vận chuyển: </span>
+                        <div class="micro-width-space"></div>
+                        <span>{{ estimateFeeInfo.shippingFee | currency:'VND':'symbol' | replaceSpace }}</span>
+                    </div>
+                    <div class="horizontal-container free-shipping-text" *ngIf="estimateFeeInfo.shippingFee === 0">
+                        <span>Miễn phí vận chuyển</span>
+                    </div>
+                </div>
+                <ng-template #notSupport>
+                    <span *ngIf="estimateFeeError && estimateFeeError.desc">
+                        {{ estimateFeeError.desc }}
+                    </span>
+                </ng-template>
+            </fieldset>
     
             <div class="height-space"></div>
     
@@ -80,7 +115,15 @@
             <div class="height-space"></div>
     
             <div class="total-price-frame vertical-container">
-                <!-- <div class="provisional horizontal-container">
+                <ng-container *ngIf="temporaryValue > totalBill">
+                    <div class="primary-key discount horizontal-container">
+                        <mat-icon svgIcon="discount"></mat-icon>
+                        Giảm 10% đơn hàng MỘT TRIỆU ĐỒNG
+                    </div>
+                    <div class="height-space"></div>
+                </ng-container>
+
+                <div class="provisional horizontal-container">
                     <div class="primary-key">
                         Tạm tính
                     </div>
@@ -88,16 +131,38 @@
                         {{ temporaryValue | currency:'VND':'symbol' | replaceSpace }}
                     </div>
                 </div>
+
+                <div class="height-space"></div>
+
+                <div class="provisional horizontal-container">
+                    <div class="primary-key">
+                        Phí vận chuyển
+                    </div>
+                    <div class="secondary-key" *ngIf="estimateFeeInfo && estimateFeeInfo.shippingFee != null; else canNotCalculateShippingFee">
+                        {{ estimateFeeInfo.shippingFee | currency:'VND':'symbol' | replaceSpace }}
+                    </div>
+                    <ng-template #canNotCalculateShippingFee>
+                        <div class="secondary-key">
+                            {{ '???' }}
+                        </div>
+                    </ng-template>
+                </div>
     
-                <div class="height-space"></div> -->
+                <div class="height-space"></div>
     
                 <div class="total-price horizontal-container">
                     <div class="primary-key">
                         Thành tiền
                     </div>
-                    <div class="secondary-key">
-                        {{ temporaryValue | currency:'VND':'symbol' | replaceSpace }}
+                    <div class="secondary-key" *ngIf="estimateFeeInfo && estimateFeeInfo.shippingFee != null; else onlyTotalBill">
+                        {{ (totalBill + estimateFeeInfo.shippingFee) | currency:'VND':'symbol' | replaceSpace }}
                     </div>
+
+                    <ng-template #onlyTotalBill>
+                        <div class="secondary-key">
+                            {{ totalBill | currency:'VND':'symbol' | replaceSpace }}
+                        </div>
+                    </ng-template>
                 </div>
             </div>
     

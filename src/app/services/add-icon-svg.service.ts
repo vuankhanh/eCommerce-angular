@@ -14,7 +14,8 @@ export class AddIconSvgService {
     '../assets/logo/svg/google-plus.svg',
     '../assets/logo/svg/zalo.svg',
     '../assets/logo/svg/lock-reset',
-    '../assets/logo/svg/empty-cart.svg'
+    '../assets/logo/svg/empty-cart.svg',
+    '../assets/logo/svg/discount.svg'
   ];
   constructor(
     private matIconRegistry: MatIconRegistry,

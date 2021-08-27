@@ -28,6 +28,29 @@
                 border-color: #F89406;
             }
         }
+
+        fieldset{
+            border-radius: 5px;
+            border-color: var(--ahamove-normal-text);
+            border-style: dotted;
+            legend{
+                height: 30px;
+                img{
+                    border-radius: 5px;
+                }
+            }
+            .shipping-info{
+                color: var(--ahamove-normal-text);
+                .estimate-time{
+                    font-weight: 500;
+                }
+                .free-shipping-text{
+                    color: #ed1c24;
+                    font-weight: 500;
+                }
+            }
+        }
+
         .mat-table{
             width: 100%;
             .mat-row{
@@ -46,6 +69,13 @@
             padding: 15px;
             box-sizing: border-box;
             border-radius: 5px;
+            .discount{
+                text-align: center;
+                justify-content: flex-end;
+                mat-icon{
+                    margin-right: 5px;
+                }
+            }
             .provisional{
                 justify-content: space-between;
             }

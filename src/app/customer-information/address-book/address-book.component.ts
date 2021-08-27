@@ -13,8 +13,6 @@ import { ToastService } from 'src/app/services/toast.service';
 import { AddressModificationService } from 'src/app/services/address-modification.service';
 
 import { Subscription } from 'rxjs';
-
-const tokenStoragedKey = 'carota-token';
 @Component({
   selector: 'app-address-book',
   templateUrl: './address-book.component.html',
@@ -36,7 +34,7 @@ export class AddressBookComponent implements OnInit, OnDestroy {
   }
 
   listenCustomerAddress(){
-    let tokenStoraged: ResponseLogin = <ResponseLogin>this.localStorageService.get(tokenStoragedKey);
+    let tokenStoraged: ResponseLogin = <ResponseLogin>this.localStorageService.get(this.localStorageService.tokenStoragedKey);
     if(tokenStoraged){
       this.subscription.add(
         this.customerAddressService.get(tokenStoraged.accessToken).subscribe(res=>{
@@ -79,7 +77,7 @@ export class AddressBookComponent implements OnInit, OnDestroy {
 
     dialogRef.afterClosed().subscribe(result=>{
       if(result){
-        let tokenStoraged: ResponseLogin = <ResponseLogin>this.localStorageService.get(tokenStoragedKey);
+        let tokenStoraged: ResponseLogin = <ResponseLogin>this.localStorageService.get(this.localStorageService.tokenStoragedKey);
         if(tokenStoraged){
           this.customerAddressService.remove(tokenStoraged.accessToken, address).subscribe(res=>{
             if(res){

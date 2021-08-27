@@ -12,7 +12,6 @@ import { ResponseLogin } from 'src/app/services/api/login.service';
 import { LocalStorageService } from 'src/app/services/local-storage.service';
 import { CustomerAddressService, ResponseAddress } from 'src/app/services/api/customer-address.service';
 
-const tokenStoragedKey = 'carota-token';
 @Component({
   selector: 'app-address-choose',
   templateUrl: './address-choose.component.html',
@@ -41,7 +40,7 @@ export class AddressChooseComponent implements OnInit, OnDestroy {
   }
 
   listenCustomerAddress(){
-    let tokenStoraged: ResponseLogin = <ResponseLogin>this.localStorageService.get(tokenStoragedKey);
+    let tokenStoraged: ResponseLogin = <ResponseLogin>this.localStorageService.get(this.localStorageService.tokenStoragedKey);
     if(tokenStoraged){
       this.subscription.add(
         this.customerAddressService.get(tokenStoraged.accessToken).subscribe(res=>{

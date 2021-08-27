@@ -18,8 +18,6 @@ import { tiengVietKhongDau, safePassword, isSameInConfirmPassword } from '../../
 
 import { Subscription } from 'rxjs';
 
-
-const tokenStoragedKey = 'carota-token';
 @Component({
   selector: 'app-personal-information',
   templateUrl: './personal-information.component.html',
@@ -126,7 +124,7 @@ export class PersonalInformationComponent implements OnInit, OnDestroy {
   update(){
     if(this.informationGroup.valid){
       this.informationGroup.controls['confirmPassword'].disable();
-      let tokenStoraged: ResponseLogin = <ResponseLogin>this.localStorageService.get(tokenStoragedKey);
+      let tokenStoraged: ResponseLogin = <ResponseLogin>this.localStorageService.get(this.localStorageService.tokenStoragedKey);
       if(tokenStoraged){
         this.updatePersonalInformationService.update(tokenStoraged.accessToken, this.informationGroup.value).subscribe(res=>{
           this.informationGroup.controls['confirmPassword'].enable();

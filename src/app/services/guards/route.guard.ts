@@ -11,7 +11,6 @@ import { Observable, of } from 'rxjs';
 import { catchError , map } from 'rxjs/operators'
 import { CheckTokenService } from '../api/check-token.service';
 
-const tokenStoragedKey = 'carota-token';
 @Injectable({
   providedIn: 'root'
 })
@@ -26,7 +25,7 @@ export class RouteGuard implements CanActivate {
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    let tokenStoraged: ResponseLogin = <ResponseLogin>this.localStorageService.get(tokenStoragedKey);
+    let tokenStoraged: ResponseLogin = <ResponseLogin>this.localStorageService.get(this.localStorageService.tokenStoragedKey);
     if(tokenStoraged && tokenStoraged.accessToken){
       let accessToken = tokenStoraged.accessToken;
       return this.checkTokenService.getCheck(accessToken).pipe(map(res=>{

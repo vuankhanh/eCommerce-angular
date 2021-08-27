@@ -19,8 +19,6 @@ import { CustomerAddressService, ResponseAddress } from './api/customer-address.
 
 
 import { BehaviorSubject, Observable, of } from 'rxjs';
-
-const tokenStoragedKey = 'carota-token';
 @Injectable({
   providedIn: 'root'
 })
@@ -50,7 +48,7 @@ export class AuthService {
         if(result){
           this.checkTokenValidation(result.accessToken);
           let tokenInformation: JwtDecoded = <JwtDecoded>this.jwtDecodedService.jwtDecoded(result.accessToken);
-          this.localStorageService.set(tokenStoragedKey, result);
+          this.localStorageService.set(this.localStorageService.tokenStoragedKey, result);
           if(tokenInformation){
             this.setUserInformation(tokenInformation.data);
           }
@@ -62,12 +60,12 @@ export class AuthService {
   }
 
   updateAccessToken(newAccessToken: string){
-    let tokenStoraged: ResponseLogin = <ResponseLogin>this.localStorageService.get(tokenStoragedKey);
+    let tokenStoraged: ResponseLogin = <ResponseLogin>this.localStorageService.get(this.localStorageService.tokenStoragedKey);
     if(tokenStoraged){
       tokenStoraged.accessToken = newAccessToken;
       let tokenInformation: JwtDecoded = <JwtDecoded>this.jwtDecodedService.jwtDecoded(tokenStoraged.accessToken);
       if(tokenInformation){
-        this.localStorageService.set(tokenStoragedKey, tokenStoraged);
+        this.localStorageService.set(this.localStorageService.tokenStoragedKey, tokenStoraged);
         this.setUserInformation(tokenInformation.data);
       }
     }
@@ -95,7 +93,7 @@ export class AuthService {
   }
 
   getUserInfoFromTokenStoraged(){
-    let tokenStoraged: ResponseLogin = <ResponseLogin>this.localStorageService.get(tokenStoragedKey);
+    let tokenStoraged: ResponseLogin = <ResponseLogin>this.localStorageService.get(this.localStorageService.tokenStoragedKey);
     if(tokenStoraged){
       let tokenInformation: JwtDecoded = <JwtDecoded>this.jwtDecodedService.jwtDecoded(tokenStoraged.accessToken);
       if(tokenInformation){
@@ -106,7 +104,7 @@ export class AuthService {
 
   logout(){
     this.userInformation.next(null);
-    this.localStorageService.remove(tokenStoragedKey);
+    this.localStorageService.remove(this.localStorageService.tokenStoragedKey);
     return this.router.navigate(['']);
   }
 

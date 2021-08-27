@@ -15,11 +15,10 @@ import { AddressModificationService } from 'src/app/services/address-modificatio
 import { ToastService } from 'src/app/services/toast.service';
 import { LocalStorageService } from 'src/app/services/local-storage.service';
 import { CustomerAddressService, ResponseAddress } from 'src/app/services/api/customer-address.service';
+import { CartApiService } from 'src/app/services/api/cart-api.service';
 
 
 import { Subscription } from 'rxjs';
-
-const tokenStoragedKey = 'carota-token';
 @Component({
   selector: 'app-cart',
   templateUrl: './cart.component.html',
@@ -29,6 +28,7 @@ export class CartComponent implements OnInit, OnDestroy {
   @ViewChild('btnInsertAddress') btnInsertAddress: ElementRef;
   cart: Cart;
   temporaryValue: number = 0;
+  totalBill: number = 0;
 
   userInformation: UserInformation | null;
   defaultAddress: Address;
@@ -43,7 +43,8 @@ export class CartComponent implements OnInit, OnDestroy {
     private addressModificationService: AddressModificationService,
     private toastService: ToastService,
     private localStorageService: LocalStorageService,
-    private customerAddressService: CustomerAddressService
+    private customerAddressService: CustomerAddressService,
+    private cartApiService: CartApiService
   ) { }
 
   ngOnInit(): void {
@@ -58,6 +59,11 @@ export class CartComponent implements OnInit, OnDestroy {
       this.cartService.listenCartChange().subscribe(cart=>{
         this.cart = cart;
         this.temporaryValue = this.cartService.sumTemporaryValue(this.cart.products);
+        this.cartApiService.getTotalBill(this.cart.products).subscribe(res=>{
+          this.totalBill = res.totalBill;
+        },error=>{
+          this.totalBill = 0;
+        })
         if(this.cart.deliverTo){
           this.defaultAddress = this.cart.deliverTo;
         }
@@ -66,7 +72,7 @@ export class CartComponent implements OnInit, OnDestroy {
   }
 
   listenCustomerAddress(){
-    let tokenStoraged: ResponseLogin = <ResponseLogin>this.localStorageService.get(tokenStoragedKey);
+    let tokenStoraged: ResponseLogin = <ResponseLogin>this.localStorageService.get(this.localStorageService.tokenStoragedKey);
     if(tokenStoraged){
       this.subscription.add(
         this.customerAddressService.get(tokenStoraged.accessToken).subscribe(res=>{

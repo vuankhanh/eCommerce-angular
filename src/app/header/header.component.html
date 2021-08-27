@@ -91,11 +91,13 @@
             <ng-container *ngIf="userInformation && isLogin; else menuAuthentication">
                 <mat-list role="list">
                     <div class="micro-height-space"></div>
-                    <mat-list-item role="listitem" routerLink="/customer/personal">
-                        Tài khoản của tôi
-                    </mat-list-item>
-                    <mat-list-item role="listitem" routerLink="/customer/order-history">
-                        Lịch sử mua hàng
+
+                    <mat-list-item
+                        role="listitem"
+                        *ngFor="let cMenu of customerMenu; let i=index;"
+                        routerLink="/customer/{{cMenu.route}}"
+                    >
+                        {{ cMenu.title }}
                     </mat-list-item>
 
                     <div class="height-space"></div>

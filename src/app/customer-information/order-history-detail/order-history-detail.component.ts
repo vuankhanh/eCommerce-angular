@@ -9,7 +9,6 @@ import { ResponseLogin } from 'src/app/services/api/login.service';
 import { OrderService } from 'src/app/services/api/order.service';
 import { LocalStorageService } from 'src/app/services/local-storage.service';
 
-const tokenStoragedKey = 'carota-token';
 @Component({
   selector: 'app-order-history-detail',
   templateUrl: './order-history-detail.component.html',
@@ -38,7 +37,7 @@ export class OrderHistoryDetailComponent implements OnInit, OnDestroy {
   }
 
   listenOrderHistoryDetail(orderId: string){
-    let tokenStoraged: ResponseLogin = <ResponseLogin>this.localStorageService.get(tokenStoragedKey);
+    let tokenStoraged: ResponseLogin = <ResponseLogin>this.localStorageService.get(this.localStorageService.tokenStoragedKey);
     if(tokenStoraged && tokenStoraged.accessToken){
       this.subscription.add(
         this.orderService.getDetail(tokenStoraged.accessToken, orderId).subscribe(res=>{
@@ -54,7 +53,7 @@ export class OrderHistoryDetailComponent implements OnInit, OnDestroy {
   }
 
   revoke(id: string){
-    let tokenStoraged: ResponseLogin = <ResponseLogin>this.localStorageService.get(tokenStoragedKey);
+    let tokenStoraged: ResponseLogin = <ResponseLogin>this.localStorageService.get(this.localStorageService.tokenStoragedKey);
     if(tokenStoraged && tokenStoraged.accessToken && this.order._id != 'revoke'){
       this.subscription.add(
         this.orderService.revoke(tokenStoraged.accessToken, id).subscribe(res=>{

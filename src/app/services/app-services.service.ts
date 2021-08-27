@@ -16,7 +16,6 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { map, filter } from 'rxjs/operators';
 import { Title } from '@angular/platform-browser';
 
-const tokenStoragedKey = 'carota-token';
 const defaultPageTitle = 'Thủy Hải Sản Carota';
 @Injectable({
   providedIn: 'root'
@@ -50,7 +49,7 @@ export class AppServicesService {
 
     this.addIconSvgService.addIcon();
 
-    let tokenStoraged: ResponseLogin = <ResponseLogin>this.localStorageService.get(tokenStoragedKey);
+    let tokenStoraged: ResponseLogin = <ResponseLogin>this.localStorageService.get(this.localStorageService.tokenStoragedKey);
     if(tokenStoraged && tokenStoraged.accessToken){
       let accessToken = tokenStoraged.accessToken;
       this.authService.checkTokenValidation(accessToken);

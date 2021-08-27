@@ -35,6 +35,7 @@ import { ReplaceProtocolNameModule } from './pipes/replace-protocol-name/replace
 import { ReplaceSpaceModule } from './pipes/replace-space/replace-space.module';
 import { GalleryRouteModule } from './pipes/gallery-route/gallery-route.module';
 import { SanitizeHtmlBindingModule } from './pipes/sanitize-html-binding/sanitize-html-binding.module';
+import { TheDayOfWeekModule } from './pipes/the-day-of-week-format/the-day-of-week-format.module';
 
 import { AppComponent } from './app.component';
 import { HomePageComponent } from './main/home-page/home-page.component';
@@ -159,6 +160,7 @@ import { AlertTitleComponent } from './sharing/component/alert-title/alert-title
     ReplaceSpaceModule,
     GalleryRouteModule,
     SanitizeHtmlBindingModule,
+    TheDayOfWeekModule,
   ],
   providers: [
     AppServicesService,

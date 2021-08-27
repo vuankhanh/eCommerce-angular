@@ -11,7 +11,7 @@ import { UserInformation, JwtDecoded } from '../models/UserInformation';
 import { Identification } from '../models/Identification';
 
 //Mock Data
-import { Menu, MenusList } from '../mock-data/menu';
+import { Menu, MenusList, CustomerMenu } from '../mock-data/menu';
 
 //Service
 import { HeaderService } from '../services/header.service';
@@ -36,6 +36,7 @@ export class HeaderComponent implements OnInit, AfterViewInit, OnDestroy {
   @Output() toggleDrawer = new EventEmitter();
   identification: Identification;
   menusList: Array<Menu>;
+  customerMenu: Array<Menu>;
   productCategorys: Array<ProductCategory>;
   currentUrl: string = this.router.url;
   badgeCart: number;
@@ -61,6 +62,7 @@ export class HeaderComponent implements OnInit, AfterViewInit, OnDestroy {
     private configService: ConfigService
   ) {
     this.menusList = MenusList;
+    this.customerMenu = CustomerMenu;
     this.appServicesService.productCategory$.subscribe(res=>{
       this.productCategorys = res;
       for(let i in this.menusList){
