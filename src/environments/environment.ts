@@ -7,8 +7,10 @@ export const environment = {
 };
 
 export const hostConfiguration = {
-  host: 'http://localhost:3000/client',
-  rootHost: 'http://localhost:3000'
+  // host: 'http://localhost:3000/client',
+  // rootHost: 'http://localhost:3000'
+  host: 'https://api.carota.vn/client',
+  rootHost: 'https://api.carota.vn'
 }
 
 /*

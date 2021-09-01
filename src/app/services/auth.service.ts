@@ -46,16 +46,20 @@ export class AuthService {
   
       dialogRef.afterClosed().subscribe(result=>{
         if(result){
-          this.checkTokenValidation(result.accessToken);
-          let tokenInformation: JwtDecoded = <JwtDecoded>this.jwtDecodedService.jwtDecoded(result.accessToken);
-          this.localStorageService.set(this.localStorageService.tokenStoragedKey, result);
-          if(tokenInformation){
-            this.setUserInformation(tokenInformation.data);
-          }
+          this.afterLogin(result);
         }
       })
     }else{
       console.log('Không đúng Modal Login')
+    }
+  }
+
+  afterLogin(result: ResponseLogin){
+    this.checkTokenValidation(result.accessToken);
+    let tokenInformation: JwtDecoded = <JwtDecoded>this.jwtDecodedService.jwtDecoded(result.accessToken);
+    this.localStorageService.set(this.localStorageService.tokenStoragedKey, result);
+    if(tokenInformation){
+      this.setUserInformation(tokenInformation.data);
     }
   }
 

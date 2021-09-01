@@ -23,6 +23,7 @@ import { AppServicesService } from '../services/app-services.service';
 import { MainContainerScrollService } from '../services/main-container-scroll.service';
 import { CheckTokenService } from '../services/api/check-token.service';
 import { ConfigService } from '../services/api/config.service';
+import { SocialAuthenticationService } from '../services/api/social-login/social-authentication';
 
 import { Subscription } from 'rxjs';
 
@@ -59,7 +60,8 @@ export class HeaderComponent implements OnInit, AfterViewInit, OnDestroy {
     private appServicesService: AppServicesService,
     private mainContainerScrollService: MainContainerScrollService,
     private checkTokenService: CheckTokenService,
-    private configService: ConfigService
+    private configService: ConfigService,
+    private socialAuthenticationService: SocialAuthenticationService
   ) {
     this.menusList = MenusList;
     this.customerMenu = CustomerMenu;
@@ -171,6 +173,22 @@ export class HeaderComponent implements OnInit, AfterViewInit, OnDestroy {
   decodeJwtUserInfo(accessToken: string){
     let tokenInformation: JwtDecoded = <JwtDecoded>this.jwtDecodedService.jwtDecoded(accessToken);
     this.authService.setUserInformation(tokenInformation.data);
+  }
+
+  googleLogin(){
+    this.socialAuthenticationService.signInWithGoogle().then(userInfo=>{
+      this.authService.afterLogin(userInfo);
+    }).catch(error=>{
+      console.log(error);
+    });
+  }
+
+  facebookLogin(){
+    this.socialAuthenticationService.signInWithFB().then(userInfo=>{
+      this.authService.afterLogin(userInfo);
+    }).catch(error=>{
+      console.log(error);
+    });
   }
 
   logout(){

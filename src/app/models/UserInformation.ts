@@ -5,7 +5,7 @@ export interface JwtDecoded{
 }
 
 export interface UserInformation {
-    userName: string,
+    userName?: string,
     name: string,
     email: string,
     phoneNumber: string,

@@ -41,26 +41,32 @@
         </div>
     </form>
     
-    <!-- <div class="login-with-social-networking-container">
+    <div class="login-with-social-networking-container">
         <p>Hoặc đăng nhập bằng</p>
         <div class="horizontal-container center">
             <div class="horizontal-container">
-                <div class="social-networking-item horizontal-container loginFacebook">
+                <div
+                    class="social-networking-item horizontal-container loginFacebook"
+                    (click)="facebookLogin()"
+                >
                     <mat-icon svgIcon="facebook"></mat-icon>
                 </div>
     
                 <div class="width-space"></div>
     
-                <div class="social-networking-item horizontal-container loginGoogle">
+                <div
+                    class="social-networking-item horizontal-container loginGoogle"
+                    (click)="googleLogin()"
+                >
                     <mat-icon svgIcon="google-plus"></mat-icon>
                 </div>
     
-                <div class="width-space"></div>
+                <!-- <div class="width-space"></div>
     
                 <div class="social-networking-item horizontal-container loginZalo">
                     <mat-icon svgIcon="zalo"></mat-icon>
-                </div>
+                </div> -->
             </div>
         </div>
-    </div> -->
+    </div>
 </div>

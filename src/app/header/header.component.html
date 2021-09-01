@@ -121,9 +121,12 @@
                         </div>
                     </div>
         
-                    <!-- <div class="mini-height-space"></div>
+                    <div class="mini-height-space"></div>
         
-                    <div class="button-loginRegister loginFacebook horizontal-container">
+                    <div
+                        class="button-loginRegister loginFacebook horizontal-container"
+                        (click)="facebookLogin()"
+                    >
                         <div class="icon">
                             <mat-icon svgIcon="facebook"></mat-icon>
                         </div>
@@ -134,7 +137,10 @@
         
                     <div class="mini-height-space"></div>
         
-                    <div class="button-loginRegister loginGoogle horizontal-container">
+                    <div
+                        class="button-loginRegister loginGoogle horizontal-container"
+                        (click)="googleLogin()"
+                    >
                         <div class="icon">
                             <mat-icon svgIcon="google-plus"></mat-icon>
                         </div>
@@ -143,7 +149,7 @@
                         </div>
                     </div>
         
-                    <div class="mini-height-space"></div>
+                    <!-- <div class="mini-height-space"></div>
         
                     <div class="button-loginRegister loginZalo horizontal-container">
                         <div class="icon">

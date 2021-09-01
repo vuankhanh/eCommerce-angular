@@ -7,6 +7,7 @@ import { registerLocaleData } from '@angular/common';
 import localeFr from '@angular/common/locales/es';
 registerLocaleData(localeFr);
 
+//Module
 import { AppRoutingModule } from './app-routing.module';
 import { MainCustomerModule } from './customer-information/main-customer/main-customer.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -29,6 +30,9 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
 import { MatExpansionModule } from '@angular/material/expansion';
+
+import { SocialLoginModule, SocialAuthServiceConfig } from 'angularx-social-login';
+import { GoogleLoginProvider, FacebookLoginProvider } from 'angularx-social-login';
 
 //PipeModule
 import { ReplaceProtocolNameModule } from './pipes/replace-protocol-name/replace-protocol-name.module';
@@ -156,6 +160,8 @@ import { AlertTitleComponent } from './sharing/component/alert-title/alert-title
     MatBottomSheetModule,
     MatExpansionModule,
 
+    SocialLoginModule,
+
     ReplaceProtocolNameModule,
     ReplaceSpaceModule,
     GalleryRouteModule,
@@ -164,7 +170,28 @@ import { AlertTitleComponent } from './sharing/component/alert-title/alert-title
   ],
   providers: [
     AppServicesService,
-    { provide: LOCALE_ID, useValue: 'es'}
+    { provide: LOCALE_ID, useValue: 'es'},
+    {
+      provide: 'SocialAuthServiceConfig',
+      useValue: {
+        autoLogin: false,
+        providers: [
+          {
+            id: GoogleLoginProvider.PROVIDER_ID,
+            provider: new GoogleLoginProvider(
+              '594503809918-0e4urn5uacs50j8ejbj0f887t76et12c.apps.googleusercontent.com'
+            )
+          },
+          {
+            id: FacebookLoginProvider.PROVIDER_ID,
+            provider: new FacebookLoginProvider('583183603050614')
+          }
+        ],
+        onError: (err) => {
+          console.error(err);
+        }
+      } as SocialAuthServiceConfig,
+    }
   ],
   bootstrap: [AppComponent]
 })

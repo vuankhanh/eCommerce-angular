@@ -4,6 +4,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 //Service
 import { LoginService } from 'src/app/services/api/login.service';
 import { ToastService } from 'src/app/services/toast.service';
+import { SocialAuthenticationService } from 'src/app/services/api/social-login/social-authentication';
 
 import { Subscription } from 'rxjs';
 @Component({
@@ -21,7 +22,8 @@ export class LoginComponent implements OnInit, OnDestroy {
   constructor(
     private formBuilder: FormBuilder,
     private loginService: LoginService,
-    private toastService: ToastService
+    private toastService: ToastService,
+    private socialAuthenticationService: SocialAuthenticationService
   ) { }
 
   ngOnInit(): void {
@@ -53,6 +55,26 @@ export class LoginComponent implements OnInit, OnDestroy {
         })
       );
     }
+  }
+
+  googleLogin(){
+    this.socialAuthenticationService.signInWithGoogle().then(userInfo=>{
+      console.log(userInfo);
+      this.closeModal.emit(userInfo);
+    }).catch(error=>{
+      console.log(error);
+      this.toastService.shortToastError('Đã có lỗi xảy ra', 'Lỗi đăng nhập');
+    });
+  }
+
+  facebookLogin(){
+    this.socialAuthenticationService.signInWithFB().then(userInfo=>{
+      console.log(userInfo);
+      this.closeModal.emit(userInfo);
+    }).catch(error=>{
+      console.log(error);
+      this.toastService.shortToastError('Đã có lỗi xảy ra', 'Lỗi đăng nhập')
+    });
   }
 
   ngOnDestroy(){
