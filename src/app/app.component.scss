@@ -1,4 +1,4 @@
-.container{
+.carota-container{
     justify-content: center;
     height: 100%;
     width: 100%;
@@ -39,7 +39,7 @@
 
 
 @media only screen and (max-width: 768px) {
-    .container{
+    .carota-container{
         mat-drawer-container{
             mat-drawer{
                 display: block;

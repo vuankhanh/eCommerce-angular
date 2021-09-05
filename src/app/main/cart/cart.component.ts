@@ -14,7 +14,6 @@ import { Cart, CartService } from 'src/app/services/cart.service';
 import { AddressModificationService } from 'src/app/services/address-modification.service';
 import { ToastService } from 'src/app/services/toast.service';
 import { LocalStorageService } from 'src/app/services/local-storage.service';
-import { CustomerAddressService, ResponseAddress } from 'src/app/services/api/customer-address.service';
 import { CartApiService } from 'src/app/services/api/cart-api.service';
 
 
@@ -43,14 +42,12 @@ export class CartComponent implements OnInit, OnDestroy {
     private addressModificationService: AddressModificationService,
     private toastService: ToastService,
     private localStorageService: LocalStorageService,
-    private customerAddressService: CustomerAddressService,
     private cartApiService: CartApiService
   ) { }
 
   ngOnInit(): void {
     this.initCart();
     this.listenUserInformation();
-    this.listenCustomerAddress();
     // this.localStorageService.remove('carota-cart');
   }
 
@@ -69,23 +66,6 @@ export class CartComponent implements OnInit, OnDestroy {
         }
       })
     )
-  }
-
-  listenCustomerAddress(){
-    let tokenStoraged: ResponseLogin = <ResponseLogin>this.localStorageService.get(this.localStorageService.tokenStoragedKey);
-    if(tokenStoraged){
-      this.subscription.add(
-        this.customerAddressService.get(tokenStoraged.accessToken).subscribe(res=>{
-          if(res){
-            let responseAddress: ResponseAddress = res;
-            if(!this.cart.deliverTo){
-              this.defaultAddress = this.cartService.getDefaultAddress(responseAddress.address);
-              this.cartService.setDelivery(this.defaultAddress);
-            }
-          }
-        })
-      )
-    }
   }
 
   listenUserInformation(){

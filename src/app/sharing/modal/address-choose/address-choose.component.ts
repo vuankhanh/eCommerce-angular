@@ -4,7 +4,6 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Address } from 'src/app/models/Address';
 
 import { AuthService } from 'src/app/services/auth.service';
-import { CartService } from 'src/app/services/cart.service';
 import { AddressModificationService } from 'src/app/services/address-modification.service';
 
 import { Subscription } from 'rxjs';
@@ -26,7 +25,6 @@ export class AddressChooseComponent implements OnInit, OnDestroy {
     public dialogRef: MatDialogRef<AddressChooseComponent>,
     @Inject(MAT_DIALOG_DATA) public data: DefaultAddressData,
     public authService: AuthService,
-    private cartService: CartService,
     public addressModificationService: AddressModificationService,
     private localStorageService: LocalStorageService,
     private customerAddressService: CustomerAddressService
@@ -35,7 +33,6 @@ export class AddressChooseComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     // this.listenUserInformation();
     this.listenCustomerAddress();
-    console.log(this.data);
     
   }
 
@@ -50,30 +47,12 @@ export class AddressChooseComponent implements OnInit, OnDestroy {
             let index = this.findIndexOfObjectInArray(this.data.defaultAddress._id!, this.addresses);
             if(this.addresses[index]){
               this.addressSelected = this.addresses[index]; 
-            }else{
-              this.addressSelected = this.cartService.getDefaultAddress(this.addresses);
             }
           }
         })
       )
     }
   }
-
-  // listenUserInformation(){
-  //   this.subscription.add(
-  //     this.authService.getUserInformation().subscribe(userInfo=>{
-  //       this.addresses = userInfo!.address;
-  //       if(this.addresses){
-  //         let index = this.findIndexOfObjectInArray(this.data.defaultAddress._id!, this.addresses);
-  //         if(this.addresses[index]){
-  //           this.addressSelected = this.addresses[index]; 
-  //         }else{
-  //           this.addressSelected = this.cartService.getDefaultAddress(this.addresses);
-  //         }
-  //       }
-  //     })
-  //   )
-  // }
 
   addAddress(){
     this.subscription.add(

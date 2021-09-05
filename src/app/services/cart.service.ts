@@ -7,8 +7,6 @@ import { Product } from '../models/Product';
 
 import { BehaviorSubject, Observable } from 'rxjs';
 
-const cartKey = 'carota-cart';
-
 @Injectable({
   providedIn: 'root'
 })
@@ -29,16 +27,16 @@ export class CartService {
   }
 
   get(){
-    let products: Cart| null = this.localStorageService.get(cartKey);
+    let products: Cart| null = this.localStorageService.get(this.localStorageService.carotaCartKey);
     return products ? products : this.cartDefault;
   }
 
   set(cart: Cart){
     this.cartStoragedChange$.next(cart);
-    return this.localStorageService.set(cartKey, cart);
+    return this.localStorageService.set(this.localStorageService.carotaCartKey, cart);
   }
 
-  setDelivery(address: Address){
+  setDelivery(address: Address | null){
     let cart: Cart = this.get();
     cart.deliverTo = address;
     this.set(cart);
@@ -91,11 +89,6 @@ export class CartService {
       }
     }
     return temporaryValue;
-  }
-
-  getDefaultAddress(addresses: Array<Address>): Address{
-    let addressDefault = addresses.find(address=>address.isHeadquarters);
-    return addressDefault ? addressDefault : addresses[0];
   }
 }
 

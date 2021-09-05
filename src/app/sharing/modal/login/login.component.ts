@@ -5,6 +5,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { LoginService } from 'src/app/services/api/login.service';
 import { ToastService } from 'src/app/services/toast.service';
 import { SocialAuthenticationService } from 'src/app/services/api/social-login/social-authentication';
+import { InProgressSpinnerService } from 'src/app/services/in-progress-spinner.service';
 
 import { Subscription } from 'rxjs';
 @Component({
@@ -23,7 +24,8 @@ export class LoginComponent implements OnInit, OnDestroy {
     private formBuilder: FormBuilder,
     private loginService: LoginService,
     private toastService: ToastService,
-    private socialAuthenticationService: SocialAuthenticationService
+    private socialAuthenticationService: SocialAuthenticationService,
+    private inProgressSpinnerService: InProgressSpinnerService
   ) { }
 
   ngOnInit(): void {
@@ -39,19 +41,24 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   login(){
     if(this.loginGroup.valid){
+      this.inProgressSpinnerService.progressSpinnerStatus(true);
       this.subscription.add(
         this.loginService.login(this.loginGroup.value).subscribe(res=>{
-          console.log(res);
+          this.inProgressSpinnerService.progressSpinnerStatus(false);
           
           if(res.status===205){
-            alert('Tài khoản chưa kích hoạt')
+            this.toastService.shortToastWarning('Tài khoản chưa kích hoạt', 'Đăng nhập');
           }else if(res.status === 200){
             this.closeModal.emit(res.body);
+            this.toastService.shortToastSuccess('Đăng nhập thành công', '');
           }
         },error=>{
+          this.inProgressSpinnerService.progressSpinnerStatus(false);
           if(error.status === 403){
-            this.toastService.shortToastError('Tài khoản hoặc Mật khẩu không đúng', 'Lỗi đăng nhập')
+            this.toastService.shortToastError('Tài khoản hoặc Mật khẩu không đúng', 'Lỗi đăng nhập');
           }
+
+          this.toastService.shortToastError('Đã xảy ra lỗi không xác định', 'Lỗi đăng nhập');
         })
       );
     }
@@ -59,20 +66,18 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   googleLogin(){
     this.socialAuthenticationService.signInWithGoogle().then(userInfo=>{
-      console.log(userInfo);
       this.closeModal.emit(userInfo);
+      this.toastService.shortToastSuccess('Đăng nhập thành công', '');
     }).catch(error=>{
-      console.log(error);
       this.toastService.shortToastError('Đã có lỗi xảy ra', 'Lỗi đăng nhập');
     });
   }
 
   facebookLogin(){
     this.socialAuthenticationService.signInWithFB().then(userInfo=>{
-      console.log(userInfo);
       this.closeModal.emit(userInfo);
+      this.toastService.shortToastSuccess('Đăng nhập thành công', '');
     }).catch(error=>{
-      console.log(error);
       this.toastService.shortToastError('Đã có lỗi xảy ra', 'Lỗi đăng nhập')
     });
   }

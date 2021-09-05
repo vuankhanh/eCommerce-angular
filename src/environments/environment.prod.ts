@@ -3,6 +3,6 @@ export const environment = {
 };
 
 export const hostConfiguration = {
-  host: 'http://api.carota.vn/client',
-  rootHost: 'http://api.carota.vn'
+  host: 'https://api.carota.vn/client',
+  rootHost: 'https://api.carota.vn'
 }

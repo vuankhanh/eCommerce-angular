@@ -17,7 +17,6 @@ export class AppComponent implements OnInit {
     private mainContainerScrollService: MainContainerScrollService,
     private appService: AppServicesService
   ){
-    
   }
 
   ngOnInit(){

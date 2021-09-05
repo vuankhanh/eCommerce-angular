@@ -126,7 +126,7 @@ import { AlertTitleComponent } from './sharing/component/alert-title/alert-title
     RegisterSuccessfulComponent,
     ResetPasswordComponent,
     ForgotPasswordSuccessfulComponent,
-    AlertTitleComponent
+    AlertTitleComponent,
   ],
   imports: [
     BrowserModule,

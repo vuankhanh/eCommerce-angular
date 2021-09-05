@@ -4,6 +4,7 @@ import { Injectable } from '@angular/core';
 })
 export class LocalStorageService {
   tokenStoragedKey = 'carota-token';
+  carotaCartKey = 'carota-cart';
   constructor() {
     
   }

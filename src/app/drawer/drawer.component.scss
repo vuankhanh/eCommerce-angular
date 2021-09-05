@@ -42,8 +42,10 @@
                         align-items: center;
                     }
                     .mat-badge{
+                        height: 100%;
                         .mat-badge-content{
                             right: 0;
+                            top: 0;
                         }
                     }
                 }

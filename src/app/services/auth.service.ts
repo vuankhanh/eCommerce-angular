@@ -19,6 +19,7 @@ import { CustomerAddressService, ResponseAddress } from './api/customer-address.
 
 
 import { BehaviorSubject, Observable, of } from 'rxjs';
+import { InProgressSpinnerService } from './in-progress-spinner.service';
 @Injectable({
   providedIn: 'root'
 })
@@ -31,7 +32,8 @@ export class AuthService {
     private localStorageService: LocalStorageService,
     private checkTokenService: CheckTokenService,
     private cartService: CartService,
-    private customerAddressService: CustomerAddressService
+    private customerAddressService: CustomerAddressService,
+    private inProgressSpinnerService: InProgressSpinnerService
   ) {
     this.getUserInfoFromTokenStoraged();
   }
@@ -56,6 +58,7 @@ export class AuthService {
 
   afterLogin(result: ResponseLogin){
     this.checkTokenValidation(result.accessToken);
+    this.setDeliveryTo(result.accessToken);
     let tokenInformation: JwtDecoded = <JwtDecoded>this.jwtDecodedService.jwtDecoded(result.accessToken);
     this.localStorageService.set(this.localStorageService.tokenStoragedKey, result);
     if(tokenInformation){
@@ -88,12 +91,19 @@ export class AuthService {
   setDeliveryTo(accessToken: string){
     this.customerAddressService.get(accessToken).subscribe(res=>{
       let responseAddress: ResponseAddress = res;
-      if(responseAddress.address.length>0){
-        let index = responseAddress.address.findIndex(address=> address.isHeadquarters);
-        let address: Address = index >= 0 ? responseAddress.address[index] : responseAddress.address[0];
-        this.cartService.setDelivery(address);
-      }
+      let isHeadquartersAddress: Address | null = this.getIsHeadquartersAddress(responseAddress.address);
+      this.cartService.setDelivery(isHeadquartersAddress);
     })
+  }
+
+  getIsHeadquartersAddress(addresses: Array<Address>): Address | null {
+    if(!addresses || addresses.length===0){
+      return null;
+    }else{
+      let index = addresses.findIndex(address=> address.isHeadquarters);
+      let address: Address = index >= 0 ? addresses[index] : addresses[0];
+      return address;
+    }
   }
 
   getUserInfoFromTokenStoraged(){
@@ -108,6 +118,7 @@ export class AuthService {
 
   logout(){
     this.userInformation.next(null);
+    this.cartService.setDelivery(null);
     this.localStorageService.remove(this.localStorageService.tokenStoragedKey);
     return this.router.navigate(['']);
   }

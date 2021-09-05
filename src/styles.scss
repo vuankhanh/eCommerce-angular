@@ -178,11 +178,12 @@ mat-list{
 @media only screen and (max-width: 768px) {
     .cdk-overlay-pane{
         max-width: calc(100% - 30px) !important;
-        width: calc(100% - 30px) !important;
+        // width: calc(100% - 30px) !important;
         max-height: calc(100% - 30px) !important;
         overflow: scroll;
     }
     .login-modal{
+        width: 100%;
         mat-dialog-container{
             app-check-account-main{
                 .close-button{
@@ -205,6 +206,7 @@ mat-list{
         }
     }
     .address-modification-modal{
+        width: 100%;
         mat-dialog-container{
             .modify-address-container{
                 width: 100%;
@@ -212,6 +214,7 @@ mat-list{
         }
     }
     .confirm-modal{
+        width: 100%;
         mat-dialog-container{
             .mat-dialog-actions{
                 justify-content: flex-end;
