@@ -1,7 +1,7 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { Event, NavigationStart } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { Menu, MenusList } from '../mock-data/menu';
+import { Menu, MenusList, SupportMenu } from '../mock-data/menu';
 
 import { Identification } from '../models/Identification';
 import { ProductCategory } from '../models/ProductCategory';
@@ -23,6 +23,7 @@ export class FooterComponent implements OnInit {
   activeLink: string;
   badgeCart: number;
   menusList: Array<Menu>;
+  supportMenu: Array<Menu>;
   productCategorys: Array<ProductCategory>;
 
   subscription: Subscription = new Subscription();
@@ -41,7 +42,9 @@ export class FooterComponent implements OnInit {
           this.menusList[i].child = this.productCategorys
         }
       }
-    })
+    });
+
+    this.supportMenu = SupportMenu;
   }
 
   ngOnInit(): void {

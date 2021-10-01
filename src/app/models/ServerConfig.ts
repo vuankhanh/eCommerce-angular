@@ -8,5 +8,6 @@ export interface OrderStatus{
 
 export interface ServerConfig{
     identification: Identification,
-    orderStatus: Array<OrderStatus>
+    orderStatus: Array<OrderStatus>,
+    orderCreatedBy: Array<OrderStatus>
 }

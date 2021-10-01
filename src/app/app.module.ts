@@ -55,13 +55,17 @@ import { SlideShowComponent } from './main/slide-show/slide-show.component';
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
 import { ProductionsComponent } from './main/product/product.component';
-import { AboutUsComponent } from './main/about-us/about-us.component';
 import { ProductDetailComponent } from './main/product-detail/product-detail.component';
 import { CartComponent } from './main/cart/cart.component';
 import { PaymentPageComponent } from './main/payment-page/payment-page.component';
-import { ContactComponent } from './main/contact/contact.component';
 import { ProductCategoryComponent } from './main/product-category/product-category.component';
 import { ProductCategoryHomePageComponent } from './main/product-category-home-page/product-category-home-page.component';
+import { AboutUsComponent } from './main/support/about-us/about-us.component';
+import { ReturnPolicyComponent } from './main/support/return-policy/return-policy.component';
+import { PrivacyPolicyComponent } from './main/support/privacy-policy/privacy-policy.component';
+import { TermsOfServiceComponent } from './main/support/terms-of-service/terms-of-service.component';
+import { ShippingPolicyComponent } from './main/support/shipping-policy/shipping-policy.component';
+import { PaymentPolicyComponent } from './main/support/payment-policy/payment-policy.component';
 
 //App Providers
 import { AppServicesService } from './services/app-services.service';
@@ -101,13 +105,17 @@ import { AlertTitleComponent } from './sharing/component/alert-title/alert-title
     HeaderComponent,
     FooterComponent,
     ProductionsComponent,
-    AboutUsComponent,
     ProductDetailComponent,
     CartComponent,
     PaymentPageComponent,
-    ContactComponent,
     ProductCategoryComponent,
     ProductCategoryHomePageComponent,
+    AboutUsComponent,
+    ReturnPolicyComponent,
+    PrivacyPolicyComponent,
+    TermsOfServiceComponent,
+    ShippingPolicyComponent,
+    PaymentPolicyComponent,
 
     SkeletonComponent,
     PaginationComponent,

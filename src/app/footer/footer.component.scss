@@ -10,6 +10,7 @@ button{
 .footer-container{ 
     padding: 15px;
     background: var(--tertiary-background);
+    color: white;
     .footer-item-container{
         width: 100%;
         justify-content: space-between;
@@ -35,7 +36,7 @@ button{
                     button{
                         border: none;
                         background: none;
-                        font-weight: bold;
+                        // font-weight: bold;
                         cursor: pointer;
                     }
                 }
@@ -139,7 +140,13 @@ button{
 
         .third-block{
             width: 30%;
-            height: 200px;
+            a{
+                color: white;
+                text-decoration: none;
+            }
+            a:hover{
+                color: #ed1c24;
+            }
         }
     }
 }

@@ -50,6 +50,40 @@ export const CustomerMenu: Array<Menu> = [
     },
 ]
 
+export const SupportMenu: Array<Menu> = [
+    {
+        icon: 'info',
+        title: 'Giới thiệu',
+        route: 'about-us',
+        child:[]
+    },{
+        icon: 'published_with_changes',
+        title: 'Chính sách đổi trả',
+        route: 'return-policy',
+        child:[]
+    },{
+        icon: 'privacy_tip',
+        title: 'Chính sách bảo mật',
+        route: 'privacy-policy',
+        child:[]
+    },{
+        icon: 'miscellaneous_services',
+        title: 'Điều khoản dịch vụ',
+        route: 'terms-of-service',
+        child:[]
+    },{
+        icon: 'local_shipping',
+        title: 'Chính sách vận chuyển',
+        route: 'shipping-policy',
+        child:[]
+    },{
+        icon: 'payment',
+        title: 'Chính sách thanh toán',
+        route: 'payment-policy',
+        child:[]
+    }
+]
+
 export interface Menu{
     icon?: string;
     svgIcon?: string,
