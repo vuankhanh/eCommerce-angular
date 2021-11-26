@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, QueryList, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 
@@ -10,13 +10,13 @@ import { UserInformation } from 'src/app/models/UserInformation';
 import { Address } from 'src/app/models/Address';
 
 import { Cart, CartService } from 'src/app/services/cart.service';
-import { HeaderService } from 'src/app/services/header.service';
 import { ProductService } from 'src/app/services/api/product/product.service';
 import { AuthService } from 'src/app/services/auth.service';
 import { AddressModificationService } from 'src/app/services/address-modification.service';
 import { ResponseAddress } from 'src/app/services/api/customer-address.service';
 import { EstimateFeeService } from 'src/app/services/api/estimate-fee.service';
 import { LocalStorageService } from 'src/app/services/local-storage.service';
+import { SocketIoService } from 'src/app/services/socket/socket-io.service';
 
 import { combineLatest, Observable, Subscription } from 'rxjs';
 
@@ -27,6 +27,13 @@ import { combineLatest, Observable, Subscription } from 'rxjs';
 })
 export class ProductDetailComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('listImg') listImg: ElementRef;
+  @ViewChildren('youtubeIframes') youtubeIframes: QueryList<HTMLIFrameElement>;
+  playerVars = {
+    cc_lang_pref: 'en',
+  };
+
+  arrYoutube: Array<PlayerObject> = [];
+
   detailId: string;
   userInformation: UserInformation | null;
   product: Product;
@@ -47,13 +54,13 @@ export class ProductDetailComponent implements OnInit, AfterViewInit, OnDestroy 
   constructor(
     private activatedRoute: ActivatedRoute,
     private dialog: MatDialog,
-    private headerService: HeaderService,
     private productService: ProductService,
     private cartService: CartService,
     private authService: AuthService,
     private addressModificationService: AddressModificationService,
     private estimateFeeService: EstimateFeeService,
-    private localStorageService: LocalStorageService
+    private localStorageService: LocalStorageService,
+    private socketIoService: SocketIoService
   ) { }
 
   ngOnInit(): void {
@@ -82,9 +89,18 @@ export class ProductDetailComponent implements OnInit, AfterViewInit, OnDestroy 
 
         if(productDetail){
           this.product = productDetail;
-          this.product.quantity = 1;
+          if(!this.product.quantity){
+            this.product.quantity = 1;
+          }
           let index: number = this.product.albumImg!.media.findIndex(media=>media.isMain);
           index >= 0 ?  this.setImgMain(index) : this.setImgMain(0);
+
+          this.youtubeIframes.toArray().forEach(iframe=>{
+            console.log(iframe);
+            setTimeout(() => {
+              iframe.contentWindow?.postMessage('{"event":"command","func":"' + 'stopVideo' + '","args":""}', '*')
+            }, 2000);
+          });
         }
   
         if(userInfo && this.cart.deliverTo && this.product){
@@ -95,7 +111,6 @@ export class ProductDetailComponent implements OnInit, AfterViewInit, OnDestroy 
               estimateFee$.subscribe(res=>{
                 if(res){
                   this.estimateFeeInfo = res;
-                  console.log(this.estimateFeeInfo);
                   
                   this.estimateFeeError = null;
                 }
@@ -115,6 +130,16 @@ export class ProductDetailComponent implements OnInit, AfterViewInit, OnDestroy 
                 // }
               })
             )
+          }
+        }
+      })
+    );
+
+    this.subscription.add(
+      this.socketIoService.theRemainingAmoutChange$().subscribe(socketData=>{
+        if(this.product){
+          if(this.product._id === socketData.product._id){
+            this.product.theRemainingAmount = socketData.product.theRemainingAmount;
           }
         }
       })
@@ -205,14 +230,39 @@ export class ProductDetailComponent implements OnInit, AfterViewInit, OnDestroy 
 
   addToCart(product: Product){
     this.cartService.addToCart(product);
-    this.headerService.set(true);
   }
 
   login(){
     this.authService.login('login');
   }
 
+  onStateChange(event: any, index: number) {
+    console.log(event);
+    if(event.data === 1){
+      this.arrYoutube.forEach(objPlayer=>{
+        if(objPlayer.index != index){
+          objPlayer.player.pauseVideo();
+        }
+      })
+    }
+
+    // this.ytEvent = event.data;
+  }
+
+  savePlayer(player: any, index: number) {
+    let object: PlayerObject={
+      player,
+      index
+    }
+    this.arrYoutube.push(object);
+  }
+
   ngOnDestroy(){
     this.subscription.unsubscribe();
   }
+}
+
+interface PlayerObject{
+  player: any,
+  index: number
 }

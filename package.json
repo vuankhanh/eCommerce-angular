@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "start": "ng serve --ssl=true --disable-host-check",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
@@ -28,7 +28,9 @@
     "mdbootstrap": "^4.19.2",
     "ngx-device-detector": "^2.1.1",
     "ngx-editor": "^10.1.0",
+    "ngx-socket-io": "^4.1.0",
     "ngx-toastr": "^14.0.0",
+    "ngx-youtube-player": "^12.0.1",
     "rxjs": "~6.6.0",
     "tslib": "^2.0.0",
     "zone.js": "~0.11.4"

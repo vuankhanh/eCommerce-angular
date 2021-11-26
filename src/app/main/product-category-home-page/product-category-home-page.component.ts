@@ -1,12 +1,13 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { Subscription } from 'rxjs';
+
 import { PaginationParams } from 'src/app/models/PaginationParams';
 import { Product } from 'src/app/models/Product';
 import { ProductCategory } from 'src/app/models/ProductCategory';
+
 import { ProductResponse, ProductService } from 'src/app/services/api/product/product.service';
-import { CartService } from 'src/app/services/cart.service';
-import { HeaderService } from 'src/app/services/header.service';
+
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-product-category-home-page',
@@ -23,9 +24,7 @@ export class ProductCategoryHomePageComponent implements OnInit, OnDestroy {
   subscription: Subscription = new Subscription();
   constructor(
     private router: Router,
-    private productService: ProductService,
-    private cartService: CartService,
-    private headerService: HeaderService
+    private productService: ProductService
   ) { }
 
   ngOnInit(): void {
@@ -45,11 +44,6 @@ export class ProductCategoryHomePageComponent implements OnInit, OnDestroy {
         this.products = this.productResponse.data;
       })
     )
-  }
-
-  addToCart(product: Product){
-    this.cartService.addToCart(product);
-    this.headerService.set(true);
   }
 
   showDetail(product: Product){

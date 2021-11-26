@@ -3,7 +3,7 @@
         <div class="product-information horizontal-container">
             <div class="album-container" *ngIf="imgMain && product.albumImg && product.albumImg.media.length>0">
                 <div class="main-img img-container horizontal-container">
-                    <img src="{{imgMain.src | galleryRoute }}" alt="">
+                    <img src="{{imgMain.src | galleryRoute }}" alt="" appSetBackgroundParentElementColor>
                     <div class="action-img horizontal-container">
                         <div class="button-container">
                             <button
@@ -36,6 +36,7 @@
                                 src="{{item.srcThumbnail | galleryRoute}}"
                                 (click)="setImgMain(i)"
                                 [ngClass]="imgMain._id === item._id ? 'imgMain' : ''"
+                                appSetBackgroundParentElementColor
                             >
                         </div>
                         
@@ -143,7 +144,7 @@
                                 <input
                                     type="text"
                                     class="product-quantity"
-                                    [value]="product.quantity"
+                                    [(ngModel)]="product.quantity"
                                     (change)="quantityInputChange($event)"
                                     appInputOnlyNumber
                                 >
@@ -168,6 +169,23 @@
                 </div>
             </div>
         </div>
+        <ng-container *ngIf="product.albumVideo as albumVideo">
+            <div class="height-space"></div>
+            <div class="video-album-container vertical-container">
+                <h1 style="margin-bottom: 5px;">Món ngon dễ làm</h1>
+                <div class="youtube-video-container horizontal-container">
+                    <ng-container *ngFor="let video of albumVideo.media; let i = index">
+                        <youtube-player
+                            [videoId]="video.youtubeId"
+                            (ready)="savePlayer($event, i)"
+                            (change)="onStateChange($event, i)"
+                            [playerVars]="playerVars"
+                        >
+                        </youtube-player>
+                    </ng-container>
+                </div>
+            </div>
+        </ng-container>
         <div class="height-space"></div>
         <div class="product-desciption" *ngIf="product.longDescription">
             <h1 style="margin-bottom: 5px;">Mô tả</h1>

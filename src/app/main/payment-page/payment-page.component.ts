@@ -53,11 +53,10 @@ export class PaymentPageComponent implements OnInit, OnDestroy {
     private orderService: OrderService,
     private localStorageService: LocalStorageService,
     private toastService: ToastService,
-    private cartApiService: CartApiService
+    private cartApiService: CartApiService,
   ) { }
 
   ngOnInit(): void {
-
     this.cartChange$ = this.cartService.listenCartChange();
     this.userInformation$ = this.authService.getUserInformation();
 
@@ -92,12 +91,10 @@ export class PaymentPageComponent implements OnInit, OnDestroy {
               estimateFee$.subscribe(res=>{
                 if(res){
                   this.estimateFeeInfo = res;
-                  console.log(this.estimateFeeInfo);
                   
                   this.estimateFeeError = null;
                 }
               }, error=>{
-                console.log(error);
                 
                 this.estimateFeeInfo = null;
                 this.estimateFeeError = {
@@ -115,7 +112,7 @@ export class PaymentPageComponent implements OnInit, OnDestroy {
           }
         }
       })
-    )
+    );
   }
 
   showDetail(product: Product){

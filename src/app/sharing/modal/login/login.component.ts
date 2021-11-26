@@ -53,12 +53,14 @@ export class LoginComponent implements OnInit, OnDestroy {
             this.toastService.shortToastSuccess('Đăng nhập thành công', '');
           }
         },error=>{
+          console.log(error);
+          
           this.inProgressSpinnerService.progressSpinnerStatus(false);
           if(error.status === 403){
             this.toastService.shortToastError('Tài khoản hoặc Mật khẩu không đúng', 'Lỗi đăng nhập');
+          }else{
+            this.toastService.shortToastError('Đã xảy ra lỗi không xác định', 'Lỗi đăng nhập');
           }
-
-          this.toastService.shortToastError('Đã xảy ra lỗi không xác định', 'Lỗi đăng nhập');
         })
       );
     }

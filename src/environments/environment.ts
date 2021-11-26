@@ -8,7 +8,8 @@ export const environment = {
 
 export const hostConfiguration = {
   host: 'http://localhost:3000/client',
-  rootHost: 'http://localhost:3000'
+  rootHost: 'http://localhost:3000',
+  webSocket: 'ws://localhost:3000'
 }
 
 /*

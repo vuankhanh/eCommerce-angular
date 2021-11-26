@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import { Title } from '@angular/platform-browser';
 
 import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
 
@@ -11,10 +12,10 @@ import { AuthService } from './auth.service';
 import { ResponseLogin } from './api/login.service';
 import { LocalStorageService } from './local-storage.service';
 import { AddIconSvgService } from './add-icon-svg.service';
+import { SocketIoService } from './socket/socket-io.service';
 
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map, filter } from 'rxjs/operators';
-import { Title } from '@angular/platform-browser';
 
 const defaultPageTitle = 'Thủy Hải Sản Carota';
 @Injectable({
@@ -40,6 +41,7 @@ export class AppServicesService {
     private localStorageService: LocalStorageService,
     private authService: AuthService,
     private addIconSvgService: AddIconSvgService,
+    private socketIoService: SocketIoService
   ) {
     this.isMobile$ = this.breakpointObserver.observe(['(min-width: 768px)']).pipe(map((state: BreakpointState)=>!state.matches ? true : false));
 
@@ -74,5 +76,7 @@ export class AppServicesService {
         }
       })
     ).subscribe((title: string) => this.title.setTitle(title));
+
+    this.socketIoService.connect();
   }
 }

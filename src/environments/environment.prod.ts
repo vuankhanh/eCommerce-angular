@@ -4,5 +4,6 @@ export const environment = {
 
 export const hostConfiguration = {
   host: 'https://api.carota.vn/client',
-  rootHost: 'https://api.carota.vn'
+  rootHost: 'https://api.carota.vn',
+  webSocket: 'wss://carota.vn/ws'
 }

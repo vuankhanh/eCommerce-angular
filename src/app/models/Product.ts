@@ -2,6 +2,7 @@ import { BannerGallery } from './BannerGallery';
 import { Posts } from './Posts';
 import { ProductCategory } from './ProductCategory';
 import { ProductGallery } from './ProductGallery';
+import { ProductGalleryVideo } from './ProductGalleryVideo';
 
 export interface Product{
     _id: string,
@@ -20,7 +21,7 @@ export interface Product{
     longDescription: Posts,
     supplier?: string | null,
     albumImg?: ProductGallery,
-    albumVideo?: ProductGallery | null
+    albumVideo?: ProductGalleryVideo | null
     createdAt?: string,
     updatedAt?: string,
     quantity?: number

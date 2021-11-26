@@ -6,6 +6,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { registerLocaleData } from '@angular/common';
 import localeFr from '@angular/common/locales/es';
 registerLocaleData(localeFr);
+import { hostConfiguration } from '../environments/environment';
 
 //Module
 import { AppRoutingModule } from './app-routing.module';
@@ -34,12 +35,19 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { SocialLoginModule, SocialAuthServiceConfig } from 'angularx-social-login';
 import { GoogleLoginProvider, FacebookLoginProvider } from 'angularx-social-login';
 
+import { NgxYoutubePlayerModule } from 'ngx-youtube-player';
+
+import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
+const config: SocketIoConfig = { url: hostConfiguration.webSocket, options: {} };
+
 //PipeModule
 import { ReplaceProtocolNameModule } from './pipes/replace-protocol-name/replace-protocol-name.module';
 import { ReplaceSpaceModule } from './pipes/replace-space/replace-space.module';
 import { GalleryRouteModule } from './pipes/gallery-route/gallery-route.module';
 import { SanitizeHtmlBindingModule } from './pipes/sanitize-html-binding/sanitize-html-binding.module';
 import { TheDayOfWeekModule } from './pipes/the-day-of-week-format/the-day-of-week-format.module';
+import { IsMainModule } from './pipes/is-main/is-main.module';
+import { YoutubeIdModule } from './pipes/youtube-id/youtube-id.module';
 
 import { AppComponent } from './app.component';
 import { HomePageComponent } from './main/home-page/home-page.component';
@@ -49,6 +57,7 @@ import { MapsComponent } from './maps/maps.component';
 import { InputOnlyNumberDirective } from './directives/input-only-number.directive';
 import { ClickOutsideDirective } from './directives/click-outside.directive';
 import { CapsLockDirective } from './directives/caps-lock.directive';
+import { SetBackgroundParentElementColorDirective } from './directives/set-background-parent-element-color.directive';
 
 import { DrawerComponent } from './drawer/drawer.component';
 import { SlideShowComponent } from './main/slide-show/slide-show.component';
@@ -99,6 +108,7 @@ import { AlertTitleComponent } from './sharing/component/alert-title/alert-title
     InputOnlyNumberDirective,
     ClickOutsideDirective,
     CapsLockDirective,
+    SetBackgroundParentElementColorDirective,
 
     DrawerComponent,
     SlideShowComponent,
@@ -135,6 +145,7 @@ import { AlertTitleComponent } from './sharing/component/alert-title/alert-title
     ResetPasswordComponent,
     ForgotPasswordSuccessfulComponent,
     AlertTitleComponent,
+    
   ],
   imports: [
     BrowserModule,
@@ -168,13 +179,18 @@ import { AlertTitleComponent } from './sharing/component/alert-title/alert-title
     MatBottomSheetModule,
     MatExpansionModule,
 
+    SocketIoModule.forRoot(config),
+
     SocialLoginModule,
+    NgxYoutubePlayerModule.forRoot(),
 
     ReplaceProtocolNameModule,
     ReplaceSpaceModule,
     GalleryRouteModule,
     SanitizeHtmlBindingModule,
     TheDayOfWeekModule,
+    IsMainModule,
+    YoutubeIdModule,
   ],
   providers: [
     AppServicesService,

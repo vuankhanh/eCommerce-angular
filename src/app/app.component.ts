@@ -17,6 +17,12 @@ export class AppComponent implements OnInit {
     private mainContainerScrollService: MainContainerScrollService,
     private appService: AppServicesService
   ){
+
+    // this.socketIoService.getTheRemainingAmoutChange().subscribe(res=>{
+    //   console.log(res);
+    // },error=>{
+    //   console.log(error)
+    // })
   }
 
   ngOnInit(){

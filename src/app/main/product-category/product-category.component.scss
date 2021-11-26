@@ -30,6 +30,9 @@
             }
             .product-price{
                 font-weight: 500;
+                margin-bottom: 0;
+                line-height: 1;
+                margin-top: 10px;
             }
         }
         .product-frame:hover{
@@ -55,15 +58,6 @@
                 width: calc(50% - 15px);
                 .product-info{
                     padding: 15px 5px;
-                    .button-container{
-                        .button-primary{
-                            mat-icon{
-                                font-size: 18px;
-                                width: 18px;
-                                height: 18px;
-                            }
-                        }
-                    }
                 }
             }
         }

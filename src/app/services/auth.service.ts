@@ -16,10 +16,10 @@ import { ResponseLogin } from './api/login.service';
 import { CheckTokenService } from './api/check-token.service';
 import { CartService } from './cart.service';
 import { CustomerAddressService, ResponseAddress } from './api/customer-address.service';
-
+import { InProgressSpinnerService } from './in-progress-spinner.service';
+import { SocialAuthenticationService } from './api/social-login/social-authentication';
 
 import { BehaviorSubject, Observable, of } from 'rxjs';
-import { InProgressSpinnerService } from './in-progress-spinner.service';
 @Injectable({
   providedIn: 'root'
 })
@@ -33,7 +33,8 @@ export class AuthService {
     private checkTokenService: CheckTokenService,
     private cartService: CartService,
     private customerAddressService: CustomerAddressService,
-    private inProgressSpinnerService: InProgressSpinnerService
+    private inProgressSpinnerService: InProgressSpinnerService,
+    private socialAuthenticationService: SocialAuthenticationService
   ) {
     this.getUserInfoFromTokenStoraged();
   }
@@ -120,6 +121,7 @@ export class AuthService {
     this.userInformation.next(null);
     this.cartService.setDelivery(null);
     this.localStorageService.remove(this.localStorageService.tokenStoragedKey);
+    this.socialAuthenticationService.signOut();
     return this.router.navigate(['']);
   }
 

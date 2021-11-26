@@ -5,9 +5,7 @@ import { ProductCategory } from '../../models/ProductCategory';
 import { PaginationParams } from 'src/app/models/PaginationParams';
 import { Product } from 'src/app/models/Product';
 
-import { CartService } from 'src/app/services/cart.service';
 import { ProductResponse, ProductService } from 'src/app/services/api/product/product.service';
-import { HeaderService } from 'src/app/services/header.service';
 
 import { Subscription } from 'rxjs';
 @Component({
@@ -25,9 +23,7 @@ export class ProductCategoryComponent implements OnInit, OnDestroy {
   constructor(
     private router: Router,
     private activatedRoute: ActivatedRoute,
-    private cartService: CartService,
-    private productService: ProductService,
-    private headerService: HeaderService,
+    private productService: ProductService
   ) {
     
   }
@@ -49,14 +45,10 @@ export class ProductCategoryComponent implements OnInit, OnDestroy {
           size: this.productResponse.size,
           totalPages: this.productResponse.totalPages
         };
-        this.products = this.productResponse.data;
+        this.products = this.productResponse.data; 
+        console.log(this.products);
       })
     )
-  }
-
-  addToCart(product: Product){
-    this.cartService.addToCart(product);
-    this.headerService.set(true);
   }
 
   showDetail(product: Product){

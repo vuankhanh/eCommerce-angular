@@ -4,6 +4,9 @@ import { LocalStorageService } from './local-storage.service'
 
 import { Address } from '../models/Address';
 import { Product } from '../models/Product';
+import { ToastService } from './toast.service';
+import { HeaderService } from './header.service';
+import { SocketIoService } from './socket/socket-io.service';
 
 import { BehaviorSubject, Observable } from 'rxjs';
 
@@ -19,19 +22,26 @@ export class CartService {
   private cartStoragedChange$: BehaviorSubject<Cart> = new BehaviorSubject<Cart>(this.get());
   private listenCartStoragedChange: Observable<Cart> = this.cartStoragedChange$.asObservable();
   constructor(
-    private localStorageService: LocalStorageService
-  ) {}
+    private localStorageService: LocalStorageService,
+    private toastService: ToastService,
+    private headerService: HeaderService,
+    private socketIoService: SocketIoService
+  ) {
+    //Phát đến Server 
+    this.refreshTheRemainingAmout();
+    this.listenTheRemainingAmountProducts();
+  }
 
   listenCartChange(): Observable<Cart>{
     return this.listenCartStoragedChange;
   }
 
-  get(){
-    let products: Cart| null = this.localStorageService.get(this.localStorageService.carotaCartKey);
-    return products ? products : this.cartDefault;
+  private get(): Cart{
+    let cart: Cart| null = this.localStorageService.get(this.localStorageService.carotaCartKey);
+    return cart ? cart : this.cartDefault;
   }
 
-  set(cart: Cart){
+  private set(cart: Cart){
     this.cartStoragedChange$.next(cart);
     return this.localStorageService.set(this.localStorageService.carotaCartKey, cart);
   }
@@ -49,16 +59,29 @@ export class CartService {
   }
 
   addToCart(product: Product): void{
+    
     let productsInCart: Array<Product> = this.get().products;
     
     let checkExist = productsInCart.some((itemCart: Product) => itemCart._id === product._id);
     if(!checkExist){
-      product.quantity = 1;
-      productsInCart.push(product);
+      if(!product.quantity){
+        product.quantity = 1;
+      }
+      if(product.quantity>product.theRemainingAmount){
+        this.toastService.shortToastWarning(product.name+ ' chỉ còn '+product.theRemainingAmount+ ' sản phẩm', '');
+      }else{
+        productsInCart.push(product);
+        this.headerService.set(true);
+      }
     }else{
       for(let itemCart of productsInCart){
         if(itemCart._id === product._id){
-          itemCart.quantity!++;
+          if((itemCart.quantity! + product.quantity!)>product.theRemainingAmount){
+            this.toastService.shortToastWarning('Sản phẩm '+product.name+ ' chỉ còn '+product.theRemainingAmount+ ' sản phẩm', '');
+          }else{
+            itemCart.quantity! += product.quantity!;
+            this.headerService.set(true);
+          }
         }
       }
     }
@@ -89,6 +112,50 @@ export class CartService {
       }
     }
     return temporaryValue;
+  }
+
+  refreshTheRemainingAmout(){
+    let cart: Cart = this.get();
+    let products: Array<Product> = cart.products;
+    if(products.length>0){
+      let ids = products.map(product=>product._id);
+      this.socketIoService.refreshTheRemainingAmountProducts$(ids);
+    }
+  }
+
+  listenTheRemainingAmountProducts(){
+    this.socketIoService.theRemainingAmountProductsAfterRefresh$().subscribe(theRemainingAmountProducts=>{
+      if(theRemainingAmountProducts.length>0){
+        let cart: Cart = this.get();
+        let products: Array<Product> = cart.products;
+        for(let i=0; i<=products.length-1; i++){
+          let product = products[i];
+          
+          let index: number = theRemainingAmountProducts.findIndex(theRemainingAmountProduct=>theRemainingAmountProduct._id === product._id);
+          if(index>=0){
+            product.theRemainingAmount = theRemainingAmountProducts[index].theRemainingAmount;
+          }
+        }
+        this.setProduct(products);
+      }
+    })
+  }
+
+  checkMatchingQuantity(): Array<Product>{
+    let cart: Cart = this.get();
+    let products: Array<Product> = cart.products;
+    let productsIsNotMatching: Array<Product> = [];
+    if(products.length>0){
+      for(let i=0; i<=products.length-1; i++){
+        let product = products[i];
+  
+        if(product.theRemainingAmount < product.quantity!){
+          productsIsNotMatching.push(product);
+        }
+      }
+    }
+
+    return productsIsNotMatching;
   }
 }
 

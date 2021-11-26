@@ -1,6 +1,19 @@
 @import '~@angular/material/theming';
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
 
+::-webkit-scrollbar {
+    width: 12px;
+}
+
+::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.5);
+    border-radius: 10px;
+}
 
 /* You can add global styles to this file, and also import other style files */
 .cdk-global-scrollblock{
@@ -21,6 +34,10 @@ body {
     margin: 0;
     font-family: Roboto, "Helvetica Neue", sans-serif;
     color: var(--normal-text);
+    background-image: url('assets/imgs/bg-cold.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
 }
 // div{
 //     line-height: 1;
