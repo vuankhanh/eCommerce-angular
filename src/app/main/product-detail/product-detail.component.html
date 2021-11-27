@@ -1,0 +1,195 @@
+<div class="product-detail-container">
+    <ng-container *ngIf="product">
+        <div class="product-information horizontal-container">
+            <div class="album-container" *ngIf="imgMain && product.albumImg && product.albumImg.media.length>0">
+                <div class="main-img img-container horizontal-container">
+                    <img src="{{imgMain.src | galleryRoute }}" alt="" appSetBackgroundParentElementColor>
+                    <div class="action-img horizontal-container">
+                        <div class="button-container">
+                            <button
+                                mat-flat-button
+                                (click)="setImgMainDirection('toLeft')"
+                                *ngIf="imgMain._id != product.albumImg.media[0]._id"
+                            >
+                                <mat-icon>chevron_left</mat-icon>
+                            </button>
+                        </div>
+                        <div
+                            class="button-container"
+                            (click)="setImgMainDirection('toRight')"
+                            *ngIf="imgMain._id != product.albumImg.media[product.albumImg.media.length-1]._id"
+                        >
+                            <button mat-flat-button>
+                                <mat-icon>chevron_right</mat-icon>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="height-space"></div>
+                <div class="list-img horizontal-container" #listImg>
+                    <ng-container *ngFor="let item of product.albumImg.media; let i = index;">
+                        <div
+                            class="img-thumbnail-container horizontal-container"
+                            id="list-item-{{i}}"
+                        >
+                            <img
+                                src="{{item.srcThumbnail | galleryRoute}}"
+                                (click)="setImgMain(i)"
+                                [ngClass]="imgMain._id === item._id ? 'imgMain' : ''"
+                                appSetBackgroundParentElementColor
+                            >
+                        </div>
+                        
+                    </ng-container>
+                </div>
+            </div>
+            <div class="width-space"></div>
+        
+            <div class="product-basic-information">
+                <div class="product-info">
+                    <h4>{{product.name}}</h4>
+                    <div class="content-p">
+                        {{product.sortDescription}}
+                    </div>
+                    <h3 class="product-price">
+                        <span>{{ product.price | currency:'VND':'symbol' | replaceSpace}}</span>
+                        <span>/</span>
+                        <span>{{product.unit}}</span>
+                    </h3>
+
+                    <ng-container *ngIf="userInformation; else loginPlease">
+                        <ng-container *ngIf="headquartersAddress; else createAddress">
+                            <div class="horizontal-container deliveryTo">
+                                <div>Giao đến:</div>
+                                <div class="micro-width-space"></div>
+                                <a
+                                    href="{{'https://www.google.com/maps/place/'+ headquartersAddress.street +' '+ headquartersAddress.ward.name +' '+ headquartersAddress.district.name +' '+ headquartersAddress.province.name }}"
+                                    target="_blank"
+                                    class="textAddress"
+                                >
+                                    <span>
+                                        {{ headquartersAddress.responsiblePerson }}, 
+                                        {{ headquartersAddress.ward.name }}, 
+                                        {{ headquartersAddress.district.name }},
+                                        {{ headquartersAddress.province.name }}
+                                    </span>
+                                </a>
+                                <div class="micro-width-space"></div>
+                                <div>-</div>
+                                <div class="micro-width-space"></div>
+                                <div class="textLink" (click)="chooseAddress(headquartersAddress)">
+                                    Đổi địa chỉ
+                                </div>
+                            </div>
+                            <div class="height-space"></div>
+                            <fieldset>
+                                <legend>
+                                    <img
+                                        height="30"    
+                                        src="assets/logo/partner/shipping/ahamove/ahamove_logo.png"
+                                        alt=""
+                                    >
+                                </legend>
+                                <div
+                                    class="vertical-container shipping-info"
+                                    *ngIf="estimateFeeInfo; else notSupport"
+                                >
+                                    <div class="horizontal-container">
+                                        <span class="estimate-time">
+                                            {{ estimateFeeInfo.deliveryTime.original | theDayOfWeekFormat }}
+                                        </span>
+                                    </div>
+                                    <div class="horizontal-container" *ngIf="estimateFeeInfo.shippingFee>0">
+                                        <span>Phí vận chuyển: </span>
+                                        <div class="micro-width-space"></div>
+                                        <span>{{ estimateFeeInfo.shippingFee | currency:'VND':'symbol' | replaceSpace }}</span>
+                                    </div>
+                                    <div class="horizontal-container free-shipping-text" *ngIf="estimateFeeInfo.shippingFee === 0">
+                                        <span>Miễn phí vận chuyển</span>
+                                    </div>
+                                </div>
+                                <ng-template #notSupport>
+                                    <span *ngIf="estimateFeeError && estimateFeeError.desc">
+                                        {{ estimateFeeError.desc }}
+                                    </span>
+                                </ng-template>
+                            </fieldset>
+                        </ng-container>
+                        <ng-template #createAddress>
+                            <span class="pleaseLogin" (click)="insertAddress()">
+                                Bạn chưa có vị trí nào trong sổ địa chỉ. <span class="textLink">TẠO ĐỊA CHỈ</span>
+                            </span>
+                        </ng-template>
+                    </ng-container>
+                    <ng-template #loginPlease>
+                        <span class="pleaseLogin" (click)="login()">
+                            Bạn hãy <span class="textLink">ĐĂNG NHẬP</span> để được dự báo thời gian và chi phí giao hàng
+                        </span>
+                    </ng-template>
+
+                    <div class="height-space"></div>
+
+                    <div class="verical-container">
+                        <div>Số lượng:</div>
+                        <div class="mini-height-space"></div>
+                        <div class="horizontal-container">
+                            <div class="change-quantity-container horizontal-container">
+                                <button
+                                    class="button-change"
+                                    (click)="changeQuantity('decrease')"
+                                    [disabled]="(!product.quantity || product.quantity===1)"
+                                >
+                                    <span>-</span>
+                                </button>
+                                <input
+                                    type="text"
+                                    class="product-quantity"
+                                    [(ngModel)]="product.quantity"
+                                    (change)="quantityInputChange($event)"
+                                    appInputOnlyNumber
+                                >
+                                <button
+                                    class="button-change"
+                                    (click)="changeQuantity('increase')"
+                                >
+                                    <span>+</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="height-space"></div>
+
+                    <div class="button-container horizontal-container">
+                        <button class="button-style button-primary" (click)="addToCart(product)">
+                            <mat-icon>add_shopping_cart</mat-icon>
+                            <span>Thêm vào giỏ</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <ng-container *ngIf="product.albumVideo as albumVideo">
+            <div class="height-space"></div>
+            <div class="video-album-container vertical-container">
+                <h1 style="margin-bottom: 5px;">Món ngon dễ làm</h1>
+                <div class="youtube-video-container horizontal-container">
+                    <ng-container *ngFor="let video of albumVideo.media; let i = index">
+                        <youtube-player
+                            [videoId]="video.youtubeId"
+                            (ready)="savePlayer($event, i)"
+                            (change)="onStateChange($event, i)"
+                            [playerVars]="playerVars"
+                        >
+                        </youtube-player>
+                    </ng-container>
+                </div>
+            </div>
+        </ng-container>
+        <div class="height-space"></div>
+        <div class="product-desciption" *ngIf="product.longDescription">
+            <h1 style="margin-bottom: 5px;">Mô tả</h1>
+            <app-posts [editorContent]="product.longDescription"></app-posts>
+        </div>
+    </ng-container>
+</div>

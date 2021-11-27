@@ -1,0 +1,17 @@
+<div class="carota-container horizontal-container" >
+  <mat-drawer-container autosize>
+    <mat-drawer #drawer mode="over" *ngIf="isMobile">
+      <app-drawer (toggleDrawer)="toggle($event)"></app-drawer>
+    </mat-drawer>
+  
+    <mat-drawer-content (scroll)="onScroll($event)">
+      <div class="main-container">
+        <app-header #appHeader (toggleDrawer)="toggle($event)"></app-header>
+        <router-outlet (activate)="onActivate()"></router-outlet>
+        <app-footer (toggleDrawer)="toggle($event)"></app-footer>
+        <!-- <div style="height: 300px;"></div> -->
+      </div>
+    </mat-drawer-content>
+  
+  </mat-drawer-container>
+</div>
