@@ -38,7 +38,11 @@ import { GoogleLoginProvider, FacebookLoginProvider } from 'angularx-social-logi
 import { NgxYoutubePlayerModule } from 'ngx-youtube-player';
 
 import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
+<<<<<<< HEAD
 const config: SocketIoConfig = { url: hostConfiguration.webSocket, options: { autoConnect: false} };
+=======
+const config: SocketIoConfig = { url: hostConfiguration.webSocket, options: {} };
+>>>>>>> eb644a7f4fa094aaf7ca075300a9b1dcac009f60
 
 //PipeModule
 import { ReplaceProtocolNameModule } from './pipes/replace-protocol-name/replace-protocol-name.module';
@@ -148,7 +152,11 @@ import { AlertTitleComponent } from './sharing/component/alert-title/alert-title
     
   ],
   imports: [
+<<<<<<< HEAD
     BrowserModule.withServerTransition({ appId: 'serverApp' }),
+=======
+    BrowserModule,
+>>>>>>> eb644a7f4fa094aaf7ca075300a9b1dcac009f60
     HttpClientModule,
     LayoutModule,
     FormsModule,

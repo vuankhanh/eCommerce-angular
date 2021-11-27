@@ -23,7 +23,11 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
+<<<<<<< HEAD
             "outputPath": "dist/web-template/browser",
+=======
+            "outputPath": "dist/web-template",
+>>>>>>> eb644a7f4fa094aaf7ca075300a9b1dcac009f60
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -142,6 +146,7 @@
               "devServerTarget": "web-template:serve:production"
             }
           }
+<<<<<<< HEAD
         },
         "server": {
           "builder": "@angular-devkit/build-angular:server",
@@ -201,6 +206,8 @@
             }
           },
           "defaultConfiguration": "production"
+=======
+>>>>>>> eb644a7f4fa094aaf7ca075300a9b1dcac009f60
         }
       }
     }

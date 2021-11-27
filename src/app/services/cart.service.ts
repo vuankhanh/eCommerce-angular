@@ -1,5 +1,9 @@
+<<<<<<< HEAD
 import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
+=======
+import { Injectable } from '@angular/core';
+>>>>>>> eb644a7f4fa094aaf7ca075300a9b1dcac009f60
 
 import { LocalStorageService } from './local-storage.service'
 
@@ -20,6 +24,7 @@ export class CartService {
     products: [],
     status: 'inLocalStorageCart'
   }
+<<<<<<< HEAD
 
   private isBrowser: boolean;
 
@@ -27,17 +32,28 @@ export class CartService {
   private listenCartStoragedChange: Observable<Cart> = this.cartStoragedChange$.asObservable();
   constructor(
     @Inject(PLATFORM_ID) platformId: Object,
+=======
+  private cartStoragedChange$: BehaviorSubject<Cart> = new BehaviorSubject<Cart>(this.get());
+  private listenCartStoragedChange: Observable<Cart> = this.cartStoragedChange$.asObservable();
+  constructor(
+>>>>>>> eb644a7f4fa094aaf7ca075300a9b1dcac009f60
     private localStorageService: LocalStorageService,
     private toastService: ToastService,
     private headerService: HeaderService,
     private socketIoService: SocketIoService
   ) {
+<<<<<<< HEAD
     this.isBrowser = isPlatformBrowser(platformId);
     //Phát đến Server 
     if(this.isBrowser){
       this.refreshTheRemainingAmout();
       this.listenTheRemainingAmountProducts();
     }
+=======
+    //Phát đến Server 
+    this.refreshTheRemainingAmout();
+    this.listenTheRemainingAmountProducts();
+>>>>>>> eb644a7f4fa094aaf7ca075300a9b1dcac009f60
   }
 
   listenCartChange(): Observable<Cart>{
@@ -127,7 +143,11 @@ export class CartService {
     let products: Array<Product> = cart.products;
     if(products.length>0){
       let ids = products.map(product=>product._id);
+<<<<<<< HEAD
       // this.socketIoService.refreshTheRemainingAmountProducts$(ids);
+=======
+      this.socketIoService.refreshTheRemainingAmountProducts$(ids);
+>>>>>>> eb644a7f4fa094aaf7ca075300a9b1dcac009f60
     }
   }
 

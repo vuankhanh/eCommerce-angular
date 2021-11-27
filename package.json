@@ -7,12 +7,16 @@
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
+<<<<<<< HEAD
     "e2e": "ng e2e",
     "dev:ssr": "ng run web-template:serve-ssr",
     "serve:ssr": "node dist/web-template/server/main.js",
     "build:ssr": "ng build && ng run web-template:server",
     "build:ssr:prod": "ng build --configuration=production && ng run web-template:server:production",
     "prerender": "ng run web-template:prerender"
+=======
+    "e2e": "ng e2e"
+>>>>>>> eb644a7f4fa094aaf7ca075300a9b1dcac009f60
   },
   "private": true,
   "dependencies": {
@@ -25,6 +29,7 @@
     "@angular/material": "^11.2.1",
     "@angular/platform-browser": "~12.1.1",
     "@angular/platform-browser-dynamic": "~12.1.1",
+<<<<<<< HEAD
     "@angular/platform-server": "~12.1.1",
     "@angular/router": "~12.1.1",
     "@nguniversal/express-engine": "^12.1.0",
@@ -33,6 +38,12 @@
     "chart.js": "^2.5.0",
     "domino": "^2.1.6",
     "express": "^4.15.2",
+=======
+    "@angular/router": "~12.1.1",
+    "angularx-social-login": "^4.0.1",
+    "bootstrap": "^5.1.0",
+    "chart.js": "^2.5.0",
+>>>>>>> eb644a7f4fa094aaf7ca075300a9b1dcac009f60
     "jwt-decode": "^3.1.2",
     "mdbootstrap": "^4.19.2",
     "ngx-device-detector": "^2.1.1",
@@ -48,8 +59,11 @@
     "@angular-devkit/build-angular": "~12.1.1",
     "@angular/cli": "~12.1.1",
     "@angular/compiler-cli": "~12.1.1",
+<<<<<<< HEAD
     "@nguniversal/builders": "^12.1.0",
     "@types/express": "^4.17.0",
+=======
+>>>>>>> eb644a7f4fa094aaf7ca075300a9b1dcac009f60
     "@types/jasmine": "~3.6.0",
     "@types/node": "^12.11.1",
     "codelyzer": "^6.0.0",

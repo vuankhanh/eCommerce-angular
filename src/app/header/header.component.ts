@@ -1,5 +1,9 @@
+<<<<<<< HEAD
 import { Component, ElementRef, OnInit, OnDestroy, Renderer2, ViewChild, AfterViewInit, Output, EventEmitter, Inject, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
+=======
+import { Component, ElementRef, OnInit, OnDestroy, Renderer2, ViewChild, AfterViewInit, Output, EventEmitter } from '@angular/core';
+>>>>>>> eb644a7f4fa094aaf7ca075300a9b1dcac009f60
 import { NavigationStart, Event, Router } from '@angular/router';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
 
@@ -48,11 +52,16 @@ export class HeaderComponent implements OnInit, AfterViewInit, OnDestroy {
   isLogin: boolean = false;
   userInformation: UserInformation | null;
 
+<<<<<<< HEAD
   isBrowser: boolean;
 
   subscription: Subscription = new Subscription();
   constructor(
     @Inject(PLATFORM_ID) platformId: Object,
+=======
+  subscription: Subscription = new Subscription();
+  constructor(
+>>>>>>> eb644a7f4fa094aaf7ca075300a9b1dcac009f60
     private router: Router,
     private ren: Renderer2,
     private bottomSheet: MatBottomSheet,
@@ -67,7 +76,10 @@ export class HeaderComponent implements OnInit, AfterViewInit, OnDestroy {
     private configService: ConfigService,
     private socialAuthenticationService: SocialAuthenticationService
   ) {
+<<<<<<< HEAD
     this.isBrowser = isPlatformBrowser(platformId);
+=======
+>>>>>>> eb644a7f4fa094aaf7ca075300a9b1dcac009f60
     this.menusList = MenusList;
     this.customerMenu = CustomerMenu;
     this.appServicesService.productCategory$.subscribe(res=>{

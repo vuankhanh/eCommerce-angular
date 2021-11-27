@@ -1,5 +1,9 @@
+<<<<<<< HEAD
 import { Component, ElementRef, Inject, OnDestroy, OnInit, PLATFORM_ID, Renderer2, ViewChild } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
+=======
+import { Component, ElementRef, OnDestroy, OnInit, Renderer2, ViewChild } from '@angular/core';
+>>>>>>> eb644a7f4fa094aaf7ca075300a9b1dcac009f60
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 
@@ -8,11 +12,19 @@ import { AddressChooseComponent } from '../../sharing/modal/address-choose/addre
 import { Address } from 'src/app/models/Address';
 import { Product } from 'src/app/models/Product';
 import { UserInformation } from 'src/app/models/UserInformation';
+<<<<<<< HEAD
+=======
+import { ResponseLogin } from 'src/app/services/api/login.service';
+>>>>>>> eb644a7f4fa094aaf7ca075300a9b1dcac009f60
 
 import { AuthService } from 'src/app/services/auth.service';
 import { Cart, CartService } from 'src/app/services/cart.service';
 import { AddressModificationService } from 'src/app/services/address-modification.service';
 import { ToastService } from 'src/app/services/toast.service';
+<<<<<<< HEAD
+=======
+import { LocalStorageService } from 'src/app/services/local-storage.service';
+>>>>>>> eb644a7f4fa094aaf7ca075300a9b1dcac009f60
 import { CartApiService } from 'src/app/services/api/cart-api.service';
 import { SocketIoService } from 'src/app/services/socket/socket-io.service';
 
@@ -24,9 +36,12 @@ import { Subscription } from 'rxjs';
 })
 export class CartComponent implements OnInit, OnDestroy {
   @ViewChild('btnInsertAddress') btnInsertAddress: ElementRef;
+<<<<<<< HEAD
 
   private isBrowser: boolean;
 
+=======
+>>>>>>> eb644a7f4fa094aaf7ca075300a9b1dcac009f60
   cart: Cart;
   temporaryValue: number = 0;
   totalBill: number = 0;
@@ -36,7 +51,10 @@ export class CartComponent implements OnInit, OnDestroy {
 
   subscription: Subscription = new Subscription();
   constructor(
+<<<<<<< HEAD
     @Inject(PLATFORM_ID) platformId: Object,
+=======
+>>>>>>> eb644a7f4fa094aaf7ca075300a9b1dcac009f60
     private router: Router,
     private dialog: MatDialog,
     private renderer2: Renderer2,
@@ -44,18 +62,30 @@ export class CartComponent implements OnInit, OnDestroy {
     private authService: AuthService,
     private addressModificationService: AddressModificationService,
     private toastService: ToastService,
+<<<<<<< HEAD
     private cartApiService: CartApiService,
     private socketIoService: SocketIoService
   ) {
     this.isBrowser = isPlatformBrowser(platformId);
   }
+=======
+    private localStorageService: LocalStorageService,
+    private cartApiService: CartApiService,
+    private socketIoService: SocketIoService
+  ) { }
+>>>>>>> eb644a7f4fa094aaf7ca075300a9b1dcac009f60
 
   ngOnInit(): void {
     this.initCart();
     this.listenUserInformation();
+<<<<<<< HEAD
     if(this.isBrowser){
       this.listenSocketDataProduct();
     }
+=======
+    this.listenSocketDataProduct();
+    // this.localStorageService.remove('carota-cart');
+>>>>>>> eb644a7f4fa094aaf7ca075300a9b1dcac009f60
   }
 
   initCart(){

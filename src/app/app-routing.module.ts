@@ -52,9 +52,13 @@ const routes: Routes = [
 ];
 
 @NgModule({
+<<<<<<< HEAD
   imports: [RouterModule.forRoot(routes, {
     initialNavigation: 'enabled'
 })],
+=======
+  imports: [RouterModule.forRoot(routes)],
+>>>>>>> eb644a7f4fa094aaf7ca075300a9b1dcac009f60
   exports: [RouterModule]
 })
 export class AppRoutingModule { }
