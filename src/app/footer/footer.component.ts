@@ -1,13 +1,7 @@
-<<<<<<< HEAD
 import { Component, EventEmitter, Inject, OnInit, Output, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { Event, NavigationStart } from '@angular/router';
 
-=======
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { Event, NavigationStart } from '@angular/router';
-import { Subscription } from 'rxjs';
->>>>>>> eb644a7f4fa094aaf7ca075300a9b1dcac009f60
 import { Menu, MenusList, SupportMenu } from '../mock-data/menu';
 
 import { Identification } from '../models/Identification';
@@ -18,11 +12,8 @@ import { AppServicesService } from '../services/app-services.service';
 import { Cart, CartService } from '../services/cart.service';
 import { HeaderService } from '../services/header.service';
 import { UrlChangeService } from '../services/url-change.service';
-<<<<<<< HEAD
 
 import { Subscription } from 'rxjs';
-=======
->>>>>>> eb644a7f4fa094aaf7ca075300a9b1dcac009f60
 @Component({
   selector: 'app-footer',
   templateUrl: './footer.component.html',
@@ -38,26 +29,18 @@ export class FooterComponent implements OnInit {
   supportMenu: Array<Menu>;
   productCategorys: Array<ProductCategory>;
 
-<<<<<<< HEAD
   isBrowser: boolean;
 
   subscription: Subscription = new Subscription();
   constructor(
     @Inject(PLATFORM_ID) platformId: Object,
-=======
-  subscription: Subscription = new Subscription();
-  constructor(
->>>>>>> eb644a7f4fa094aaf7ca075300a9b1dcac009f60
     private configService: ConfigService,
     private headerService: HeaderService,
     private cartService: CartService,
     private urlChangeService: UrlChangeService,
     private appServicesService: AppServicesService
   ) {
-<<<<<<< HEAD
     this.isBrowser = isPlatformBrowser(platformId);
-=======
->>>>>>> eb644a7f4fa094aaf7ca075300a9b1dcac009f60
     this.menusList = MenusList;
     this.appServicesService.productCategory$.subscribe(res=>{
       this.productCategorys = res;

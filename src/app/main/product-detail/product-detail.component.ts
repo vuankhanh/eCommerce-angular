@@ -1,9 +1,5 @@
-<<<<<<< HEAD
 import { AfterViewInit, Component, ElementRef, Inject, OnDestroy, OnInit, PLATFORM_ID, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
-=======
-import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
->>>>>>> eb644a7f4fa094aaf7ca075300a9b1dcac009f60
 import { ActivatedRoute } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 
@@ -33,12 +29,9 @@ import { combineLatest, Observable, Subscription } from 'rxjs';
 export class ProductDetailComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('listImg') listImg: ElementRef;
   @ViewChildren('youtubeIframes') youtubeIframes: QueryList<HTMLIFrameElement>;
-<<<<<<< HEAD
 
   private isBrowser: boolean;
 
-=======
->>>>>>> eb644a7f4fa094aaf7ca075300a9b1dcac009f60
   playerVars = {
     cc_lang_pref: 'en',
   };
@@ -63,10 +56,7 @@ export class ProductDetailComponent implements OnInit, AfterViewInit, OnDestroy 
   getProductDetail$: Observable<Product>;
   subscription: Subscription = new Subscription();
   constructor(
-<<<<<<< HEAD
     @Inject(PLATFORM_ID) platformId: Object,
-=======
->>>>>>> eb644a7f4fa094aaf7ca075300a9b1dcac009f60
     private activatedRoute: ActivatedRoute,
     private dialog: MatDialog,
     private productService: ProductService,
@@ -76,13 +66,9 @@ export class ProductDetailComponent implements OnInit, AfterViewInit, OnDestroy 
     private estimateFeeService: EstimateFeeService,
     private localStorageService: LocalStorageService,
     private socketIoService: SocketIoService
-<<<<<<< HEAD
   ) {
     this.isBrowser = isPlatformBrowser(platformId);
   }
-=======
-  ) { }
->>>>>>> eb644a7f4fa094aaf7ca075300a9b1dcac009f60
 
   ngOnInit(): void {
     let detailId: string = this.activatedRoute.snapshot.params.detail;
@@ -155,7 +141,6 @@ export class ProductDetailComponent implements OnInit, AfterViewInit, OnDestroy 
         }
       })
     );
-<<<<<<< HEAD
     
     if(this.isBrowser){
       this.subscription.add(
@@ -168,19 +153,6 @@ export class ProductDetailComponent implements OnInit, AfterViewInit, OnDestroy 
         })
       )
     }
-=======
-
-    this.subscription.add(
-      this.socketIoService.theRemainingAmoutChange$().subscribe(socketData=>{
-        if(this.product){
-          if(this.product._id === socketData.product._id){
-            this.product.theRemainingAmount = socketData.product.theRemainingAmount;
-          }
-        }
-      })
-    )
-
->>>>>>> eb644a7f4fa094aaf7ca075300a9b1dcac009f60
   }
 
   ngAfterViewInit(){
@@ -192,7 +164,6 @@ export class ProductDetailComponent implements OnInit, AfterViewInit, OnDestroy 
   }
 
   setImgMainDirection(direction: string){
-<<<<<<< HEAD
     if(this.isBrowser){
       if(direction === 'toLeft'){
         if(this.imgMain._id != this.product?.albumImg?.media[0]._id){
@@ -212,25 +183,6 @@ export class ProductDetailComponent implements OnInit, AfterViewInit, OnDestroy 
       }else{
         console.log('Hướng không xác định');
       }
-=======
-    if(direction === 'toLeft'){
-      if(this.imgMain._id != this.product?.albumImg?.media[0]._id){
-        this.indexImgMain--;
-        this.product?.albumImg?.media[this.indexImgMain] ? this.imgMain = this.product?.albumImg?.media[this.indexImgMain] : this.product?.albumImg?.media[0];
-        const elementId = window.document.getElementById("list-item-"+this.indexImgMain)! as HTMLDivElement;
-        this.listImg.nativeElement.scrollTo({ left: elementId.offsetLeft-10,  behavior: "smooth"});
-      }
-    }else if(direction === 'toRight'){
-      if(this.imgMain._id != this.product?.albumImg?.media[this.product?.albumImg?.media.length-1]._id){
-        this.indexImgMain++;
-        this.product?.albumImg?.media[this.indexImgMain] ? this.imgMain = this.product?.albumImg?.media[this.indexImgMain] : this.product?.albumImg?.media[0];
-        const elementId = window.document.getElementById("list-item-"+this.indexImgMain)! as HTMLDivElement;
-        
-        this.listImg.nativeElement.scrollTo({ left: elementId.offsetLeft-10,  behavior: "smooth"})
-      }
-    }else{
-      console.log('Hướng không xác định');
->>>>>>> eb644a7f4fa094aaf7ca075300a9b1dcac009f60
     }
   }
 
@@ -295,10 +247,6 @@ export class ProductDetailComponent implements OnInit, AfterViewInit, OnDestroy 
   }
 
   onStateChange(event: any, index: number) {
-<<<<<<< HEAD
-=======
-    console.log(event);
->>>>>>> eb644a7f4fa094aaf7ca075300a9b1dcac009f60
     if(event.data === 1){
       this.arrYoutube.forEach(objPlayer=>{
         if(objPlayer.index != index){
@@ -306,11 +254,6 @@ export class ProductDetailComponent implements OnInit, AfterViewInit, OnDestroy 
         }
       })
     }
-<<<<<<< HEAD
-=======
-
-    // this.ytEvent = event.data;
->>>>>>> eb644a7f4fa094aaf7ca075300a9b1dcac009f60
   }
 
   savePlayer(player: any, index: number) {

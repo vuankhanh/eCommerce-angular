@@ -1,9 +1,5 @@
-<<<<<<< HEAD
 import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
-=======
-import { Injectable } from '@angular/core';
->>>>>>> eb644a7f4fa094aaf7ca075300a9b1dcac009f60
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { Title } from '@angular/platform-browser';
 
@@ -27,11 +23,8 @@ const defaultPageTitle = 'Thủy Hải Sản Carota';
   providedIn: 'root'
 })
 export class AppServicesService {
-<<<<<<< HEAD
   private isBrowser: boolean;
 
-=======
->>>>>>> eb644a7f4fa094aaf7ca075300a9b1dcac009f60
   products: Product;
 
   public isMobile$: Observable<boolean>;
@@ -43,10 +36,7 @@ export class AppServicesService {
   public productHightlight$: Observable<Product[]> = this.bProductHightlight.asObservable();
 
   constructor(
-<<<<<<< HEAD
     @Inject(PLATFORM_ID) platformId: Object,
-=======
->>>>>>> eb644a7f4fa094aaf7ca075300a9b1dcac009f60
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private title: Title,
@@ -57,14 +47,11 @@ export class AppServicesService {
     private addIconSvgService: AddIconSvgService,
     private socketIoService: SocketIoService
   ) {
-<<<<<<< HEAD
     this.isBrowser = isPlatformBrowser(platformId);
     if(this.isBrowser){
       this.socketIoService.connect();
     }
 
-=======
->>>>>>> eb644a7f4fa094aaf7ca075300a9b1dcac009f60
     this.isMobile$ = this.breakpointObserver.observe(['(min-width: 768px)']).pipe(map((state: BreakpointState)=>!state.matches ? true : false));
 
     this.productService.getCategory().subscribe(res=>this.bProductCategory.next(res));
@@ -98,10 +85,5 @@ export class AppServicesService {
         }
       })
     ).subscribe((title: string) => this.title.setTitle(title));
-<<<<<<< HEAD
-=======
-
-    this.socketIoService.connect();
->>>>>>> eb644a7f4fa094aaf7ca075300a9b1dcac009f60
   }
 }
