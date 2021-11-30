@@ -44,14 +44,7 @@ body {
     margin: 0;
     font-family: Roboto, "Helvetica Neue", sans-serif;
     color: var(--normal-text);
-    background-image: url('assets/imgs/bg-cold.jpg');
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center;
 }
-// div{
-//     line-height: 1;
-// }
 
 .vertical-container{
     display: flex;
@@ -195,6 +188,12 @@ mat-list{
     }
 }
 
+.posts-container{
+    ::ng-deep img{
+        max-width: 100%;
+    }
+}
+
 .primary-key{
     color: #999999;
 }
@@ -253,10 +252,6 @@ mat-list{
         min-width: unset !important;
         max-width: 100%;
     }
-}
-  
-@media only screen and (max-width: 414px) {
-
 }
 
 @keyframes secondss {

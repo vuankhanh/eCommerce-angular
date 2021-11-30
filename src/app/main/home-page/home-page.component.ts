@@ -1,9 +1,10 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
+
 import { ProductCategory } from 'src/app/models/ProductCategory';
 
 import { AppServicesService } from 'src/app/services/app-services.service';
 
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-home-page',
