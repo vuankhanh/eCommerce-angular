@@ -5,10 +5,14 @@ import { MatDialog } from '@angular/material/dialog';
 
 import { AddressChooseComponent } from '../../sharing/modal/address-choose/address-choose.component';
 
+//Pipe
+import { GalleryRoutePipe } from '../../pipes/gallery-route/gallery-route.pipe';
+
 import { Product } from 'src/app/models/Product';
 import { Media } from 'src/app/models/ProductGallery';
 import { UserInformation } from 'src/app/models/UserInformation';
 import { Address } from 'src/app/models/Address';
+import { MetaTagFacebook } from 'src/app/models/MetaTag';
 
 import { Cart, CartService } from 'src/app/services/cart.service';
 import { ProductService } from 'src/app/services/api/product/product.service';
@@ -18,6 +22,7 @@ import { ResponseAddress } from 'src/app/services/api/customer-address.service';
 import { EstimateFeeService } from 'src/app/services/api/estimate-fee.service';
 import { LocalStorageService } from 'src/app/services/local-storage.service';
 import { SocketIoService } from 'src/app/services/socket/socket-io.service';
+import { SEOService } from 'src/app/services/seo.service';
 
 import { combineLatest, Observable, Subscription } from 'rxjs';
 
@@ -28,7 +33,6 @@ import { combineLatest, Observable, Subscription } from 'rxjs';
 })
 export class ProductDetailComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('listImg') listImg: ElementRef;
-  @ViewChildren('youtubeIframes') youtubeIframes: QueryList<HTMLIFrameElement>;
 
   private isBrowser: boolean;
 
@@ -59,23 +63,25 @@ export class ProductDetailComponent implements OnInit, AfterViewInit, OnDestroy 
     @Inject(PLATFORM_ID) platformId: Object,
     private activatedRoute: ActivatedRoute,
     private dialog: MatDialog,
+    private galleryRoutePipe: GalleryRoutePipe,
     private productService: ProductService,
     private cartService: CartService,
     private authService: AuthService,
     private addressModificationService: AddressModificationService,
     private estimateFeeService: EstimateFeeService,
     private localStorageService: LocalStorageService,
-    private socketIoService: SocketIoService
+    private socketIoService: SocketIoService,
+    private seoService: SEOService,
   ) {
     this.isBrowser = isPlatformBrowser(platformId);
   }
 
   ngOnInit(): void {
-    let detailId: string = this.activatedRoute.snapshot.params.detail;
+    let route: string = this.activatedRoute.snapshot.params.route;
 
     this.cartChange$ = this.cartService.listenCartChange();
     this.userInformation$ = this.authService.getUserInformation();
-    this.getProductDetail$ = this.productService.getProductDetail(detailId);
+    this.getProductDetail$ = this.productService.getProductRoute(route);
 
     this.subscription.add(
       combineLatest(
@@ -101,13 +107,19 @@ export class ProductDetailComponent implements OnInit, AfterViewInit, OnDestroy 
           }
           let index: number = this.product.albumImg!.media.findIndex(media=>media.isMain);
           index >= 0 ?  this.setImgMain(index) : this.setImgMain(0);
+          
+          let metaTagFacebook: MetaTagFacebook = {
+            title: this.product.name,
+            image: this.galleryRoutePipe.transform(this.product.thumbnailUrl),
+            imageAlt: this.product.name,
+            imageType: 'image/png',
+            imageWidth: '100',
+            imageHeight: '100',
+            description: this.product.sortDescription
+          }
+          this.seoService.updateTitle(this.product.name);
+          this.seoService.updateMetaTagFacebook(metaTagFacebook);
 
-          this.youtubeIframes.toArray().forEach(iframe=>{
-            console.log(iframe);
-            setTimeout(() => {
-              iframe.contentWindow?.postMessage('{"event":"command","func":"' + 'stopVideo' + '","args":""}', '*')
-            }, 2000);
-          });
         }
   
         if(userInfo && this.cart.deliverTo && this.product){

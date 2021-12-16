@@ -46,18 +46,16 @@ export class ProductCategoryComponent implements OnInit, OnDestroy {
           totalPages: this.productResponse.totalPages
         };
         this.products = this.productResponse.data; 
-        console.log(this.products);
       })
     )
   }
 
   showDetail(product: Product){
-    this.router.navigate(['productions/'+this.activeLink, product._id]);
+    this.router.navigate(['productions/'+this.activeLink, product.route]);
   }
 
   changeIndex(index: number){
     console.log('Change index = ' + index);
-    
   }
 
   ngOnDestroy(){

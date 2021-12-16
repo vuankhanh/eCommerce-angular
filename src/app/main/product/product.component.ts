@@ -5,9 +5,10 @@ import { MatTabNav } from '@angular/material/tabs'
 import { ProductCategory } from '../../models/ProductCategory';
 
 import { UrlChangeService } from 'src/app/services/url-change.service';
+import { AppServicesService } from 'src/app/services/app-services.service';
+import { SEOService } from 'src/app/services/seo.service';
 
 import { Subscription } from 'rxjs';
-import { AppServicesService } from 'src/app/services/app-services.service';
 @Component({
   selector: 'app-product',
   templateUrl: './product.component.html',
@@ -15,7 +16,7 @@ import { AppServicesService } from 'src/app/services/app-services.service';
 })
 export class ProductionsComponent implements OnInit, AfterViewInit, OnDestroy {
   productCategorys: Array<ProductCategory>;
-  activeLink: string;
+  categoryIsActivated: ProductCategory;
   counter: number = 1;
   subscription: Subscription = new Subscription();
 
@@ -23,27 +24,40 @@ export class ProductionsComponent implements OnInit, AfterViewInit, OnDestroy {
   constructor(
     private router: Router,
     private urlChangeService: UrlChangeService,
-    private appServicesService: AppServicesService
+    private appServicesService: AppServicesService,
+    private seoService: SEOService
   ) {
     this.subscription.add(
       this.appServicesService.productCategory$.subscribe(res=>{
-        this.productCategorys = res;
+        if(res.length){
+          this.productCategorys = res;
+          let categoryIsActivated = this.getCategoryIsActivated(this.router.url, this.productCategorys);
+          this.categoryIsActivated = categoryIsActivated ? categoryIsActivated : this.productCategorys[0];
+          this.seoService.updateTitle(this.categoryIsActivated.name);
+        }
       })
-    )
-    this.activeLink = this.router.url.split("/")[2] ? this.router.url.split("/")[2] : this.productCategorys[0].route;
+    );
   }
 
   ngOnInit(): void {
     this.subscription.add(
       this.urlChangeService.urlChange().subscribe((event: Event)=>{
         if(event instanceof NavigationStart) {
-          this.activeLink = event.url.split("/")[2] ? event.url.split("/")[2] : this.productCategorys[0].route;
+          let categoryIsActivated = this.getCategoryIsActivated(event.url, this.productCategorys);
+          this.categoryIsActivated = categoryIsActivated ? categoryIsActivated : this.productCategorys[0];
+          this.seoService.updateTitle(this.categoryIsActivated.name);
         }
       })
     );
   }
 
+  
   ngAfterViewInit() {}
+  
+  getCategoryIsActivated(route: string, productCategorys: Array<ProductCategory>){
+    let index: number = productCategorys.findIndex(menu=>route.includes(menu.route));
+    return productCategorys[index];
+  }
 
   ngOnDestroy(){
     this.subscription.unsubscribe();

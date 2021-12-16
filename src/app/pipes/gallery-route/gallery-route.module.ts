@@ -7,6 +7,8 @@ import { GalleryRoutePipe } from './gallery-route.pipe';
   declarations: [GalleryRoutePipe],
   imports: [
     CommonModule
-  ],exports: [GalleryRoutePipe]
+  ],
+  providers: [GalleryRoutePipe]
+  ,exports: [GalleryRoutePipe]
 })
 export class GalleryRouteModule { }

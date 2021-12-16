@@ -47,7 +47,7 @@ export class ProductCategoryHomePageComponent implements OnInit, OnDestroy {
   }
 
   showDetail(product: Product){
-    this.router.navigate(['productions/'+this.category, product._id]);
+    this.router.navigate(['productions/'+this.category, product.route]);
   }
 
   ngOnDestroy(){

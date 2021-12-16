@@ -64,7 +64,6 @@ export class AddressModifyComponent implements OnInit, OnDestroy {
   }
 
   checkModalType(dataInit: DataInit){
-    console.log(dataInit)
     if(dataInit.type === 'insert'){
       
     }else if(dataInit.type === 'update' && dataInit.address){

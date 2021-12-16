@@ -4,8 +4,8 @@
             <a
                 mat-tab-link
                 *ngFor="let category of productCategorys"
-                (click)="activeLink = category.route"
-                [active]="activeLink === category.route"
+                (click)="categoryIsActivated.route = category.route"
+                [active]="categoryIsActivated.route === category.route"
                 [routerLink]="category.route"
             >
                 {{category.name}}

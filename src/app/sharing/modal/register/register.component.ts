@@ -71,8 +71,6 @@ export class RegisterComponent implements OnInit, OnDestroy {
     if(email.valid){
       this.subscription.add(
         this.checkExistsAccountService.checkExistEmail({email: email.value}).subscribe(res=>{
-          console.log(res);
-          
           if(email.errors){
             delete email.errors!['isAlreadyExist'];
           }

@@ -84,6 +84,10 @@ export class AppServicesService {
           return child.snapshot.data.title || defaultPageTitle;
         }
       })
-    ).subscribe((title: string) => this.title.setTitle(title));
+    ).subscribe((title: string) => {
+      if(title){
+        this.title.setTitle(title);
+      }
+    });
   }
 }

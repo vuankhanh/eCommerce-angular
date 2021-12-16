@@ -48,12 +48,12 @@ export class ProductService {
     return this.httpClient.get<ProductResponse>(this.urlProduct, { headers: headers, params: params })
   }
 
-  getProductDetail(id: string){
+  getProductRoute(route: string){
     let headers: HttpHeaders = new HttpHeaders({
       'Content-Type': 'application/json'
     });
     
-    return this.httpClient.get<Product>(this.urlProduct+'/'+id, { headers })
+    return this.httpClient.get<Product>(this.urlProduct+'/'+route, { headers })
   }
 }
 

@@ -29,8 +29,8 @@ const routes: Routes = [
     children: [
       { path: '', redirectTo: 'hai-san', pathMatch: 'full' },
       {
-        path: ':category', component: ProductCategoryComponent, data: { title: 'Sản phẩm' } },
-      { path: ':category/:detail', component: ProductDetailComponent, data: { title: 'Sản phẩm' } },
+        path: ':category', component: ProductCategoryComponent },
+      { path: ':category/:route', component: ProductDetailComponent },
     ]
   },
   { path: 'verify-email', component: VerificationEmailComponent, data: { title: 'Kích hoạt Email' } },

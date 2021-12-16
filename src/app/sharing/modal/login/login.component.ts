@@ -53,7 +53,6 @@ export class LoginComponent implements OnInit, OnDestroy {
             this.toastService.shortToastSuccess('Đăng nhập thành công', '');
           }
         },error=>{
-          console.log(error);
           
           this.inProgressSpinnerService.progressSpinnerStatus(false);
           if(error.status === 403){
