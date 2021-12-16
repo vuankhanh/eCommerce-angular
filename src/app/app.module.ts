@@ -38,7 +38,13 @@ import { GoogleLoginProvider, FacebookLoginProvider } from 'angularx-social-logi
 import { NgxYoutubePlayerModule } from 'ngx-youtube-player';
 
 import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
-const config: SocketIoConfig = { url: hostConfiguration.webSocket, options: { autoConnect: false} };
+const config: SocketIoConfig = {
+  url: hostConfiguration.webSocket,
+  options: {
+    autoConnect: false,
+    path: '/ws/'
+  },
+};
 
 //PipeModule
 import { ReplaceProtocolNameModule } from './pipes/replace-protocol-name/replace-protocol-name.module';
@@ -98,6 +104,7 @@ import { RegisterSuccessfulComponent } from './sharing/modal/register-successful
 import { ResetPasswordComponent } from './main/reset-password/reset-password.component';
 import { ForgotPasswordSuccessfulComponent } from './sharing/modal/forgot-password-successful/forgot-password-successful.component';
 import { AlertTitleComponent } from './sharing/component/alert-title/alert-title.component';
+import { PageNotFoundComponent } from './main/page-not-found/page-not-found.component';
 
 @NgModule({
   declarations: [
@@ -145,6 +152,7 @@ import { AlertTitleComponent } from './sharing/component/alert-title/alert-title
     ResetPasswordComponent,
     ForgotPasswordSuccessfulComponent,
     AlertTitleComponent,
+    PageNotFoundComponent,
     
   ],
   imports: [

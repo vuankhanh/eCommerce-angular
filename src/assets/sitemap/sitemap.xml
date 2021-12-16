@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+    <url>
+        <loc>https://carota.vn/</loc>
+        <lastmod>2021-12-16</lastmod>
+    </url>
+
+    <!-- Support -->
+    <url>
+        <loc>https://carota.vn/support/about-us</loc>
+        <lastmod>2021-12-16</lastmod>
+    </url>
+    <url>
+        <loc>https://carota.vn/support/return-policy</loc>
+        <lastmod>2021-12-16</lastmod>
+    </url>
+    <url>
+        <loc>https://carota.vn/support/privacy-policy</loc>
+        <lastmod>2021-12-16</lastmod>
+    </url>
+    <url>
+        <loc>https://carota.vn/support/terms-of-service</loc>
+        <lastmod>2021-12-16</lastmod>
+    </url>
+    <url>
+        <loc>https://carota.vn/support/shipping-policy</loc>
+        <lastmod>2021-12-16</lastmod>
+    </url>
+    <url>
+        <loc>https://carota.vn/support/payment-policy</loc>
+        <lastmod>2021-12-16</lastmod>
+    </url>
+
+    <!-- Production -->
+    <url>
+        <loc>https://carota.vn/productions/hai-san</loc>
+        <lastmod>2021-12-16</lastmod>
+    </url>
+    <url>
+        <loc>https://carota.vn/productions/hai-san/cha-ca-nhong</loc>
+        <lastmod>2021-12-16</lastmod>
+    </url>
+    <url>
+        <loc>https://carota.vn/productions/hai-san/thit-cang-ghe</loc>
+        <lastmod>2021-12-16</lastmod>
+    </url>
+    <url>
+        <loc>https://carota.vn/productions/hai-san/xuc-xich-gan-ca-ngu</loc>
+        <lastmod>2021-12-16</lastmod>
+    </url>
+    <url>
+        <loc>https://carota.vn/productions/hai-san/ca-ngu-phile</loc>
+        <lastmod>2021-12-16</lastmod>
+    </url>
+    <url>
+        <loc>https://carota.vn/productions/ca-nuoc-ngot</loc>
+        <lastmod>2021-12-16</lastmod>
+    </url>
+    <url>
+        <loc>https://carota.vn/productions/ca-nuoc-ngot/ca-ro-dong</loc>
+        <lastmod>2021-12-16</lastmod>
+    </url>
+
+    <!-- Production -->
+    <url>
+        <loc>https://carota.vn/cart</loc>
+        <lastmod>2021-12-16</lastmod>
+    </url>
+</urlset>

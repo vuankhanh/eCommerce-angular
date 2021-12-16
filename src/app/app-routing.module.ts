@@ -16,10 +16,10 @@ import { PrivacyPolicyComponent } from './main/support/privacy-policy/privacy-po
 import { TermsOfServiceComponent } from './main/support/terms-of-service/terms-of-service.component';
 import { ShippingPolicyComponent } from './main/support/shipping-policy/shipping-policy.component';
 import { PaymentPolicyComponent } from './main/support/payment-policy/payment-policy.component';
+import { PageNotFoundComponent } from './main/page-not-found/page-not-found.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: 'homepage', pathMatch: 'full' },
-  { path: 'homepage', component: HomePageComponent, data: { title: 'Thủy Hải Sản Carota' } },
+  { path: '', component: HomePageComponent, data: { title: 'Thủy Hải Sản Carota' } },
   { path: 'cart', component: CartComponent, data: { title: 'Giỏ Hàng' } },
   { path: 'payment-confirm', component: PaymentPageComponent, data: { title: 'Xác nhận thanh toán' } },
   {
@@ -46,9 +46,8 @@ const routes: Routes = [
       { path: 'shipping-policy', component: ShippingPolicyComponent, data: { title: 'Chính sách vận chuyển' } },
       { path: 'payment-policy', component: PaymentPolicyComponent, data: { title: 'Chính sách thanh toán' } }
     ]
-  }
-  
-  // { path: '**', redirectTo: '/homepage' }
+  },
+  { path: '**', component: PageNotFoundComponent }
 ];
 
 @NgModule({

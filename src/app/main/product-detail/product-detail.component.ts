@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, Inject, OnDestroy, OnInit, PLATFORM_ID, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, Inject, OnDestroy, OnInit, PLATFORM_ID, ViewChild } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
@@ -115,6 +115,7 @@ export class ProductDetailComponent implements OnInit, AfterViewInit, OnDestroy 
             imageType: 'image/png',
             imageWidth: '100',
             imageHeight: '100',
+            url: window.location.href,
             description: this.product.sortDescription
           }
           this.seoService.updateTitle(this.product.name);

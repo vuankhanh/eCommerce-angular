@@ -9,7 +9,7 @@
     <div class="brand-name vertical-container" *ngIf="identification">
         <img
             src="{{ identification.logo.src | galleryRoute }}"
-            routerLink="/homepage"
+            routerLink="/"
         >
     </div>
 
@@ -30,8 +30,9 @@
                 <button
                     matRippleDisabled="false"
                     class="title-menu"
-                    [routerLink]="menu.route"
-                    [ngStyle]="{ color: currentUrl.includes(menu.route) ? 'var(--hightlight-text)': '' }"
+                    [routerLink]="['/'+menu.route]"
+                    [routerLinkActive]="['is-active']"
+                    [routerLinkActiveOptions]="{ exact: menu.route ? false : true }"
                     [matBadge]="badgeCart"
                     [matBadgeHidden]="(menu.route === 'cart' ? false : true) || !badgeCart"
                     (mouseenter)="closeAlertAddedToCart()"

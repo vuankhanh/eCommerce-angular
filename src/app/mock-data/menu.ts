@@ -5,7 +5,7 @@ export const MenusList: Array<Menu> =
     {
         icon: 'home',
         title: 'Trang chủ',
-        route: 'homepage',
+        route: '',
         child: []
     },{
         icon: 'store',

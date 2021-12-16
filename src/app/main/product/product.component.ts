@@ -27,6 +27,8 @@ export class ProductionsComponent implements OnInit, AfterViewInit, OnDestroy {
     private appServicesService: AppServicesService,
     private seoService: SEOService
   ) {
+    
+    
     this.subscription.add(
       this.appServicesService.productCategory$.subscribe(res=>{
         if(res.length){
@@ -43,9 +45,14 @@ export class ProductionsComponent implements OnInit, AfterViewInit, OnDestroy {
     this.subscription.add(
       this.urlChangeService.urlChange().subscribe((event: Event)=>{
         if(event instanceof NavigationStart) {
-          let categoryIsActivated = this.getCategoryIsActivated(event.url, this.productCategorys);
-          this.categoryIsActivated = categoryIsActivated ? categoryIsActivated : this.productCategorys[0];
-          this.seoService.updateTitle(this.categoryIsActivated.name);
+          let splitRoute = event.url.split('/');
+          if(splitRoute.length===2 && splitRoute[1] === 'productions'){
+            this.router.navigate(['/productions/'+this.productCategorys[0].route]);
+          } else if(splitRoute.length>=2 && splitRoute[1] === 'productions'){
+            let categoryIsActivated = this.getCategoryIsActivated(event.url, this.productCategorys);
+            this.categoryIsActivated = categoryIsActivated ? categoryIsActivated : this.productCategorys[0]; 
+            this.seoService.updateTitle(this.categoryIsActivated.name);
+          }
         }
       })
     );
@@ -57,6 +64,10 @@ export class ProductionsComponent implements OnInit, AfterViewInit, OnDestroy {
   getCategoryIsActivated(route: string, productCategorys: Array<ProductCategory>){
     let index: number = productCategorys.findIndex(menu=>route.includes(menu.route));
     return productCategorys[index];
+  }
+
+  setCategory(category: ProductCategory){
+    this.router.navigate(['/productions/'+category.route]);
   }
 
   ngOnDestroy(){

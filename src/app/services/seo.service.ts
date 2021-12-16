@@ -16,12 +16,14 @@ export class SEOService {
   }
 
   updateMetaTagFacebook(metaTag: MetaTagFacebook){
-    this.meta.updateTag({ name: 'og:title', content: metaTag.title });
-    this.meta.updateTag({ name: 'og:image', content: metaTag.image });
-    this.meta.updateTag({ name: 'og:image:alt', content: metaTag.imageAlt });
-    this.meta.updateTag({ name: 'og:image:type', content: metaTag.imageType });
-    this.meta.updateTag({ name: 'og:image:width', content: metaTag.imageWidth });
-    this.meta.updateTag({ name: 'og:image:height', content: metaTag.imageHeight });
-    this.meta.updateTag({ name: 'og:image:description', content: metaTag.description });
+    this.meta.updateTag({ property: 'og:title', content: metaTag.title });
+    this.meta.updateTag({ property: 'og:image', content: metaTag.image });
+    this.meta.updateTag({ property: 'og:image:alt', content: metaTag.imageAlt });
+    this.meta.updateTag({ property: 'og:image:type', content: metaTag.imageType });
+    this.meta.updateTag({ property: 'og:image:width', content: metaTag.imageWidth });
+    this.meta.updateTag({ property: 'og:image:height', content: metaTag.imageHeight });
+    this.meta.updateTag({ property: 'og:url', content: metaTag.url });
+    this.meta.updateTag({ property: 'og:description', content: metaTag.description });
   }
+  
 }

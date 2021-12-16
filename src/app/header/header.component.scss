@@ -44,6 +44,9 @@ button{
             .title-menu:hover{
                 color: var(--hightlight-text);
             }
+            .is-active{
+                color: var(--hightlight-text);
+            }
             button{
                 border: none;
                 background: none;

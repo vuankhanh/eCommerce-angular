@@ -5,5 +5,6 @@ export interface MetaTagFacebook{
     imageType: string,
     imageWidth: string,
     imageHeight: string,
+    url: string,
     description: string,
 }
