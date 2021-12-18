@@ -17,6 +17,8 @@ import { TermsOfServiceComponent } from './main/support/terms-of-service/terms-o
 import { ShippingPolicyComponent } from './main/support/shipping-policy/shipping-policy.component';
 import { PaymentPolicyComponent } from './main/support/payment-policy/payment-policy.component';
 import { PageNotFoundComponent } from './main/page-not-found/page-not-found.component';
+import { MainCustomerComponent } from './customer-information/main-customer/main-customer.component';
+import { RouteGuard } from './services/guards/route.guard';
 
 const routes: Routes = [
   { path: '', component: HomePageComponent, data: { title: 'Thủy Hải Sản Carota' } },
@@ -47,7 +49,13 @@ const routes: Routes = [
       { path: 'payment-policy', component: PaymentPolicyComponent, data: { title: 'Chính sách thanh toán' } }
     ]
   },
-  { path: '**', component: PageNotFoundComponent }
+  {
+    path: 'customer',
+    loadChildren: ()=> import('./customer-information/main-customer/main-customer.module').then( m => m.MainCustomerModule),
+    canActivate: [RouteGuard],
+  },
+  { path: '404', component: PageNotFoundComponent },
+  { path: '**', redirectTo: '404' }
 ];
 
 @NgModule({

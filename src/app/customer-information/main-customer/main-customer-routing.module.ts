@@ -8,13 +8,10 @@ import { OrderHistoryDetailComponent } from '../order-history-detail/order-histo
 import { AddressBookComponent } from '../address-book/address-book.component';
 import { ChatComponent } from '../chat/chat.component';
 
-import { RouteGuard } from '../../services/guards/route.guard';
-
 const routes: Routes = [
   {
-    path: 'customer',
+    path: '',
     component: MainCustomerComponent,
-    canActivate: [RouteGuard],
     children:[
       { path: '', redirectTo: 'personal', pathMatch: 'full'},
       { path: 'personal', component: PersonalInformationComponent, data: { title: 'Tài khoản của tôi' } },

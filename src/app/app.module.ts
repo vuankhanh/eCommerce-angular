@@ -10,27 +10,9 @@ import { hostConfiguration } from '../environments/environment';
 
 //Module
 import { AppRoutingModule } from './app-routing.module';
-import { MainCustomerModule } from './customer-information/main-customer/main-customer.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgxEditorModule } from 'ngx-editor';
 import { ToastrModule } from 'ngx-toastr';
-import { MatIconModule } from '@angular/material/icon';
-import { MatMenuModule } from '@angular/material/menu';
-import { MatButtonModule } from '@angular/material/button';
-import { MatCardModule } from '@angular/material/card';
-import { MatBadgeModule } from '@angular/material/badge';
-import { MatTabsModule } from '@angular/material/tabs';
-import { MatDialogModule } from '@angular/material/dialog';
-import { MatInputModule } from '@angular/material/input';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { MatListModule } from '@angular/material/list';
-import { MatRadioModule } from '@angular/material/radio';
-import { MatTableModule } from '@angular/material/table';
-import { MatPaginatorModule } from '@angular/material/paginator';
-import { MatSidenavModule } from '@angular/material/sidenav';
-import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
-import { MatExpansionModule } from '@angular/material/expansion';
 
 import { SocialLoginModule, SocialAuthServiceConfig } from 'angularx-social-login';
 import { GoogleLoginProvider, FacebookLoginProvider } from 'angularx-social-login';
@@ -54,6 +36,8 @@ import { SanitizeHtmlBindingModule } from './pipes/sanitize-html-binding/sanitiz
 import { TheDayOfWeekModule } from './pipes/the-day-of-week-format/the-day-of-week-format.module';
 import { IsMainModule } from './pipes/is-main/is-main.module';
 import { YoutubeIdModule } from './pipes/youtube-id/youtube-id.module';
+
+import { MaterialModule } from './material.module';
 
 import { AppComponent } from './app.component';
 import { HomePageComponent } from './main/home-page/home-page.component';
@@ -162,30 +146,12 @@ import { PageNotFoundComponent } from './main/page-not-found/page-not-found.comp
     FormsModule,
     ReactiveFormsModule,
     AppRoutingModule,
-    MainCustomerModule,
     BrowserAnimationsModule,
     NgxEditorModule,
     ToastrModule.forRoot({
       positionClass: 'toast-bottom-center',
       preventDuplicates: true,
     }),
-    MatIconModule,
-    MatMenuModule,
-    MatButtonModule,
-    MatCardModule,
-    MatBadgeModule,
-    MatTabsModule,
-    MatDialogModule,
-    MatInputModule,
-    MatFormFieldModule,
-    MatProgressSpinnerModule,
-    MatListModule,
-    MatRadioModule,
-    MatTableModule,
-    MatPaginatorModule,
-    MatSidenavModule,
-    MatBottomSheetModule,
-    MatExpansionModule,
 
     SocketIoModule.forRoot(config),
 
@@ -199,6 +165,8 @@ import { PageNotFoundComponent } from './main/page-not-found/page-not-found.comp
     TheDayOfWeekModule,
     IsMainModule,
     YoutubeIdModule,
+
+    MaterialModule
   ],
   providers: [
     AppServicesService,
