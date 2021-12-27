@@ -109,6 +109,19 @@
                     border-color: #F89406;
                 }
             }
+
+            .customer-form-container{
+                background: #ededed;
+                padding: 15px;
+                box-sizing: border-box;
+                border-radius: 5px;
+                form{
+                    mat-form-field{
+                        width: 100%;
+                    }
+                }
+            }
+
             .total-price-frame{
                 background: #ededed;
                 padding: 15px;

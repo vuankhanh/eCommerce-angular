@@ -1,6 +1,6 @@
-import { AfterViewInit, Component, ElementRef, Inject, OnDestroy, OnInit, PLATFORM_ID, ViewChild } from '@angular/core';
-import { isPlatformBrowser } from '@angular/common';
-import { ActivatedRoute } from '@angular/router';
+import { AfterViewInit, Component, ElementRef, Inject, OnDestroy, OnInit, PLATFORM_ID, Renderer2, ViewChild } from '@angular/core';
+import { DOCUMENT, isPlatformBrowser } from '@angular/common';
+import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 
 import { AddressChooseComponent } from '../../sharing/modal/address-choose/address-choose.component';
@@ -26,6 +26,7 @@ import { SEOService } from 'src/app/services/seo.service';
 
 import { combineLatest, Observable, Subscription } from 'rxjs';
 
+declare let fbq:Function;
 @Component({
   selector: 'app-product-detail',
   templateUrl: './product-detail.component.html',
@@ -61,7 +62,10 @@ export class ProductDetailComponent implements OnInit, AfterViewInit, OnDestroy 
   subscription: Subscription = new Subscription();
   constructor(
     @Inject(PLATFORM_ID) platformId: Object,
+    @Inject(DOCUMENT) private _document: Document,
+    private router: Router,
     private activatedRoute: ActivatedRoute,
+    private renderer2: Renderer2,
     private dialog: MatDialog,
     private galleryRoutePipe: GalleryRoutePipe,
     private productService: ProductService,
@@ -101,26 +105,39 @@ export class ProductDetailComponent implements OnInit, AfterViewInit, OnDestroy 
         }
 
         if(productDetail){
-          this.product = productDetail;
-          if(!this.product.quantity){
-            this.product.quantity = 1;
+          if(!this.product){
+            this.product = productDetail;
+            if(this.isBrowser){
+              let script = this.renderer2.createElement('script');
+              script.type = `text/javascript`;
+              script.text = `fbq('track', 'ViewContent',{
+                _id: '${this.product._id}',
+                name: '${this.product.name}',
+                price: ${this.product.price},
+                quantity: ${this.product.quantity},
+                theRemainingAmount: ${this.product.theRemainingAmount}
+              });`;
+              this.renderer2.appendChild(this._document.head, script);
+            }
+            if(!this.product.quantity){
+              this.product.quantity = 1;
+            }
+            let index: number = this.product.albumImg!.media.findIndex(media=>media.isMain);
+            index >= 0 ?  this.setImgMain(index) : this.setImgMain(0);
+            
+            let metaTagFacebook: MetaTagFacebook = {
+              title: this.product.name,
+              image: this.galleryRoutePipe.transform(this.product.thumbnailUrl),
+              imageAlt: this.product.name,
+              imageType: 'image/png',
+              imageWidth: '100',
+              imageHeight: '100',
+              url: window.location.href,
+              description: this.product.sortDescription
+            }
+            this.seoService.updateTitle(this.product.name);
+            this.seoService.updateMetaTagFacebook(metaTagFacebook);
           }
-          let index: number = this.product.albumImg!.media.findIndex(media=>media.isMain);
-          index >= 0 ?  this.setImgMain(index) : this.setImgMain(0);
-          
-          let metaTagFacebook: MetaTagFacebook = {
-            title: this.product.name,
-            image: this.galleryRoutePipe.transform(this.product.thumbnailUrl),
-            imageAlt: this.product.name,
-            imageType: 'image/png',
-            imageWidth: '100',
-            imageHeight: '100',
-            url: window.location.href,
-            description: this.product.sortDescription
-          }
-          this.seoService.updateTitle(this.product.name);
-          this.seoService.updateMetaTagFacebook(metaTagFacebook);
-
         }
   
         if(userInfo && this.cart.deliverTo && this.product){
@@ -251,8 +268,25 @@ export class ProductDetailComponent implements OnInit, AfterViewInit, OnDestroy 
     this.product.quantity = !isNaN(parseInt(value)) ? parseInt(value) : 1;
   }
 
+  bookNow(product: Product){
+    this.cartService.addToCart(product, false);
+    this.router.navigate(['/cart']);
+  }
+
   addToCart(product: Product){
-    this.cartService.addToCart(product);
+    this.cartService.addToCart(product, true);
+    if(this.isBrowser){
+      let script = this.renderer2.createElement('script');
+      script.type = `text/javascript`;
+      script.text = `fbq('track', 'AddToCart',{
+        _id: '${this.product._id}',
+        name: '${this.product.name}',
+        price: ${this.product.price},
+        quantity: ${this.product.quantity},
+        theRemainingAmount: ${this.product.theRemainingAmount}
+      });`;
+      this.renderer2.appendChild(this._document.head, script);
+    }
   }
 
   login(){

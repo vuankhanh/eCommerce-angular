@@ -66,7 +66,7 @@ export class CartService {
     this.set(cart);
   }
 
-  addToCart(product: Product): void{
+  addToCart(product: Product, showAlert: boolean): void{
     
     let productsInCart: Array<Product> = this.get().products;
     
@@ -79,7 +79,9 @@ export class CartService {
         this.toastService.shortToastWarning(product.name+ ' chỉ còn '+product.theRemainingAmount+ ' sản phẩm', '');
       }else{
         productsInCart.push(product);
-        this.headerService.set(true);
+        if(showAlert){
+          this.headerService.set(true);
+        }
       }
     }else{
       for(let itemCart of productsInCart){
@@ -88,7 +90,9 @@ export class CartService {
             this.toastService.shortToastWarning('Sản phẩm '+product.name+ ' chỉ còn '+product.theRemainingAmount+ ' sản phẩm', '');
           }else{
             itemCart.quantity! += product.quantity!;
-            this.headerService.set(true);
+            if(showAlert){
+              this.headerService.set(true);
+            }
           }
         }
       }

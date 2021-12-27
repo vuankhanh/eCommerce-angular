@@ -18,12 +18,14 @@ import { ShippingPolicyComponent } from './main/support/shipping-policy/shipping
 import { PaymentPolicyComponent } from './main/support/payment-policy/payment-policy.component';
 import { PageNotFoundComponent } from './main/page-not-found/page-not-found.component';
 import { MainCustomerComponent } from './customer-information/main-customer/main-customer.component';
+
 import { RouteGuard } from './services/guards/route.guard';
+import { PaymentConfirmGuard } from './services/guards/payment-confirm.guard';
 
 const routes: Routes = [
   { path: '', component: HomePageComponent, data: { title: 'Thủy Hải Sản Carota' } },
   { path: 'cart', component: CartComponent, data: { title: 'Giỏ Hàng' } },
-  { path: 'payment-confirm', component: PaymentPageComponent, data: { title: 'Xác nhận thanh toán' } },
+  { path: 'payment-confirm', component: PaymentPageComponent, data: { title: 'Xác nhận thanh toán' }, canActivate: [PaymentConfirmGuard] },
   {
     path: 'productions',
     component: ProductionsComponent,

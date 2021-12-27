@@ -1,11 +1,12 @@
 import { Component, ElementRef, Inject, OnDestroy, OnInit, PLATFORM_ID, Renderer2, ViewChild } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
+import { FormBuilder, FormGroup, NgForm, ValidationErrors, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 
 import { AddressChooseComponent } from '../../sharing/modal/address-choose/address-choose.component';
 
-import { Address } from 'src/app/models/Address';
+import { Address, District, Province, Ward } from 'src/app/models/Address';
 import { Product } from 'src/app/models/Product';
 import { UserInformation } from 'src/app/models/UserInformation';
 
@@ -17,6 +18,8 @@ import { CartApiService } from 'src/app/services/api/cart-api.service';
 import { SocketIoService } from 'src/app/services/socket/socket-io.service';
 
 import { Subscription } from 'rxjs';
+import { MatSelectChange } from '@angular/material/select';
+import { AdministrativeUnitsService } from 'src/app/services/api/administrative-units.service';
 @Component({
   selector: 'app-cart',
   templateUrl: './cart.component.html',
@@ -24,12 +27,18 @@ import { Subscription } from 'rxjs';
 })
 export class CartComponent implements OnInit, OnDestroy {
   @ViewChild('btnInsertAddress') btnInsertAddress: ElementRef;
+  @ViewChild('f') form: NgForm;
 
   private isBrowser: boolean;
 
   cart: Cart;
   temporaryValue: number = 0;
   totalBill: number = 0;
+
+  customerForm: FormGroup;
+  provinces: Array<Province> = [];
+  districts: Array<District> = [];
+  wards: Array<Ward> = [];
 
   userInformation: UserInformation | null;
   defaultAddress: Address;
@@ -38,6 +47,7 @@ export class CartComponent implements OnInit, OnDestroy {
   constructor(
     @Inject(PLATFORM_ID) platformId: Object,
     private router: Router,
+    private formBuilder: FormBuilder,
     private dialog: MatDialog,
     private renderer2: Renderer2,
     private cartService: CartService,
@@ -45,7 +55,8 @@ export class CartComponent implements OnInit, OnDestroy {
     private addressModificationService: AddressModificationService,
     private toastService: ToastService,
     private cartApiService: CartApiService,
-    private socketIoService: SocketIoService
+    private socketIoService: SocketIoService,
+    private administrativeUnitsService: AdministrativeUnitsService
   ) {
     this.isBrowser = isPlatformBrowser(platformId);
   }
@@ -72,9 +83,97 @@ export class CartComponent implements OnInit, OnDestroy {
           if(this.cart.deliverTo){
             this.defaultAddress = this.cart.deliverTo;
           }
+          this.initForm(this.defaultAddress);
         }
       })
     )
+  }
+
+  initForm(address: Address | null){
+    let phoneNumberRegEx = /^((0)+([0-9]{9})\b)$/g;
+
+    this.customerForm = this.formBuilder.group({
+      responsiblePerson: ['', Validators.required],
+      phoneNumber: ['', { validators: [Validators.required, , Validators.pattern(phoneNumberRegEx)] }],
+      street: ['', Validators.required],
+      ward: ['', Validators.required],
+      district: ['', Validators.required],
+      province: ['', Validators.required],
+      position: this.formBuilder.group({
+        lat: [''],
+        lng: ['']
+      }),
+      isHeadquarters: [false, Validators.required],
+    });
+    this.getProvince();
+    if(address){
+      this.customerForm.controls['responsiblePerson'].setValue(address.responsiblePerson);
+      this.customerForm.controls['phoneNumber'].setValue(address.phoneNumber);
+      this.customerForm.controls['street'].setValue(address.street);
+      this.customerForm.controls['isHeadquarters'].setValue(address.isHeadquarters);
+      this.customerForm.get('position')?.get('lat')?.setValue(address.position?.lat);
+      this.customerForm.get('position')?.get('lng')?.setValue(address.position?.lng);
+      this.getDistrict(address.province.code);
+      this.getWard(address.district.code);
+    }
+  }
+
+  getProvince(){
+    this.subscription.add(
+      this.administrativeUnitsService.getProvince().subscribe(res=>{
+        this.provinces = res;
+        if(this.defaultAddress){
+          let index:number = this.findIndexOfObjectInArray(this.defaultAddress.province._id, this.provinces);
+          
+          this.customerForm.controls['province'].setValue(index);
+        }
+      })
+    )
+  }
+
+  getDistrict(provinceCode: string){
+    this.subscription.add(
+      this.administrativeUnitsService.getDistrict(provinceCode).subscribe(res=>{
+        this.districts = res;
+        if(this.defaultAddress){
+          let index:number = this.findIndexOfObjectInArray(this.defaultAddress.district._id, this.districts)
+          this.customerForm.controls['district'].setValue(index);
+        }
+      }, error=>{
+        this.districts = [];
+      })
+    )
+  }
+
+  getWard(districtCode: string){
+    this.subscription.add(
+      this.administrativeUnitsService.getWard(districtCode).subscribe(res=>{
+        this.wards = res;
+        if(this.defaultAddress){
+          let index:number = this.findIndexOfObjectInArray(this.defaultAddress.district._id, this.districts)
+          this.customerForm.controls['ward'].setValue(index);
+        }
+      })
+    )
+  }
+
+  provinceChange(event: MatSelectChange){
+    let index: number = event.value;
+    let province: Province = this.provinces[index];
+    this.getDistrict(province.code);
+  }
+
+  districtChange(event: MatSelectChange){
+    let index: number = event.value;
+    let district: District = this.districts[index];
+    this.getWard(district.code);
+  }
+
+  findIndexOfObjectInArray(
+    id: string,
+    array: Array<Province> | Array<District> | Array<Ward>
+  ){
+    return array.findIndex(object=>object._id === id);
   }
 
   listenUserInformation(){
@@ -120,7 +219,7 @@ export class CartComponent implements OnInit, OnDestroy {
   }
 
   showDetail(product: Product){
-    this.router.navigate(['productions/'+product.category.route, product._id]);
+    this.router.navigate(['productions/'+product.category.route, product.route]);
   }
 
   quantityInputChange(event: Event, index: number){
@@ -181,21 +280,49 @@ export class CartComponent implements OnInit, OnDestroy {
 
   order(){
     if(!this.userInformation){
-      this.authService.login('login');
+      // this.authService.login('login')
+      if(this.isBrowser){
+        this.form.ngSubmit.emit();
+      }
     }else{
       if(!this.cart.deliverTo){
         this.renderer2.addClass(this.btnInsertAddress.nativeElement, 'button-substyle');
         this.toastService.shortToastWarning('Bạn chưa tạo vị trí nào trong sổ địa chỉ.', '');
       }else{
-        if(this.cart.products.length>0){
-          let checkMatchingQuantity = this.cartService.checkMatchingQuantity();
+        this.navigateToPaymentConfirm();
+      }
+    }
+  }
 
-          if(checkMatchingQuantity.length === 0){
-            this.router.navigate(['/payment-confirm']);
-          }else{
-            alert(checkMatchingQuantity)
-          }
-        }
+  customerFormSubmit(){
+    this.customerForm.updateValueAndValidity();
+    this.customerForm.markAllAsTouched();
+
+    if(this.customerForm.valid){
+      let address: Address = {
+        street: this.customerForm.value.street,
+        responsiblePerson: this.customerForm.value.responsiblePerson,
+        phoneNumber: this.customerForm.value.phoneNumber,
+        province: this.provinces[this.customerForm.value.province],
+        district: this.districts[this.customerForm.value.district],
+        ward: this.wards[this.customerForm.value.ward],
+        position: this.customerForm.value.position,
+        isHeadquarters: this.customerForm.value.isHeadquarters,
+      };
+      
+      this.cartService.setDelivery(address);
+      this.navigateToPaymentConfirm();
+    }
+  }
+
+  navigateToPaymentConfirm(){
+    if(this.cart.products.length>0){
+      let checkMatchingQuantity = this.cartService.checkMatchingQuantity();
+
+      if(checkMatchingQuantity.length === 0){
+        this.router.navigate(['/payment-confirm']);
+      }else{
+        alert(checkMatchingQuantity)
       }
     }
   }

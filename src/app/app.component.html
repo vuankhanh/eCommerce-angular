@@ -4,7 +4,7 @@
       <app-drawer (toggleDrawer)="toggle($event)"></app-drawer>
     </mat-drawer>
   
-    <mat-drawer-content (scroll)="onScroll($event)">
+    <mat-drawer-content #drawerContent (scroll)="onScroll($event)">
       <div class="main-container">
         <app-header #appHeader (toggleDrawer)="toggle($event)"></app-header>
         <router-outlet (activate)="onActivate()"></router-outlet>

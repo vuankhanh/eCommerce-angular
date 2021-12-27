@@ -14,6 +14,8 @@ export class OrderService {
   private urlOrderInsert = hostConfiguration.host+'/order/insert';
   // private urlOrderUpdate = hostConfiguration.host+'/order/update';
   private urlOrderRevoke = hostConfiguration.host+'/order/revoke';
+
+  private urlOrderFromVisitorsInsert = hostConfiguration.host+'/order-from-visitors/insert';
   constructor(
     private httpClient: HttpClient
   ) { }
@@ -49,20 +51,20 @@ export class OrderService {
     return this.httpClient.post<Order>(this.urlOrderInsert, cart, { headers });
   }
 
-  // update(token: string, posts: Posts){
-  //   let headers: HttpHeaders = new HttpHeaders({
-  //     'Content-Type': 'application/json',
-  //     'x-access-token': token
-  //   });
-  //   return this.httpClient.put<PostsResponse>(this.urlUpdate, posts, { headers });
-  // }
-
   revoke(token: string, _id: string){
     let headers: HttpHeaders = new HttpHeaders({
       'Content-Type': 'application/json',
       'x-access-token': token
     });
     return this.httpClient.post<Order>(this.urlOrderRevoke, { _id }, { headers });
+  }
+
+  insertFromVitors(cart: Cart){
+    let headers: HttpHeaders = new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
+
+    return this.httpClient.post<Order>(this.urlOrderFromVisitorsInsert, cart, { headers });
   }
 }
 

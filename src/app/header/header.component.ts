@@ -122,7 +122,7 @@ export class HeaderComponent implements OnInit, AfterViewInit, OnDestroy {
 
   listentMainContainerScroll(){
     this.subscription.add(
-      this.mainContainerScrollService.bScrollTop$.subscribe(position=>{
+      this.mainContainerScrollService.listenScrollTop$.subscribe(position=>{
         this.changeStyleHeader(position);
       })
     )

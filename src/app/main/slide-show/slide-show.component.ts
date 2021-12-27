@@ -85,7 +85,7 @@ export class SlideShowComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   addToCart(product: Product): void{
-    this.cartService.addToCart(product);
+    this.cartService.addToCart(product, true);
     this.headerService.set(true);
   }
 

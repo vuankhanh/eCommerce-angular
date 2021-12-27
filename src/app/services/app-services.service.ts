@@ -14,6 +14,7 @@ import { ResponseLogin } from './api/login.service';
 import { LocalStorageService } from './local-storage.service';
 import { AddIconSvgService } from './add-icon-svg.service';
 import { SocketIoService } from './socket/socket-io.service';
+import { DirectionPostion, MainContainerScrollService } from './main-container-scroll.service';
 
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map, filter } from 'rxjs/operators';
@@ -45,7 +46,8 @@ export class AppServicesService {
     private localStorageService: LocalStorageService,
     private authService: AuthService,
     private addIconSvgService: AddIconSvgService,
-    private socketIoService: SocketIoService
+    private socketIoService: SocketIoService,
+    private mainContainerScrollService: MainContainerScrollService
   ) {
     this.isBrowser = isPlatformBrowser(platformId);
     if(this.isBrowser){
@@ -85,6 +87,11 @@ export class AppServicesService {
         }
       })
     ).subscribe((title: string) => {
+      let directionPostion: DirectionPostion = {
+        direction: 'y',
+        position: 0
+      }
+      this.mainContainerScrollService.setDirectionPosition(directionPostion);
       if(title){
         this.title.setTitle(title);
       }

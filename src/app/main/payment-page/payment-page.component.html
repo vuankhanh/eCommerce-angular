@@ -1,11 +1,13 @@
 <ng-container *ngIf="cart.products && cart.products.length>0; else emptyCart">
     <div class="payment-confirm-container">
         <div class="table-cart-container">
-            <div class="customer-information" *ngIf="userInformation">
+            <div class="customer-information">
                 <ng-container *ngIf="defaultAddress; else addAddress">
                     <div class="horizontal-container address-action">
                         <div>Giao tới</div>
-                        <div class="textLink" (click)="changeAddress()">Thay đổi</div>
+                        <ng-container *ngIf="userInformation;">
+                            <div class="textLink" (click)="changeAddress()">Thay đổi</div>
+                        </ng-container>
                     </div>
                     <div class="mini-height-space"></div>
                     <div class="horizontal-container customer-contact">

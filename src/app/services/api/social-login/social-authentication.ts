@@ -63,6 +63,8 @@ export class SocialAuthenticationService {
   }
 
   signOut(): void {
-    this.socialAuthService.signOut();
+    this.socialAuthService.signOut().catch(err=>{
+      console.log(err);
+    });
   }
 }

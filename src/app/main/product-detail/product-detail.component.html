@@ -161,7 +161,14 @@
                     <div class="height-space"></div>
 
                     <div class="button-container horizontal-container">
-                        <button class="button-style button-primary" (click)="addToCart(product)">
+                        <button class="button-style button-primary" (click)="bookNow(product)">
+                            <mat-icon>shopping_cart</mat-icon>
+                            <span>Đặt hàng ngay</span>
+                        </button>
+
+                        <div class="width-space"></div>
+
+                        <button class="button-style button-secondary" (click)="addToCart(product)">
                             <mat-icon>add_shopping_cart</mat-icon>
                             <span>Thêm vào giỏ</span>
                         </button>

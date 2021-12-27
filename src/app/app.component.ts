@@ -1,7 +1,7 @@
 import { Component, Inject, OnInit, PLATFORM_ID, ViewChild } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 
-import { MatSidenav } from '@angular/material/sidenav';
+import { MatDrawerContent, MatSidenav } from '@angular/material/sidenav';
 
 import { AppServicesService } from './services/app-services.service';
 import { MainContainerScrollService } from './services/main-container-scroll.service';
@@ -13,6 +13,7 @@ import { MouseEventEmitService } from './services/mouse-event-emit.service';
 })
 export class AppComponent implements OnInit {
   @ViewChild ('drawer') drawer: MatSidenav;
+  @ViewChild ('drawerContent') drawercontent: MatDrawerContent;
   isBrowser: boolean;
   isMobile: boolean = false;
   constructor(
@@ -26,6 +27,7 @@ export class AppComponent implements OnInit {
 
   ngOnInit(){
     this.listenIsMobile();
+    this.setScroll();
   }
 
   listenIsMobile(){
@@ -58,7 +60,19 @@ export class AppComponent implements OnInit {
   onScroll = (event: Event): void => {
     let target: HTMLDivElement = <HTMLDivElement>event.target;
     let index: number = target.scrollTop;
-
-    this.mainContainerScrollService.setPosition(index);
+    this.mainContainerScrollService.setPositionTop(index);
   };
+
+  setScroll(){
+    this.mainContainerScrollService.listenDirectionPostion$.subscribe(res=>{
+      if(res){
+        if(res.direction === 'x'){
+          this.drawercontent.scrollTo({ left: res.position, behavior: "smooth" });
+        }else if(res.direction === 'y'){
+          this.drawercontent.scrollTo({ top: res.position, behavior: "smooth" })
+        }
+      }
+    })
+    
+  }
 }

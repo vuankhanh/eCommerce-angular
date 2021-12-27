@@ -13,30 +13,27 @@ export class AdministrativeUnitsService {
     private httpClient: HttpClient
   ) { }
 
-  getProvince(token: string){
+  getProvince(){
     let params = new HttpParams().set('province', 'all');
 
     let headers: HttpHeaders = new HttpHeaders({
-      'Content-Type': 'application/json',
-      'x-access-token': token
+      'Content-Type': 'application/json'
     });
 
     return this.httpClient.get<Array<Province>>(this.urlAdministrativeUnits, { headers, params });
   }
 
-  getDistrict(token: string, provinceCode: string){
+  getDistrict(provinceCode: string){
     let headers: HttpHeaders = new HttpHeaders({
-      'Content-Type': 'application/json',
-      'x-access-token': token
+      'Content-Type': 'application/json'
     });
 
     return this.httpClient.get<Array<District>>(this.urlAdministrativeUnits+"/"+provinceCode+'/district', { headers: headers });
   }
 
-  getWard(token: string, districtCode: string){
+  getWard(districtCode: string){
     let headers: HttpHeaders = new HttpHeaders({
-      'Content-Type': 'application/json',
-      'x-access-token': token
+      'Content-Type': 'application/json'
     });
 
     return this.httpClient.get<Array<Ward>>(this.urlAdministrativeUnits+"/"+districtCode+'/ward', { headers: headers });

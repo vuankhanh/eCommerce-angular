@@ -19,6 +19,7 @@ import { ToastService } from 'src/app/services/toast.service';
 import { CartApiService } from 'src/app/services/api/cart-api.service';
 
 import { combineLatest, Observable, Subscription } from 'rxjs';
+import { AddressModifyComponent } from 'src/app/sharing/modal/address-modify/address-modify.component';
 
 @Component({
   selector: 'app-payment-page',
@@ -38,9 +39,6 @@ export class PaymentPageComponent implements OnInit, OnDestroy {
   userInformation: UserInformation | null;
   defaultAddress: Address;
   temporaryValue: number = 0;
-
-  userInformation$: Observable<UserInformation | null>;
-  cartChange$: Observable<Cart>;
   
   subscription: Subscription = new Subscription();
   constructor(
@@ -57,11 +55,11 @@ export class PaymentPageComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
-    this.cartChange$ = this.cartService.listenCartChange();
-    this.userInformation$ = this.authService.getUserInformation();
+    const cartChange$ = this.cartService.listenCartChange();
+    const userInformation$ = this.authService.getUserInformation();
 
     this.subscription.add(
-      combineLatest([this.cartChange$, this.userInformation$]).subscribe(([cart, userInfo])=>{
+      combineLatest([cartChange$, userInformation$]).subscribe(([cart, userInfo])=>{
         if(cart){
           this.cart = cart;
           this.temporaryValue = this.cartService.sumTemporaryValue(this.cart.products);
@@ -140,24 +138,42 @@ export class PaymentPageComponent implements OnInit, OnDestroy {
   }
 
   confirmPayment(){
-    let tokenStoraged: ResponseLogin = <ResponseLogin>this.localStorageService.get(this.localStorageService.tokenStoragedKey);
-    if(tokenStoraged && tokenStoraged.accessToken){
+    if(this.userInformation){
+      let tokenStoraged: ResponseLogin = <ResponseLogin>this.localStorageService.get(this.localStorageService.tokenStoragedKey);
+      if(tokenStoraged && tokenStoraged.accessToken){
+        this.subscription.add(
+          this.orderService.insert(tokenStoraged.accessToken, this.cart).subscribe(async order=>{
+            await this.router.navigate(['/productions']);
+            this.cartService.resetProduct();
+            this.dialog.open(PaymentSuccessfulComponent,
+              {
+                panelClass: 'payment-success-modal',
+                data: { isLoyalCustomer: true, order },
+                autoFocus: false
+              }
+            ).afterClosed().subscribe(res=>{
+              let result: 'goProduct' | 'goOrderHistory' = res;
+              if(result === 'goOrderHistory'){
+                this.router.navigate(['/customer/order-history']);
+              }
+            })
+          },error=>{
+            this.toastService.shortToastError(error.error.message, 'Đã có lỗi xảy ra');
+          })
+        )
+      }
+    }else{
       this.subscription.add(
-        this.orderService.insert(tokenStoraged.accessToken, this.cart).subscribe(async order=>{
+        this.orderService.insertFromVitors(this.cart).subscribe(async order=>{
           await this.router.navigate(['/productions']);
           this.cartService.resetProduct();
           this.dialog.open(PaymentSuccessfulComponent,
             {
               panelClass: 'payment-success-modal',
-              data: order,
+              data: { isLoyalCustomer: false, order },
               autoFocus: false
             }
-          ).afterClosed().subscribe(res=>{
-            let result: 'goProduct' | 'goOrderHistory' = res;
-            if(result === 'goOrderHistory'){
-              this.router.navigate(['/customer/order-history']);
-            }
-          })
+          )
         },error=>{
           this.toastService.shortToastError(error.error.message, 'Đã có lỗi xảy ra');
         })

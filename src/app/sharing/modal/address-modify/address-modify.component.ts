@@ -36,9 +36,7 @@ export class AddressModifyComponent implements OnInit, OnDestroy {
     private localStorageService: LocalStorageService,
     private customerAddressService: CustomerAddressService,
     private toastService: ToastService
-  ) {
-    
-  }
+  ) {}
 
   ngOnInit(): void {
     this.formInit();
@@ -79,52 +77,42 @@ export class AddressModifyComponent implements OnInit, OnDestroy {
   }
 
   getProvince(){
-    let tokenStoraged: ResponseLogin = <ResponseLogin>this.localStorageService.get(this.localStorageService.tokenStoragedKey);
-    if(tokenStoraged){
-      this.subscription.add(
-        this.administrativeUnitsService.getProvince(tokenStoraged.accessToken).subscribe(res=>{
-          this.provinces = res;
-          if(this.data.type === 'update' && this.data.address){
-            let index:number = this.findIndexOfObjectInArray(this.data.address.province._id, this.provinces)
-            console.log(index);
-            
-            this.addressForm.controls['province'].setValue(index);
-          }
-        })
-      )
-    }
+    this.subscription.add(
+      this.administrativeUnitsService.getProvince().subscribe(res=>{
+        this.provinces = res;
+        if(this.data.type === 'update' && this.data.address){
+          let index:number = this.findIndexOfObjectInArray(this.data.address.province._id, this.provinces);
+          
+          this.addressForm.controls['province'].setValue(index);
+        }
+      })
+    )
   }
 
-  getDistrict(provinceCode: string, ){
-    let tokenStoraged: ResponseLogin = <ResponseLogin>this.localStorageService.get(this.localStorageService.tokenStoragedKey);
-    if(tokenStoraged){
-      this.subscription.add(
-        this.administrativeUnitsService.getDistrict(tokenStoraged.accessToken, provinceCode).subscribe(res=>{
-          this.districts = res;
-          if(this.data.type === 'update' && this.data.address){
-            let index:number = this.findIndexOfObjectInArray(this.data.address.district._id, this.districts)
-            this.addressForm.controls['district'].setValue(index);
-          }
-        }, error=>{
-          this.districts = [];
-        })
-      )
-    }
+  getDistrict(provinceCode: string){
+    this.subscription.add(
+      this.administrativeUnitsService.getDistrict(provinceCode).subscribe(res=>{
+        this.districts = res;
+        if(this.data.type === 'update' && this.data.address){
+          let index:number = this.findIndexOfObjectInArray(this.data.address.district._id, this.districts)
+          this.addressForm.controls['district'].setValue(index);
+        }
+      }, error=>{
+        this.districts = [];
+      })
+    )
   }
 
   getWard(districtCode: string){
-    let tokenStoraged: ResponseLogin = <ResponseLogin>this.localStorageService.get(this.localStorageService.tokenStoragedKey);
-    if(tokenStoraged){
-      this.subscription.add(
-        this.administrativeUnitsService.getWard(tokenStoraged.accessToken, districtCode).subscribe(res=>{
-          this.wards = res;
-          if(this.data.type === 'update' && this.data.address){
-            let index:number = this.findIndexOfObjectInArray(this.data.address.ward._id, this.wards)
-            this.addressForm.controls['ward'].setValue(index);
-          }
-        })
-      )
-    }
+    this.subscription.add(
+      this.administrativeUnitsService.getWard(districtCode).subscribe(res=>{
+        this.wards = res;
+        if(this.data.type === 'update' && this.data.address){
+          let index:number = this.findIndexOfObjectInArray(this.data.address.ward._id, this.wards)
+          this.addressForm.controls['ward'].setValue(index);
+        }
+      })
+    )
   }
 
   provinceChange(event: MatSelectChange){
