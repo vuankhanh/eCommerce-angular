@@ -107,6 +107,7 @@ export class ProductDetailComponent implements OnInit, AfterViewInit, OnDestroy 
         if(productDetail){
           if(!this.product){
             this.product = productDetail;
+            console.log(this.product);
             if(this.isBrowser){
               let script = this.renderer2.createElement('script');
               script.type = `text/javascript`;
@@ -200,15 +201,16 @@ export class ProductDetailComponent implements OnInit, AfterViewInit, OnDestroy 
           this.indexImgMain--;
           this.product?.albumImg?.media[this.indexImgMain] ? this.imgMain = this.product?.albumImg?.media[this.indexImgMain] : this.product?.albumImg?.media[0];
           const elementId = window.document.getElementById("list-item-"+this.indexImgMain)! as HTMLDivElement;
-          this.listImg.nativeElement.scrollTo({ left: elementId.offsetLeft-10,  behavior: "smooth"});
+
+          this.listImg.nativeElement.scrollTo({ left: this.indexImgMain*elementId.offsetWidth,  behavior: "smooth"});
         }
       }else if(direction === 'toRight'){
         if(this.imgMain._id != this.product?.albumImg?.media[this.product?.albumImg?.media.length-1]._id){
           this.indexImgMain++;
           this.product?.albumImg?.media[this.indexImgMain] ? this.imgMain = this.product?.albumImg?.media[this.indexImgMain] : this.product?.albumImg?.media[0];
           const elementId = window.document.getElementById("list-item-"+this.indexImgMain)! as HTMLDivElement;
-          
-          this.listImg.nativeElement.scrollTo({ left: elementId.offsetLeft-10,  behavior: "smooth"})
+
+          this.listImg.nativeElement.scrollTo({ left: this.indexImgMain*elementId.offsetWidth,  behavior: "smooth"})
         }
       }else{
         console.log('Hướng không xác định');

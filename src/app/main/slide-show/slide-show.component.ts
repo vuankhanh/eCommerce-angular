@@ -1,4 +1,4 @@
-import { AfterViewChecked, AfterViewInit, Component, ElementRef, OnDestroy, OnInit, QueryList, Renderer2, ViewChild, ViewChildren } from '@angular/core';
+import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { animationSlide } from '../../animation/slide-show';
@@ -8,29 +8,40 @@ import { Product } from 'src/app/models/Product';
 import { CartService } from 'src/app/services/cart.service';
 import { HeaderService } from 'src/app/services/header.service';
 import { AppServicesService } from 'src/app/services/app-services.service';
+// import Swiper core and required modules
+import SwiperCore, { A11y, Autoplay, Controller, Navigation, Pagination, Scrollbar, Swiper, SwiperOptions, Thumbs, Virtual, Zoom } from 'swiper';
 
-import { interval, Subject, Subscription } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { Subscription } from 'rxjs';
 
+SwiperCore.use([
+  Navigation,
+  Pagination,
+  Scrollbar,
+  A11y,
+  Virtual,
+  Zoom,
+  Autoplay,
+  Thumbs,
+  Controller
+]);
 @Component({
   selector: 'app-slide-show',
   templateUrl: './slide-show.component.html',
   styleUrls: ['./slide-show.component.scss'],
   animations: [animationSlide]
 })
-export class SlideShowComponent implements OnInit, AfterViewInit, OnDestroy {
-  @ViewChild('txtProductName') txtProductName: ElementRef;
-  @ViewChild('txtProductReviews') txtProductReviews: ElementRef;
-  @ViewChild('btnBookNow', { read: ElementRef }) btnBookNow: ElementRef;
-  @ViewChild('btnDetail', { read: ElementRef }) btnDetail: ElementRef;
-
+export class SlideShowComponent implements OnInit, OnDestroy {
   productHightlights: Array<Product>;
 
-  counter: number = 0;
-  private stopPlay$: Subject<any> = new Subject();
+  config: SwiperOptions = {
+    slidesPerView: 1,
+    spaceBetween: 15,
+    pagination: { clickable: true },
+    autoplay: { delay: 3000, disableOnInteraction: false }
+  };
+  
   private subscription: Subscription = new Subscription();
   constructor(
-    private ren: Renderer2,
     private router: Router,
     private cartService: CartService,
     private headerService: HeaderService,
@@ -38,50 +49,24 @@ export class SlideShowComponent implements OnInit, AfterViewInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    
     this.subscription.add(
       this.appServicesService.productHightlight$.subscribe(res=>{
-        this.productHightlights = res;
-        if(this.productHightlights.length>0){
-          
-          interval(5000).pipe(takeUntil(this.stopPlay$)).subscribe(val=>{            
-            this.counter++;
-            if( this.counter === this.productHightlights.length){
-              this.counter = 0;
-            }
-            setTimeout(() => {
-              this.animationText();
-            }, 150)
-          });
-          
+        if(res.length){
+          this.productHightlights = res;
         }
       })
     )
   }
 
-  ngAfterViewInit(){
-    setTimeout(() => {
-      this.animationText();
-    }, 300);
-
-    
+  onSwiper(swiper: any) {
+    console.log(swiper);
   }
 
-  clickBanner(product: Product){
-    this.router.navigate(['/productions/'+product.category.route]);
-  }
+  onSlideChange(event: any) {
+    let e: Swiper = event;
+    // console.log(e);
 
-  animationText(): void {
-    if(this.txtProductName){
-      this.ren.setStyle(this.txtProductName.nativeElement, 'margin-left', '0');
-    }
-    // this.ren.setStyle(this.txtProductReviews.nativeElement, 'margin-left', '0');
-    setTimeout(() => {
-      this.ren.setStyle(this.btnBookNow.nativeElement, 'opacity', '1');
-      setTimeout(() => {
-        this.ren.setStyle(this.btnDetail.nativeElement, 'opacity', '1');
-      }, 500);
-    }, 1000);
+    // console.log('slide change');
   }
 
   addToCart(product: Product): void{
@@ -90,12 +75,11 @@ export class SlideShowComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   showDetail(product: Product): void{
-    this.router.navigate(['productions/'+product.category.route, product._id]);
+    this.router.navigate(['productions/'+product.category.route, product.route]);
   }
   
   ngOnDestroy(){
     this.subscription.unsubscribe();
-    this.stopPlay$.next();
   }
 
 }

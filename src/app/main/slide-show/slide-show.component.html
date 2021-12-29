@@ -1,34 +1,17 @@
-<div class="container">
-    <div [@animImageSlider]="counter" class="slide-container">
-        <ng-container *ngFor="let product of productHightlights; let i=index">
-            <div
-                *ngIf="i===counter"
-                class="vertical-container"
-            >
-                <img
-                    src="{{ product.albumBanner!.media[0]?.src | galleryRoute}}"
-                    (click)="clickBanner(product)"
-                />
-                <div class="content vertical-container">
-                    <div class="text">
-                        <h1 #txtProductName>{{ product.name.toUpperCase() }}</h1>
-                        <!-- <h3 #txtProductReviews>Chất lượng 5 <mat-icon svgIcon='star'></mat-icon></h3> -->
-                        <button #btnBookNow class="button-style button-primary" (click)="addToCart(product)">
-                            <mat-icon>add_shopping_cart</mat-icon>
-                            <span>Thêm vào giỏ</span>
-                        </button>
-                        
-                        <button
-                            #btnDetail
-                            class="button-style button-substyle"
-                            (click)="showDetail(product)"
-                        >
-                            <span>Chi tiết</span>
-                            <mat-icon>arrow_right</mat-icon>
-                        </button>
-                    </div>
-                </div>
+<div class="slide-container">
+    <swiper
+        [config]="config"
+        (swiper)="onSwiper($event)"
+        (slideChange)="onSlideChange($event)"
+    >
+        <ng-template
+            *ngFor="let product of productHightlights; let i=index"
+            swiperSlide
+            
+        >   
+            <div class="item-slide-container" (click)="showDetail(product)">
+                <img [src]="product.albumBanner!.media[0]?.src | galleryRoute">
             </div>
-        </ng-container>
-    </div>
+        </ng-template>
+    </swiper>
 </div>

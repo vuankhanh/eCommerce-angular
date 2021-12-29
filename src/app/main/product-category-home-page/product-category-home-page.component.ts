@@ -16,6 +16,8 @@ import { Subscription } from 'rxjs';
 })
 export class ProductCategoryHomePageComponent implements OnInit, OnDestroy {
   @Input() category: string;
+  @Input() isSameCategory: boolean;
+  
   productResponse: ProductResponse;
   configPagination: PaginationParams;
   products: Array<Product>;

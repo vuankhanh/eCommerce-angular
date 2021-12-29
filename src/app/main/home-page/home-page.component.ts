@@ -26,8 +26,4 @@ export class HomePageComponent implements OnInit, AfterViewInit {
   ngAfterViewInit(){
 
   }
-
-  onResize(){
-    
-  }
 }

@@ -13,6 +13,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgxEditorModule } from 'ngx-editor';
 import { ToastrModule } from 'ngx-toastr';
+import { SwiperModule } from 'swiper/angular';
 
 import { SocialLoginModule, SocialAuthServiceConfig } from 'angularx-social-login';
 import { GoogleLoginProvider, FacebookLoginProvider } from 'angularx-social-login';
@@ -152,6 +153,7 @@ import { PageNotFoundComponent } from './main/page-not-found/page-not-found.comp
       positionClass: 'toast-bottom-center',
       preventDuplicates: true,
     }),
+    SwiperModule,
 
     SocketIoModule.forRoot(config),
 

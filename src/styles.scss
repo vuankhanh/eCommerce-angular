@@ -1,5 +1,6 @@
 @import '~@angular/material/theming';
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
+@import "~swiper/css/bundle";
 
 :root{
     --primary-background: #5470ff;
@@ -13,6 +14,7 @@
 
 ::-webkit-scrollbar {
     width: 12px;
+    height: 12px;
 }
 
 ::-webkit-scrollbar-track {
@@ -202,6 +204,10 @@ mat-list{
 }
 
 @media only screen and (max-width: 768px) {
+    ::-webkit-scrollbar {
+        width: 5px;
+        height: 5px;
+    }
     .cdk-overlay-pane{
         max-width: calc(100% - 30px) !important;
         // width: calc(100% - 30px) !important;
