@@ -59,7 +59,7 @@ export class SlideShowComponent implements OnInit, OnDestroy {
   }
 
   onSwiper(swiper: any) {
-    console.log(swiper);
+    
   }
 
   onSlideChange(event: any) {

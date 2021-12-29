@@ -107,7 +107,6 @@ export class ProductDetailComponent implements OnInit, AfterViewInit, OnDestroy 
         if(productDetail){
           if(!this.product){
             this.product = productDetail;
-            console.log(this.product);
             if(this.isBrowser){
               let script = this.renderer2.createElement('script');
               script.type = `text/javascript`;
