@@ -15,45 +15,53 @@
                 <div class="product-price-container horizontal-container">
                     <div class="product-info vertical-container">
                         <span class="product-name-text">{{product.name}}</span>
-                        <div class="content-p">
-                            {{product.sortDescription}}
-                        </div>
                     </div>
                     <div class="width-space"></div>
-                    <span  class="price-text">{{ product.price | currency:'VND':'symbol' | replaceSpace}}/{{product.unit}}</span>
-                    <div class="width-space"></div>
-                    <div class="change-quantity-container vertical-container">
-                        <div>Số lượng:</div>
-                        <div class="micro-height-space"></div>
-                        <div class="horizontal-container">
-                            <button
-                                class="button-change"
-                                (click)="changeQuantity(false, i)"
-                                [disabled]="(!product.quantity || product.quantity===1)"
-                            >
-                                <span>-</span>
-                            </button>
-                            <input
-                                type="text"
-                                class="product-quantity"
-                                [(ngModel)]="product.quantity"
-                                (change)="quantityInputChange($event, i)"
-                                appInputOnlyNumber
-                            >
-                            <button
-                                class="button-change"
-                                (click)="changeQuantity(true, i)"
-                            >
-                                <span>+</span>
-                            </button>
+
+                    <div class="price-unit-container vertical-container">
+                        <div class="vertical-container">
+                            <span class="price-text">
+                                <span>{{ product.price | currency:'VND':'symbol' | replaceSpace}}</span>
+                                <span>/</span>
+                                <span>{{product.unit.packagingType}}</span>
+                                <span>{{ ' ' }}</span>
+                                <span>{{product.unit.weightNumber}}{{product.unit.unitOfMassMeasurement}}</span>
+                            </span>
+                            
+                            <div class="mini-height-space"></div>
+                            
+                            <div class="change-quantity-container horizontal-container">
+                                <div>Số lượng:</div>
+                                <div class="micro-height-space"></div>
+                                <div class="micro-width-space"></div>
+                                <div class="horizontal-container">
+                                    <button
+                                        class="button-change"
+                                        (click)="changeQuantity(false, i)"
+                                        [disabled]="(!product.quantity || product.quantity===1)"
+                                    >
+                                        <span>-</span>
+                                    </button>
+                                    <input
+                                        type="text"
+                                        class="product-quantity"
+                                        [(ngModel)]="product.quantity"
+                                        (change)="quantityInputChange($event, i)"
+                                        appInputOnlyNumber
+                                    >
+                                    <button
+                                        class="button-change"
+                                        (click)="changeQuantity(true, i)"
+                                    >
+                                        <span>+</span>
+                                    </button>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                    <div class="width-space"></div>
-                    <div class="button-container horizontal-container">
-                        <mat-icon>delete</mat-icon>
-                        <span class="textLink" (click)="laterBuy(cartItem, i)">
-                            Khi khác chọn
-                        </span>
+                        <div class="width-space"></div>
+                        <div class="button-container horizontal-container">
+                            <mat-icon (click)="laterBuy(cartItem, i)">delete</mat-icon>
+                        </div>
                     </div>
                 </div>
             </div>

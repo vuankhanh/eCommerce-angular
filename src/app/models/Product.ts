@@ -4,6 +4,12 @@ import { ProductCategory } from './ProductCategory';
 import { ProductGallery } from './ProductGallery';
 import { ProductGalleryVideo } from './ProductGalleryVideo';
 
+export interface Unit{
+  packagingType: string,
+  weightNumber: number,
+  unitOfMassMeasurement: string,
+}
+
 export interface Product{
     _id: string,
     code?: string,
@@ -12,7 +18,7 @@ export interface Product{
     category: ProductCategory,
     price: number,
     currencyUnit: string,
-    unit: string,
+    unit: Unit,
     thumbnailUrl?: string,
     imgBannerUrl?: string,
     sortDescription: string,

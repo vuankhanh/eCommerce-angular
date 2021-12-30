@@ -29,43 +29,48 @@
                         // margin-bottom: 10px;
                         font-weight: 500;
                     }
-                    .content-p{
-                        // line-height: 1.2;
-                    }
                 }
-                .price-text{
-                    // margin: 10px 0;
-                    font-size: 16px;
-                    color: #ed1c24;
-                }
-                .change-quantity-container{
-                    .button-change{
-                        width: 30px;
-                        height: 24px;
-                        border: 1px solid var(--normal-text);
-                        color: var(--normal-text);
-                        border-radius: 5px 0px 0px 5px;
+                .price-unit-container{
+                    justify-content: space-between;
+                    .price-text{
+                        white-space: nowrap;
+                        font-size: 16px;
+                        color: #ed1c24;
                     }
-                    .button-change:last-child{
-                        border-radius: 0px 5px 5px 0px;
+                    .change-quantity-container{
+                        white-space: nowrap;
+                        .button-change{
+                            width: 30px;
+                            height: 24px;
+                            border: 1px solid var(--normal-text);
+                            color: var(--normal-text);
+                            border-radius: 5px 0px 0px 5px;
+                        }
+                        .button-change:last-child{
+                            border-radius: 0px 5px 5px 0px;
+                        }
+                        .product-quantity{
+                            width: 36px;
+                            height: 24px;
+                            box-sizing: border-box;
+                            text-align: center;
+                            border: 1px solid var(--normal-text);
+                            color: var(--normal-text);
+                            border-radius: 0;
+                            border-right: 0;
+                            border-left: 0;
+                            outline-color: var(--normal-text);
+                        }
                     }
-                    .product-quantity{
-                        width: 36px;
-                        height: 24px;
-                        box-sizing: border-box;
-                        text-align: center;
-                        border: 1px solid var(--normal-text);
-                        color: var(--normal-text);
-                        border-radius: 0;
-                        border-right: 0;
-                        border-left: 0;
-                        outline-color: var(--normal-text);
+                    .button-container{
+                        justify-content: flex-end;
+                        height: fit-content;
+                        align-items: center;
+                        white-space: nowrap;
+                        mat-icon{
+                            cursor: pointer;
+                        }
                     }
-                }
-                .button-container{
-                    height: fit-content;
-                    align-items: center;
-                    white-space: nowrap
                 }
             }
         }
@@ -171,17 +176,26 @@
                 }
                 .product-price-container{
                     flex-direction: column;
-                    .price-text{
-                        margin: 10px 0;
-                    }
-                    .button-container{
-                        margin-top: 10px;
+                    .price-unit-container{
+                        .price-text{
+                            margin: 10px 0;
+                        }
+                        .button-container{
+                            margin-top: 10px;
+                        }
                     }
                 }
             }
         }
         .cart-total-price{
             width: 100%;
+            .cart-total-price-container{
+                .total-price-frame{
+                    position: sticky;
+                    bottom: 0;
+                    border-top: 2px solid white;
+                }
+            }
         }
     }
 }

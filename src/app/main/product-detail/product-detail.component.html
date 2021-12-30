@@ -58,7 +58,9 @@
                         <h3 class="product-price">
                             <span>{{ product.price | currency:'VND':'symbol' | replaceSpace}}</span>
                             <span>/</span>
-                            <span>{{product.unit}}</span>
+                            <span>{{product.unit.packagingType}}</span>
+                            <span>{{ ' ' }}</span>
+                            <span>{{product.unit.weightNumber}}{{product.unit.unitOfMassMeasurement}}</span>
                         </h3>
     
                         <ng-container *ngIf="userInformation; else loginPlease">
