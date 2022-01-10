@@ -45,7 +45,7 @@
                 <td mat-cell *matCellDef="let order; let i = index">
                     <div class="horizontal-container">
                         <div class="img-container">
-                            <img src="{{order.productId.thumbnailUrl | galleryRoute}}" [alt]="order.productId.name" (click)="showDetail(order.productId)">
+                            <img [src]="order.productId.thumbnailUrl | galleryRoute" [alt]="order.productId.name" (click)="showDetail(order.productId)">
                         </div>
 
                         <div class="micro-width-space"></div>

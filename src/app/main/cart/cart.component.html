@@ -8,7 +8,7 @@
             >
                 <div class="product-information-container horizontal-container">
                     <div class="img-container">
-                        <img src="{{product.thumbnailUrl | galleryRoute}}" [alt]="product.name" (click)="showDetail(product)">
+                        <img [src]="product.thumbnailUrl | galleryRoute" [alt]="product.name" (click)="showDetail(product)">
                     </div>
                 </div>
                 <div class="width-space"></div>

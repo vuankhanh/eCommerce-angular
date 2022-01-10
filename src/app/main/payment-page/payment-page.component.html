@@ -87,7 +87,7 @@
                     <th mat-header-cell *matHeaderCellDef> Ảnh </th>
                     <td mat-cell *matCellDef="let product">
                         <div class="img-container">
-                            <img src="{{product.thumbnailUrl | galleryRoute}}" [alt]="product.name" (click)="showDetail(product)">
+                            <img [src]="product.thumbnailUrl | galleryRoute" [alt]="product.name" (click)="showDetail(product)">
                         </div>
                     </td>
                 </ng-container>

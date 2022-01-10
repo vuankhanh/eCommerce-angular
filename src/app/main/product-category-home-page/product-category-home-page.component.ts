@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { PaginationParams } from 'src/app/models/PaginationParams';
@@ -17,6 +17,7 @@ import { Subscription } from 'rxjs';
 export class ProductCategoryHomePageComponent implements OnInit, OnDestroy {
   @Input() category: string;
   @Input() isSameCategory: boolean;
+  @Output() emitChangeRoute: EventEmitter<string> = new EventEmitter();
   
   productResponse: ProductResponse;
   configPagination: PaginationParams;
@@ -50,6 +51,7 @@ export class ProductCategoryHomePageComponent implements OnInit, OnDestroy {
 
   showDetail(product: Product){
     this.router.navigate(['productions/'+this.category, product.route]);
+    this.emitChangeRoute.emit(product.route);
   }
 
   ngOnDestroy(){

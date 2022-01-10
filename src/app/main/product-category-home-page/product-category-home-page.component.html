@@ -4,7 +4,7 @@
             <div class="product-frame">
                 <div class="img-container">
                     <img
-                        src="{{product.thumbnailUrl | galleryRoute}}"
+                        [src]="product.thumbnailUrl | galleryRoute"
                         [alt]="product.name"
                         (click)="showDetail(product)"
                         appSetBackgroundParentElementColor

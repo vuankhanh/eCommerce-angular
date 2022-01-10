@@ -3,28 +3,39 @@
         <div class="main-container vertical-container">
             <div class="product-information horizontal-container">
                 <div class="album-container" *ngIf="imgMain && product.albumImg && product.albumImg.media.length>0">
-                    <div class="main-img img-container horizontal-container">
-                        <img src="{{imgMain.src | galleryRoute }}" alt="" appSetBackgroundParentElementColor>
-                        <div class="action-img horizontal-container">
-                            <div class="button-container">
-                                <button
-                                    mat-flat-button
-                                    (click)="setImgMainDirection('toLeft')"
-                                    *ngIf="imgMain._id != product.albumImg.media[0]._id"
-                                >
-                                    <mat-icon>chevron_left</mat-icon>
-                                </button>
-                            </div>
-                            <div
-                                class="button-container"
-                                (click)="setImgMainDirection('toRight')"
-                                *ngIf="imgMain._id != product.albumImg.media[product.albumImg.media.length-1]._id"
+                    <div class="main-img-container horizontal-container">
+
+                        <div class="button-container">
+                            <button
+                                (click)="setImgMainDirection('toLeft')"
+                                [disabled] = "imgMain._id === product.albumImg.media[0]._id"
                             >
-                                <button mat-flat-button>
-                                    <mat-icon>chevron_right</mat-icon>
-                                </button>
+                                <mat-icon>chevron_left</mat-icon>
+                            </button>
+                        </div>
+
+                        <div style="width: 100%;">
+                            <div class="img-container horizontal-container">
+                                <img
+                                    [src]="imgMain.src | galleryRoute"
+                                    [alt]="product.name"
+                                    (load)="dosomething($event)"
+                                    appSetBackgroundParentElementColor
+                                    appZoomElement
+                                >
                             </div>
                         </div>
+
+                        <div class="button-container">
+                            <button
+                                (click)="setImgMainDirection('toRight')"
+                                [disabled] = "imgMain._id === product.albumImg.media[product.albumImg.media.length-1]._id"
+                            >
+                                <mat-icon>chevron_right</mat-icon>
+                            </button>
+                        </div>
+
+                        <!-- <div class="action-img horizontal-container"></div> -->
                     </div>
                     <div class="height-space"></div>
                     <div class="list-img horizontal-container" #listImg>
@@ -34,7 +45,8 @@
                                 id="list-item-{{i}}"
                             >
                                 <img
-                                    src="{{item.srcThumbnail | galleryRoute}}"
+                                    [src]="item.srcThumbnail | galleryRoute"
+                                    [alt]="product.name"
                                     (click)="setImgMain(i)"
                                     [ngClass]="imgMain._id === item._id ? 'imgMain' : ''"
                                     appSetBackgroundParentElementColor
@@ -48,7 +60,7 @@
             
                 <div class="product-basic-information">
                     <div class="product-info">
-                        <h4>{{product.name}}</h4>
+                        <div class="title">{{product.name}}</div>
                         <div class="content-p">
                             {{product.sortDescription}}
                         </div>
@@ -214,6 +226,7 @@
             <app-product-category-home-page
                 [category]="product.category.route"
                 [isSameCategory]="true"
+                (emitChangeRoute)="emitChangeRoute($event)"
             ></app-product-category-home-page>
             <!-- <app-related-products (category)=""></app-related-products> -->
         </div>

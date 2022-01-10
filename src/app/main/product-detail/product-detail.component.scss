@@ -8,40 +8,40 @@
             .album-container{
                 width: 400px;
                 min-width: 385px;
-                .main-img{
+                .main-img-container{
                     justify-content: center;
-                    .action-img{
-                        position: absolute;
-                        width: 100%;
-                        height: 100%;
-                        top: 0;
-                        justify-content: space-between;
-                        .button-container{
-                            button{
-                                width: 100px;
-                                text-align: left;
-                                transition: opacity .2s;
-                                opacity: 0;
-                                background: linear-gradient(to left, rgba(255,0,0,0), rgb(237 237 237));
-                                border-radius: 0;
-                                height: 100%;
-                                color: #333333;
-                            }
+                    .img-container{
+                        img{
+                            cursor: default;
                         }
-                        .button-container:last-child{
-                            button{
-                                text-align: right;
-                                background: linear-gradient(to right, rgba(255,0,0,0), rgb(237 237 237));
-                                border-radius: 0;
-                            }
-                        }
-                        .button-container:hover{
-                            button{
-                                opacity: 1;
-                            }
-                        }
-                        // background: white;
                     }
+                    .button-container{
+                        width: 30px;
+                        button{
+                            border: none;
+                            width: 30px;
+                            text-align: left;
+                            transition: opacity .2s;
+                            opacity: 0;
+                            background: linear-gradient(to left, rgba(255,0,0,0), rgb(237 237 237));
+                            border-radius: 0;
+                            height: 100%;
+                            color: #333333;
+                        }
+                    }
+                    .button-container:last-child{
+                        button{
+                            text-align: right;
+                            background: linear-gradient(to right, rgba(255,0,0,0), rgb(237 237 237));
+                            border-radius: 0;
+                        }
+                    }
+                    .button-container:hover{
+                        button{
+                            opacity: 1;
+                        }
+                    }
+                    // background: white;
                 }
                 .list-img{
                     width: 100%;
@@ -75,7 +75,12 @@
             .product-basic-information{
                 .product-info{
                     padding: 15px;
-                    h4, .content-p{
+                    .title{
+                        font-size: 24px;
+                        margin: 15px 0;
+                        font-weight: 500;
+                    }
+                    .content-p{
                         margin-bottom: 5px;
                     }
                     .deliveryTo{

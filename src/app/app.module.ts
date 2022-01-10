@@ -14,6 +14,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgxEditorModule } from 'ngx-editor';
 import { ToastrModule } from 'ngx-toastr';
 import { SwiperModule } from 'swiper/angular';
+import { NgxImgZoomModule } from 'ngx-img-zoom';
 
 import { SocialLoginModule, SocialAuthServiceConfig } from 'angularx-social-login';
 import { GoogleLoginProvider, FacebookLoginProvider } from 'angularx-social-login';
@@ -49,6 +50,7 @@ import { InputOnlyNumberDirective } from './directives/input-only-number.directi
 import { ClickOutsideDirective } from './directives/click-outside.directive';
 import { CapsLockDirective } from './directives/caps-lock.directive';
 import { SetBackgroundParentElementColorDirective } from './directives/set-background-parent-element-color.directive';
+import { ZoomElementDirective } from './directives/zoom-element.directive';
 
 import { DrawerComponent } from './drawer/drawer.component';
 import { SlideShowComponent } from './main/slide-show/slide-show.component';
@@ -96,11 +98,12 @@ import { PageNotFoundComponent } from './main/page-not-found/page-not-found.comp
     AppComponent,
     HomePageComponent,
     MapsComponent,
-
+    
     InputOnlyNumberDirective,
     ClickOutsideDirective,
     CapsLockDirective,
     SetBackgroundParentElementColorDirective,
+    ZoomElementDirective,
 
     DrawerComponent,
     SlideShowComponent,
@@ -154,6 +157,7 @@ import { PageNotFoundComponent } from './main/page-not-found/page-not-found.comp
       preventDuplicates: true,
     }),
     SwiperModule,
+    NgxImgZoomModule,
 
     SocketIoModule.forRoot(config),
 

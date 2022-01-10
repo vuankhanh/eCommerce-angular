@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, Inject, OnDestroy, OnInit, PLATFORM_ID, Renderer2, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, Inject, isDevMode, OnDestroy, OnInit, PLATFORM_ID, Renderer2, ViewChild } from '@angular/core';
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
@@ -25,6 +25,7 @@ import { SocketIoService } from 'src/app/services/socket/socket-io.service';
 import { SEOService } from 'src/app/services/seo.service';
 
 import { combineLatest, Observable, Subscription } from 'rxjs';
+import { InProgressSpinnerService } from 'src/app/services/in-progress-spinner.service';
 
 declare let fbq:Function;
 @Component({
@@ -76,6 +77,7 @@ export class ProductDetailComponent implements OnInit, AfterViewInit, OnDestroy 
     private localStorageService: LocalStorageService,
     private socketIoService: SocketIoService,
     private seoService: SEOService,
+    private inProgressSpinnerService: InProgressSpinnerService
   ) {
     this.isBrowser = isPlatformBrowser(platformId);
   }
@@ -95,6 +97,7 @@ export class ProductDetailComponent implements OnInit, AfterViewInit, OnDestroy 
           this.getProductDetail$
         ]
       ).subscribe(([userInfo, cart, productDetail])=>{
+
         if(userInfo){
           this.userInformation = userInfo;
         }
@@ -103,41 +106,9 @@ export class ProductDetailComponent implements OnInit, AfterViewInit, OnDestroy 
         if(this.cart.deliverTo){
           this.headquartersAddress = this.cart.deliverTo;
         }
-
+        
         if(productDetail){
-          if(!this.product){
-            this.product = productDetail;
-            if(this.isBrowser){
-              let script = this.renderer2.createElement('script');
-              script.type = `text/javascript`;
-              script.text = `fbq('track', 'ViewContent',{
-                _id: '${this.product._id}',
-                name: '${this.product.name}',
-                price: ${this.product.price},
-                quantity: ${this.product.quantity},
-                theRemainingAmount: ${this.product.theRemainingAmount}
-              });`;
-              this.renderer2.appendChild(this._document.head, script);
-            }
-            if(!this.product.quantity){
-              this.product.quantity = 1;
-            }
-            let index: number = this.product.albumImg!.media.findIndex(media=>media.isMain);
-            index >= 0 ?  this.setImgMain(index) : this.setImgMain(0);
-            
-            let metaTagFacebook: MetaTagFacebook = {
-              title: this.product.name,
-              image: this.galleryRoutePipe.transform(this.product.thumbnailUrl),
-              imageAlt: this.product.name,
-              imageType: 'image/png',
-              imageWidth: '100',
-              imageHeight: '100',
-              url: window.location.href,
-              description: this.product.sortDescription
-            }
-            this.seoService.updateTitle(this.product.name);
-            this.seoService.updateMetaTagFacebook(metaTagFacebook);
-          }
+          this.setProductDetail(productDetail)
         }
   
         if(userInfo && this.cart.deliverTo && this.product){
@@ -169,6 +140,8 @@ export class ProductDetailComponent implements OnInit, AfterViewInit, OnDestroy 
             )
           }
         }
+      },error=>{
+        console.log(error);
       })
     );
     
@@ -186,6 +159,65 @@ export class ProductDetailComponent implements OnInit, AfterViewInit, OnDestroy 
   }
 
   ngAfterViewInit(){
+    
+  }
+
+  dosomething(event: any){
+    let img: HTMLImageElement = <HTMLImageElement>event.target;
+    if(img){
+      let src: string = img.src;
+    }
+  }
+
+  emitChangeRoute(route: string){
+    this.inProgressSpinnerService.progressSpinnerStatus(true);
+    this.getProductDetail$ = this.productService.getProductRoute(route);
+    this.subscription.add(
+      this.getProductDetail$.subscribe(res=>{
+          this.setProductDetail(res);
+        this.inProgressSpinnerService.progressSpinnerStatus(false);
+      },error=>{
+        this.inProgressSpinnerService.progressSpinnerStatus(false);
+      })
+    );
+  }
+
+  setProductDetail(product: Product){
+    if(product){
+      if(!this.product || this.product._id != product._id){
+        this.product = product;
+        if(!isDevMode() && this.isBrowser){
+          let script = this.renderer2.createElement('script');
+          script.type = `text/javascript`;
+          script.text = `fbq('track', 'ViewContent',{
+            _id: '${this.product._id}',
+            name: '${this.product.name}',
+            price: ${this.product.price},
+            quantity: ${this.product.quantity},
+            theRemainingAmount: ${this.product.theRemainingAmount}
+          });`;
+          this.renderer2.appendChild(this._document.head, script);
+        }
+        if(!this.product.quantity){
+          this.product.quantity = 1;
+        }
+        let index: number = this.product.albumImg!.media.findIndex(media=>media.isMain);
+        index >= 0 ?  this.setImgMain(index) : this.setImgMain(0);
+        
+        let metaTagFacebook: MetaTagFacebook = {
+          title: this.product.name,
+          image: this.galleryRoutePipe.transform(this.product.thumbnailUrl),
+          imageAlt: this.product.name,
+          imageType: 'image/png',
+          imageWidth: '100',
+          imageHeight: '100',
+          url: window.location.href,
+          description: this.product.sortDescription
+        }
+        this.seoService.updateTitle(this.product.name);
+        this.seoService.updateMetaTagFacebook(metaTagFacebook);
+      }
+    }
   }
 
   setImgMain(index: number){
@@ -276,7 +308,7 @@ export class ProductDetailComponent implements OnInit, AfterViewInit, OnDestroy 
 
   addToCart(product: Product){
     this.cartService.addToCart(product, true);
-    if(this.isBrowser){
+    if(!isDevMode() && this.isBrowser){
       let script = this.renderer2.createElement('script');
       script.type = `text/javascript`;
       script.text = `fbq('track', 'AddToCart',{

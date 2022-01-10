@@ -1,5 +1,5 @@
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
-import { Component, Inject, OnInit, PLATFORM_ID, Renderer2 } from '@angular/core';
+import { Component, Inject, isDevMode, OnInit, PLATFORM_ID, Renderer2 } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 import { Order } from 'src/app/models/Order';
@@ -28,17 +28,18 @@ private isBrowser: boolean;
       let products: any = order.products;
       let newProduct = products.map((product: any)=>"'"+product.productId+"'");
       let strProducts = newProduct.join(',');
-
-      let script = this.renderer2.createElement('script');
-      script.type = `text/javascript`;
-      script.text = `fbq('track', 'Purchase',{
-        _id: '${order._id}',
-        value: ${order.totalValue},
-        currency: 'VND',
-        products: [${strProducts}],
-        phoneNumber: '${order.deliverTo.phoneNumber}',
-      });`;
-      this.renderer2.appendChild(this._document.head, script);
+      if(!isDevMode()){
+        let script = this.renderer2.createElement('script');
+        script.type = `text/javascript`;
+        script.text = `fbq('track', 'Purchase',{
+          _id: '${order._id}',
+          value: ${order.totalValue},
+          currency: 'VND',
+          products: [${strProducts}],
+          phoneNumber: '${order.deliverTo.phoneNumber}',
+        });`;
+        this.renderer2.appendChild(this._document.head, script);
+      }
     }
   }
 

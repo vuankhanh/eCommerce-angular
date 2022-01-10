@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 
 import { toHTML } from "ngx-editor";
 import { Posts } from 'src/app/models/Posts';
@@ -7,13 +7,16 @@ import { Posts } from 'src/app/models/Posts';
   templateUrl: './posts.component.html',
   styleUrls: ['./posts.component.scss']
 })
-export class PostsComponent implements OnInit {
+export class PostsComponent implements OnInit, OnChanges {
   @Input() editorContent: Posts;
   preview: string = '';
   constructor() { }
 
   ngOnInit(): void {
-    this.preview =  toHTML(JSON.parse(this.editorContent.data));
+    
   }
 
+  ngOnChanges() {
+    this.preview =  toHTML(JSON.parse(this.editorContent.data));
+  } 
 }
