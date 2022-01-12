@@ -16,7 +16,7 @@ export class AppComponent implements OnInit {
   @ViewChild ('drawer') drawer: MatSidenav;
   @ViewChild ('drawerContent') drawercontent: MatDrawerContent;
   isBrowser: boolean;
-  isMobile: boolean = false;
+  screenWidthSize: 'full' | 'normal' | 'mini';
   constructor(
     @Inject(PLATFORM_ID) platformId: Object,
     @Inject(DOCUMENT) private _document: Document,
@@ -88,8 +88,8 @@ export class AppComponent implements OnInit {
   }
 
   listenIsMobile(){
-    this.appService.isMobile$.subscribe(res=>{
-      this.isMobile = res;
+    this.appService.checkScreenWidthSize$.subscribe(res=>{
+      this.screenWidthSize = res;
     })
   }
 

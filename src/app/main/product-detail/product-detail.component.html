@@ -20,7 +20,6 @@
                                     [src]="imgMain.src | galleryRoute"
                                     [alt]="product.name"
                                     (load)="dosomething($event)"
-                                    appSetBackgroundParentElementColor
                                     appZoomElement
                                 >
                             </div>
@@ -49,7 +48,6 @@
                                     [alt]="product.name"
                                     (click)="setImgMain(i)"
                                     [ngClass]="imgMain._id === item._id ? 'imgMain' : ''"
-                                    appSetBackgroundParentElementColor
                                 >
                             </div>
                             

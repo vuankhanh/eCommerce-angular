@@ -64,9 +64,6 @@ export class SlideShowComponent implements OnInit, OnDestroy {
 
   onSlideChange(event: any) {
     let e: Swiper = event;
-    // console.log(e);
-
-    // console.log('slide change');
   }
 
   addToCart(product: Product): void{

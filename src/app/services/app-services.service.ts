@@ -3,7 +3,7 @@ import { isPlatformBrowser } from '@angular/common';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { Title } from '@angular/platform-browser';
 
-import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
+import { BreakpointObserver, Breakpoints, BreakpointState } from '@angular/cdk/layout';
 
 import { Product } from '../models/Product';
 import { ProductCategory } from '../models/ProductCategory';
@@ -28,7 +28,8 @@ export class AppServicesService {
 
   products: Product;
 
-  public isMobile$: Observable<boolean>;
+  // public checkScreenWidthSize$: Observable<'Medium' | 'Small' | 'XSmall'>;
+  public checkScreenWidthSize$: Observable<'full' | 'normal' | 'mini'>;
 
   private bProductCategory: BehaviorSubject<ProductCategory[]> = new BehaviorSubject<ProductCategory[]>([]);
   public productCategory$: Observable<ProductCategory[]> = this.bProductCategory.asObservable();
@@ -54,7 +55,21 @@ export class AppServicesService {
       this.socketIoService.connect();
     }
 
-    this.isMobile$ = this.breakpointObserver.observe(['(min-width: 768px)']).pipe(map((state: BreakpointState)=>!state.matches ? true : false));
+    // [Breakpoints.Medium, Breakpoints.Small, Breakpoints.XSmall]
+    this.checkScreenWidthSize$ = this.breakpointObserver.observe(
+      [
+        '(min-width: 768px) and (max-width: 1023.98px)',
+        '(max-width: 767.98px)'
+      ]
+    ).pipe(map((state: BreakpointState)=>{
+      if(state.breakpoints['(min-width: 768px) and (max-width: 1023.98px)']){
+        return 'normal';
+      }else if(state.breakpoints['(max-width: 767.98px)']){
+        return 'mini';
+      }else{
+        return 'full';
+      }
+    }));
 
     this.productService.getCategory().subscribe(res=>this.bProductCategory.next(res));
 

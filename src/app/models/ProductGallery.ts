@@ -2,13 +2,11 @@
 export interface ProductGallery{
     _id?: string,
     name: string,
-    productName?: string,
-    src?: string,
-    thumbnail?: string,
+    route: string,
+    thumbnail: string,
     media: Array<Media>,
-    isMain?: number,
-    createdAt?: string,
-    updatedAt?: string,
+    createdAt: string,
+    updatedAt: string,
 }
 
 export interface Media{

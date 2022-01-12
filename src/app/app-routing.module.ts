@@ -32,8 +32,7 @@ const routes: Routes = [
     data: { title: 'Sản phẩm' },
     children: [
       { path: '', redirectTo: 'hai-san', pathMatch: 'full' },
-      {
-        path: ':category', component: ProductCategoryComponent },
+      { path: ':category', component: ProductCategoryComponent },
       { path: ':category/:route', component: ProductDetailComponent },
     ]
   },

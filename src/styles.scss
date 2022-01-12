@@ -178,7 +178,7 @@ mat-list{
 
 .img-container{
     width: 100%;
-    padding-bottom: 56.25%;
+    padding-bottom: 100%;
     position: relative;
     img{
         position: absolute;
@@ -191,6 +191,9 @@ mat-list{
         object-fit: contain;
         cursor: pointer;
     }
+}
+img{
+    border-radius: 5px;
 }
 
 .posts-container{

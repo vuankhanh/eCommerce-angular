@@ -24,12 +24,12 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./personal-information.component.scss']
 })
 export class PersonalInformationComponent implements OnInit, OnDestroy {
-  isMobile: boolean = false;
+  screenWidthSize: 'full' | 'normal' | 'mini';
   informationGroup: FormGroup;
   checkedChangePassword: boolean = false;
-  private subscription: Subscription = new Subscription();
   private emailRegEx = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
   private phoneNumberRegEx = /((0)+([0-9]{9})\b)/g;
+  private subscription: Subscription = new Subscription();
   constructor(
     private formBuilder: FormBuilder,
     private authService: AuthService,
@@ -55,8 +55,8 @@ export class PersonalInformationComponent implements OnInit, OnDestroy {
 
   checkDevice(){
     this.subscription.add(
-      this.appServiceService.isMobile$.subscribe(res=>{
-        this.isMobile = res;
+      this.appServiceService.checkScreenWidthSize$.subscribe(res=>{
+        this.screenWidthSize = res;
       })
     )
   }

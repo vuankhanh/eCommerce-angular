@@ -1,10 +1,9 @@
-import { Media } from "./ProductGallery";
-
 export interface BannerGallery{
     _id: string,
     name: string,
-    bannerName: string,
-    media: Array<Media>,
+    route: string,
+    thumbnail: string,
+    src: string,
     createdAt: string,
     updatedAt: string
 }

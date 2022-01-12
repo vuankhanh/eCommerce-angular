@@ -43,7 +43,7 @@ export class HeaderComponent implements OnInit, AfterViewInit, OnDestroy {
   currentUrl: string = this.router.url;
   badgeCart: number;
   showAlertAddedToCart: boolean = false;
-  isMobile: boolean = false;
+  screenWidthSize: 'full' | 'normal' | 'mini';
 
   isLogin: boolean = false;
   userInformation: UserInformation | null;
@@ -111,8 +111,8 @@ export class HeaderComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   listenIsMobile(){
-    this.appServicesService.isMobile$.subscribe(res=>{
-      this.isMobile = res;
+    this.appServicesService.checkScreenWidthSize$.subscribe(res=>{
+      this.screenWidthSize = res;
     })
   }
 
@@ -151,7 +151,7 @@ export class HeaderComponent implements OnInit, AfterViewInit, OnDestroy {
           setTimeout(() => {
             if(res) {
               this.showAlertAddedToCart=res;
-              if(this.isMobile){
+              if(this.screenWidthSize){
                 this.bottomSheet.open(AlertTitleComponent, {
                   panelClass: 'add-to-card-bottom-sheet'
                 });
