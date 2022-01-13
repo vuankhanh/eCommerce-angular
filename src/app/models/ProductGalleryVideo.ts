@@ -1,11 +1,11 @@
 export interface ProductGalleryVideo{
-    _id?: string,
+    _id: string,
     name: string,
-    productName?: string,
+    route: string,
+    thumbnail: string,
     media: Array<Media>,
-    isMain?: number,
-    createdAt?: string,
-    updatedAt?: string,
+    createdAt: string,
+    updatedAt: string,
 }
 
 export interface Media{
