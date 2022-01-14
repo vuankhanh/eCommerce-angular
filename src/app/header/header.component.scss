@@ -274,13 +274,3 @@ button{
         background: white;
     }
 }
-  
-@media only screen and (max-width: 414px) {
-    .header-container{
-        .flex-me{
-            .product-frame{
-                width: calc(100% - 15px);
-            }
-        }
-    }
-}

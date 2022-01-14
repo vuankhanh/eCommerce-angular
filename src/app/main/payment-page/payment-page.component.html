@@ -40,7 +40,7 @@
 
             <div class="height-space"></div>
 
-            <fieldset>
+            <fieldset class="ahamove-shipping-fee-container">
                 <legend>
                     <img
                         height="30"    
@@ -101,7 +101,13 @@
                 <!-- Weight Column -->
                 <ng-container matColumnDef="price">
                     <th mat-header-cell *matHeaderCellDef> Đơn giá </th>
-                    <td mat-cell *matCellDef="let product"> {{product.price | currency:'VND':'symbol' | replaceSpace}}/{{ product.unit}} </td>
+                    <td mat-cell *matCellDef="let product">
+                        <span>{{ product.price | currency:'VND':'symbol' | replaceSpace}}</span>
+                        <span>/</span>
+                        <span>{{product.unit.packagingType}}</span>
+                        <span>{{ ' ' }}</span>
+                        <span>{{product.unit.weightNumber}}{{product.unit.unitOfMassMeasurement}}</span>
+                    </td>
                 </ng-container>
               
                 <!-- Symbol Column -->

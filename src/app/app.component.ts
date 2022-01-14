@@ -56,35 +56,35 @@ export class AppComponent implements OnInit {
       src="https://www.facebook.com/tr?id=219934090324074&ev=PageView&noscript=1"
     />`;
 
-    let scriptMessage = this.renderer2.createElement('script');
-    scriptMessage.type = `text/javascript`;
-    scriptMessage.text = `
-      window.fbAsyncInit = function() {
-        FB.init({
-          appId            : '583183603050614',
-          autoLogAppEvents : true,
-          xfbml            : true,
-          version          : 'v12.0'
-        });
-      };
+    // let scriptMessage = this.renderer2.createElement('script');
+    // scriptMessage.type = `text/javascript`;
+    // scriptMessage.text = `
+    //   window.fbAsyncInit = function() {
+    //     FB.init({
+    //       appId            : '583183603050614',
+    //       autoLogAppEvents : true,
+    //       xfbml            : true,
+    //       version          : 'v12.0'
+    //     });
+    //   };
     
-      (function(d, s, id){
-        var js, fjs = d.getElementsByTagName(s)[0];
-        if (d.getElementById(id)) {return;}
-        js = d.createElement(s); js.id = id;
-        js.src = "https://connect.facebook.net/vi_VN/sdk.js";
-        fjs.parentNode.insertBefore(js, fjs);
-      }(document, 'script', 'facebook-jssdk'));
-    `;
+    //   (function(d, s, id){
+    //     var js, fjs = d.getElementsByTagName(s)[0];
+    //     if (d.getElementById(id)) {return;}
+    //     js = d.createElement(s); js.id = id;
+    //     js.src = "https://connect.facebook.net/vi_VN/sdk.js";
+    //     fjs.parentNode.insertBefore(js, fjs);
+    //   }(document, 'script', 'facebook-jssdk'));
+    // `;
 
-    let fbCustomerChat = this.renderer2.createElement('div');
-    fbCustomerChat.setAttribute('class', 'fb-customerchat');
-    fbCustomerChat.setAttribute('page_id', '104868241888740');
+    // let fbCustomerChat = this.renderer2.createElement('div');
+    // fbCustomerChat.setAttribute('class', 'fb-customerchat');
+    // fbCustomerChat.setAttribute('page_id', '104868241888740');
     
     this.renderer2.appendChild(this._document.head, scriptPixel);
     this.renderer2.appendChild(this._document.head, scriptNoScript);
-    this.renderer2.appendChild(this._document.body, scriptMessage);
-    this.renderer2.appendChild(this._document.body, fbCustomerChat);
+    // this.renderer2.appendChild(this._document.body, scriptMessage);
+    // this.renderer2.appendChild(this._document.body, fbCustomerChat);
   }
 
   listenIsMobile(){

@@ -1,9 +1,9 @@
-import { AfterViewInit, Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
+import { Event, NavigationStart, Router } from '@angular/router';
 import { MatAccordion } from '@angular/material/expansion';
 
 import { ProductCategory } from '../models/ProductCategory';
 import { UserInformation } from '../models/UserInformation';
-import { Identification } from '../models/Identification';
 
 //Mock Data
 import { CustomerMenu, Menu, MenusList } from '../mock-data/menu';
@@ -11,12 +11,10 @@ import { CustomerMenu, Menu, MenusList } from '../mock-data/menu';
 import { AppServicesService } from '../services/app-services.service';
 import { AuthService } from '../services/auth.service';
 import { CheckTokenService } from '../services/api/check-token.service';
-import { ConfigService } from '../services/api/config.service';
-
-import { Subscription } from 'rxjs';
 import { Cart, CartService } from '../services/cart.service';
 import { UrlChangeService } from '../services/url-change.service';
-import { Event, NavigationStart, Router } from '@angular/router';
+
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-drawer',
@@ -27,7 +25,6 @@ export class DrawerComponent implements OnInit {
   @ViewChild('accordion') accordion: MatAccordion;
   @ViewChild('userAccordion') userAccordion: MatAccordion;
   @Output() toggleDrawer = new EventEmitter();
-  identification: Identification;
   menusList: Array<Menu>;
   customerMenu: Array<Menu>;
   productCategorys: Array<ProductCategory>;
@@ -44,7 +41,6 @@ export class DrawerComponent implements OnInit {
     private appServicesService: AppServicesService,
     private authService: AuthService,
     private checkTokenService: CheckTokenService,
-    private configService: ConfigService,
     private cartService: CartService
   ) {
     this.menusList = MenusList;
@@ -86,12 +82,6 @@ export class DrawerComponent implements OnInit {
     this.subscription.add(
       this.checkTokenService.get().subscribe(res=>{
         this.isLogin = res;
-      })
-    );
-
-    this.subscription.add(
-      this.configService.getConfig().subscribe(res=>{
-        this.identification = res.identification;
       })
     );
   }

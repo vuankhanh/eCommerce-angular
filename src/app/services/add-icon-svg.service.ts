@@ -7,15 +7,18 @@ import { MatIconRegistry } from '@angular/material/icon';
 })
 export class AddIconSvgService {
   private urlSvgs = [
-    'assets/logo/svg/zalo.svg',
+    'assets/logo/svg/carota.svg',
     'assets/logo/svg/gmap.svg',
     'assets/logo/svg/star.svg',
     'assets/logo/svg/facebook.svg',
+    'assets/logo/svg/messenger.svg',
     'assets/logo/svg/google-plus.svg',
     'assets/logo/svg/zalo.svg',
+    'assets/logo/svg/zalo-new.svg',
     'assets/logo/svg/lock-reset',
     'assets/logo/svg/empty-cart.svg',
-    'assets/logo/svg/discount.svg'
+    'assets/logo/svg/discount.svg',
+    'assets/logo/svg/supporter.svg',
   ];
   constructor(
     private matIconRegistry: MatIconRegistry,

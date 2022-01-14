@@ -13,6 +13,7 @@ import { Media } from 'src/app/models/ProductGallery';
 import { UserInformation } from 'src/app/models/UserInformation';
 import { Address } from 'src/app/models/Address';
 import { MetaTagFacebook } from 'src/app/models/MetaTag';
+import { Identification } from 'src/app/models/Identification';
 
 import { Cart, CartService } from 'src/app/services/cart.service';
 import { ProductService } from 'src/app/services/api/product/product.service';
@@ -23,9 +24,10 @@ import { EstimateFeeService } from 'src/app/services/api/estimate-fee.service';
 import { LocalStorageService } from 'src/app/services/local-storage.service';
 import { SocketIoService } from 'src/app/services/socket/socket-io.service';
 import { SEOService } from 'src/app/services/seo.service';
+import { InProgressSpinnerService } from 'src/app/services/in-progress-spinner.service';
+import { ConfigService } from 'src/app/services/api/config.service';
 
 import { combineLatest, Observable, Subscription } from 'rxjs';
-import { InProgressSpinnerService } from 'src/app/services/in-progress-spinner.service';
 
 declare let fbq:Function;
 @Component({
@@ -36,7 +38,7 @@ declare let fbq:Function;
 export class ProductDetailComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('listImg') listImg: ElementRef;
 
-  private isBrowser: boolean;
+  isBrowser: boolean;
 
   playerVars = {
     cc_lang_pref: 'en',
@@ -60,6 +62,9 @@ export class ProductDetailComponent implements OnInit, AfterViewInit, OnDestroy 
   cartChange$: Observable<Cart>;
 
   getProductDetail$: Observable<Product>;
+
+  identification: Identification;
+
   subscription: Subscription = new Subscription();
   constructor(
     @Inject(PLATFORM_ID) platformId: Object,
@@ -77,7 +82,8 @@ export class ProductDetailComponent implements OnInit, AfterViewInit, OnDestroy 
     private localStorageService: LocalStorageService,
     private socketIoService: SocketIoService,
     private seoService: SEOService,
-    private inProgressSpinnerService: InProgressSpinnerService
+    private inProgressSpinnerService: InProgressSpinnerService,
+    private configService: ConfigService
   ) {
     this.isBrowser = isPlatformBrowser(platformId);
   }
@@ -156,6 +162,15 @@ export class ProductDetailComponent implements OnInit, AfterViewInit, OnDestroy 
         })
       )
     }
+
+    this.listenConfig();
+  }
+
+  listenConfig(){
+    this.configService.getConfig().subscribe(res=>{
+      this.identification = res.identification;
+      console.log(this.identification);
+    })
   }
 
   ngAfterViewInit(){

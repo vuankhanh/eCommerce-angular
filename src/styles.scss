@@ -202,6 +202,19 @@ img{
     }
 }
 
+fieldset{
+    border-radius: 5px;
+    border: 1px dotted var(--ahamove-normal-text);
+    padding: 5px;
+    legend{
+        font-size: unset;
+        float: unset;
+        width: auto;
+        margin-left: 15px;
+        margin-bottom: 0;
+    }
+}
+
 .primary-key{
     color: #999999;
 }
