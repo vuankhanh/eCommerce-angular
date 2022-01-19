@@ -227,7 +227,16 @@ export class ProductDetailComponent implements OnInit, AfterViewInit, OnDestroy 
           imageWidth: '100',
           imageHeight: '100',
           url: window.location.href,
-          description: this.product.sortDescription
+          description: this.product.sortDescription,
+
+          productBrand: 'Thủy hải sản Carota',
+          productAvailability: 'in stock',
+          productCondition: 'new',
+          productPriceAmount: this.product.price.toString(),
+          productPriceCurrency: this.product.currencyUnit,
+          productRetailerItemId: this.product.route,
+          productItemGroupId: this.product.category.route,
+          googleProductCategory: this.product.category.googleProductCategory,
         }
         this.seoService.updateTitle(this.product.name);
         this.seoService.updateMetaTagFacebook(metaTagFacebook);

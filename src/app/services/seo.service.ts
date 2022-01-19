@@ -24,6 +24,15 @@ export class SEOService {
     this.meta.updateTag({ property: 'og:image:height', content: metaTag.imageHeight });
     this.meta.updateTag({ property: 'og:url', content: metaTag.url });
     this.meta.updateTag({ property: 'og:description', content: metaTag.description });
+
+    this.meta.updateTag({ property: 'product:brand', content: metaTag.productBrand });
+    this.meta.updateTag({ property: 'product:availability', content: metaTag.productAvailability });
+    this.meta.updateTag({ property: 'product:condition', content: metaTag.productCondition });
+    this.meta.updateTag({ property: 'product:price:amount', content: metaTag.productPriceAmount });
+    this.meta.updateTag({ property: 'product:price:currency', content: metaTag.productPriceCurrency });
+    this.meta.updateTag({ property: 'product:retailer_item_id', content: metaTag.productRetailerItemId });
+    this.meta.updateTag({ property: 'product:item_group_id', content: metaTag.productItemGroupId });
+    this.meta.updateTag({ property: 'product:category', content: metaTag.googleProductCategory });
   }
   
 }
