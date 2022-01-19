@@ -18,6 +18,7 @@ import { CartService } from './cart.service';
 import { CustomerAddressService, ResponseAddress } from './api/customer-address.service';
 import { InProgressSpinnerService } from './in-progress-spinner.service';
 import { SocialAuthenticationService } from './api/social-login/social-authentication';
+import { ToastService } from './toast.service';
 
 import { BehaviorSubject, Observable, of } from 'rxjs';
 @Injectable({
@@ -34,7 +35,8 @@ export class AuthService {
     private cartService: CartService,
     private customerAddressService: CustomerAddressService,
     private inProgressSpinnerService: InProgressSpinnerService,
-    private socialAuthenticationService: SocialAuthenticationService
+    private socialAuthenticationService: SocialAuthenticationService,
+    private toastService: ToastService
   ) {
     this.getUserInfoFromTokenStoraged();
   }
@@ -86,6 +88,8 @@ export class AuthService {
       }
     },err=>{
       this.checkTokenService.set(false);
+      this.toastService.shortToastWarning('Phiên đăng nhập hết hạn', '');
+      this.logout();
     })
   }
 

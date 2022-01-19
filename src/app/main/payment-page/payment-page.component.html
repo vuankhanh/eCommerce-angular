@@ -38,40 +38,42 @@
                 </ng-template>
             </div>
 
-            <div class="height-space"></div>
-
-            <fieldset class="ahamove-shipping-fee-container">
-                <legend>
-                    <img
-                        height="30"    
-                        src="assets/logo/partner/shipping/ahamove/ahamove_logo.png"
-                        alt=""
+            <ng-container *ngIf="estimateFeeInfo || estimateFeeError">
+                <div class="height-space"></div>
+    
+                <fieldset class="ahamove-shipping-fee-container">
+                    <legend>
+                        <img
+                            height="30"    
+                            src="assets/logo/partner/shipping/ahamove/ahamove_logo.png"
+                            alt=""
+                        >
+                    </legend>
+                    <div
+                        class="vertical-container shipping-info"
+                        *ngIf="estimateFeeInfo; else notSupport"
                     >
-                </legend>
-                <div
-                    class="vertical-container shipping-info"
-                    *ngIf="estimateFeeInfo; else notSupport"
-                >
-                    <div class="horizontal-container">
-                        <span class="estimate-time">
-                            {{ estimateFeeInfo.deliveryTime.original | theDayOfWeekFormat }}
+                        <div class="horizontal-container">
+                            <span class="estimate-time">
+                                {{ estimateFeeInfo.deliveryTime.original | theDayOfWeekFormat }}
+                            </span>
+                        </div>
+                        <div class="horizontal-container" *ngIf="estimateFeeInfo.shippingFee>0">
+                            <span>Phí vận chuyển: </span>
+                            <div class="micro-width-space"></div>
+                            <span>{{ estimateFeeInfo.shippingFee | currency:'VND':'symbol' | replaceSpace }}</span>
+                        </div>
+                        <div class="horizontal-container free-shipping-text" *ngIf="estimateFeeInfo.shippingFee === 0">
+                            <span>Miễn phí vận chuyển</span>
+                        </div>
+                    </div>
+                    <ng-template #notSupport>
+                        <span *ngIf="estimateFeeError && estimateFeeError.desc">
+                            {{ estimateFeeError.desc }}
                         </span>
-                    </div>
-                    <div class="horizontal-container" *ngIf="estimateFeeInfo.shippingFee>0">
-                        <span>Phí vận chuyển: </span>
-                        <div class="micro-width-space"></div>
-                        <span>{{ estimateFeeInfo.shippingFee | currency:'VND':'symbol' | replaceSpace }}</span>
-                    </div>
-                    <div class="horizontal-container free-shipping-text" *ngIf="estimateFeeInfo.shippingFee === 0">
-                        <span>Miễn phí vận chuyển</span>
-                    </div>
-                </div>
-                <ng-template #notSupport>
-                    <span *ngIf="estimateFeeError && estimateFeeError.desc">
-                        {{ estimateFeeError.desc }}
-                    </span>
-                </ng-template>
-            </fieldset>
+                    </ng-template>
+                </fieldset>
+            </ng-container>
     
             <div class="height-space"></div>
     

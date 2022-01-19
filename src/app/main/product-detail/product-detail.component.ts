@@ -169,7 +169,6 @@ export class ProductDetailComponent implements OnInit, AfterViewInit, OnDestroy 
   listenConfig(){
     this.configService.getConfig().subscribe(res=>{
       this.identification = res.identification;
-      console.log(this.identification);
     })
   }
 

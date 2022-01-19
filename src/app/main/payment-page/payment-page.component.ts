@@ -89,11 +89,9 @@ export class PaymentPageComponent implements OnInit, OnDestroy {
               estimateFee$.subscribe(res=>{
                 if(res){
                   this.estimateFeeInfo = res;
-                  
                   this.estimateFeeError = null;
                 }
               }, error=>{
-                
                 this.estimateFeeInfo = null;
                 this.estimateFeeError = {
                   desc: 'AhaMove hiện tại không hỗ trợ vận chuyển đến địa chỉ của bạn vì thế Carota sẽ liên hệ với bạn và chuẩn bị một hình thức vận chuyển khác.'

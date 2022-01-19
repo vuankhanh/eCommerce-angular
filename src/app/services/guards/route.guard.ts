@@ -1,22 +1,20 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
+import { ActivatedRouteSnapshot, CanActivate, RouterStateSnapshot, UrlTree } from '@angular/router';
 
 import { LocalStorageService } from '../local-storage.service';
-import { ConfigService } from '../api/config.service';
 import { ResponseLogin } from '../api/login.service';
 import { AuthService } from '../auth.service';
+import { CheckTokenService } from '../api/check-token.service';
 
 
 import { Observable, of } from 'rxjs';
 import { catchError , map } from 'rxjs/operators'
-import { CheckTokenService } from '../api/check-token.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class RouteGuard implements CanActivate {
   constructor(
-    private router: Router,
     private localStorageService: LocalStorageService,
     private checkTokenService: CheckTokenService,
     private authService: AuthService

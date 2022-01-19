@@ -80,16 +80,16 @@ export class CartComponent implements OnInit, OnDestroy {
           },error=>{
             this.totalBill = 0;
           })
-          if(this.cart.deliverTo){
+          if(this.cart.deliverTo && !this.defaultAddress){
             this.defaultAddress = this.cart.deliverTo;
+            this.initForm(this.defaultAddress);
           }
-          this.initForm(this.defaultAddress);
         }
       })
     )
   }
 
-  initForm(address: Address | null){
+  initForm(address?: Address){
     let phoneNumberRegEx = /^((0)+([0-9]{9})\b)$/g;
 
     this.customerForm = this.formBuilder.group({
@@ -113,8 +113,12 @@ export class CartComponent implements OnInit, OnDestroy {
       this.customerForm.controls['isHeadquarters'].setValue(address.isHeadquarters);
       this.customerForm.get('position')?.get('lat')?.setValue(address.position?.lat);
       this.customerForm.get('position')?.get('lng')?.setValue(address.position?.lng);
-      this.getDistrict(address.province.code);
-      this.getWard(address.district.code);
+      if(address.province && address.province.code){
+        this.getDistrict(address.province.code);
+      }
+      if(address.district && address.district.code){
+        this.getWard(address.district.code);
+      }
     }
   }
 
@@ -122,22 +126,26 @@ export class CartComponent implements OnInit, OnDestroy {
     this.subscription.add(
       this.administrativeUnitsService.getProvince().subscribe(res=>{
         this.provinces = res;
-        if(this.defaultAddress){
+        if(this.defaultAddress && this.defaultAddress.province){
           let index:number = this.findIndexOfObjectInArray(this.defaultAddress.province._id, this.provinces);
-          
           this.customerForm.controls['province'].setValue(index);
         }
       })
     )
   }
 
-  getDistrict(provinceCode: string){
+  getDistrict(provinceCode: string, reset?: boolean){
     this.subscription.add(
       this.administrativeUnitsService.getDistrict(provinceCode).subscribe(res=>{
         this.districts = res;
-        if(this.defaultAddress){
-          let index:number = this.findIndexOfObjectInArray(this.defaultAddress.district._id, this.districts)
-          this.customerForm.controls['district'].setValue(index);
+        if(!reset){
+          if(this.defaultAddress && this.defaultAddress.district){
+            let index:number = this.findIndexOfObjectInArray(this.defaultAddress.district._id, this.districts)
+            this.customerForm.controls['district'].setValue(index);
+          }
+        }else{
+          this.customerForm.controls['district'].setValue('');
+          this.customerForm.controls['ward'].setValue('');
         }
       }, error=>{
         this.districts = [];
@@ -145,14 +153,20 @@ export class CartComponent implements OnInit, OnDestroy {
     )
   }
 
-  getWard(districtCode: string){
+  getWard(districtCode: string, reset?: boolean){
     this.subscription.add(
       this.administrativeUnitsService.getWard(districtCode).subscribe(res=>{
         this.wards = res;
-        if(this.defaultAddress){
-          let index:number = this.findIndexOfObjectInArray(this.defaultAddress.district._id, this.districts)
-          this.customerForm.controls['ward'].setValue(index);
+        if(!reset){
+          if(this.defaultAddress && this.defaultAddress.ward){
+            let index: number = this.findIndexOfObjectInArray(this.defaultAddress.ward._id, this.wards)
+            this.customerForm.controls['ward'].setValue(index);
+          }
+        }else{
+          this.customerForm.controls['ward'].setValue('');
         }
+      },error=>{
+        this.wards = [];
       })
     )
   }
@@ -160,13 +174,17 @@ export class CartComponent implements OnInit, OnDestroy {
   provinceChange(event: MatSelectChange){
     let index: number = event.value;
     let province: Province = this.provinces[index];
-    this.getDistrict(province.code);
+    if(province){
+      this.getDistrict(province.code, true);
+    }
   }
 
   districtChange(event: MatSelectChange){
     let index: number = event.value;
     let district: District = this.districts[index];
-    this.getWard(district.code);
+    if(district){
+      this.getWard(district.code, true);
+    }
   }
 
   findIndexOfObjectInArray(
@@ -280,7 +298,6 @@ export class CartComponent implements OnInit, OnDestroy {
 
   order(){
     if(!this.userInformation){
-      // this.authService.login('login')
       if(this.isBrowser){
         this.form.ngSubmit.emit();
       }
@@ -299,17 +316,7 @@ export class CartComponent implements OnInit, OnDestroy {
     this.customerForm.markAllAsTouched();
 
     if(this.customerForm.valid){
-      let address: Address = {
-        street: this.customerForm.value.street,
-        responsiblePerson: this.customerForm.value.responsiblePerson,
-        phoneNumber: this.customerForm.value.phoneNumber,
-        province: this.provinces[this.customerForm.value.province],
-        district: this.districts[this.customerForm.value.district],
-        ward: this.wards[this.customerForm.value.ward],
-        position: this.customerForm.value.position,
-        isHeadquarters: this.customerForm.value.isHeadquarters,
-      };
-      
+      let address: Address = this.addressValue();
       this.cartService.setDelivery(address);
       this.navigateToPaymentConfirm();
     }
@@ -329,6 +336,20 @@ export class CartComponent implements OnInit, OnDestroy {
 
   isNumber(number: any) {
     return !isNaN(number) && isFinite(number)
+  }
+
+  addressValue(): Address{
+    let address: Address = {
+      street: this.customerForm.value.street,
+      responsiblePerson: this.customerForm.value.responsiblePerson,
+      phoneNumber: this.customerForm.value.phoneNumber,
+      province: this.provinces[this.customerForm.value.province],
+      district: this.districts[this.customerForm.value.district],
+      ward: this.wards[this.customerForm.value.ward],
+      position: this.customerForm.value.position,
+      isHeadquarters: this.customerForm.value.isHeadquarters,
+    };
+    return address;
   }
 
   ngOnDestroy(){
