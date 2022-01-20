@@ -61,13 +61,22 @@
                 }
             }
             .basic-info-container{
-                .title{
-                    font-size: 24px;
-                    margin: 15px 0;
+                .heading{
                     font-weight: 500;
+                    margin-bottom: 10px;
+                }
+                .facebook-container{
+                    height: 29px;
+                    margin-bottom: 10px;
                 }
                 .content-p{
-                    margin-bottom: 5px;
+                    margin-bottom: 10px;
+                }
+                .product-price{
+                    font-size: 18px;
+                    font-weight: 500;
+                    line-height: 1;
+                    margin-bottom: 10px;
                 }
                 .deliveryTo{
                     div{
@@ -83,6 +92,7 @@
                     }
                 }
                 .ahamove-shipping-fee-container{
+                    border-color: var(--ahamove-normal-text);
                     legend{
                         img{
                             border-radius: 5px;
@@ -124,10 +134,10 @@
                     }
                 }
                 
-
                 .contact-us-container{
                     fieldset{
                         legend{
+                            align-items: center;
                             mat-icon{
                                 width: 36px;
                                 height: 36px;
@@ -135,8 +145,9 @@
                                 margin-right: 5px;
                             }
                             span{
-                                font-size: 24px;
+                                font-size: 18px;
                                 font-weight: 500;
+                                line-height: 1;
                             }
                         }
                         a{
@@ -150,13 +161,14 @@
                     }
                 }
             }
-            .product-price{
-                font-size: 24px;
-                margin: 15px 0;
-                font-weight: 500;
-            }
         }
         .video-album-container{
+            .title-video-album{
+                font-size: 18px;
+                font-weight: 500;
+                line-height: 1;
+                margin-bottom: 10px;
+            }
             .youtube-video-container{
                 width: 100%;
                 overflow-x: auto;
@@ -168,25 +180,33 @@
                 }
             }
         }
-        .product-desciption{
-            max-width: 600px;
+        .product-description-container{
+            .title-product-desciption{
+                font-size: 18px;
+                font-weight: 500;
+                line-height: 1;
+                margin-bottom: 10px;
+            }
         }
     }
     .is-same-category{
         width: 250px;
-        padding: 15px;
         box-sizing: border-box;
         background: #ededed;
+        border-radius: 5px;
+        .title-is-same-category{
+            padding: 15px;
+            padding-bottom: 0;
+            font-size: 18px;
+            font-weight: 500;
+            line-height: 1;
+        }
         app-product-category-home-page{
             width: 100%;
             ::ng-deep .product-category-home-page-container{
-                margin-bottom: 0;
                 .flex-me{
-                    padding: 0;
                     .product-frame{
-                        margin-right: 0;
-                        padding: 0;
-                        width: 100%;
+                        width: calc(100% - 15px);
                     }
                 }
             }
@@ -233,12 +253,11 @@
         .is-same-category{
             width: 100%;
             app-product-category-home-page{
-                ::ng-deep .flex-me{
-                    padding-left: 15px;
-                    .product-frame{
-                        width: calc(25% - 15px) !important;
-                        margin-right: 15px !important;
-                        padding-top: 15px !important;
+                ::ng-deep .product-category-home-page-container{
+                    .flex-me{
+                        .product-frame{
+                            width: calc(25% - 15px) !important;
+                        }
                     }
                 }
             }
@@ -261,7 +280,6 @@
             app-product-category-home-page{
                 ::ng-deep .product-category-home-page-container{
                     .flex-me{
-                        padding-left: 15px;
                         .product-frame{
                             width: calc(50% - 15px) !important;
                         }

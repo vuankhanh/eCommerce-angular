@@ -73,7 +73,7 @@ export class HeaderComponent implements OnInit, AfterViewInit, OnDestroy {
     this.appServicesService.productCategory$.subscribe(res=>{
       this.productCategorys = res;
       for(let i in this.menusList){
-        if(this.menusList[i].route === 'productions'){
+        if(this.menusList[i].route === 'san-pham'){
           this.menusList[i].child = this.productCategorys
         }
       }

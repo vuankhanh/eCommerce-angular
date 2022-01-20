@@ -51,7 +51,7 @@ export class ProductCategoryComponent implements OnInit, OnDestroy {
   }
 
   showDetail(product: Product){
-    this.router.navigate(['productions/'+this.activeLink, product.route]);
+    this.router.navigate(['san-pham/'+this.activeLink, product.route]);
   }
 
   changeIndex(index: number){

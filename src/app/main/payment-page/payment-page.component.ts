@@ -112,7 +112,7 @@ export class PaymentPageComponent implements OnInit, OnDestroy {
   }
 
   showDetail(product: Product){
-    this.router.navigate(['productions/'+product.category.route, product._id]);
+    this.router.navigate(['san-pham/'+product.category.route, product._id]);
   }
 
   changeAddress(){
@@ -141,7 +141,7 @@ export class PaymentPageComponent implements OnInit, OnDestroy {
       if(tokenStoraged && tokenStoraged.accessToken){
         this.subscription.add(
           this.orderService.insert(tokenStoraged.accessToken, this.cart).subscribe(async order=>{
-            await this.router.navigate(['/productions']);
+            await this.router.navigate(['/san-pham']);
             this.cartService.resetProduct();
             this.dialog.open(PaymentSuccessfulComponent,
               {
@@ -163,7 +163,7 @@ export class PaymentPageComponent implements OnInit, OnDestroy {
     }else{
       this.subscription.add(
         this.orderService.insertFromVitors(this.cart).subscribe(async order=>{
-          await this.router.navigate(['/productions']);
+          await this.router.navigate(['/san-pham']);
           this.cartService.resetProduct();
           this.dialog.open(PaymentSuccessfulComponent,
             {

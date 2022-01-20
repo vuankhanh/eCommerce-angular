@@ -10,7 +10,7 @@ export const MenusList: Array<Menu> =
     },{
         icon: 'store',
         title: 'Sản phẩm',
-        route: 'productions',
+        route: 'san-pham',
         child: []
     },{
         icon: 'shopping_cart',

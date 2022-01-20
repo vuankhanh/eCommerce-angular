@@ -44,9 +44,9 @@ export class ProductionsComponent implements OnInit, AfterViewInit, OnDestroy {
       this.urlChangeService.urlChange().subscribe((event: Event)=>{
         if(event instanceof NavigationStart) {
           let splitRoute = event.url.split('/');
-          if(splitRoute.length===2 && splitRoute[1] === 'productions'){
-            this.router.navigate(['/productions/'+this.productCategorys[0].route]);
-          } else if(splitRoute.length>=2 && splitRoute[1] === 'productions'){
+          if(splitRoute.length===2 && splitRoute[1] === 'san-pham'){
+            this.router.navigate(['/san-pham/'+this.productCategorys[0].route]);
+          } else if(splitRoute.length>=2 && splitRoute[1] === 'san-pham'){
             let categoryIsActivated = this.getCategoryIsActivated(event.url, this.productCategorys);
             this.categoryIsActivated = categoryIsActivated ? categoryIsActivated : this.productCategorys[0]; 
             this.seoService.updateTitle(this.categoryIsActivated.name);
@@ -65,7 +65,7 @@ export class ProductionsComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   setCategory(category: ProductCategory){
-    this.router.navigate(['/productions/'+category.route]);
+    this.router.navigate(['/san-pham/'+category.route]);
   }
 
   ngOnDestroy(){

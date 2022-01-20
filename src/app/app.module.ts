@@ -51,6 +51,7 @@ import { ClickOutsideDirective } from './directives/click-outside.directive';
 import { CapsLockDirective } from './directives/caps-lock.directive';
 import { SetBackgroundParentElementColorDirective } from './directives/set-background-parent-element-color.directive';
 import { ZoomElementDirective } from './directives/zoom-element.directive';
+import { GenerateTableContentsDirective } from './directives/generate-table-contents.directive';
 
 import { DrawerComponent } from './drawer/drawer.component';
 import { SlideShowComponent } from './main/slide-show/slide-show.component';
@@ -68,6 +69,7 @@ import { PrivacyPolicyComponent } from './main/support/privacy-policy/privacy-po
 import { TermsOfServiceComponent } from './main/support/terms-of-service/terms-of-service.component';
 import { ShippingPolicyComponent } from './main/support/shipping-policy/shipping-policy.component';
 import { PaymentPolicyComponent } from './main/support/payment-policy/payment-policy.component';
+import { BreadCrumbComponent } from './main/bread-crumb/bread-crumb.component';
 
 //App Providers
 import { AppServicesService } from './services/app-services.service';
@@ -104,6 +106,7 @@ import { PageNotFoundComponent } from './main/page-not-found/page-not-found.comp
     CapsLockDirective,
     SetBackgroundParentElementColorDirective,
     ZoomElementDirective,
+    GenerateTableContentsDirective,
 
     DrawerComponent,
     SlideShowComponent,
@@ -121,6 +124,7 @@ import { PageNotFoundComponent } from './main/page-not-found/page-not-found.comp
     TermsOfServiceComponent,
     ShippingPolicyComponent,
     PaymentPolicyComponent,
+    BreadCrumbComponent,
 
     SkeletonComponent,
     PaginationComponent,

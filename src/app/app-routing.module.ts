@@ -27,7 +27,7 @@ const routes: Routes = [
   { path: 'cart', component: CartComponent, data: { title: 'Giỏ Hàng' } },
   { path: 'payment-confirm', component: PaymentPageComponent, data: { title: 'Xác nhận thanh toán' }, canActivate: [PaymentConfirmGuard] },
   {
-    path: 'productions',
+    path: 'san-pham',
     component: ProductionsComponent,
     data: { title: 'Sản phẩm' },
     children: [

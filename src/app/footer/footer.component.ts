@@ -45,7 +45,7 @@ export class FooterComponent implements OnInit {
     this.appServicesService.productCategory$.subscribe(res=>{
       this.productCategorys = res;
       for(let i in this.menusList){
-        if(this.menusList[i].route === 'productions'){
+        if(this.menusList[i].route === 'san-pham'){
           this.menusList[i].child = this.productCategorys
         }
       }
@@ -64,7 +64,7 @@ export class FooterComponent implements OnInit {
       this.urlChangeService.urlChange().subscribe((event: Event)=>{
         if(event instanceof NavigationStart) {
           this.currentUrl = event.url.split("/")[1] ? event.url.split("/")[1] : '';
-          this.activeLink = this.currentUrl === 'productions' ? event.url.split("/")[2] ? event.url.split("/")[2] : this.productCategorys[0].route : '';
+          this.activeLink = this.currentUrl === 'san-pham' ? event.url.split("/")[2] ? event.url.split("/")[2] : this.productCategorys[0].route : '';
         }
       })
     );

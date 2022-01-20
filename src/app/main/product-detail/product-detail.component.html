@@ -56,22 +56,23 @@
                 </div>
 
                 <div class="width-space"></div>
+                <div class="height-space"></div>
             
                 <div class="basic-info-container">
-                    <div class="title">{{product.name}}</div>
-                    <div class="content-p">
-                        {{product.sortDescription}}
-                    </div>
+                    <h1 class="heading">{{product.name}}</h1>
                     <div class="facebook-container">
                         <ng-template [ngTemplateOutlet]="facebookLikeButton"></ng-template>
                     </div>
-                    <h3 class="product-price">
+                    <div class="content-p">
+                        {{product.sortDescription}}
+                    </div>
+                    <div class="product-price">
                         <span>{{ product.price | currency:'VND':'symbol' | replaceSpace}}</span>
                         <span>/</span>
                         <span>{{product.unit.packagingType}}</span>
                         <span>{{ ' ' }}</span>
                         <span>{{product.unit.weightNumber}}{{product.unit.unitOfMassMeasurement}}</span>
-                    </h3>
+                    </div>
 
                     <ng-container *ngIf="userInformation; else loginPlease">
                         <ng-container *ngIf="headquartersAddress; else createAddress">
@@ -138,16 +139,16 @@
                         </ng-template>
                     </ng-container>
                     <ng-template #loginPlease>
-                        <span class="pleaseLogin" (click)="login()">
+                        <div class="pleaseLogin" (click)="login()">
                             Bạn hãy <span class="textLink">ĐĂNG NHẬP</span> để được dự báo thời gian và chi phí giao hàng
-                        </span>
+                        </div>
                     </ng-template>
 
-                    <div class="height-space"></div>
+                    <div class="mini-height-space"></div>
 
                     <div class="verical-container">
                         <div>Số lượng:</div>
-                        <div class="mini-height-space"></div>
+                        <div class="micro-height-space"></div>
                         <div class="horizontal-container">
                             <div class="change-quantity-container horizontal-container">
                                 <button
@@ -195,7 +196,7 @@
 
                         <div class="contact-us-container" *ngIf="isBrowser">
                             <fieldset>
-                                <legend>
+                                <legend class="horizontal-container">
                                     <mat-icon svgIcon="supporter"></mat-icon>
                                     <span>Trò chuyện thêm</span>
                                 </legend>
@@ -234,7 +235,7 @@
             <ng-container *ngIf="product.albumVideo as albumVideo">
                 <div class="height-space"></div>
                 <div class="video-album-container vertical-container">
-                    <h1 style="margin-bottom: 5px;">Món ngon dễ làm</h1>
+                    <div class="title-video-album">Món ngon dễ làm</div>
                     <div class="youtube-video-container horizontal-container">
                         <ng-container *ngFor="let video of albumVideo.media; let i = index">
                             <youtube-player
@@ -249,8 +250,8 @@
                 </div>
             </ng-container>
             <div class="height-space"></div>
-            <div class="product-desciption" *ngIf="product.longDescription">
-                <h1 style="margin-bottom: 5px;">Mô tả</h1>
+            <div class="product-description-container" *ngIf="product.longDescription">
+                <div class="title-product-desciption">Mô tả</div>
                 <app-posts [editorContent]="product.longDescription"></app-posts>
             </div>
         </div>
@@ -259,7 +260,7 @@
         <div class="height-space"></div>
     
         <div class="is-same-category vertical-container">
-            <h2>Các sản phẩm liên quan</h2>
+            <div class="title-is-same-category">Sản phẩm liên quan</div>
             <app-product-category-home-page
                 [category]="product.category.route"
                 [isSameCategory]="true"

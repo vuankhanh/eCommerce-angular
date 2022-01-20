@@ -11,17 +11,17 @@
                 </div>
                 <div class="product-info">
                     <div class="text-container" (click)="showDetail(product)">
-                        <h4>{{product.name}}</h4>
-                        <div class="content-p">
-                            {{product.sortDescription}}
-                        </div>
-                        <h3 class="product-price">
+                        <h1 class="heading">{{product.name}}</h1>
+                        <div class="product-price">
                             <span>{{ product.price | currency:'VND':'symbol' | replaceSpace}}</span>
                             <span>/</span>
                             <span>{{product.unit.packagingType}}</span>
                             <span>{{ ' ' }}</span>
                             <span>{{product.unit.weightNumber}}{{product.unit.unitOfMassMeasurement}}</span>
-                        </h3>
+                        </div>
+                        <div class="content-p">
+                            {{product.sortDescription}}
+                        </div>
                     </div>
                 </div>
             </div>

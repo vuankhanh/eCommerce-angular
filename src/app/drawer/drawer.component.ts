@@ -48,7 +48,7 @@ export class DrawerComponent implements OnInit {
     this.appServicesService.productCategory$.subscribe(res=>{
       this.productCategorys = res;
       for(let i in this.menusList){
-        if(this.menusList[i].route === 'productions'){
+        if(this.menusList[i].route === 'san-pham'){
           this.menusList[i].child = this.productCategorys;
         }
       }

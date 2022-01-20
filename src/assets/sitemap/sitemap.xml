@@ -33,35 +33,35 @@
 
     <!-- Production -->
     <url>
-        <loc>https://carota.vn/productions/hai-san</loc>
-        <lastmod>2021-12-16</lastmod>
+        <loc>https://carota.vn/san-pham/hai-san</loc>
+        <lastmod>2022-01-20</lastmod>
     </url>
     <url>
-        <loc>https://carota.vn/productions/hai-san/cha-ca-nhong</loc>
-        <lastmod>2021-12-16</lastmod>
+        <loc>https://carota.vn/san-pham/hai-san/cha-ca-nhong</loc>
+        <lastmod>2022-01-20</lastmod>
     </url>
     <url>
-        <loc>https://carota.vn/productions/hai-san/thit-cang-ghe</loc>
-        <lastmod>2021-12-16</lastmod>
+        <loc>https://carota.vn/san-pham/hai-san/thit-cang-ghe</loc>
+        <lastmod>2022-01-20</lastmod>
     </url>
     <url>
-        <loc>https://carota.vn/productions/hai-san/xuc-xich-gan-ca-ngu</loc>
-        <lastmod>2021-12-16</lastmod>
+        <loc>https://carota.vn/san-pham/hai-san/xuc-xich-gan-ca-ngu</loc>
+        <lastmod>2022-01-20/lastmod>
     </url>
     <url>
-        <loc>https://carota.vn/productions/hai-san/ca-ngu-phile</loc>
-        <lastmod>2021-12-16</lastmod>
+        <loc>https://carota.vn/san-pham/hai-san/ca-ngu-phile</loc>
+        <lastmod>2022-01-20</lastmod>
     </url>
     <url>
-        <loc>https://carota.vn/productions/ca-nuoc-ngot</loc>
-        <lastmod>2021-12-16</lastmod>
+        <loc>https://carota.vn/san-pham/ca-nuoc-ngot</loc>
+        <lastmod>2022-01-20</lastmod>
     </url>
     <url>
-        <loc>https://carota.vn/productions/ca-nuoc-ngot/ca-ro-dong</loc>
-        <lastmod>2021-12-16</lastmod>
+        <loc>https://carota.vn/san-pham/ca-nuoc-ngot/ca-ro-dong</loc>
+        <lastmod>2022-01-20</lastmod>
     </url>
 
-    <!-- Production -->
+    <!-- Cart -->
     <url>
         <loc>https://carota.vn/cart</loc>
         <lastmod>2021-12-16</lastmod>

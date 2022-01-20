@@ -7,7 +7,7 @@
 
     <div class="product-category-home-page-container">
         <ng-container *ngFor="let category of category$ | async">
-            <div class="category-name horizontal-container" [routerLink]="['/productions/'+category.route]" >
+            <div class="category-name horizontal-container" [routerLink]="['/san-pham/'+category.route]" >
                 <h1>{{ category.name }}</h1>
                 <span
                     class="horizontal-container"

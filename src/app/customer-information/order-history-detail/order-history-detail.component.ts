@@ -49,7 +49,7 @@ export class OrderHistoryDetailComponent implements OnInit, OnDestroy {
   }
 
   showDetail(product: Product){
-    this.router.navigate(['productions/'+product.category.route, product._id]);
+    this.router.navigate(['san-pham/'+product.category.route, product._id]);
   }
 
   revoke(id: string){

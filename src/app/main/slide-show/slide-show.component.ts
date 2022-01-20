@@ -72,7 +72,7 @@ export class SlideShowComponent implements OnInit, OnDestroy {
   }
 
   showDetail(product: Product): void{
-    this.router.navigate(['productions/'+product.category.route, product.route]);
+    this.router.navigate(['san-pham/'+product.category.route, product.route]);
   }
   
   ngOnDestroy(){

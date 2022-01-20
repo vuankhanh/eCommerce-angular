@@ -93,7 +93,7 @@ body {
     border: none;
     padding: 0 15px;
     height: 35px;
-    border-radius: 45px !important;
+    border-radius: 5px !important;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -204,7 +204,7 @@ img{
 
 fieldset{
     border-radius: 5px;
-    border: 1px dotted var(--ahamove-normal-text);
+    border: 1px dotted var(--normal-text);
     padding: 5px;
     legend{
         font-size: unset;

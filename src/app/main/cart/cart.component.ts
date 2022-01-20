@@ -43,7 +43,7 @@ export class CartComponent implements OnInit, OnDestroy {
   userInformation: UserInformation | null;
   defaultAddress: Address;
 
-  subscription: Subscription = new Subscription();
+  private subscription: Subscription = new Subscription();
   constructor(
     @Inject(PLATFORM_ID) platformId: Object,
     private router: Router,
@@ -82,8 +82,8 @@ export class CartComponent implements OnInit, OnDestroy {
           })
           if(this.cart.deliverTo && !this.defaultAddress){
             this.defaultAddress = this.cart.deliverTo;
-            this.initForm(this.defaultAddress);
           }
+          this.initForm(this.defaultAddress);
         }
       })
     )
@@ -237,7 +237,7 @@ export class CartComponent implements OnInit, OnDestroy {
   }
 
   showDetail(product: Product){
-    this.router.navigate(['productions/'+product.category.route, product.route]);
+    this.router.navigate(['san-pham/'+product.category.route, product.route]);
   }
 
   quantityInputChange(event: Event, index: number){
@@ -316,8 +316,6 @@ export class CartComponent implements OnInit, OnDestroy {
     this.customerForm.markAllAsTouched();
 
     if(this.customerForm.valid){
-      let address: Address = this.addressValue();
-      this.cartService.setDelivery(address);
       this.navigateToPaymentConfirm();
     }
   }
@@ -353,6 +351,10 @@ export class CartComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(){
+    if(this.customerForm && this.customerForm.valid){
+      let address: Address = this.addressValue();
+      this.cartService.setDelivery(address);
+    }
     this.subscription.unsubscribe();
   }
 }

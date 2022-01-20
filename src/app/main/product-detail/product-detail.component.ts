@@ -112,7 +112,6 @@ export class ProductDetailComponent implements OnInit, AfterViewInit, OnDestroy 
         if(this.cart.deliverTo){
           this.headquartersAddress = this.cart.deliverTo;
         }
-        
         if(productDetail){
           this.setProductDetail(productDetail)
         }
