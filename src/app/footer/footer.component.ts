@@ -61,8 +61,8 @@ export class FooterComponent implements OnInit {
     });
 
     this.subscription.add(
-      this.urlChangeService.urlChange().subscribe((event: Event)=>{
-        if(event instanceof NavigationStart) {
+      this.urlChangeService.urlChange().subscribe((event)=>{
+        if(event) {
           this.currentUrl = event.url.split("/")[1] ? event.url.split("/")[1] : '';
           this.activeLink = this.currentUrl === 'san-pham' ? event.url.split("/")[2] ? event.url.split("/")[2] : this.productCategorys[0].route : '';
         }

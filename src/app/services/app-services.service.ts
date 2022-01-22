@@ -26,8 +26,6 @@ const defaultPageTitle = 'Thủy Hải Sản Carota';
 export class AppServicesService {
   private isBrowser: boolean;
 
-  products: Product;
-
   // public checkScreenWidthSize$: Observable<'Medium' | 'Small' | 'XSmall'>;
   public checkScreenWidthSize$: Observable<'full' | 'normal' | 'mini'>;
 

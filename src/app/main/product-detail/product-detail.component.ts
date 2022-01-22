@@ -28,6 +28,7 @@ import { InProgressSpinnerService } from 'src/app/services/in-progress-spinner.s
 import { ConfigService } from 'src/app/services/api/config.service';
 
 import { combineLatest, Observable, Subscription } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 declare let fbq:Function;
 @Component({
@@ -90,7 +91,9 @@ export class ProductDetailComponent implements OnInit, AfterViewInit, OnDestroy 
 
   ngOnInit(): void {
     let route: string = this.activatedRoute.snapshot.params.route;
-
+    const activatedRouteData$ = this.activatedRoute.data.pipe(
+      map(data => data.product)
+    )
     this.cartChange$ = this.cartService.listenCartChange();
     this.userInformation$ = this.authService.getUserInformation();
     this.getProductDetail$ = this.productService.getProductRoute(route);
@@ -100,7 +103,7 @@ export class ProductDetailComponent implements OnInit, AfterViewInit, OnDestroy 
         [
           this.userInformation$,
           this.cartChange$,
-          this.getProductDetail$
+          activatedRouteData$
         ]
       ).subscribe(([userInfo, cart, productDetail])=>{
 

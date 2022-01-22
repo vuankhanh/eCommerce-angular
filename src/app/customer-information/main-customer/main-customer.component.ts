@@ -35,8 +35,8 @@ export class MainCustomerComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.subscription.add(
-      this.urlChangeService.urlChange().subscribe((event: Event)=>{
-        if(event instanceof NavigationStart) {
+      this.urlChangeService.urlChange().subscribe((event)=>{
+        if(event) {
           this.currentUrl = event.url;
           this.activeMenu = this.getActiveMenu(this.currentUrl, this.customerMenu);
         }

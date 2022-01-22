@@ -1,71 +1,47 @@
-import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
-import { Router, NavigationStart, Event } from '@angular/router';
-import { MatTabNav } from '@angular/material/tabs'
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { ProductCategory } from '../../models/ProductCategory';
 
-import { UrlChangeService } from 'src/app/services/url-change.service';
 import { AppServicesService } from 'src/app/services/app-services.service';
-import { SEOService } from 'src/app/services/seo.service';
 
-import { Subscription } from 'rxjs';
+import { combineLatest, Observable, Subscription } from 'rxjs';
+import { filter, map } from 'rxjs/operators';
 @Component({
   selector: 'app-product',
   templateUrl: './product.component.html',
   styleUrls: ['./product.component.scss']
 })
-export class ProductionsComponent implements OnInit, AfterViewInit, OnDestroy {
+export class ProductionsComponent implements OnInit, OnDestroy {
   productCategorys: Array<ProductCategory>;
   categoryIsActivated: ProductCategory;
-  counter: number = 1;
+
   subscription: Subscription = new Subscription();
 
-  changeTab: MatTabNav;
   constructor(
     private router: Router,
-    private urlChangeService: UrlChangeService,
+    private activateRoute: ActivatedRoute,
     private appServicesService: AppServicesService,
-    private seoService: SEOService
-  ) {
-    this.subscription.add(
-      this.appServicesService.productCategory$.subscribe(res=>{
-        if(res.length){
-          this.productCategorys = res;
-          let categoryIsActivated = this.getCategoryIsActivated(this.router.url, this.productCategorys);
-          this.categoryIsActivated = categoryIsActivated ? categoryIsActivated : this.productCategorys[0];
-          this.seoService.updateTitle(this.categoryIsActivated.name);
-        }
-      })
-    );
-  }
+  ) {}
 
   ngOnInit(): void {
+
+    const productCategory$ = this.appServicesService.productCategory$;
+    const url$ = this.activateRoute.url.pipe(map(segments => segments.join('')));
+
     this.subscription.add(
-      this.urlChangeService.urlChange().subscribe((event: Event)=>{
-        if(event instanceof NavigationStart) {
-          let splitRoute = event.url.split('/');
-          if(splitRoute.length===2 && splitRoute[1] === 'san-pham'){
-            this.router.navigate(['/san-pham/'+this.productCategorys[0].route]);
-          } else if(splitRoute.length>=2 && splitRoute[1] === 'san-pham'){
-            let categoryIsActivated = this.getCategoryIsActivated(event.url, this.productCategorys);
-            this.categoryIsActivated = categoryIsActivated ? categoryIsActivated : this.productCategorys[0]; 
-            this.seoService.updateTitle(this.categoryIsActivated.name);
-          }
+      combineLatest([productCategory$, url$]).subscribe(([productCategories, url])=>{
+        if(productCategories.length){
+          this.productCategorys = productCategories;
+          setTimeout(() => {
+            if(!this.activateRoute.firstChild){
+              this.router.navigate(['/san-pham/'+this.productCategorys[0].route])
+            }
+          }, 10);
         }
       })
     );
-  }
-
-  
-  ngAfterViewInit() {}
-  
-  getCategoryIsActivated(route: string, productCategorys: Array<ProductCategory>){
-    let index: number = productCategorys.findIndex(menu=>route.includes(menu.route));
-    return productCategorys[index];
-  }
-
-  setCategory(category: ProductCategory){
-    this.router.navigate(['/san-pham/'+category.route]);
+    
   }
 
   ngOnDestroy(){

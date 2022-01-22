@@ -21,38 +21,137 @@ import { MainCustomerComponent } from './customer-information/main-customer/main
 
 import { RouteGuard } from './services/guards/route.guard';
 import { PaymentConfirmGuard } from './services/guards/payment-confirm.guard';
+import { ProductCategory } from './models/ProductCategory';
+import { ProductCategoryResolver } from './services/resolvers/product-category.resolver';
+import { ProductDetailResolver } from './services/resolvers/product-detail.resolver';
 
 const routes: Routes = [
-  { path: '', component: HomePageComponent, data: { title: 'Thủy Hải Sản Carota' } },
-  { path: 'cart', component: CartComponent, data: { title: 'Giỏ Hàng' } },
-  { path: 'payment-confirm', component: PaymentPageComponent, data: { title: 'Xác nhận thanh toán' }, canActivate: [PaymentConfirmGuard] },
   {
+    path: '',
+    component: HomePageComponent,
+    data: {
+      title: 'Thủy Hải Sản Carota',
+      breadcrumb: 'Trang chủ'
+    }
+  }, {
+    path: 'cart',
+    component: CartComponent,
+    data: {
+      title: 'Giỏ Hàng',
+      breadcrumb: 'Giỏ Hàng'
+    }
+  }, {
+    path: 'payment-confirm',
+    component: PaymentPageComponent,
+    data: {
+      title: 'Xác nhận thanh toán',
+      breadcrumb: 'Xác nhận thanh toán'
+    },
+    canActivate: [PaymentConfirmGuard]
+  }, {
     path: 'san-pham',
     component: ProductionsComponent,
-    data: { title: 'Sản phẩm' },
+    data: {
+      title: 'Sản phẩm',
+      breadcrumb: 'Sản phẩm'
+    },
     children: [
-      { path: '', redirectTo: 'hai-san', pathMatch: 'full' },
-      { path: ':category', component: ProductCategoryComponent },
-      { path: ':category/:route', component: ProductDetailComponent },
+      {
+        path: ':category',
+        component: ProductCategoryComponent,
+        data: {
+          breadcrumb: (data: any) => {
+            return data.productCategory ? data.productCategory.name : ''
+          },
+        },
+        resolve: {
+          productCategory: ProductCategoryResolver
+        }
+      },
+      {
+        path: ':category/:route',
+        component: ProductDetailComponent,
+        data: {
+          breadcrumb: (data: any) => {
+            console.log(data);
+            return data.product ? data.product.name : ''
+          },
+        },
+        resolve: {
+          product: ProductDetailResolver
+        }
+      },
     ]
-  },
-  { path: 'verify-email', component: VerificationEmailComponent, data: { title: 'Kích hoạt Email' } },
-  { path: 'reset-password', component: ResetPasswordComponent, data: { title: 'Quên mật khẩu' } },
-  {
+  }, {
+    path: 'verify-email',
+    component: VerificationEmailComponent,
+    data: {
+      title: 'Kích hoạt Email',
+      breadcrumb: 'Kích hoạt Email'
+    }
+  }, {
+    path: 'reset-password',
+    component: ResetPasswordComponent,
+    data: {
+      title: 'Quên mật khẩu',
+      breadcrumb: 'Quên mật khẩu'
+    }
+  }, {
     path: 'support',
     children: [
-      { path: '', redirectTo: 'about-us', pathMatch: 'full' },
-      { path: 'about-us', component: AboutUsComponent, data: { title: 'Giới thiệu' } },
-      { path: 'return-policy', component: ReturnPolicyComponent, data: { title: 'Chính sách đổi trả' } },
-      { path: 'privacy-policy', component: PrivacyPolicyComponent, data: { title: 'Chính sách bảo mật' } },
-      { path: 'terms-of-service', component: TermsOfServiceComponent, data: { title: 'Điều khoản dịch vụ' } },
-      { path: 'shipping-policy', component: ShippingPolicyComponent, data: { title: 'Chính sách vận chuyển' } },
-      { path: 'payment-policy', component: PaymentPolicyComponent, data: { title: 'Chính sách thanh toán' } }
+      {
+        path: '',
+        redirectTo: 'about-us',
+        pathMatch: 'full'
+      },{
+        path: 'about-us',
+        component: AboutUsComponent,
+        data: {
+          title: 'Giới thiệu',
+          breadcrumb: 'Giới thiệu'
+        }
+      },{
+        path: 'return-policy',
+        component: ReturnPolicyComponent,
+        data: {
+          title: 'Chính sách đổi trả',
+          breadcrumb: 'Chính sách đổi trả'
+        }
+      },{
+        path: 'privacy-policy',
+        component: PrivacyPolicyComponent,
+        data: {
+          title: 'Chính sách bảo mật',
+          breadcrumb: 'Chính sách bảo mật'
+        }
+      },{
+        path: 'terms-of-service',
+        component: TermsOfServiceComponent,
+        data: {
+          title: 'Điều khoản dịch vụ',
+          breadcrumb: 'Điều khoản dịch vụ'
+        }
+      },{
+        path: 'shipping-policy',
+        component: ShippingPolicyComponent,
+        data: {
+          title: 'Chính sách vận chuyển',
+          breadcrumb: 'Chính sách vận chuyển'
+        }
+      },
+      {
+        path: 'payment-policy',
+        component: PaymentPolicyComponent,
+        data: {
+          title: 'Chính sách thanh toán',
+          breadcrumb: 'Chính sách thanh toán'
+        }
+      }
     ]
   },
   {
     path: 'customer',
-    loadChildren: ()=> import('./customer-information/main-customer/main-customer.module').then( m => m.MainCustomerModule),
+    loadChildren: () => import('./customer-information/main-customer/main-customer.module').then(m => m.MainCustomerModule),
     canActivate: [RouteGuard],
   },
   { path: '404', component: PageNotFoundComponent },
@@ -62,7 +161,7 @@ const routes: Routes = [
 @NgModule({
   imports: [RouterModule.forRoot(routes, {
     initialNavigation: 'enabled'
-})],
+  })],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

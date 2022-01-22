@@ -62,8 +62,8 @@ export class DrawerComponent implements OnInit {
     });
 
     this.subscription.add(
-      this.urlChangeService.urlChange().subscribe((event: Event)=>{
-        if(event instanceof NavigationStart) {
+      this.urlChangeService.urlChange().subscribe((event)=>{
+        if(event) {
           this.currentUrl = event.url;
         }
       })

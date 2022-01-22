@@ -1,15 +1,21 @@
 <div class="product-container">
-    <div class="nar-bar">
-        <nav mat-tab-nav-bar>
-            <a
-                mat-tab-link
-                *ngFor="let category of productCategorys"
-                [active]="categoryIsActivated.route === category.route"
-                (click)="setCategory(category)"
-            >
-                {{category.name}}
-            </a>
-        </nav>
+    <div class="horizontal-container">
+        <div class="product-cagatory-container vertical-container">
+            <mat-list role="list">
+                <mat-list-item
+                    *ngFor="let category of productCategorys"
+                    [routerLink]="['/san-pham/'+category.route]"
+                    [routerLinkActive]="['is-active']"
+                >   
+                    <div class="vertical-container">
+                        <mat-icon>phone</mat-icon>
+                        <span>{{ category.name }}</span>
+                    </div>
+                </mat-list-item>
+            </mat-list>
+        </div>
+        <div class="product-container vertical-container">
+            <router-outlet></router-outlet>
+        </div>
     </div>
-    <router-outlet></router-outlet>
 </div>

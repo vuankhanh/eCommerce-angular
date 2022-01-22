@@ -6,33 +6,50 @@ import { PaginationParams } from 'src/app/models/PaginationParams';
 import { Product } from 'src/app/models/Product';
 
 import { ProductResponse, ProductService } from 'src/app/services/api/product/product.service';
+import { AppServicesService } from 'src/app/services/app-services.service';
+import { SEOService } from 'src/app/services/seo.service';
 
 import { Subscription } from 'rxjs';
+import { map } from 'rxjs/operators';
 @Component({
   selector: 'app-product-category',
   templateUrl: './product-category.component.html',
   styleUrls: ['./product-category.component.scss']
 })
 export class ProductCategoryComponent implements OnInit, OnDestroy {
+  
   productResponse: ProductResponse;
   configPagination: PaginationParams;
+  
   products: Array<Product>;
+  productCategory: ProductCategory;
   productCategorys: Array<ProductCategory>;
-  activeLink: string;
+
   subscription: Subscription = new Subscription();
   constructor(
     private router: Router,
     private activatedRoute: ActivatedRoute,
-    private productService: ProductService
+    private appServicesService: AppServicesService,
+    private productService: ProductService,
+    private seoService: SEOService
   ) {
     
   }
 
   ngOnInit(): void {
-    this.activatedRoute.paramMap.subscribe(params => {
-      this.activeLink = <string>params.get('category');
-      this.listenProduct(this.activeLink);
-    });
+    this.subscription.add(
+      this.activatedRoute.data.pipe(
+        map(data => data.productCategory)
+      ).subscribe(res=>{
+        let productCategory: ProductCategory = res;
+        if(productCategory){
+          this.seoService.updateTitle(productCategory.name);
+          this.listenProduct(productCategory.route);
+
+        }
+      })
+    )
+    
   }
 
   listenProduct(type: string){
@@ -50,8 +67,28 @@ export class ProductCategoryComponent implements OnInit, OnDestroy {
     )
   }
 
+  getCategoryIsActivated(category: string){
+    this.subscription.add(
+      this.appServicesService.productCategory$.subscribe(res=>{
+        if(res.length){
+          this.productCategorys = res;
+          let index: number = this.productCategorys.findIndex(productCategory=>category === productCategory.route);
+          if(index>=0){
+            this.productCategory = this.productCategorys[index];
+            this.listenProduct(this.productCategory.route);
+          }else{
+            this.router.navigate(['/san-pham/'+this.productCategorys[0].route])
+          }
+        }
+      })
+    )
+
+    
+    
+  }
+
   showDetail(product: Product){
-    this.router.navigate(['san-pham/'+this.activeLink, product.route]);
+    this.router.navigate(['san-pham/'+product.category.route, product.route]);
   }
 
   changeIndex(index: number){
