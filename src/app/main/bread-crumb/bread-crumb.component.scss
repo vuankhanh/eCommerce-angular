@@ -1,23 +1,26 @@
-ul {
-  & {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-  }
-
-  li {
+.breadcrumb-container{
+  padding: 10px;
+  ul {
     & {
-      display: inline;
-    }
-
-    &:before {
-      content: ">";
-      margin: 0 6px;
-    }
-
-    &:first-child:before {
-      content: "";
+      list-style: none;
       margin: 0;
+      padding: 0;
+    }
+  
+    li {
+      & {
+        display: inline;
+      }
+  
+      &:before {
+        content: ">";
+        margin: 0 6px;
+      }
+  
+      &:first-child:before {
+        content: "";
+        margin: 0;
+      }
     }
   }
 }

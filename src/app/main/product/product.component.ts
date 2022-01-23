@@ -16,6 +16,8 @@ export class ProductionsComponent implements OnInit, OnDestroy {
   productCategorys: Array<ProductCategory>;
   categoryIsActivated: ProductCategory;
 
+  checkChildParams: boolean = false;
+
   subscription: Subscription = new Subscription();
 
   constructor(
@@ -33,15 +35,22 @@ export class ProductionsComponent implements OnInit, OnDestroy {
       combineLatest([productCategory$, url$]).subscribe(([productCategories, url])=>{
         if(productCategories.length){
           this.productCategorys = productCategories;
+          console.log(this.productCategorys);
           setTimeout(() => {
-            if(!this.activateRoute.firstChild){
-              this.router.navigate(['/san-pham/'+this.productCategorys[0].route])
-            }
+            let childPath = this.activateRoute.firstChild?.routeConfig?.path;
+            this.checkChildParams = childPath ? true : false;
           }, 10);
         }
       })
     );
     
+  }
+
+  dosomething(event: any){
+    let img: HTMLImageElement = <HTMLImageElement>event.target;
+    if(img){
+      let src: string = img.src;
+    }
   }
 
   ngOnDestroy(){

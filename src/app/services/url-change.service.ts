@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Router, Event, NavigationStart } from '@angular/router';
+import { Router, NavigationStart, ActivatedRoute, NavigationEnd } from '@angular/router';
+
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 
@@ -7,7 +8,6 @@ import { filter, map } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class UrlChangeService {
-
   constructor(
     private router: Router
   ) {}

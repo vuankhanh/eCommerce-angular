@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 
 import { ProductCategory } from '../../models/ProductCategory';
 import { PaginationParams } from 'src/app/models/PaginationParams';
@@ -7,17 +7,19 @@ import { Product } from 'src/app/models/Product';
 
 import { ProductResponse, ProductService } from 'src/app/services/api/product/product.service';
 import { AppServicesService } from 'src/app/services/app-services.service';
+import { UrlChangeService } from 'src/app/services/url-change.service';
 import { SEOService } from 'src/app/services/seo.service';
 
 import { Subscription } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { filter, map } from 'rxjs/operators';
 @Component({
   selector: 'app-product-category',
   templateUrl: './product-category.component.html',
   styleUrls: ['./product-category.component.scss']
 })
 export class ProductCategoryComponent implements OnInit, OnDestroy {
-  
+  private child: any;
+
   productResponse: ProductResponse;
   configPagination: PaginationParams;
   
@@ -31,10 +33,9 @@ export class ProductCategoryComponent implements OnInit, OnDestroy {
     private activatedRoute: ActivatedRoute,
     private appServicesService: AppServicesService,
     private productService: ProductService,
+    private urlChangeService: UrlChangeService,
     private seoService: SEOService
-  ) {
-    
-  }
+  ) {}
 
   ngOnInit(): void {
     this.subscription.add(
@@ -45,11 +46,9 @@ export class ProductCategoryComponent implements OnInit, OnDestroy {
         if(productCategory){
           this.seoService.updateTitle(productCategory.name);
           this.listenProduct(productCategory.route);
-
         }
       })
-    )
-    
+    );
   }
 
   listenProduct(type: string){
@@ -82,9 +81,6 @@ export class ProductCategoryComponent implements OnInit, OnDestroy {
         }
       })
     )
-
-    
-    
   }
 
   showDetail(product: Product){

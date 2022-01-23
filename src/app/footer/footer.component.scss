@@ -7,6 +7,10 @@ button{
     }
 }
 
+.is-active{
+    color: var(--hightlight-text);
+}
+
 .footer-container{ 
     padding: 15px;
     background: var(--tertiary-background);

@@ -1,5 +1,12 @@
-<ul>
-  <li *ngFor="let breadcrumb of (breadcrumbs$ | async)">
-    <a [routerLink]="breadcrumb.url">{{ breadcrumb.label }}</a>
-  </li>
-</ul>
+<div class="breadcrumb-container horizontal-container">
+  <ul *ngIf="breadcrumbs$ | async as breadcrumbs">
+    <ng-container *ngIf="!(breadcrumbs.length === 1 && breadcrumbs[0].url==='/')">
+      <li>
+        <a [routerLink]="'/'">{{ 'Trang chủ' }}</a>
+      </li>
+      <li *ngFor="let breadcrumb of breadcrumbs">
+        <a [routerLink]="breadcrumb.url">{{ breadcrumb.label }}</a>
+      </li>
+    </ng-container>
+  </ul>
+</div>

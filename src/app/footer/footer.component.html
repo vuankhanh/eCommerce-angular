@@ -95,7 +95,9 @@
             <ng-container *ngFor="let item of supportMenu; let i = index;">
                 <div class="vertical-container dropdown-container">
                     <a
-                        routerLink="{{'support/'+item.route}}"
+                        [routerLink]="['support/'+item.route]"
+                        [routerLinkActive]="['is-active']"
+                        [routerLinkActiveOptions]="{exact: true}"
                     >
                         {{'- '+item.title}}
                     </a>

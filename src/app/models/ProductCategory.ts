@@ -3,6 +3,7 @@ export interface ProductCategory{
     name: string,
     route: string,
     googleProductCategory: string,
+    thumbnailUrl: string,
     createdAt?: string,
     updatedAt?: string,
 }

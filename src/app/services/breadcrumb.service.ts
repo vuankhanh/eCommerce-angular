@@ -37,9 +37,20 @@ export class BreadcrumbService {
     if (route) {
       // Construct the route URL
       const routeUrl = parentUrl.concat(route.url.map(url => url.path));
-
       // Add an element for the current route part
-      if (route.data.breadcrumb) {
+      if(route.data.breadcrumb) {
+        if(route.routeConfig?.path === ':category/:route'){
+          if(route.data.product){
+            console.log(route.data.product);
+            let newRouteUrl = routeUrl;
+            newRouteUrl.splice(-1);
+            const breadcrumb = {
+              label: route.data.product.category.name,
+              url: '/' + newRouteUrl.join('/')
+            };
+            breadcrumbs.push(breadcrumb);
+          }
+        }
         const breadcrumb = {
           label: this.getLabel(route.data),
           url: '/' + routeUrl.join('/')
@@ -53,6 +64,7 @@ export class BreadcrumbService {
   }
 
   private getLabel(data: Data) {
+    
     // The breadcrumb can be defined as a static string or as a function to construct the breadcrumb element out of the route data
     return typeof data.breadcrumb === 'function' ? data.breadcrumb(data) : data.breadcrumb;
   }

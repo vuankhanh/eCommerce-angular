@@ -185,19 +185,6 @@ export class ProductDetailComponent implements OnInit, AfterViewInit, OnDestroy 
     }
   }
 
-  emitChangeRoute(route: string){
-    this.inProgressSpinnerService.progressSpinnerStatus(true);
-    this.getProductDetail$ = this.productService.getProductRoute(route);
-    this.subscription.add(
-      this.getProductDetail$.subscribe(res=>{
-          this.setProductDetail(res);
-        this.inProgressSpinnerService.progressSpinnerStatus(false);
-      },error=>{
-        this.inProgressSpinnerService.progressSpinnerStatus(false);
-      })
-    );
-  }
-
   setProductDetail(product: Product){
     if(product){
       if(!this.product || this.product._id != product._id){

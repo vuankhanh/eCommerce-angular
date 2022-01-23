@@ -67,20 +67,18 @@ const routes: Routes = [
         resolve: {
           productCategory: ProductCategoryResolver
         }
-      },
-      {
+      }, {
         path: ':category/:route',
         component: ProductDetailComponent,
         data: {
           breadcrumb: (data: any) => {
-            console.log(data);
             return data.product ? data.product.name : ''
           },
         },
         resolve: {
           product: ProductDetailResolver
         }
-      },
+      }
     ]
   }, {
     path: 'verify-email',

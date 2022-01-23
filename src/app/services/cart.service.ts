@@ -67,7 +67,6 @@ export class CartService {
   }
 
   addToCart(product: Product, showAlert: boolean): void{
-    
     let productsInCart: Array<Product> = this.get().products;
     
     let checkExist = productsInCart.some((itemCart: Product) => itemCart._id === product._id);
