@@ -36,6 +36,7 @@ import { Subscription } from 'rxjs';
 export class HeaderComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('header', { static: false }) header: ElementRef;
   @Output() toggleDrawer = new EventEmitter();
+
   identification: Identification;
   menusList: Array<Menu>;
   customerMenu: Array<Menu>;
@@ -150,11 +151,12 @@ export class HeaderComponent implements OnInit, AfterViewInit, OnDestroy {
         }else{
           setTimeout(() => {
             if(res) {
-              this.showAlertAddedToCart=res;
-              if(this.screenWidthSize){
+              if(this.screenWidthSize != 'full'){
                 this.bottomSheet.open(AlertTitleComponent, {
                   panelClass: 'add-to-card-bottom-sheet'
                 });
+              }else{
+                this.showAlertAddedToCart=res;
               }
             }
           }, 1);

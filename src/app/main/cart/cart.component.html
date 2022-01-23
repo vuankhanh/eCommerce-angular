@@ -114,17 +114,26 @@
                         <form [formGroup]="customerForm" (ngSubmit)="customerFormSubmit()" #f="ngForm">
                             <mat-form-field>
                                 <mat-label>Người nhận hàng</mat-label>
-                                <input type="text" matInput formControlName="responsiblePerson">
+                                <input
+                                    type="text"
+                                    matInput
+                                    formControlName="responsiblePerson"
+                                    #angularFormInputElement="matInput"
+                                >
                             </mat-form-field>
                     
                             <mat-form-field>
                                 <mat-label>Số điện thoại người nhận hàng</mat-label>
-                                <input type="text" matInput formControlName="phoneNumber">
+                                <input
+                                    type="text"
+                                    matInput
+                                    formControlName="phoneNumber"
+                                    #angularFormInputElement="matInput"
+                                >
                                 <mat-error *ngIf="customerForm.controls['phoneNumber'].hasError('pattern')">
                                     Số điện thoại bao gồm 10 chữ số và bắt đầu bằng số 0
                                 </mat-error>
                             </mat-form-field>
-                    
                     
                             <mat-form-field>
                                 <mat-label>Địa chỉ</mat-label>
@@ -132,19 +141,19 @@
                                     type="text"
                                     matInput
                                     formControlName="street"
+                                    #angularFormInputElement="matInput"
                                     [matTextareaAutosize]="false"
                                     cdkAutosizeMinRows="1"
                                     rows="3"
                                 ></textarea>
                             </mat-form-field>
                     
-                    
                             <mat-form-field>
                                 <mat-label>Chọn Tỉnh/ Thành Phố</mat-label>
                                 <mat-select
                                     formControlName="province"
+                                    #angularFormSelectElement='matSelect'
                                     (selectionChange)="provinceChange($event)"
-                                    
                                 >
                                     <mat-option
                                         *ngFor="let province of provinces;let i = index"
@@ -155,11 +164,11 @@
                                 </mat-select>
                             </mat-form-field>
                     
-                    
                             <mat-form-field>
                                 <mat-label>Chọn Quận/ Huyện</mat-label>
                                 <mat-select
                                     formControlName="district"
+                                    #angularFormSelectElement='matSelect'
                                     (selectionChange)="districtChange($event)"
                                 >
                                     <mat-option
@@ -172,10 +181,12 @@
                                 </mat-select>
                             </mat-form-field>
                     
-                    
                             <mat-form-field>
                                 <mat-label>Chọn Phường/ Xã</mat-label>
-                                <mat-select formControlName="ward">
+                                <mat-select
+                                    formControlName="ward"
+                                    #angularFormSelectElement='matSelect'
+                                >
                                     <mat-option
                                         *ngFor="let ward of wards; let i = index;"
                                         [value]="i"

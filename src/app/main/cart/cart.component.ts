@@ -1,8 +1,10 @@
-import { Component, ElementRef, Inject, OnDestroy, OnInit, PLATFORM_ID, Renderer2, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, Inject, OnDestroy, OnInit, PLATFORM_ID, QueryList, Renderer2, ViewChild, ViewChildren } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
-import { FormBuilder, FormGroup, NgForm, ValidationErrors, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, NgControl, NgForm, ValidationErrors, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
+import { MatSelectChange } from '@angular/material/select';
+import { MatFormField } from '@angular/material/form-field';
 
 import { AddressChooseComponent } from '../../sharing/modal/address-choose/address-choose.component';
 
@@ -16,18 +18,20 @@ import { AddressModificationService } from 'src/app/services/address-modificatio
 import { ToastService } from 'src/app/services/toast.service';
 import { CartApiService } from 'src/app/services/api/cart-api.service';
 import { SocketIoService } from 'src/app/services/socket/socket-io.service';
+import { AdministrativeUnitsService } from 'src/app/services/api/administrative-units.service';
+import { DirectionPostion, MainContainerScrollService } from 'src/app/services/main-container-scroll.service';
 
 import { Subscription } from 'rxjs';
-import { MatSelectChange } from '@angular/material/select';
-import { AdministrativeUnitsService } from 'src/app/services/api/administrative-units.service';
+
 @Component({
   selector: 'app-cart',
   templateUrl: './cart.component.html',
   styleUrls: ['./cart.component.scss']
 })
-export class CartComponent implements OnInit, OnDestroy {
+export class CartComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('btnInsertAddress') btnInsertAddress: ElementRef;
   @ViewChild('f') form: NgForm;
+  @ViewChildren(MatFormField) matFormField: QueryList<MatFormField>;
 
   private isBrowser: boolean;
 
@@ -43,6 +47,8 @@ export class CartComponent implements OnInit, OnDestroy {
   userInformation: UserInformation | null;
   defaultAddress: Address;
 
+  angularFormElements: Array<AngularFormElement> = [];
+
   private subscription: Subscription = new Subscription();
   constructor(
     @Inject(PLATFORM_ID) platformId: Object,
@@ -56,7 +62,8 @@ export class CartComponent implements OnInit, OnDestroy {
     private toastService: ToastService,
     private cartApiService: CartApiService,
     private socketIoService: SocketIoService,
-    private administrativeUnitsService: AdministrativeUnitsService
+    private administrativeUnitsService: AdministrativeUnitsService,
+    private mainContainerScrollService: MainContainerScrollService
   ) {
     this.isBrowser = isPlatformBrowser(platformId);
   }
@@ -67,6 +74,18 @@ export class CartComponent implements OnInit, OnDestroy {
     if(this.isBrowser){
       this.listenSocketDataProduct();
     }
+  }
+
+  ngAfterViewInit(): void {
+    this.angularFormElements = this.matFormField.map(matFormField=>{
+      let target = document.getElementById(matFormField._control.id);
+      let angularFormElement: AngularFormElement = {
+        control: matFormField._control.ngControl,
+        offsetTop: matFormField._elementRef.nativeElement.offsetTop,
+        fieldElement: target
+      }
+      return angularFormElement;
+    })
   }
 
   initCart(){
@@ -317,6 +336,21 @@ export class CartComponent implements OnInit, OnDestroy {
 
     if(this.customerForm.valid){
       this.navigateToPaymentConfirm();
+    }else{
+      for(let [index, formElement] of this.angularFormElements.entries()){
+        const controlErrors: ValidationErrors = formElement.control?.errors!;
+        if(controlErrors != null){
+          let directionPostion: DirectionPostion = {
+            direction: 'y',
+            position: formElement.offsetTop
+          }
+          this.mainContainerScrollService.setDirectionPosition(directionPostion);
+          setTimeout(() => {
+            formElement.fieldElement?.focus();
+          }, 150);
+          return;
+        }
+      }
     }
   }
 
@@ -357,4 +391,10 @@ export class CartComponent implements OnInit, OnDestroy {
     }
     this.subscription.unsubscribe();
   }
+}
+
+interface AngularFormElement{
+  control: NgControl | null,
+  offsetTop: number,
+  fieldElement: HTMLElement | null
 }

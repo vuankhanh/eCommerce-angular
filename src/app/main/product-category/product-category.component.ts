@@ -11,7 +11,7 @@ import { UrlChangeService } from 'src/app/services/url-change.service';
 import { SEOService } from 'src/app/services/seo.service';
 
 import { Subscription } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 @Component({
   selector: 'app-product-category',
   templateUrl: './product-category.component.html',

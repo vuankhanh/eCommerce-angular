@@ -35,7 +35,6 @@ export class ProductionsComponent implements OnInit, OnDestroy {
       combineLatest([productCategory$, url$]).subscribe(([productCategories, url])=>{
         if(productCategories.length){
           this.productCategorys = productCategories;
-          console.log(this.productCategorys);
           setTimeout(() => {
             let childPath = this.activateRoute.firstChild?.routeConfig?.path;
             this.checkChildParams = childPath ? true : false;

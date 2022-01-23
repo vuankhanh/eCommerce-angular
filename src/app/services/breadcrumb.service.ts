@@ -41,7 +41,6 @@ export class BreadcrumbService {
       if(route.data.breadcrumb) {
         if(route.routeConfig?.path === ':category/:route'){
           if(route.data.product){
-            console.log(route.data.product);
             let newRouteUrl = routeUrl;
             newRouteUrl.splice(-1);
             const breadcrumb = {
