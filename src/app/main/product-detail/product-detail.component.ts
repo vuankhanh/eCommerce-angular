@@ -39,6 +39,8 @@ declare let fbq:Function;
 export class ProductDetailComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('listImg') listImg: ElementRef;
 
+  currentUrl: string;
+
   isBrowser: boolean;
 
   playerVars = {
@@ -87,6 +89,7 @@ export class ProductDetailComponent implements OnInit, AfterViewInit, OnDestroy 
     private configService: ConfigService
   ) {
     this.isBrowser = isPlatformBrowser(platformId);
+    this.currentUrl = window.location.href;
   }
 
   ngOnInit(): void {
@@ -214,7 +217,7 @@ export class ProductDetailComponent implements OnInit, AfterViewInit, OnDestroy 
           imageType: 'image/png',
           imageWidth: '100',
           imageHeight: '100',
-          url: window.location.href,
+          url: this.currentUrl,
           description: this.product.sortDescription,
 
           productBrand: 'Thủy hải sản Carota',

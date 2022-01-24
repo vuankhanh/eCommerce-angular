@@ -22,8 +22,9 @@
             <mat-list class="user-information-menu" *ngIf="userInformation && isLogin">
                 <mat-list-item
                     *ngFor="let customer of customerMenu"
-                    routerLink="{{'/customer/'+customer.route}}"
-                    [ngClass]="currentUrl.includes('/customer/'+customer.route) ? 'activeLink': '' "
+                    [routerLink]="['/customer/'+customer.route]"
+                    [routerLinkActive]="['is-active']"
+                    [routerLinkActiveOptions]="{ exact: customer.route ? false : true }"
                     (click)="closeSideMenu()"
                 >
                     <mat-icon>{{customer.icon}}</mat-icon>
@@ -85,15 +86,15 @@
 
             </mat-expansion-panel-header>
 
-                <div
-                    *ngFor="let menuChild of menu.child"
-                    routerLink="{{menu.route+'/'+menuChild.route}}"
-                    class="child-menu horizontal-container"
-                    [ngStyle]="{ background: currentUrl.includes(menuChild.route) ? '#ededed': '' }"
-                    (click)="closeSideMenu()"
-                >
-                    {{ menuChild.name }}
-                </div>
+            <div
+                *ngFor="let menuChild of menu.child"
+                routerLink="{{menu.route+'/'+menuChild.route}}"
+                class="child-menu horizontal-container"
+                [ngStyle]="{ background: currentUrl.includes(menuChild.route) ? '#ededed': '' }"
+                (click)="closeSideMenu()"
+            >
+                {{ menuChild.name }}
+            </div>
         </mat-expansion-panel>
 
     </mat-accordion>

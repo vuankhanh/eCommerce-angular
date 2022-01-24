@@ -35,6 +35,7 @@ import { ReplaceProtocolNameModule } from './pipes/replace-protocol-name/replace
 import { ReplaceSpaceModule } from './pipes/replace-space/replace-space.module';
 import { GalleryRouteModule } from './pipes/gallery-route/gallery-route.module';
 import { SanitizeHtmlBindingModule } from './pipes/sanitize-html-binding/sanitize-html-binding.module';
+import { SanitizeUrlModule } from './pipes/sanitize-url/sanitize-url.module';
 import { TheDayOfWeekModule } from './pipes/the-day-of-week-format/the-day-of-week-format.module';
 import { IsMainModule } from './pipes/is-main/is-main.module';
 import { YoutubeIdModule } from './pipes/youtube-id/youtube-id.module';
@@ -172,6 +173,7 @@ import { PageNotFoundComponent } from './main/page-not-found/page-not-found.comp
     ReplaceSpaceModule,
     GalleryRouteModule,
     SanitizeHtmlBindingModule,
+    SanitizeUrlModule,
     TheDayOfWeekModule,
     IsMainModule,
     YoutubeIdModule,

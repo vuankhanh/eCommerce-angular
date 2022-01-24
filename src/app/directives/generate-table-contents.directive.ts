@@ -2,7 +2,7 @@ import { AfterViewInit, Directive, ElementRef } from '@angular/core';
 import { ConvertVieService } from '../services/convert-vie.service';
 import { DirectionPostion, MainContainerScrollService } from '../services/main-container-scroll.service';
 
-const headerOffset = 118;
+const headerOffset = 85;
 @Directive({
   selector: '[appGenerateTableContents]'
 })
@@ -45,6 +45,18 @@ export class GenerateTableContentsDirective implements AfterViewInit {
           }
   
           tableContents.push(tableContent);
+        }
+      }else{
+        if(nodeNameElement==='P'){
+          let elements = childElement.children;
+          for(let i=0; i<=elements.length-1; i++){
+            let element = elements[i];
+            let nodeNameElement = element.nodeName;
+            if(nodeNameElement === 'IMG'){
+              let imgElemet: HTMLImageElement = element as HTMLImageElement;
+              imgElemet.loading = 'lazy';
+            }
+          }
         }
       }
     }
@@ -92,6 +104,14 @@ export class GenerateTableContentsDirective implements AfterViewInit {
           position: element!.offsetTop - headerOffset
         }
         this.mainContainerScrollService.setDirectionPosition(directionPostion);
+        if(element){
+          element.style.outline = '1px solid';
+          setTimeout(() => {
+            if(element){
+              element.style.outline = 'none';
+            }
+          }, 1000);
+        }
       })
 
       //Add event Mouse Over

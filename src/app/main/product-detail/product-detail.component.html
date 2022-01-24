@@ -63,6 +63,16 @@
                     <div class="facebook-container">
                         <ng-template [ngTemplateOutlet]="facebookLikeButton"></ng-template>
                     </div>
+
+                    <!-- <div
+                        class="fb-share-button"
+                    >
+                        <a
+                            href="https://www.facebook.com/sharer/sharer.php?u={{currentUrl}}"
+                            target="_blank"
+                        >Chia sẻ</a>
+                    </div> -->
+                     
                     <div class="content-p">
                         {{product.sortDescription}}
                     </div>
@@ -275,8 +285,10 @@
         width="160"
         height="29"
         style="border:none;overflow:hidden"
-        scrolling="no" frameborder="0"
+        scrolling="no"
+        frameborder="0"
         allowfullscreen="true"
         allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
     ></iframe>
 </ng-template>
+
