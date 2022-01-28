@@ -8,8 +8,9 @@
 
     <div class="brand-name vertical-container" *ngIf="identification">
         <img
-            src="{{ identification.logo.src | galleryRoute }}"
-            routerLink="/"
+            [src]="identification.logo.src | galleryRoute"
+            [alt]="'Carota Logo'"
+            [routerLink]="['/']"
         >
     </div>
 

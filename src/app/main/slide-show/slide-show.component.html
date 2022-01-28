@@ -10,7 +10,10 @@
             
         >   
             <div class="item-slide-container" (click)="showDetail(product)">
-                <img [src]="product.albumBanner!.src | galleryRoute">
+                <img
+                [src]="product.albumBanner!.src | galleryRoute"
+                [alt]="product.name"
+            >
             </div>
         </ng-template>
     </swiper>
