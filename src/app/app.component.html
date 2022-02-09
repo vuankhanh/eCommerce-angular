@@ -1,4 +1,6 @@
-<div class="carota-container horizontal-container" >
+
+<!-- <app-write-rating (emitRating)="listenRating($event)"></app-write-rating> -->
+<div class="carota-container horizontal-container">
   <mat-drawer-container autosize>
     <mat-drawer #drawer mode="over" *ngIf="screenWidthSize === 'mini'">
       <app-drawer (toggleDrawer)="toggle($event)"></app-drawer>

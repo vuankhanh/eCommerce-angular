@@ -264,6 +264,19 @@
                 <div class="title-product-desciption">Mô tả</div>
                 <app-posts [editorContent]="product.longDescription"></app-posts>
             </div>
+            <div class="height-space" #mainContainer></div>
+
+            <ng-container *ngIf="productReviews && productReviews.length">
+                <div class="product-reviews-container">
+                    <div class="product-reviews-heading">
+                        Đánh Giá - Nhận Xét Từ Khách Hàng
+                    </div>
+                    <ng-container *ngFor="let review of productReviews">
+                        {{ review._id }}
+                        <app-rating [ratingValue]="review.rating"></app-rating>
+                    </ng-container>
+                </div>
+            </ng-container>
         </div>
 
         <div class="width-space"></div>

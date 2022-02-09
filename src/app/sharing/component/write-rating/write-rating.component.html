@@ -1,0 +1,33 @@
+<div class="write-rating-container">
+    <div class="review-heading-container">
+        <div [ngSwitch]="mouseIndex">
+            <span *ngSwitchCase="1">
+                Rất không hài lòng
+            </span>
+            <span *ngSwitchCase="2">
+                Không hài lòng
+            </span>
+            <span *ngSwitchCase="3">
+                Bình thường
+            </span>
+            <span *ngSwitchCase="4">
+                Hài lòng
+            </span>
+            <span *ngSwitchCase="5">
+                Cực kì hài lòng
+            </span>
+
+            <span *ngSwitchDefault>
+                Vui lòng đánh giá
+            </span>
+        </div>
+    </div>
+    <div class="star-container" (mouseleave)="mouseleave($event)">
+        <ng-container *ngFor="let star of totalNumberOfStars;">
+            <mat-icon
+                (mouseenter)="mouseenter($event, star)"
+                (click)="setRateSelection(star)"
+            >{{ rateSelection>=star ? 'star' : 'star_border' }}</mat-icon>
+        </ng-container>
+    </div>
+</div>

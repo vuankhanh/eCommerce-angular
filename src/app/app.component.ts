@@ -17,6 +17,9 @@ export class AppComponent implements OnInit {
   @ViewChild ('drawerContent') drawercontent: MatDrawerContent;
   isBrowser: boolean;
   screenWidthSize: 'full' | 'normal' | 'mini';
+
+  ratingValue: number = 3.6;
+  
   constructor(
     @Inject(PLATFORM_ID) platformId: Object,
     @Inject(DOCUMENT) private _document: Document,
@@ -130,5 +133,9 @@ export class AppComponent implements OnInit {
         }
       }
     });
+  }
+
+  listenRating(event: any){
+    console.log(event);
   }
 }

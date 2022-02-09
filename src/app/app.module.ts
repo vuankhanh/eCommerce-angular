@@ -95,6 +95,8 @@ import { ResetPasswordComponent } from './main/reset-password/reset-password.com
 import { ForgotPasswordSuccessfulComponent } from './sharing/modal/forgot-password-successful/forgot-password-successful.component';
 import { AlertTitleComponent } from './sharing/component/alert-title/alert-title.component';
 import { PageNotFoundComponent } from './main/page-not-found/page-not-found.component';
+import { RatingComponent } from './sharing/component/rating/rating.component';
+import { WriteRatingComponent } from './sharing/component/write-rating/write-rating.component';
 
 @NgModule({
   declarations: [
@@ -146,6 +148,8 @@ import { PageNotFoundComponent } from './main/page-not-found/page-not-found.comp
     ForgotPasswordSuccessfulComponent,
     AlertTitleComponent,
     PageNotFoundComponent,
+    RatingComponent,
+    WriteRatingComponent,
     
   ],
   imports: [

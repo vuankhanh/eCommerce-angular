@@ -17,6 +17,7 @@ import { Identification } from 'src/app/models/Identification';
 
 import { Cart, CartService } from 'src/app/services/cart.service';
 import { ProductService } from 'src/app/services/api/product/product.service';
+import { ProductReviewsService } from 'src/app/services/api/product/product-reviews.service';
 import { AuthService } from 'src/app/services/auth.service';
 import { AddressModificationService } from 'src/app/services/address-modification.service';
 import { ResponseAddress } from 'src/app/services/api/customer-address.service';
@@ -26,11 +27,12 @@ import { SocketIoService } from 'src/app/services/socket/socket-io.service';
 import { SEOService } from 'src/app/services/seo.service';
 import { InProgressSpinnerService } from 'src/app/services/in-progress-spinner.service';
 import { ConfigService } from 'src/app/services/api/config.service';
+import { MainContainerScrollService } from 'src/app/services/main-container-scroll.service';
 
-import { combineLatest, Observable, Subscription } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { combineLatest, Observable, Subject, Subscription } from 'rxjs';
+import { filter, map, switchMap, takeUntil } from 'rxjs/operators';
+import { ProductReviews } from 'src/app/models/ProductReviews';
 
-declare let fbq:Function;
 @Component({
   selector: 'app-product-detail',
   templateUrl: './product-detail.component.html',
@@ -38,7 +40,7 @@ declare let fbq:Function;
 })
 export class ProductDetailComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('listImg') listImg: ElementRef;
-
+  @ViewChild('mainContainer') mainContainer: ElementRef;
   currentUrl: string;
 
   isBrowser: boolean;
@@ -52,6 +54,7 @@ export class ProductDetailComponent implements OnInit, AfterViewInit, OnDestroy 
   detailId: string;
   userInformation: UserInformation | null;
   product: Product;
+  productReviews: Array<ProductReviews>
   cart: Cart;
 
   estimateFeeInfo: any = null;
@@ -69,6 +72,7 @@ export class ProductDetailComponent implements OnInit, AfterViewInit, OnDestroy 
   identification: Identification;
 
   subscription: Subscription = new Subscription();
+  scrollToBottomMainContainer: Subject<null> = new Subject<null>();
   constructor(
     @Inject(PLATFORM_ID) platformId: Object,
     @Inject(DOCUMENT) private _document: Document,
@@ -78,6 +82,7 @@ export class ProductDetailComponent implements OnInit, AfterViewInit, OnDestroy 
     private dialog: MatDialog,
     private galleryRoutePipe: GalleryRoutePipe,
     private productService: ProductService,
+    private productReviewsService: ProductReviewsService,
     private cartService: CartService,
     private authService: AuthService,
     private addressModificationService: AddressModificationService,
@@ -86,7 +91,8 @@ export class ProductDetailComponent implements OnInit, AfterViewInit, OnDestroy 
     private socketIoService: SocketIoService,
     private seoService: SEOService,
     private inProgressSpinnerService: InProgressSpinnerService,
-    private configService: ConfigService
+    private configService: ConfigService,
+    private mainContainerScrollService: MainContainerScrollService
   ) {
     this.isBrowser = isPlatformBrowser(platformId);
     this.currentUrl = window.location.href;
@@ -181,6 +187,46 @@ export class ProductDetailComponent implements OnInit, AfterViewInit, OnDestroy 
     
   }
 
+  listenScroll(product: Product){
+    var body = document.body,
+    html = document.documentElement;
+
+    var height = Math.max(
+      body.scrollHeight,
+      body.offsetHeight, 
+      html.clientHeight,
+      html.scrollHeight,
+      html.offsetHeight
+    );
+
+    const getProductReviews$ = this.productReviewsService.get(product._id);
+
+    this.subscription.add(
+      this.mainContainerScrollService.listenScrollTop$.pipe(
+        filter(pos=>{
+          if(this.mainContainer){
+            let mainContainer: HTMLDivElement = this.mainContainer.nativeElement;
+            let bottomElement: number = mainContainer.offsetTop + mainContainer.offsetHeight;
+            let total: number = pos+height
+            if(total>=bottomElement){
+              return true;
+            }else{
+              return false;
+            }
+          }else{
+            return false;
+          }
+        }),
+        switchMap(()=>getProductReviews$),
+        takeUntil(this.scrollToBottomMainContainer)
+      ).subscribe(productReviews=>{
+        this.scrollToBottomMainContainer.next();
+        this.productReviews = productReviews;
+        console.log(this.productReviews);
+      })
+    )
+  }
+
   dosomething(event: any){
     let img: HTMLImageElement = <HTMLImageElement>event.target;
     if(img){
@@ -192,6 +238,9 @@ export class ProductDetailComponent implements OnInit, AfterViewInit, OnDestroy 
     if(product){
       if(!this.product || this.product._id != product._id){
         this.product = product;
+        if(this.isBrowser){
+          this.listenScroll(this.product);
+        }
         if(!isDevMode() && this.isBrowser){
           let script = this.renderer2.createElement('script');
           script.type = `text/javascript`;
@@ -204,6 +253,33 @@ export class ProductDetailComponent implements OnInit, AfterViewInit, OnDestroy 
           });`;
           this.renderer2.appendChild(this._document.head, script);
         }
+
+        let images = this.product.albumImg?.media.map(media=>"\""+this.galleryRoutePipe.transform(media.src)+"\"");
+
+        let googleSchemaScript = this.renderer2.createElement('script');
+        googleSchemaScript.type = 'application/ld+json';
+        googleSchemaScript.text = `{
+          "@context": "https://schema.org/",
+          "@type": "Product",
+          "name": "${this.product.name}",
+          "image": [${images}],
+          "description": "${this.product.sortDescription}",
+          "brand": {
+            "@type": "Brand",
+            "name": "Thủy hải sản Carota"
+          },
+          "offers": {
+            "@type": "Offer",
+            "url": "${this.currentUrl}",
+            "priceCurrency": "${this.product.currencyUnit}",
+            "price": "${this.product.price}",
+            "priceValidUntil": "N/A",
+            "itemCondition": "https://schema.org/UsedCondition",
+            "availability": "https://schema.org/InStock"
+          }
+        }`;
+        this.renderer2.appendChild(this._document.head, googleSchemaScript);
+
         if(!this.product.quantity){
           this.product.quantity = 1;
         }

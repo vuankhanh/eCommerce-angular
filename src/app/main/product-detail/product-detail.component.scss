@@ -4,6 +4,7 @@
     box-sizing: border-box;
     .main-container{
         width: calc(100% - 265px);
+        height: fit-content;
         .product-info-container{
             .album-container{
                 width: 400px;
@@ -186,6 +187,11 @@
                 font-weight: 500;
                 line-height: 1;
                 margin-bottom: 10px;
+            }
+        }
+        .product-reviews-container{
+            .product-reviews-heading{
+                
             }
         }
     }
