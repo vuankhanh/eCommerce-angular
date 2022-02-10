@@ -44,7 +44,7 @@ export class MainCustomerComponent implements OnInit, OnDestroy {
     );
     
     this.subscription.add(
-      this.configService.getConfig().subscribe(res=>{
+      this.configService.getConfig().subscribe(res=>{        
         this.configService.set(res);
       })
     )

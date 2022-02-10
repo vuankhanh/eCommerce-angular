@@ -1,33 +1,63 @@
+<div class="close-button" [mat-dialog-close]="">
+    <mat-icon>close</mat-icon>
+</div>
 <div class="write-rating-container">
-    <div class="review-heading-container">
-        <div [ngSwitch]="mouseIndex">
-            <span *ngSwitchCase="1">
-                Rất không hài lòng
-            </span>
-            <span *ngSwitchCase="2">
-                Không hài lòng
-            </span>
-            <span *ngSwitchCase="3">
-                Bình thường
-            </span>
-            <span *ngSwitchCase="4">
-                Hài lòng
-            </span>
-            <span *ngSwitchCase="5">
-                Cực kì hài lòng
-            </span>
-
-            <span *ngSwitchDefault>
-                Vui lòng đánh giá
-            </span>
+    <div class="review-container vertical-container">
+        <div class="review-heading-container">
+            <ng-container *ngIf="ratingTitle; else ratingTitleIsNull">
+                <span>{{ ratingTitle }}</span>
+            </ng-container>
+            <ng-template #ratingTitleIsNull>
+                <span>Vui lòng đánh giá</span>
+            </ng-template>
+        </div>
+        <div class="star-container" (mouseleave)="mouseleave($event)">
+            <ng-container *ngFor="let star of totalNumberOfStars;">
+                <mat-icon
+                    (mouseenter)="mouseenter($event, star)"
+                    (click)="setRateSelection(star)"
+                >{{ rateSelection>=star ? 'star' : 'star_border' }}</mat-icon>
+            </ng-container>
         </div>
     </div>
-    <div class="star-container" (mouseleave)="mouseleave($event)">
-        <ng-container *ngFor="let star of totalNumberOfStars;">
-            <mat-icon
-                (mouseenter)="mouseenter($event, star)"
-                (click)="setRateSelection(star)"
-            >{{ rateSelection>=star ? 'star' : 'star_border' }}</mat-icon>
-        </ng-container>
-    </div>
+    <form
+        [formGroup]="ratingForm"
+        (ngSubmit)="sendReviews()"
+        class="vertical-container"
+    >
+        <div
+            formGroupName="clientInformation"
+            class="customer-information horizontal-container"
+        >
+            <mat-form-field>
+                <mat-label>Họ tên</mat-label>
+                <input type="text" matInput formControlName="name">
+            </mat-form-field>
+            <div class="width-space"></div>
+            <div class="height-space"></div>
+            <mat-form-field>
+                <mat-label>Số điện thoại</mat-label>
+                <input type="text" matInput formControlName="phoneNumber">
+            </mat-form-field>
+        </div>
+
+        <div class="height-space"></div>
+
+        <div class="vertical-container">
+            <mat-form-field>
+                <mat-label>{{ !mouseIndex ? 'Chia sẻ của bạn' : (mouseIndex<5) ? 'Vấn đề bạn gặp là gì?' : 'Vì sao bạn thích sản phẩm?' }}</mat-label>
+                <textarea
+                    matInput
+                    type="text"
+                    formControlName="content"
+                    rows="10"
+                ></textarea>
+            </mat-form-field>
+        </div>
+
+        <button
+            type="submit"
+            class="button-style button-primary"
+        >Gửi đánh giá</button>
+    </form>
 </div>

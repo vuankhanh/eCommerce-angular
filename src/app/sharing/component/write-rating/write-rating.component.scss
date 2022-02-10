@@ -1,9 +1,67 @@
+.close-button{
+    box-sizing: border-box;
+    height: 28px;
+    width: 28px;
+    position: absolute;
+    border-radius: 100%;
+    background-color: #ededed;
+    border: 2px solid white;
+    cursor: pointer;
+    animation: seconds 0s forwards;
+    animation-delay: .45s;
+    opacity: 0;
+}
 .write-rating-container{
-    .star-container{
-        width: fit-content;
-        mat-icon{
-            cursor: pointer;
+    .review-container{
+        align-items: center;
+        .review-heading-container{
+            font-size: 18px;
+            line-height: 24px;
+            font-weight: 500;
         }
-        
+        .star-container{
+            width: fit-content;
+            user-select: none;
+            mat-icon{
+                cursor: pointer;
+                color: orange;
+                font-size: 36px;
+                height: 36px;
+                width: 36px;
+            }
+        }
+    }
+
+    form{
+        .customer-information{
+        }
+        mat-form-field{
+            textarea{
+                resize: none;
+            }
+        }
+    }
+}
+
+@media only screen and (max-width: 768px) {
+    .write-rating-container{
+        form{
+            .customer-information{
+                flex-direction: column;
+            }
+        }
+    }
+}
+
+@keyframes seconds {
+    0% {
+        opacity: 0;
+        top: 0px;
+        right: 0px;
+    }
+    100% {
+        opacity: 100%;
+        top: 0;
+        right: 0;
     }
 }

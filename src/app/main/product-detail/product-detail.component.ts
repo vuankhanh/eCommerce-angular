@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 
 import { AddressChooseComponent } from '../../sharing/modal/address-choose/address-choose.component';
+import { WriteRatingComponent } from 'src/app/sharing/component/write-rating/write-rating.component';
 
 //Pipe
 import { GalleryRoutePipe } from '../../pipes/gallery-route/gallery-route.pipe';
@@ -14,10 +15,12 @@ import { UserInformation } from 'src/app/models/UserInformation';
 import { Address } from 'src/app/models/Address';
 import { MetaTagFacebook } from 'src/app/models/MetaTag';
 import { Identification } from 'src/app/models/Identification';
+import { Rating } from 'src/app/models/ServerConfig';
+import { ProductReviews } from 'src/app/models/ProductReviews';
+import { PaginationParams } from 'src/app/models/PaginationParams';
 
 import { Cart, CartService } from 'src/app/services/cart.service';
-import { ProductService } from 'src/app/services/api/product/product.service';
-import { ProductReviewsService } from 'src/app/services/api/product/product-reviews.service';
+import { ProductReviewsResponse, ProductReviewsService, TotalProductReviews } from 'src/app/services/api/product/product-reviews.service';
 import { AuthService } from 'src/app/services/auth.service';
 import { AddressModificationService } from 'src/app/services/address-modification.service';
 import { ResponseAddress } from 'src/app/services/api/customer-address.service';
@@ -29,9 +32,8 @@ import { InProgressSpinnerService } from 'src/app/services/in-progress-spinner.s
 import { ConfigService } from 'src/app/services/api/config.service';
 import { MainContainerScrollService } from 'src/app/services/main-container-scroll.service';
 
-import { combineLatest, Observable, Subject, Subscription } from 'rxjs';
-import { filter, map, switchMap, takeUntil } from 'rxjs/operators';
-import { ProductReviews } from 'src/app/models/ProductReviews';
+import { combineLatest, Subject, Subscription } from 'rxjs';
+import { filter, map, switchMap, take, takeUntil, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-product-detail',
@@ -54,7 +56,10 @@ export class ProductDetailComponent implements OnInit, AfterViewInit, OnDestroy 
   detailId: string;
   userInformation: UserInformation | null;
   product: Product;
-  productReviews: Array<ProductReviews>
+  productReviews: Array<ProductReviews>;
+  configPagination: PaginationParams;
+  productReviewsResponse: ProductReviewsResponse;
+  totalProductReviews: TotalProductReviews
   cart: Cart;
 
   estimateFeeInfo: any = null;
@@ -64,12 +69,8 @@ export class ProductDetailComponent implements OnInit, AfterViewInit, OnDestroy 
   indexImgMain: number = 0;
   headquartersAddress: Address;
 
-  userInformation$: Observable<UserInformation | null>;
-  cartChange$: Observable<Cart>;
-
-  getProductDetail$: Observable<Product>;
-
   identification: Identification;
+  rating: Array<Rating>;
 
   subscription: Subscription = new Subscription();
   scrollToBottomMainContainer: Subject<null> = new Subject<null>();
@@ -81,7 +82,6 @@ export class ProductDetailComponent implements OnInit, AfterViewInit, OnDestroy 
     private renderer2: Renderer2,
     private dialog: MatDialog,
     private galleryRoutePipe: GalleryRoutePipe,
-    private productService: ProductService,
     private productReviewsService: ProductReviewsService,
     private cartService: CartService,
     private authService: AuthService,
@@ -92,26 +92,24 @@ export class ProductDetailComponent implements OnInit, AfterViewInit, OnDestroy 
     private seoService: SEOService,
     private inProgressSpinnerService: InProgressSpinnerService,
     private configService: ConfigService,
-    private mainContainerScrollService: MainContainerScrollService
+    private mainContainerScrollService: MainContainerScrollService,
   ) {
     this.isBrowser = isPlatformBrowser(platformId);
     this.currentUrl = window.location.href;
   }
 
   ngOnInit(): void {
-    let route: string = this.activatedRoute.snapshot.params.route;
+    this.openWriteReviews();
     const activatedRouteData$ = this.activatedRoute.data.pipe(
       map(data => data.product)
     )
-    this.cartChange$ = this.cartService.listenCartChange();
-    this.userInformation$ = this.authService.getUserInformation();
-    this.getProductDetail$ = this.productService.getProductRoute(route);
-
+    const cartChange$ = this.cartService.listenCartChange();
+    const userInformation$ = this.authService.getUserInformation();
     this.subscription.add(
       combineLatest(
         [
-          this.userInformation$,
-          this.cartChange$,
+          userInformation$,
+          cartChange$,
           activatedRouteData$
         ]
       ).subscribe(([userInfo, cart, productDetail])=>{
@@ -180,6 +178,7 @@ export class ProductDetailComponent implements OnInit, AfterViewInit, OnDestroy 
   listenConfig(){
     this.configService.getConfig().subscribe(res=>{
       this.identification = res.identification;
+      this.rating = res.rating
     })
   }
 
@@ -187,7 +186,7 @@ export class ProductDetailComponent implements OnInit, AfterViewInit, OnDestroy 
     
   }
 
-  listenScroll(product: Product){
+  listenScroll(product: Product, paginationParams?: PaginationParams){
     var body = document.body,
     html = document.documentElement;
 
@@ -199,7 +198,8 @@ export class ProductDetailComponent implements OnInit, AfterViewInit, OnDestroy 
       html.offsetHeight
     );
 
-    const getProductReviews$ = this.productReviewsService.get(product._id);
+    const getTotalProductReview$ = this.productReviewsService.getTotal(product._id);
+    const getProductReviews$ = this.productReviewsService.get(product._id, paginationParams);
 
     this.subscription.add(
       this.mainContainerScrollService.listenScrollTop$.pipe(
@@ -217,14 +217,33 @@ export class ProductDetailComponent implements OnInit, AfterViewInit, OnDestroy 
             return false;
           }
         }),
-        switchMap(()=>getProductReviews$),
+        take(1),
+        switchMap(()=>combineLatest([getTotalProductReview$, getProductReviews$])),
         takeUntil(this.scrollToBottomMainContainer)
-      ).subscribe(productReviews=>{
-        this.scrollToBottomMainContainer.next();
-        this.productReviews = productReviews;
-        console.log(this.productReviews);
+      ).subscribe(([productReviewsTotal ,productReviews])=>{
+        if(productReviews && !this.productReviewsResponse){
+          this.productReviewsResponse = productReviews;
+          this.configPagination = {
+            totalItems: this.productReviewsResponse.totalItems,
+            page: this.productReviewsResponse.page-1,
+            size: this.productReviewsResponse.size,
+            totalPages: this.productReviewsResponse.totalPages
+          };
+          this.productReviews = this.productReviewsResponse.data;
+        }
+
+        if(productReviewsTotal){
+          this.totalProductReviews = productReviewsTotal;
+          console.log(productReviewsTotal);
+        }
       })
     )
+  }
+
+  changeIndex(index: number){
+    console.log('Change index = ' + index);
+    this.configPagination.page = index;
+    this.listenScroll(this.product, this.configPagination);
   }
 
   dosomething(event: any){
@@ -411,6 +430,19 @@ export class ProductDetailComponent implements OnInit, AfterViewInit, OnDestroy 
       });`;
       this.renderer2.appendChild(this._document.head, script);
     }
+  }
+
+  openWriteReviews(){
+    this.subscription.add(
+      this.dialog.open(WriteRatingComponent, {
+        panelClass: 'write-rating-component',
+        // data: {
+        //   productId: this.product._id
+        // }
+      }).afterClosed().subscribe(res=>{
+        console.log(res);
+      })
+    )
   }
 
   login(){

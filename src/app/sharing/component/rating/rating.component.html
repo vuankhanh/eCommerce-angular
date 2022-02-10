@@ -1,5 +1,5 @@
-<div class="rating-container">
-    <div class="star-container" *ngIf="ratingValueFloor">
+<div class="rating-container horizontal-container">
+    <div class="star-container horizontal-container" *ngIf="ratingValueFloor">
         <ng-container *ngFor="let star of totalNumberOfStars;">
             <mat-icon *ngIf="ratingValueFloor>star">star</mat-icon>
             <ng-container *ngIf="ratingValueFloor===star">
@@ -13,5 +13,13 @@
                 </ng-container>
             </ng-container>
         </ng-container>
+
     </div>
+    
+    <ng-container *ngIf="ratingTitle">
+        <div class="mini-width-space"></div>
+        <div class="rating-title" >
+            {{ ratingTitle }}
+        </div>
+    </ng-container>
 </div>

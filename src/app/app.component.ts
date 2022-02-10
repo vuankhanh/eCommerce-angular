@@ -134,8 +134,4 @@ export class AppComponent implements OnInit {
       }
     });
   }
-
-  listenRating(event: any){
-    console.log(event);
-  }
 }

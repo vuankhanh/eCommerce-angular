@@ -141,6 +141,10 @@ body {
     }
 }
 
+.write-rating-component{
+    position: relative!important;
+}
+
 .payment-success-modal{
     min-width: 400px;
     mat-dialog-container{
@@ -231,7 +235,7 @@ fieldset{
         max-width: calc(100% - 30px) !important;
         // width: calc(100% - 30px) !important;
         max-height: calc(100% - 30px) !important;
-        overflow: scroll;
+        overflow: auto;
     }
     .login-modal{
         width: 100%;
@@ -241,7 +245,9 @@ fieldset{
                     animation: secondss 0s forwards !important;
                     animation-delay: .45s !important;
                 }
-                .login-container, .register-container, .forgot-password-container{
+                .login-container,
+                .register-container,
+                .forgot-password-container{
                     width: 100%;
                 }
     
@@ -271,6 +277,9 @@ fieldset{
                 justify-content: flex-end;
             }
         }
+    }
+    .write-rating-component{
+        width: 100%;
     }
     .add-to-card-bottom-sheet{
         width: 100%;

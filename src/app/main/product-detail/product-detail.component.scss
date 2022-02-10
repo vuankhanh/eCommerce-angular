@@ -190,8 +190,99 @@
             }
         }
         .product-reviews-container{
+            box-sizing: border-box;
+            background: #ededed;
+            border-radius: 5px;
+            padding: 15px;
             .product-reviews-heading{
-                
+                font-size: 18px;
+                font-weight: 500;
+            }
+            .total-review-and-new-review-container{
+
+                .total-review-container{
+                    width: 400px;
+                    .average-rating-container{
+                        align-items: center;
+                        .average-rating-title{
+                            font-size: 32px;
+                            font-weight: 700;
+                        }
+                        .exist-rating-container{
+                            font-size: 13px;
+                        }
+                    }
+                    .rating-detail-container{
+                        .rating-level-item{
+                            align-items: center;
+                            app-rating{
+                                ::ng-deep .rating-container{
+                                    .star-container{
+                                        line-height: 1;
+                                        mat-icon{
+                                            width: 16px;
+                                            height: 16px;
+                                            font-size: 16px;
+                                        }
+                                    }
+                                }
+                            }
+                            ::ng-deep .mat-progress-bar-fill::after {
+                                background-color: var(--normal-text);
+                            }
+                            span{
+                                font-size: 13px;
+                            }
+                        }
+                    }
+                }
+                .new-review-button-container{
+                    justify-content: flex-end;
+                    align-items: flex-end;
+                    width: calc(100% - 400px);
+                }
+            }
+            .product-reviews-item-container{
+                padding: 15px 0;
+                border-top: 1px solid #999999;
+                .client-information{
+                    font-size: 18px;
+                    font-weight: 450;
+                }
+                app-rating{
+                    ::ng-deep .rating-container{
+                        .star-container{
+                            line-height: 1;
+                            mat-icon{
+                                width: 18px;
+                                height: 18px;
+                                font-size: 18px;
+                            }
+                        }
+                    }
+                }
+                .purchase-confirmation{
+                    align-items: center;
+                    color: rgb(0, 171, 86);
+                    font-size: 13px;
+                    mat-icon{
+                        width: 14px;
+                        height: 14px;
+                        font-size: 14px;
+                    }
+                }
+                .comment-reviews{
+                    font-weight: 450;
+                    margin: 10px 0;
+                }
+            }
+            .product-reviews-item-container:last-child{
+                padding-bottom: 0;
+            }
+            app-pagination{
+                ::ng-deep .pagination-container{
+                    justify-content: flex-end;
+                }
             }
         }
     }
@@ -282,6 +373,19 @@
 
 @media only screen and (max-width: 768px) {
     .product-detail-container{
+        .main-container{
+            .product-reviews-container{
+                .total-review-and-new-review-container{
+                    flex-direction: column;
+                    .total-review-container{
+                        max-width: 100%;
+                    }
+                    .new-review-button-container{
+                        width: 100%;
+                    }
+                }
+            }
+        }
         .is-same-category{
             app-product-category-home-page{
                 ::ng-deep .product-category-home-page-container{

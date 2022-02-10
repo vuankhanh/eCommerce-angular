@@ -6,8 +6,14 @@ export interface OrderStatus{
     name: string
 }
 
+export interface Rating{
+    value: number,
+    title: string
+}
+
 export interface ServerConfig{
     identification: Identification,
     orderStatus: Array<OrderStatus>,
-    orderCreatedBy: Array<OrderStatus>
+    orderCreatedBy: Array<OrderStatus>,
+    rating: Array<Rating>;
 }

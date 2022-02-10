@@ -271,10 +271,105 @@
                     <div class="product-reviews-heading">
                         Đánh Giá - Nhận Xét Từ Khách Hàng
                     </div>
-                    <ng-container *ngFor="let review of productReviews">
-                        {{ review._id }}
-                        <app-rating [ratingValue]="review.rating"></app-rating>
-                    </ng-container>
+
+                    <div class="total-review-and-new-review-container horizontal-container">
+                        <div class="total-review-container vertical-container" *ngIf="totalProductReviews">
+                            <div class="mini-height-space"></div>
+                            <div class="average-rating-container horizontal-container">
+                                <div class="average-rating-title">
+                                    <span>{{ totalProductReviews.averageRating }}</span>
+                                </div>
+                                <div class="mini-width-space"></div>
+                                <div class="vertical-container">
+                                    <app-rating [ratingValue]="totalProductReviews.averageRating"></app-rating>
+                                    <div class="exist-rating-container">
+                                        <span>{{totalProductReviews.existRating+ ' nhận xét'}} </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mini-height-space"></div>
+                            <div class="rating-detail-container vertical-container">
+                                <div class="rating-level-item horizontal-container">
+                                    <app-rating [ratingValue]="5"></app-rating>
+                                    <div class="mini-width-space"></div>
+                                    <mat-progress-bar mode="determinate" [value]="totalProductReviews.totalProductReviewsReponse.level5/totalProductReviews.existRating*100"></mat-progress-bar>
+                                    <div class="mini-width-space"></div>
+                                    <span>{{ totalProductReviews.totalProductReviewsReponse.level5 }}</span>
+                                </div>
+    
+                                <div class="rating-level-item horizontal-container">
+                                    <app-rating [ratingValue]="4"></app-rating>
+                                    <div class="mini-width-space"></div>
+                                    <mat-progress-bar mode="determinate" [value]="totalProductReviews.totalProductReviewsReponse.level4/totalProductReviews.existRating*100"></mat-progress-bar>
+                                    <div class="mini-width-space"></div>
+                                    <span>{{ totalProductReviews.totalProductReviewsReponse.level4 }}</span>
+                                </div>
+    
+                                <div class="rating-level-item horizontal-container">
+                                    <app-rating [ratingValue]="3"></app-rating>
+                                    <div class="mini-width-space"></div>
+                                    <mat-progress-bar mode="determinate" [value]="totalProductReviews.totalProductReviewsReponse.level3/totalProductReviews.existRating*100"></mat-progress-bar>
+                                    <div class="mini-width-space"></div>
+                                    <span>{{ totalProductReviews.totalProductReviewsReponse.level3 }}</span>
+                                </div>
+    
+                                <div class="rating-level-item horizontal-container">
+                                    <app-rating [ratingValue]="2"></app-rating>
+                                    <div class="mini-width-space"></div>
+                                    <mat-progress-bar mode="determinate" [value]="totalProductReviews.totalProductReviewsReponse.level2/totalProductReviews.existRating*100"></mat-progress-bar>
+                                    <div class="mini-width-space"></div>
+                                    <span>{{ totalProductReviews.totalProductReviewsReponse.level2 }}</span>
+                                </div>
+    
+                                <div class="rating-level-item horizontal-container">
+                                    <app-rating [ratingValue]="1"></app-rating>
+                                    <div class="mini-width-space"></div>
+                                    <mat-progress-bar mode="determinate" [value]="totalProductReviews.totalProductReviewsReponse.level1/totalProductReviews.existRating*100"></mat-progress-bar>
+                                    <div class="mini-width-space"></div>
+                                    <span>{{ totalProductReviews.totalProductReviewsReponse.level1 }}</span>
+                                </div>
+                                
+                            </div>
+                        </div>
+
+                        <div class="width-space"></div>
+                        <div class="mini-height-space"></div>
+
+                        <div class="new-review-button-container horizontal-container">
+                            <button
+                                class="button-style button-primary"
+                                (click)="openWriteReviews()"
+                            >Viết đánh giá mới</button>
+                        </div>
+                    </div>
+
+                    <div class="height-space"></div>
+
+                    <div>
+                        <ng-container *ngFor="let review of productReviews">
+                            <div class="product-reviews-item-container secondary-key">
+    
+                                <span class="client-information">{{review.clientInformation.name}}</span>
+    
+                                <app-rating [ratingValue]="review.rating" [showRatingTitle]="true"></app-rating>
+                                
+                                <div class="purchase-confirmation horizontal-container" *ngIf="review.purchaseConfirmation">
+                                    <mat-icon>check_circle</mat-icon>
+                                    <div class="micro-width-space"></div>
+                                    <span>Đã mua hàng</span>
+                                </div>
+    
+                                <p class="comment-reviews" *ngIf="review.content">
+                                    {{review.content}}
+                                </p>
+    
+                                <div class="created-at">
+                                    {{ review.createdAt | date :'hh:mm dd/MM/yyyy' }}
+                                </div>
+                            </div>
+                        </ng-container>
+                    </div>
+                    <app-pagination *ngIf="configPagination" [config]="configPagination" (emitChangeIndex)="changeIndex($event)"></app-pagination>
                 </div>
             </ng-container>
         </div>
