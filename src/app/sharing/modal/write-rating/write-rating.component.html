@@ -2,6 +2,29 @@
     <mat-icon>close</mat-icon>
 </div>
 <div class="write-rating-container">
+    <div class="product-container horizontal-container">
+        <div class="limit-size-container">
+            <div class="img-container">
+                <img
+                    [src]="product.thumbnailUrl | galleryRoute"
+                    [alt]="product.name"
+                    loading="lazy"
+                >
+            </div>
+        </div>
+        <div class="width-space"></div>
+        <div class="product-information-container vertical-container">
+            <div class="product-name secondary-key">
+                {{product.name}}
+            </div>
+            <div class="product-short-description primary-key">
+                {{product.sortDescription}}
+            </div>
+        </div>
+    </div>
+
+    <div class="height-space"></div>
+
     <div class="review-container vertical-container">
         <div class="review-heading-container">
             <ng-container *ngIf="ratingTitle; else ratingTitleIsNull">
@@ -20,6 +43,9 @@
             </ng-container>
         </div>
     </div>
+
+    <div class="height-space"></div>
+    
     <form
         [formGroup]="ratingForm"
         (ngSubmit)="sendReviews()"
@@ -38,6 +64,9 @@
             <mat-form-field>
                 <mat-label>Số điện thoại</mat-label>
                 <input type="text" matInput formControlName="phoneNumber">
+                <mat-error *ngIf="ratingForm.get('clientInformation.phoneNumber')?.hasError('pattern')">
+                    Số điện thoại bao gồm 10 chữ số và bắt đầu bằng số 0
+                </mat-error>
             </mat-form-field>
         </div>
 
@@ -45,7 +74,7 @@
 
         <div class="vertical-container">
             <mat-form-field>
-                <mat-label>{{ !mouseIndex ? 'Chia sẻ của bạn' : (mouseIndex<5) ? 'Vấn đề bạn gặp là gì?' : 'Vì sao bạn thích sản phẩm?' }}</mat-label>
+                <mat-label>{{ !mouseIndex ? 'Chia sẻ của bạn' : (mouseIndex>0 && mouseIndex<5) ? 'Vấn đề bạn gặp là gì?' : 'Vì sao bạn thích sản phẩm?' }}</mat-label>
                 <textarea
                     matInput
                     type="text"
@@ -58,6 +87,7 @@
         <button
             type="submit"
             class="button-style button-primary"
+            [disabled]="ratingForm.invalid"
         >Gửi đánh giá</button>
     </form>
 </div>

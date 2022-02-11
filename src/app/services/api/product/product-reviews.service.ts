@@ -77,11 +77,8 @@ export class ProductReviewsService {
     let headers: HttpHeaders = new HttpHeaders({
       'Content-Type': 'application/json'
     });
-
     return this.httpClient.post(this.urlProductReviewsInsert, reviewsWillUpload, { headers });
   }
-
-
 }
 
 export interface ReviewsWillUpload{

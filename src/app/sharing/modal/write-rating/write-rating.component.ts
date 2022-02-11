@@ -1,11 +1,15 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { Rating } from 'src/app/models/ServerConfig';
 
 import { ConfigService } from 'src/app/services/api/config.service';
+import { ProductReviewsService, ReviewsWillUpload } from 'src/app/services/api/product/product-reviews.service';
+import { ToastService } from 'src/app/services/toast.service';
 
 import { Subscription } from 'rxjs';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Product } from 'src/app/models/Product';
 
 const totalNumberOfStars = 5;
 @Component({
@@ -26,8 +30,12 @@ export class WriteRatingComponent implements OnInit {
 
   subscription: Subscription = new Subscription();
   constructor(
+    public dialogRef: MatDialogRef<WriteRatingComponent>,
+    @Inject(MAT_DIALOG_DATA) public product: Product,
     private formBuilder: FormBuilder,
-    private configService: ConfigService
+    private configService: ConfigService,
+    private productReviewsService: ProductReviewsService,
+    private toastService: ToastService
   ) { }
 
   ngOnInit(): void {
@@ -51,9 +59,9 @@ export class WriteRatingComponent implements OnInit {
         name: ['', Validators.required],
         phoneNumber: ['', { validators: [Validators.required, Validators.pattern(phoneNumberRegEx)], updateOn: 'blur' }],
       }),
-      rating: [0, Validators.required],
-      content: ['']
-    })
+      rating: [0, [Validators.required, Validators.min(1), Validators.max(5)]],
+      content: ['', Validators.required]
+    });
   }
 
   mouseenter(event: MouseEvent, index: number){
@@ -83,7 +91,18 @@ export class WriteRatingComponent implements OnInit {
 
   sendReviews(){
     if(this.ratingForm.valid){
-      console.log(this.ratingForm.value);
+      let reviewsWillUpload: ReviewsWillUpload = {
+        productId: this.product._id,
+        ...this.ratingForm.value
+      }
+      this.subscription.add(
+        this.productReviewsService.insert(reviewsWillUpload).subscribe(res=>{
+          this.dialogRef.close(res);
+        },error=>{
+          console.log(error);
+          this.toastService.shortToastError('', 'Đã có lỗi xảy ra');
+        })
+      )
     }
   }
 

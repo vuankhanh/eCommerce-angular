@@ -12,6 +12,24 @@
     opacity: 0;
 }
 .write-rating-container{
+    .product-container{
+        .limit-size-container{
+            width: 40px;
+        }
+        .product-information-container{
+            max-width: calc(100% - 55px);
+            font-size: 14px;
+            .product-name{
+                height: 26px;
+            }
+            .product-short-description{
+                line-height: 1;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+        }
+    }
     .review-container{
         align-items: center;
         .review-heading-container{

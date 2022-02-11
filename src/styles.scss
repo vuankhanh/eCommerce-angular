@@ -105,6 +105,10 @@ body {
     transform: translateY(2px);
 }
 
+.button-style:disabled{
+    opacity: .45;
+}
+
 .button-primary{
     background-color: var(--primary-background);
     color: white;
@@ -143,6 +147,13 @@ body {
 
 .write-rating-component{
     position: relative!important;
+}
+
+.thanks-for-the-review-component{
+    mat-dialog-container{
+        padding: 0;
+        color: var(--normal-text);
+    }
 }
 
 .payment-success-modal{

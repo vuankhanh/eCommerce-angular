@@ -96,7 +96,8 @@ import { ForgotPasswordSuccessfulComponent } from './sharing/modal/forgot-passwo
 import { AlertTitleComponent } from './sharing/component/alert-title/alert-title.component';
 import { PageNotFoundComponent } from './main/page-not-found/page-not-found.component';
 import { RatingComponent } from './sharing/component/rating/rating.component';
-import { WriteRatingComponent } from './sharing/component/write-rating/write-rating.component';
+import { WriteRatingComponent } from './sharing/modal/write-rating/write-rating.component';
+import { ThanksForTheReviewComponent } from './sharing/modal/thanks-for-the-review/thanks-for-the-review.component';
 
 @NgModule({
   declarations: [
@@ -150,6 +151,7 @@ import { WriteRatingComponent } from './sharing/component/write-rating/write-rat
     PageNotFoundComponent,
     RatingComponent,
     WriteRatingComponent,
+    ThanksForTheReviewComponent,
     
   ],
   imports: [

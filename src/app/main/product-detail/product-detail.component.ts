@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 
 import { AddressChooseComponent } from '../../sharing/modal/address-choose/address-choose.component';
-import { WriteRatingComponent } from 'src/app/sharing/component/write-rating/write-rating.component';
+import { WriteRatingComponent } from 'src/app/sharing/modal/write-rating/write-rating.component';
 
 //Pipe
 import { GalleryRoutePipe } from '../../pipes/gallery-route/gallery-route.pipe';
@@ -34,6 +34,7 @@ import { MainContainerScrollService } from 'src/app/services/main-container-scro
 
 import { combineLatest, Subject, Subscription } from 'rxjs';
 import { filter, map, switchMap, take, takeUntil, tap } from 'rxjs/operators';
+import { ThanksForTheReviewComponent } from 'src/app/sharing/modal/thanks-for-the-review/thanks-for-the-review.component';
 
 @Component({
   selector: 'app-product-detail',
@@ -99,7 +100,6 @@ export class ProductDetailComponent implements OnInit, AfterViewInit, OnDestroy 
   }
 
   ngOnInit(): void {
-    this.openWriteReviews();
     const activatedRouteData$ = this.activatedRoute.data.pipe(
       map(data => data.product)
     )
@@ -257,6 +257,7 @@ export class ProductDetailComponent implements OnInit, AfterViewInit, OnDestroy 
     if(product){
       if(!this.product || this.product._id != product._id){
         this.product = product;
+        this.openWriteReviews();
         if(this.isBrowser){
           this.listenScroll(this.product);
         }
@@ -436,13 +437,21 @@ export class ProductDetailComponent implements OnInit, AfterViewInit, OnDestroy 
     this.subscription.add(
       this.dialog.open(WriteRatingComponent, {
         panelClass: 'write-rating-component',
-        // data: {
-        //   productId: this.product._id
-        // }
+        disableClose: true,
+        data: this.product
       }).afterClosed().subscribe(res=>{
-        console.log(res);
+        if(res){
+          this.openThanksForTheReview(res);
+        }
       })
     )
+  }
+
+  openThanksForTheReview(productReviews: ProductReviews){
+    this.dialog.open(ThanksForTheReviewComponent, {
+      panelClass: 'thanks-for-the-review-component',
+      data: productReviews
+    })
   }
 
   login(){
