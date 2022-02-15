@@ -46,7 +46,7 @@ export class ProductReviewsService {
         totalRating += totalProductReviewsReponse.level5*5;
         existRating += totalProductReviewsReponse.level5;
 
-        let averageRating = totalRating/existRating;
+        let averageRating = parseFloat((totalRating/existRating).toFixed(2)) || 0;
         let totalProductReviews: TotalProductReviews = {
           totalProductReviewsReponse ,
           totalRating,
@@ -102,7 +102,7 @@ interface TotalProductReviewsResponse{
 export interface TotalProductReviews{
   totalProductReviewsReponse: TotalProductReviewsResponse,
   totalRating: number,
-  existRating: number
+  existRating: number,
   averageRating: number
 }
 

@@ -99,7 +99,6 @@ export class WriteRatingComponent implements OnInit {
         this.productReviewsService.insert(reviewsWillUpload).subscribe(res=>{
           this.dialogRef.close(res);
         },error=>{
-          console.log(error);
           this.toastService.shortToastError('', 'Đã có lỗi xảy ra');
         })
       )

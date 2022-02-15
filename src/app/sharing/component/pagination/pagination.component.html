@@ -2,7 +2,7 @@
   <ng-container *ngFor="let button of listButton; let i = index; let last = last;">
     <div
       class="button-index horizontal-container"
-      [ngClass]="button === config.page ? 'button-index-selected': ''"
+      [ngClass]="i === config.page ? 'button-index-selected': ''"
       (click)="changeIndex(button)"
     >
       {{button}}

@@ -41,6 +41,7 @@
                     (click)="setRateSelection(star)"
                 >{{ rateSelection>=star ? 'star' : 'star_border' }}</mat-icon>
             </ng-container>
+            <div class="riple-animation" *ngIf="mouseIndex === -1 && rateSelection === -1"></div>
         </div>
     </div>
 
@@ -74,7 +75,7 @@
 
         <div class="vertical-container">
             <mat-form-field>
-                <mat-label>{{ !mouseIndex ? 'Chia sẻ của bạn' : (mouseIndex>0 && mouseIndex<5) ? 'Vấn đề bạn gặp là gì?' : 'Vì sao bạn thích sản phẩm?' }}</mat-label>
+                <mat-label>{{ mouseIndex===-1 ? 'Chia sẻ của bạn' : (mouseIndex>0 && mouseIndex<5) ? 'Vấn đề bạn gặp là gì?' : 'Vì sao bạn thích sản phẩm?' }}</mat-label>
                 <textarea
                     matInput
                     type="text"

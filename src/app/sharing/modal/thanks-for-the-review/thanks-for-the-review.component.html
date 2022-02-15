@@ -7,12 +7,15 @@
         <div class="content-container vertical-container">
             <div class="emotion-container horizontal-container">
                 <mat-icon>favorite</mat-icon>
-                <span>Chúng tôi rất biết ơn lời đánh giá của bạn. Điều đó sẽ giúp bạn hài lòng hơn vào lần tới.</span>
+                <div class="vertical-container">
+                    <span class="heading">Chúng tôi rất biết ơn đánh giá của bạn.</span>
+                    <span>Điều này sẽ giúp chúng tôi có cơ hội làm bạn hài lòng hơn vào lần tới.</span>
+                </div>
             </div>
         </div>
     </div>
 
-    <div class="button-container horizontal-container">
-        <div (click)="dialogRef.close()">OK</div>
+    <div class="button-container horizontal-container" (click)="dialogRef.close()">
+        <span>OK</span>
     </div>
 </div>

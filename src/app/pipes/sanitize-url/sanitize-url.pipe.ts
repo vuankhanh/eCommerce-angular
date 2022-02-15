@@ -10,7 +10,6 @@ export class SanitizeUrlPipe implements PipeTransform {
 
   }
   transform(url: string) {
-    console.log(url);
     return this.domSanitizer.bypassSecurityTrustResourceUrl(url);
   }
 

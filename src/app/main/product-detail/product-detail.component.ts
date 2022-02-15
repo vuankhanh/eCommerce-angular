@@ -5,6 +5,7 @@ import { MatDialog } from '@angular/material/dialog';
 
 import { AddressChooseComponent } from '../../sharing/modal/address-choose/address-choose.component';
 import { WriteRatingComponent } from 'src/app/sharing/modal/write-rating/write-rating.component';
+import { ThanksForTheReviewComponent } from 'src/app/sharing/modal/thanks-for-the-review/thanks-for-the-review.component';
 
 //Pipe
 import { GalleryRoutePipe } from '../../pipes/gallery-route/gallery-route.pipe';
@@ -30,12 +31,12 @@ import { SocketIoService } from 'src/app/services/socket/socket-io.service';
 import { SEOService } from 'src/app/services/seo.service';
 import { InProgressSpinnerService } from 'src/app/services/in-progress-spinner.service';
 import { ConfigService } from 'src/app/services/api/config.service';
-import { MainContainerScrollService } from 'src/app/services/main-container-scroll.service';
+import { MainContainerScrollService, DirectionPostion } from 'src/app/services/main-container-scroll.service';
 
-import { combineLatest, Subject, Subscription } from 'rxjs';
+import { combineLatest, of, Subject, Subscription } from 'rxjs';
 import { filter, map, switchMap, take, takeUntil, tap } from 'rxjs/operators';
-import { ThanksForTheReviewComponent } from 'src/app/sharing/modal/thanks-for-the-review/thanks-for-the-review.component';
 
+const headerOffset = 85;
 @Component({
   selector: 'app-product-detail',
   templateUrl: './product-detail.component.html',
@@ -58,9 +59,20 @@ export class ProductDetailComponent implements OnInit, AfterViewInit, OnDestroy 
   userInformation: UserInformation | null;
   product: Product;
   productReviews: Array<ProductReviews>;
-  configPagination: PaginationParams;
+  configPagination: PaginationParams | undefined;
   productReviewsResponse: ProductReviewsResponse;
-  totalProductReviews: TotalProductReviews
+  totalProductReviews: TotalProductReviews = {
+    totalProductReviewsReponse: {
+      level1: 0,
+      level2: 0,
+      level3: 0,
+      level4: 0,
+      level5: 0,
+    },
+    totalRating: 0,
+    existRating: 0,
+    averageRating: 0
+  }
   cart: Cart;
 
   estimateFeeInfo: any = null;
@@ -187,6 +199,7 @@ export class ProductDetailComponent implements OnInit, AfterViewInit, OnDestroy 
   }
 
   listenScroll(product: Product, paginationParams?: PaginationParams){
+    this.configPagination = paginationParams;
     var body = document.body,
     html = document.documentElement;
 
@@ -203,11 +216,17 @@ export class ProductDetailComponent implements OnInit, AfterViewInit, OnDestroy 
 
     this.subscription.add(
       this.mainContainerScrollService.listenScrollTop$.pipe(
-        filter(pos=>{
-          if(this.mainContainer){
-            let mainContainer: HTMLDivElement = this.mainContainer.nativeElement;
-            let bottomElement: number = mainContainer.offsetTop + mainContainer.offsetHeight;
-            let total: number = pos+height
+        map(pos=>{
+          let mainContainer: HTMLDivElement = this.mainContainer ? this.mainContainer.nativeElement : null;
+          return {
+            pos,
+            mainContainer
+          }
+        }),
+        filter(data=>{
+          if(data.mainContainer){
+            let bottomElement: number = data.mainContainer.offsetTop + data.mainContainer.offsetHeight;
+            let total: number = data.pos+height;
             if(total>=bottomElement){
               return true;
             }else{
@@ -218,10 +237,17 @@ export class ProductDetailComponent implements OnInit, AfterViewInit, OnDestroy 
           }
         }),
         take(1),
-        switchMap(()=>combineLatest([getTotalProductReview$, getProductReviews$])),
+        switchMap((data)=>combineLatest([getTotalProductReview$, getProductReviews$, of(data.mainContainer)])),
         takeUntil(this.scrollToBottomMainContainer)
-      ).subscribe(([productReviewsTotal ,productReviews])=>{
-        if(productReviews && !this.productReviewsResponse){
+      ).subscribe(([productReviewsTotal ,productReviews, mainContainer])=>{
+        if(productReviews){
+          if(this.configPagination){
+            let directionPostion: DirectionPostion = {
+              direction: 'y',
+              position: mainContainer.offsetTop - headerOffset
+            }
+            this.mainContainerScrollService.setDirectionPosition(directionPostion)
+          }
           this.productReviewsResponse = productReviews;
           this.configPagination = {
             totalItems: this.productReviewsResponse.totalItems,
@@ -234,15 +260,13 @@ export class ProductDetailComponent implements OnInit, AfterViewInit, OnDestroy 
 
         if(productReviewsTotal){
           this.totalProductReviews = productReviewsTotal;
-          console.log(productReviewsTotal);
         }
       })
     )
   }
 
   changeIndex(index: number){
-    console.log('Change index = ' + index);
-    this.configPagination.page = index;
+    this.configPagination!.page = index;
     this.listenScroll(this.product, this.configPagination);
   }
 
@@ -257,7 +281,6 @@ export class ProductDetailComponent implements OnInit, AfterViewInit, OnDestroy 
     if(product){
       if(!this.product || this.product._id != product._id){
         this.product = product;
-        this.openWriteReviews();
         if(this.isBrowser){
           this.listenScroll(this.product);
         }

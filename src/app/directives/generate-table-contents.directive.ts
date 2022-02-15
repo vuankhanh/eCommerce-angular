@@ -12,11 +12,7 @@ export class GenerateTableContentsDirective implements AfterViewInit {
     private el: ElementRef,
     private convertVieService: ConvertVieService,
     private mainContainerScrollService: MainContainerScrollService
-  ) {
-    // console.log(el.nativeElement);
-    
-    
-  }
+  ) {}
 
   ngAfterViewInit(): void {
     let postsContainer: HTMLDivElement = this.el.nativeElement;
