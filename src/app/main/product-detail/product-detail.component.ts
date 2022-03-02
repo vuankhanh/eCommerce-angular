@@ -472,7 +472,7 @@ export class ProductDetailComponent implements OnInit, AfterViewInit, OnDestroy 
     if(!isDevMode() && this.isBrowser){
       let script = this.renderer2.createElement('script');
       script.type = `text/javascript`;
-      script.text = `fbq('track', 'ContactUsButton',{
+      script.text = `fbq('trackCustom', 'ContactUsButton',{
         type: '${type}'
       });`;
       this.renderer2.appendChild(this._document.head, script);
