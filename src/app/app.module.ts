@@ -98,6 +98,7 @@ import { PageNotFoundComponent } from './main/page-not-found/page-not-found.comp
 import { RatingComponent } from './sharing/component/rating/rating.component';
 import { WriteRatingComponent } from './sharing/modal/write-rating/write-rating.component';
 import { ThanksForTheReviewComponent } from './sharing/modal/thanks-for-the-review/thanks-for-the-review.component';
+import { ProductReviewsComponent } from './sharing/component/product-reviews/product-reviews.component';
 
 @NgModule({
   declarations: [
@@ -152,6 +153,7 @@ import { ThanksForTheReviewComponent } from './sharing/modal/thanks-for-the-revi
     RatingComponent,
     WriteRatingComponent,
     ThanksForTheReviewComponent,
+    ProductReviewsComponent,
     
   ],
   imports: [

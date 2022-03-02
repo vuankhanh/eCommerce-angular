@@ -213,6 +213,7 @@
                                 <a
                                     class="fb-messenger-href horizontal-container"
                                     href="https://m.me/thuy.hai.san.carota" target="_blank"
+                                    (click)="contactUs('messenger')"
                                 >
                                     <mat-icon svgIcon="messenger"></mat-icon>
                                     <span>Facebook Messenger</span>
@@ -223,6 +224,7 @@
                                 <a
                                     class="zalo-href horizontal-container"
                                     href="https://zalo.me/0834517989" target="_blank"
+                                    (click)="contactUs('zalo')"
                                 >
                                     <mat-icon svgIcon="zalo-new"></mat-icon>
                                     <span>Zalo</span>
@@ -233,6 +235,7 @@
                                 <a
                                     class="call-href horizontal-container"
                                     [href]="'tel: 0834517989'" target="_blank"
+                                    (click)="contactUs('call')"
                                 >
                                     <mat-icon>phone</mat-icon>
                                     <span>Gọi điện</span>

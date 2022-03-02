@@ -438,6 +438,18 @@ export class ProductDetailComponent implements OnInit, AfterViewInit, OnDestroy 
   bookNow(product: Product){
     this.cartService.addToCart(product, false);
     this.router.navigate(['/cart']);
+    if(!isDevMode() && this.isBrowser){
+      let script = this.renderer2.createElement('script');
+      script.type = `text/javascript`;
+      script.text = `fbq('track', 'AddToCart',{
+        _id: '${product._id}',
+        name: '${product.name}',
+        price: ${product.price},
+        quantity: ${product.quantity},
+        theRemainingAmount: ${this.product.theRemainingAmount}
+      });`;
+      this.renderer2.appendChild(this._document.head, script);
+    }
   }
 
   addToCart(product: Product){
@@ -446,11 +458,22 @@ export class ProductDetailComponent implements OnInit, AfterViewInit, OnDestroy 
       let script = this.renderer2.createElement('script');
       script.type = `text/javascript`;
       script.text = `fbq('track', 'AddToCart',{
-        _id: '${this.product._id}',
-        name: '${this.product.name}',
-        price: ${this.product.price},
-        quantity: ${this.product.quantity},
-        theRemainingAmount: ${this.product.theRemainingAmount}
+        _id: '${product._id}',
+        name: '${product.name}',
+        price: ${product.price},
+        quantity: ${product.quantity},
+        theRemainingAmount: ${product.theRemainingAmount}
+      });`;
+      this.renderer2.appendChild(this._document.head, script);
+    }
+  }
+
+  contactUs(type: 'messenger' | 'zalo' | 'call'){
+    if(!isDevMode() && this.isBrowser){
+      let script = this.renderer2.createElement('script');
+      script.type = `text/javascript`;
+      script.text = `fbq('track', 'ContactUsButton',{
+        type: '${type}'
       });`;
       this.renderer2.appendChild(this._document.head, script);
     }
