@@ -80,7 +80,6 @@ export class HeaderComponent implements OnInit, AfterViewInit, OnDestroy {
       }
     })
     this.closeAlertAddedToCart();
-    // this.cartService.remove();
   }
 
   ngOnInit(): void {
