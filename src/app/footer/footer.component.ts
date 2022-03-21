@@ -1,8 +1,7 @@
-import { Component, EventEmitter, Inject, OnInit, Output, PLATFORM_ID } from '@angular/core';
+import { Component, EventEmitter, Inject, OnDestroy, OnInit, Output, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
-import { Event, NavigationStart } from '@angular/router';
 
-import { Menu, MenusList, SupportMenu } from '../mock-data/menu';
+import { Menu, MenusList } from '../mock-data/menu';
 
 import { Identification } from '../models/Identification';
 import { ProductCategory } from '../models/ProductCategory';
@@ -11,22 +10,24 @@ import { ConfigService } from '../services/api/config.service';
 import { AppServicesService } from '../services/app-services.service';
 import { Cart, CartService } from '../services/cart.service';
 import { HeaderService } from '../services/header.service';
-import { UrlChangeService } from '../services/url-change.service';
+import { SupportService } from '../services/api/support.service';
 
 import { Subscription } from 'rxjs';
+import { Support } from '../models/Support';
 @Component({
   selector: 'app-footer',
   templateUrl: './footer.component.html',
   styleUrls: ['./footer.component.scss']
 })
-export class FooterComponent implements OnInit {
+export class FooterComponent implements OnInit, OnDestroy {
   @Output() toggleDrawer = new EventEmitter();
   identification: Identification;
-  currentUrl: string;
-  activeLink: string;
+
   badgeCart: number;
   menusList: Array<Menu>;
-  supportMenu: Array<Menu>;
+  
+  supports: Array<Support> = [];
+
   productCategorys: Array<ProductCategory>;
 
   isBrowser: boolean;
@@ -37,8 +38,8 @@ export class FooterComponent implements OnInit {
     private configService: ConfigService,
     private headerService: HeaderService,
     private cartService: CartService,
-    private urlChangeService: UrlChangeService,
-    private appServicesService: AppServicesService
+    private appServicesService: AppServicesService,
+    private supportService: SupportService
   ) {
     this.isBrowser = isPlatformBrowser(platformId);
     this.menusList = MenusList;
@@ -50,8 +51,6 @@ export class FooterComponent implements OnInit {
         }
       }
     });
-
-    this.supportMenu = SupportMenu;
   }
 
   ngOnInit(): void {
@@ -60,23 +59,25 @@ export class FooterComponent implements OnInit {
       this.badgeCart = badgeCart;
     });
 
-    this.subscription.add(
-      this.urlChangeService.urlChange().subscribe((event)=>{
-        if(event) {
-          this.currentUrl = event.url.split("/")[1] ? event.url.split("/")[1] : '';
-          this.activeLink = this.currentUrl === 'san-pham' ? event.url.split("/")[2] ? event.url.split("/")[2] : this.productCategorys[0].route : '';
-        }
-      })
-    );
-
     this.listenConfig();
+    this.listenSupport();
   }
 
   
   listenConfig(){
-    this.configService.getConfig().subscribe(res=>{
-      this.identification = res.identification;
-    })
+    this.subscription.add(
+      this.configService.getConfig().subscribe(res=>{
+        this.identification = res.identification;
+      })
+    )
+  }
+
+  listenSupport(){
+    this.subscription.add(
+      this.supportService.getAll().subscribe(res=>{
+        this.supports = res;
+      })
+    )
   }
 
   closeAlertAddedToCart(){
@@ -85,5 +86,9 @@ export class FooterComponent implements OnInit {
 
   toggleDrawerEmit(){
     this.toggleDrawer.emit();
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 }

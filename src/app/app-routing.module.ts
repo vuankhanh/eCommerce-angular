@@ -9,21 +9,16 @@ import { ProductCategoryComponent } from './main/product-category/product-catego
 import { ProductDetailComponent } from './main/product-detail/product-detail.component';
 import { VerificationEmailComponent } from './main/verification-email/verification-email.component';
 import { ResetPasswordComponent } from './main/reset-password/reset-password.component';
+import { SupportComponent } from './main/support/support.component';
 
-import { AboutUsComponent } from './main/support/about-us/about-us.component';
-import { ReturnPolicyComponent } from './main/support/return-policy/return-policy.component';
-import { PrivacyPolicyComponent } from './main/support/privacy-policy/privacy-policy.component';
-import { TermsOfServiceComponent } from './main/support/terms-of-service/terms-of-service.component';
-import { ShippingPolicyComponent } from './main/support/shipping-policy/shipping-policy.component';
-import { PaymentPolicyComponent } from './main/support/payment-policy/payment-policy.component';
 import { PageNotFoundComponent } from './main/page-not-found/page-not-found.component';
-import { MainCustomerComponent } from './customer-information/main-customer/main-customer.component';
 
 import { RouteGuard } from './services/guards/route.guard';
 import { PaymentConfirmGuard } from './services/guards/payment-confirm.guard';
-import { ProductCategory } from './models/ProductCategory';
+
 import { ProductCategoryResolver } from './services/resolvers/product-category.resolver';
 import { ProductDetailResolver } from './services/resolvers/product-detail.resolver';
+import { SupportResolver } from './services/resolvers/support.resolver';
 
 const routes: Routes = [
   {
@@ -95,57 +90,17 @@ const routes: Routes = [
       breadcrumb: 'Quên mật khẩu'
     }
   }, {
-    path: 'support',
-    children: [
-      {
-        path: '',
-        redirectTo: 'about-us',
-        pathMatch: 'full'
-      },{
-        path: 'about-us',
-        component: AboutUsComponent,
-        data: {
-          title: 'Giới thiệu',
-          breadcrumb: 'Giới thiệu'
-        }
-      },{
-        path: 'return-policy',
-        component: ReturnPolicyComponent,
-        data: {
-          title: 'Chính sách đổi trả',
-          breadcrumb: 'Chính sách đổi trả'
-        }
-      },{
-        path: 'privacy-policy',
-        component: PrivacyPolicyComponent,
-        data: {
-          title: 'Chính sách bảo mật',
-          breadcrumb: 'Chính sách bảo mật'
-        }
-      },{
-        path: 'terms-of-service',
-        component: TermsOfServiceComponent,
-        data: {
-          title: 'Điều khoản dịch vụ',
-          breadcrumb: 'Điều khoản dịch vụ'
-        }
-      },{
-        path: 'shipping-policy',
-        component: ShippingPolicyComponent,
-        data: {
-          title: 'Chính sách vận chuyển',
-          breadcrumb: 'Chính sách vận chuyển'
-        }
+    path: 'support/:route',
+    component: SupportComponent,
+    data: {
+      breadcrumb: (data: any) => {
+        return data.support ? data.support.name : ''
       },
-      {
-        path: 'payment-policy',
-        component: PaymentPolicyComponent,
-        data: {
-          title: 'Chính sách thanh toán',
-          breadcrumb: 'Chính sách thanh toán'
-        }
-      }
-    ]
+    },
+    resolve: {
+      support: SupportResolver
+    }
+    
   },
   {
     path: 'customer',

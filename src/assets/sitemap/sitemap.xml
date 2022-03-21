@@ -2,28 +2,36 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <!-- Support -->
     <url>
-        <loc>https://carota.vn/support/about-us</loc>
-        <lastmod>2021-12-16</lastmod>
+        <loc>https://carota.vn/support/gioi-thieu</loc>
+        <lastmod>2022-03-21</lastmod>
     </url>
     <url>
-        <loc>https://carota.vn/support/return-policy</loc>
-        <lastmod>2021-12-16</lastmod>
+        <loc>https://carota.vn/support/chinh-sach-doi-tra</loc>
+        <lastmod>2022-03-21</lastmod>
     </url>
     <url>
-        <loc>https://carota.vn/support/privacy-policy</loc>
-        <lastmod>2021-12-16</lastmod>
+        <loc>https://carota.vn/support/chinh-sach-bao-mat</loc>
+        <lastmod>2022-03-21</lastmod>
     </url>
     <url>
-        <loc>https://carota.vn/support/terms-of-service</loc>
-        <lastmod>2021-12-16</lastmod>
+        <loc>https://carota.vn/support/dieu-khoan-dich-vu</loc>
+        <lastmod>2022-03-21</lastmod>
     </url>
     <url>
-        <loc>https://carota.vn/support/shipping-policy</loc>
-        <lastmod>2021-12-16</lastmod>
+        <loc>https://carota.vn/support/chinh-sach-van-chuyen</loc>
+        <lastmod>2022-03-21</lastmod>
     </url>
     <url>
-        <loc>https://carota.vn/support/payment-policy</loc>
-        <lastmod>2021-12-16</lastmod>
+        <loc>https://carota.vn/support/chinh-sach-thanh-toan</loc>
+        <lastmod>2022-03-21</lastmod>
+    </url>
+    <url>
+        <loc>https://carota.vn/support/chinh-sach-thanh-toan</loc>
+        <lastmod>2022-03-21</lastmod>
+    </url>
+    <url>
+        <loc>https://carota.vn/support/huong-dan-xoa-du-lieu-nguoi-dung-facebook</loc>
+        <lastmod>2022-03-21</lastmod>
     </url>
 
     <!-- Production -->

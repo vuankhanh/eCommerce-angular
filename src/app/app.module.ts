@@ -64,12 +64,8 @@ import { CartComponent } from './main/cart/cart.component';
 import { PaymentPageComponent } from './main/payment-page/payment-page.component';
 import { ProductCategoryComponent } from './main/product-category/product-category.component';
 import { ProductCategoryHomePageComponent } from './main/product-category-home-page/product-category-home-page.component';
-import { AboutUsComponent } from './main/support/about-us/about-us.component';
-import { ReturnPolicyComponent } from './main/support/return-policy/return-policy.component';
-import { PrivacyPolicyComponent } from './main/support/privacy-policy/privacy-policy.component';
-import { TermsOfServiceComponent } from './main/support/terms-of-service/terms-of-service.component';
-import { ShippingPolicyComponent } from './main/support/shipping-policy/shipping-policy.component';
-import { PaymentPolicyComponent } from './main/support/payment-policy/payment-policy.component';
+
+import { SupportComponent } from './main/support/support.component';
 import { BreadCrumbComponent } from './main/bread-crumb/bread-crumb.component';
 
 //App Providers
@@ -123,12 +119,7 @@ import { ProductReviewsComponent } from './sharing/component/product-reviews/pro
     PaymentPageComponent,
     ProductCategoryComponent,
     ProductCategoryHomePageComponent,
-    AboutUsComponent,
-    ReturnPolicyComponent,
-    PrivacyPolicyComponent,
-    TermsOfServiceComponent,
-    ShippingPolicyComponent,
-    PaymentPolicyComponent,
+    SupportComponent,
     BreadCrumbComponent,
 
     SkeletonComponent,
@@ -154,6 +145,7 @@ import { ProductReviewsComponent } from './sharing/component/product-reviews/pro
     WriteRatingComponent,
     ThanksForTheReviewComponent,
     ProductReviewsComponent,
+    SupportComponent,
     
   ],
   imports: [

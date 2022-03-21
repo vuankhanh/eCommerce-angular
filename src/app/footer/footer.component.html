@@ -22,8 +22,10 @@
                         <button
                             matRippleDisabled="false"
                             class="title-menu"
-                            [routerLink]="menu.route"
-                            [ngStyle]="{ color: currentUrl === menu.route ? '#ed1c24': '' }"
+                            [routerLink]="[menu.route]"
+                            [routerLinkActive]="['is-active']"
+                            [routerLinkActiveOptions]="{exact: true}"
+                            
                             [matBadge]="badgeCart"
                             [matBadgeHidden]="(menu.route === 'cart' ? false : true) || !badgeCart"
                             (mouseenter)="closeAlertAddedToCart()"
@@ -92,14 +94,14 @@
                 loading="lazy"
             ></iframe> -->
 
-            <ng-container *ngFor="let item of supportMenu; let i = index;">
+            <ng-container *ngFor="let item of supports; let i = index;">
                 <div class="vertical-container dropdown-container">
                     <a
                         [routerLink]="['support/'+item.route]"
                         [routerLinkActive]="['is-active']"
                         [routerLinkActiveOptions]="{exact: true}"
                     >
-                        {{'- '+item.title}}
+                        {{'- '+item.name}}
                     </a>
                 </div>
             </ng-container>

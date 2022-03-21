@@ -17,18 +17,7 @@ export const MenusList: Array<Menu> =
         title: 'Giỏ hàng',
         route: 'cart',
         child: []
-    },
-    // {
-    //     icon: 'info',
-    //     title: 'Về chúng tôi',
-    //     route: 'about-us',
-    //     child:[]
-    // },{
-    //     icon: 'contacts',
-    //     title: 'Liên hệ',
-    //     route: 'contact',
-    //     child:[]
-    // },
+    }
 ];
 
 export const CustomerMenu: Array<Menu> = [
@@ -48,40 +37,6 @@ export const CustomerMenu: Array<Menu> = [
         route: 'address-book',
         child:[]
     },
-]
-
-export const SupportMenu: Array<Menu> = [
-    {
-        icon: 'info',
-        title: 'Giới thiệu',
-        route: 'about-us',
-        child:[]
-    },{
-        icon: 'published_with_changes',
-        title: 'Chính sách đổi trả',
-        route: 'return-policy',
-        child:[]
-    },{
-        icon: 'privacy_tip',
-        title: 'Chính sách bảo mật',
-        route: 'privacy-policy',
-        child:[]
-    },{
-        icon: 'miscellaneous_services',
-        title: 'Điều khoản dịch vụ',
-        route: 'terms-of-service',
-        child:[]
-    },{
-        icon: 'local_shipping',
-        title: 'Chính sách vận chuyển',
-        route: 'shipping-policy',
-        child:[]
-    },{
-        icon: 'payment',
-        title: 'Chính sách thanh toán',
-        route: 'payment-policy',
-        child:[]
-    }
 ]
 
 export interface Menu{
