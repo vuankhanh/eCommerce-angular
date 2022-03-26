@@ -70,14 +70,24 @@ export class GenerateTableContentsDirective implements AfterViewInit {
     let tableContentsContainer: HTMLDivElement = <HTMLDivElement>document.createElement("DIV");
     tableContentsContainer.style.borderRadius = '5px';
     tableContentsContainer.style.border = '1px dotted var(--normal-text)';
-    tableContentsContainer.style.padding = '5px';
+    
+    tableContentsContainer.style.marginBottom = '10px';
 
     let title: HTMLDivElement = <HTMLDivElement>document.createElement("DIV");
-    title.innerText = 'Nội dung chính';
-    title.style.textTransform = 'uppercase';
-    title.style.marginBottom = '5px';
+    title.innerHTML = '<i class="fa fa-list-ol"></i>' +
+                      '<div class="micro-width-space"></div>' +
+                      '<span>Mục lục nội dung</span>';
+    title.className = 'horizontal-container';
+    title.style.alignItems = 'center';
+    title.style.fontSize = '16px';
+    title.style.fontWeight = '450';
+    title.style.lineHeight = '1';
+    title.style.padding = '10px';
+    title.style.boxSizing = 'border-box';
     
     tableContentsContainer.appendChild(title);
+
+    let ul: HTMLUListElement = <HTMLUListElement>document.createElement("ul");
 
     //Loop Array Table Contents And Create Element Anchor
     for(let i=0; i<=tableContents.length-1; i++){
@@ -86,7 +96,6 @@ export class GenerateTableContentsDirective implements AfterViewInit {
       anchorElement.href = '#'+item.id;
       anchorElement.innerText = item.heading;
 
-      anchorElement.style.marginLeft = item.level*15+'px';
       anchorElement.style.textDecoration = 'none';
       anchorElement.style.cursor = 'pointer';
 
@@ -120,10 +129,15 @@ export class GenerateTableContentsDirective implements AfterViewInit {
         anchorElement.style.textDecoration = 'none';
       });
 
-      let divContainer = <HTMLDivElement>document.createElement("DIV");
-      divContainer.appendChild(anchorElement);
-      tableContentsContainer.appendChild(divContainer);
+      let li: HTMLLIElement = <HTMLLIElement>document.createElement("li");
+      li.appendChild(anchorElement);
+      li.style.marginLeft = item.level*15+'px';
+
+      ul.appendChild(li);
     }
+    ul.style.margin = '10px 0';
+
+    tableContentsContainer.appendChild(ul);
     return tableContentsContainer;
   }
 }

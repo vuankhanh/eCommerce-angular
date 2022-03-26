@@ -25,7 +25,7 @@ export class ProductCategoryResolver implements Resolve<ProductCategory> {
     state: RouterStateSnapshot
   ): Observable<ProductCategory> | Promise<ProductCategory> | ProductCategory {
     
-    let category = route.paramMap.get('category');
+    const category = route.paramMap.get('category');
 
     return this.appServicesService.productCategory$.pipe(
       filter(productCategories=>productCategories.length>0),
