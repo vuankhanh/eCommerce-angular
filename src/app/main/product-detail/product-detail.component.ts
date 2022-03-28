@@ -45,7 +45,6 @@ const headerOffset = 85;
 export class ProductDetailComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('listImg') listImg: ElementRef;
   @ViewChild('mainContainer') mainContainer: ElementRef;
-  currentUrl: string;
 
   isBrowser: boolean;
 
@@ -108,7 +107,6 @@ export class ProductDetailComponent implements OnInit, AfterViewInit, OnDestroy 
     private mainContainerScrollService: MainContainerScrollService,
   ) {
     this.isBrowser = isPlatformBrowser(platformId);
-    this.currentUrl = window.location.href;
   }
 
   ngOnInit(): void {
@@ -278,6 +276,7 @@ export class ProductDetailComponent implements OnInit, AfterViewInit, OnDestroy 
   }
 
   setProductDetail(product: Product){
+    let currentUrl = 'https://carota.vn'+this.router.url;
     if(product){
       if(!this.product || this.product._id != product._id){
         this.product = product;
@@ -285,6 +284,7 @@ export class ProductDetailComponent implements OnInit, AfterViewInit, OnDestroy 
           this.listenScroll(this.product);
         }
         if(!isDevMode() && this.isBrowser){
+          //Facebook Pixel
           let script = this.renderer2.createElement('script');
           script.type = `text/javascript`;
           script.text = `fbq('track', 'ViewContent',{
@@ -295,33 +295,35 @@ export class ProductDetailComponent implements OnInit, AfterViewInit, OnDestroy 
             theRemainingAmount: ${this.product.theRemainingAmount}
           });`;
           this.renderer2.appendChild(this._document.head, script);
+
+          //Google structured data
+          let images = this.product.albumImg?.media.map(media=>"\""+this.galleryRoutePipe.transform(media.src)+"\"");
+  
+          let googleSchemaScript = this.renderer2.createElement('script');
+          googleSchemaScript.type = 'application/ld+json';
+          googleSchemaScript.text = `{
+            "@context": "https://schema.org/",
+            "@type": "Product",
+            "name": "${this.product.name}",
+            "image": [${images}],
+            "description": "${this.product.sortDescription}",
+            "brand": {
+              "@type": "Brand",
+              "name": "Thủy hải sản Carota"
+            },
+            "offers": {
+              "@type": "Offer",
+              "url": "${currentUrl}",
+              "priceCurrency": "${this.product.currencyUnit}",
+              "price": "${this.product.price}",
+              "priceValidUntil": "2022-12-31",
+              "itemCondition": "https://schema.org/UsedCondition",
+              "availability": "https://schema.org/InStock"
+            }
+          }`;
+          this.renderer2.appendChild(this._document.head, googleSchemaScript);
         }
 
-        let images = this.product.albumImg?.media.map(media=>"\""+this.galleryRoutePipe.transform(media.src)+"\"");
-
-        let googleSchemaScript = this.renderer2.createElement('script');
-        googleSchemaScript.type = 'application/ld+json';
-        googleSchemaScript.text = `{
-          "@context": "https://schema.org/",
-          "@type": "Product",
-          "name": "${this.product.name}",
-          "image": [${images}],
-          "description": "${this.product.sortDescription}",
-          "brand": {
-            "@type": "Brand",
-            "name": "Thủy hải sản Carota"
-          },
-          "offers": {
-            "@type": "Offer",
-            "url": "${this.currentUrl}",
-            "priceCurrency": "${this.product.currencyUnit}",
-            "price": "${this.product.price}",
-            "priceValidUntil": "N/A",
-            "itemCondition": "https://schema.org/UsedCondition",
-            "availability": "https://schema.org/InStock"
-          }
-        }`;
-        this.renderer2.appendChild(this._document.head, googleSchemaScript);
 
         if(!this.product.quantity){
           this.product.quantity = 1;
@@ -336,7 +338,7 @@ export class ProductDetailComponent implements OnInit, AfterViewInit, OnDestroy 
           imageType: 'image/png',
           imageWidth: '100',
           imageHeight: '100',
-          url: this.currentUrl,
+          url: currentUrl,
           description: this.product.sortDescription,
 
           productBrand: 'Thủy hải sản Carota',
